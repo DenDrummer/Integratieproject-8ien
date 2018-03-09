@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integratieproject-8ien", "V2\Integratieproject-8ien.csproj", "{2C038E84-B13C-4487-93EB-D8F8E3EA5746}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integratieproject-8ien", "Integratieproject-8ien\Integratieproject-8ien.csproj", "{2C038E84-B13C-4487-93EB-D8F8E3EA5746}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

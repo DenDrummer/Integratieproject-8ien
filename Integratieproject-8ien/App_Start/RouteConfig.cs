@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Integratieproject_8ien
+namespace V2
 {
     public class RouteConfig
     {
