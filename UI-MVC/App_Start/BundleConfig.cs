@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
-namespace V2
+namespace IP_8IEN.UI.MVC
 {
     public class BundleConfig
     {

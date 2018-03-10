@@ -7,8 +7,8 @@
     <ProjectGuid>{52114868-98E4-48F4-8483-D409995B5574}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Domain</RootNamespace>
-    <AssemblyName>Domain</AssemblyName>
+    <RootNamespace>IP_8IEN.BL.Domain</RootNamespace>
+    <AssemblyName>IP_8IEN.BL.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,9 +41,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alert.cs" />
+    <Compile Include="Deelplatform.cs" />
+    <Compile Include="Follow.cs" />
     <Compile Include="Gebruiker.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="Onderwerp.cs" />
+    <Compile Include="Organisatie.cs" />
+    <Compile Include="Persoon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Thema.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
-namespace V2.Controllers
+namespace IP_8IEN.UI.MVC.Controllers
 {
     public class HomeController : Controller
     {
