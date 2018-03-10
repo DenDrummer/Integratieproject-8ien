@@ -1,4 +1,6 @@
-﻿namespace IP_8IEN.BL.Domain
+﻿using IP_8IEN.BL.Domain.Data;
+
+namespace IP_8IEN.BL.Domain.Dash
 {
     class Follow
     {
