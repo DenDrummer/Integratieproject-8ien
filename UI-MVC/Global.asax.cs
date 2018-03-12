@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace V2
+namespace IP_8IEN.UI.MVC
 {
     public class MvcApplication : System.Web.HttpApplication
     {
