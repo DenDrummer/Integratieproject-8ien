@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 using IP_8IEN.BL.Domain.Dash;
 using IP_8IEN.BL.Domain.Gebruiker;
+using IP_8IEN.BL.Domain.Properties;
 
 namespace IP_8IEN.BL.Domain.Data
 {
@@ -11,7 +12,7 @@ namespace IP_8IEN.BL.Domain.Data
         //PK
         public int onderwerpId { get; set; }
         public string naam { get; set; }
-        [MaxLength(100, ErrorMessage = "Er zijn maximaal 100 tekens toegestaan")]
+        [MaxLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "ErrorMaxChar")]
         public string beschrijving { get; set; }
         public string gekoppeldeTermen { get; set; }
 
