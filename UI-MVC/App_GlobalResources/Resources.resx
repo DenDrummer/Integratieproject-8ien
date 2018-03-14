@@ -117,10 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutMessage" xml:space="preserve">
+    <value>Beschrijvingspagina van je applicatie.</value>
+  </data>
   <data name="Group" xml:space="preserve">
     <value>8IEN</value>
   </data>
   <data name="IndexTitle" xml:space="preserve">
-    <value>Hoofdpagina</value>
+    <value>Hoofpagina</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Taal</value>
   </data>
 </root>

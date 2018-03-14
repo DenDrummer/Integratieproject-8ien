@@ -1,13 +1,16 @@
-﻿using System.Linq;
+﻿using System;
+using System.Globalization;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using IP_8IEN.UI.MVC.Models;
+using IP_8IEN.UI_MVC.Models;
 
-namespace IP_8IEN.UI.MVC.Controllers
+namespace IP_8IEN.UI_MVC.Controllers
 {
     [Authorize]
     public class AccountController : Controller

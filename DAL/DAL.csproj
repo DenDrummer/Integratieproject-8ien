@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1119A6C3-D9ED-4DB3-91DD-8EE2C2A1E0F2}</ProjectGuid>
+    <ProjectGuid>{93700688-E6E2-4065-B7AD-D1FB2951398F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IP_8IEN.DAL</RootNamespace>
@@ -41,7 +41,6 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,7 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">
-      <Project>{52114868-98e4-48f4-8483-d409995b5574}</Project>
+      <Project>{b0275334-87c7-4f96-af3f-49c5a3dfe559}</Project>
       <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>

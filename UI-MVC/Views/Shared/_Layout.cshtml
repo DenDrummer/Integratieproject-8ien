@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Dropdown.css")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
@@ -24,6 +25,17 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li class="langMenu">
+                        @Html.ActionLink(@Resources.Resources.Language, "")
+                        <ul class="dropMenu">
+                            <li>
+                                <a href="@Url.Action("ChangeLang","Language", new { newLang = "nl-NL" })">NL</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("ChangeLang","Language", new { newLang = "en-GB" })">EN</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

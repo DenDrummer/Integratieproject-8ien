@@ -1,0 +1,28 @@
+﻿ul.nav > li {
+    list-style-type: none;
+    float: left;
+    position: relative;
+    height: auto;
+    width: auto;
+}
+
+ul.nav ul {
+    list-style-type: none;
+    padding: 0;
+    left: -1px;
+    position: absolute;
+    width: auto;
+}
+
+ul.nav > li:hover ul {
+    left: 0;
+    top: 50px;
+    background: rgba(200, 200, 200, .75);
+    width: auto;
+}
+
+#dropMenu {
+    list-style-type: none;
+    padding: 0;
+    margin: 4px;
+}

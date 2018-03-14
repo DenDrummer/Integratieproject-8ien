@@ -4,9 +4,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using IP_8IEN.UI.MVC.Models;
+using IP_8IEN.UI_MVC.Models;
 
-namespace IP_8IEN.UI.MVC
+namespace IP_8IEN.UI_MVC
 {
     public partial class Startup
     {

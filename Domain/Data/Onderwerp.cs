@@ -1,25 +1,24 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-using IP_8IEN.BL.Domain.Dash;
-using IP_8IEN.BL.Domain.Gebruiker;
+﻿using IP_8IEN.BL.Domain.Dash;
+using IP_8IEN.BL.Domain.Gebruikers;
 using IP_8IEN.BL.Domain.Properties;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace IP_8IEN.BL.Domain.Data
 {
     class Onderwerp
     {
         //PK
-        public int onderwerpId { get; set; }
-        public string naam { get; set; }
+        public int OnderwerpId { get; private set; }
+        public string Naam { get; private set; }
         [MaxLength(100, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "ErrorMaxChar")]
-        public string beschrijving { get; set; }
-        public string gekoppeldeTermen { get; set; }
+        public string Beschrijving { get; private set; }
+        public string GekoppeldeTermen { get; private set; }
 
-        //public ImageSource Image foto {get;set;}
+        //public Image Foto { get; private set; }
 
-        public ICollection<SubjectMessage> subjectmessages { get; set; }
-        public ICollection<Follow> follows { get; set; }
-        public ICollection<AlertInstelling> alertInstellingen { get; set; }
+        public ICollection<SubjectMessage> SubjectMessages { get; private set; }
+        public ICollection<Follow> Follows { get; private set; }
+        public ICollection<AlertInstelling> AlertInstellingen { get; private set; }
     }
 }

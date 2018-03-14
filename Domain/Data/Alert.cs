@@ -3,6 +3,6 @@
     class Alert
     {
         public int AlertId { get; set; }
-        public int volgId { get; set; }
+        public int volgId { get; private set; }
     }
 }

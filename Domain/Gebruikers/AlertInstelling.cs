@@ -1,24 +1,17 @@
-﻿using System;
+﻿using IP_8IEN.BL.Domain.Data;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using IP_8IEN.BL.Domain.Data;
-
-namespace IP_8IEN.BL.Domain.Gebruiker
+namespace IP_8IEN.BL.Domain.Gebruikers
 {
     class AlertInstelling
     {
         //PK
-        public int alertConfigId { get; set; }
+        public int AlertInstellingId { get; private set; }
+        public Gebruiker Gebruiker { get; private set; }
+        public Onderwerp Onderwerp { get; private set; }
+        public int TresholdValue { get; private set; }
+        public bool AlertAan { get; private set; }
 
-        public Gebruiker gebruiker { get; set; }
-        public Onderwerp onderwerp { get; set; }
-
-        public int treshholdValue { get; set; }
-        public bool alert_aan { get; set; }
-
-        public ICollection<Alert> alerts { get; set; }
+        public ICollection<Alert> alerts { get; private set; }
     }
 }
