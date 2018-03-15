@@ -1,7 +1,7 @@
 ﻿namespace IP_8IEN.BL.Domain.Dash
 {
-    class Dashboard
+    public class Dashboard
     {
-        public int dashId { get; private set; }
+        public int DashId { get; private set; }
     }
 }

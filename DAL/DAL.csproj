@@ -49,9 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataRepository.cs" />
     <Compile Include="EF\OurDbConfiguration.cs" />
     <Compile Include="EF\OurDbContext.cs" />
     <Compile Include="EF\OurDbInitializer.cs" />
+    <Compile Include="GebruikerRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>

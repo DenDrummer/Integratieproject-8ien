@@ -2,8 +2,8 @@
 
 namespace IP_8IEN.BL.Domain.Dash
 {
-    class Follow
+    public class Follow
     {
-        public Onderwerp gevolgdOnderwerp { get; private set; }
+        public Onderwerp GevolgdOnderwerp { get; private set; }
     }
 }

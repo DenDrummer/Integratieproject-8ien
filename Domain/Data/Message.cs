@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IP_8IEN.BL.Domain.Data
 {
-    class Message
+    public class Message
     {
         //PK
 

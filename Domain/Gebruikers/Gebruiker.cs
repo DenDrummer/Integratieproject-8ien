@@ -4,21 +4,32 @@ using System.Collections.Generic;
 
 namespace IP_8IEN.BL.Domain.Gebruikers
 {
-    class Gebruiker
+    public class Gebruiker
     {
         //PK
-        public int GebruikerId { get; private set; }
-        public string Voornaam { get; private set; }
-        public string Achternaam { get; private set; }
+        public int GebruikerId { get; set; }
+     
+        public string Voornaam { get; set; }
+        public string Achternaam { get; set; }
         //[RegularExpression("([a-z0-9.]*)@([a-z.]*)")]
-        public string Email { get; private set; }
-        public DateTime GeboorteDatum { get; private set; }
+        public string Email { get; set; }
+        public DateTime GeboorteDatum { get; set; }
 
         #region security implications
-        public string Password { get; private set; }
+        public string Password { get; set; }
         #endregion
 
         public ICollection<AlertInstelling> AlertInstellingen { get; private set; }
         public ICollection<Dashboard> Dashboards { get; private set; }
+
+        public Gebruiker(int gebruikerId, string email)
+        {
+            GebruikerId = gebruikerId;
+            Email = email;
+        }
+
+        public Gebruiker()
+        {
+        }
     }
 }
