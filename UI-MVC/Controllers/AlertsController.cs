@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using IP_8IEN.BL;
+using IP_8IEN.BL.Domain.Data;
 
 namespace IP_8IEN.UI_MVC.Controllers
 {
@@ -11,7 +13,9 @@ namespace IP_8IEN.UI_MVC.Controllers
         // GET: Alerts
         public ActionResult Index()
         {
-            return View();
+            GebruikerManager gmgr = new GebruikerManager();
+            IEnumerable<Alert> allAlerts = gmgr.GetAlerts();
+            return View(allAlerts);
         }
 
         // GET: Alerts/Details/5

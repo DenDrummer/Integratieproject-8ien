@@ -8,5 +8,14 @@ namespace IP_8IEN.BL.Domain.Data
         public int VolgId { get; private set; }
         public AlertInstelling AlertInstelling;
 
+        public Alert(int alertId, int volgId)
+        {
+            AlertId = alertId;
+            VolgId = volgId;
+        }
+
+        public Alert()
+        {
+        }
     }
 }

@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlertRepository.cs" />
     <Compile Include="DataRepository.cs" />
     <Compile Include="EF\OurDbConfiguration.cs" />
     <Compile Include="EF\OurDbContext.cs" />
