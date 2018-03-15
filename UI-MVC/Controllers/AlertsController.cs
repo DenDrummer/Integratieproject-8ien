@@ -1,39 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using IP_8IEN.BL.Domain.Data;
-using IP_8IEN.UI_MVC.Models;
 
 namespace IP_8IEN.UI_MVC.Controllers
 {
     public class AlertsController : Controller
     {
-        private IP_8IENUI_MVCContext db = new IP_8IENUI_MVCContext();
-
         // GET: Alerts
         public ActionResult Index()
         {
-            return View(db.Alerts.ToList());
+            return View();
         }
 
         // GET: Alerts/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Alert alert = db.Alerts.Find(id);
-            if (alert == null)
-            {
-                return HttpNotFound();
-            }
-            return View(alert);
+            return View();
         }
 
         // GET: Alerts/Create
@@ -43,86 +27,63 @@ namespace IP_8IEN.UI_MVC.Controllers
         }
 
         // POST: Alerts/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AlertId,VolgId")] Alert alert)
+        public ActionResult Create(FormCollection collection)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Alerts.Add(alert);
-                db.SaveChanges();
+                // TODO: Add insert logic here
+
                 return RedirectToAction("Index");
             }
-
-            return View(alert);
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: Alerts/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Alert alert = db.Alerts.Find(id);
-            if (alert == null)
-            {
-                return HttpNotFound();
-            }
-            return View(alert);
+            return View();
         }
 
         // POST: Alerts/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AlertId,VolgId")] Alert alert)
+        public ActionResult Edit(int id, FormCollection collection)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(alert).State = EntityState.Modified;
-                db.SaveChanges();
+                // TODO: Add update logic here
+
                 return RedirectToAction("Index");
             }
-            return View(alert);
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: Alerts/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Alert alert = db.Alerts.Find(id);
-            if (alert == null)
-            {
-                return HttpNotFound();
-            }
-            return View(alert);
+            return View();
         }
 
         // POST: Alerts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
         {
-            Alert alert = db.Alerts.Find(id);
-            db.Alerts.Remove(alert);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            try
             {
-                db.Dispose();
+                // TODO: Add delete logic here
+
+                return RedirectToAction("Index");
             }
-            base.Dispose(disposing);
+            catch
+            {
+                return View();
+            }
         }
     }
 }
