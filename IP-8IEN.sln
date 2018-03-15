@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{93700688-E6E2-4065-B7AD-D1FB2951398F}"
 EndProject
@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI-MVC", "UI-MVC\UI-MVC.csp
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{D69A8A87-BA4C-4EB0-8427-C9B5AEAD55D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSONTesting", "JSONTesting\JSONTesting.csproj", "{63E70349-1234-4DBA-A7D9-030C11CC4921}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{D69A8A87-BA4C-4EB0-8427-C9B5AEAD55D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D69A8A87-BA4C-4EB0-8427-C9B5AEAD55D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D69A8A87-BA4C-4EB0-8427-C9B5AEAD55D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63E70349-1234-4DBA-A7D9-030C11CC4921}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63E70349-1234-4DBA-A7D9-030C11CC4921}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63E70349-1234-4DBA-A7D9-030C11CC4921}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63E70349-1234-4DBA-A7D9-030C11CC4921}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

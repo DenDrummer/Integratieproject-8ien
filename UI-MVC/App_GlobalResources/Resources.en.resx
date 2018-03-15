@@ -120,6 +120,9 @@
   <data name="AboutMessage" xml:space="preserve">
     <value>Your application description page.</value>
   </data>
+  <data name="AboutText" xml:space="preserve">
+    <value>Use this area to provide additional information.</value>
+  </data>
   <data name="IndexTitle" xml:space="preserve">
     <value>Home page</value>
   </data>
