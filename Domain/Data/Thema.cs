@@ -1,6 +1,6 @@
 ﻿namespace IP_8IEN.BL.Domain.Data
 {
-    class Thema
+    class Thema : Onderwerp
     {
         public string Hashtag { get; private set; }
     }

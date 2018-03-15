@@ -2,7 +2,7 @@
 
 namespace IP_8IEN.BL.Domain.Data
 {
-    class Organisatie
+    class Organisatie : Onderwerp
     {
         public string TwitterUrl { get; private set; }
         //public DateTime OprichtingsDatum { get; private set; }

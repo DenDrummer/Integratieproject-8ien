@@ -1,13 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{93700688-E6E2-4065-B7AD-D1FB2951398F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{B0275334-87C7-4F96-AF3F-49C5A3DFE559}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI-MVC", "UI-MVC\UI-MVC.csproj", "{21097B3E-0BA7-4642-A73C-CAC6F0E0676C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B0275334-87C7-4F96-AF3F-49C5A3DFE559} = {B0275334-87C7-4F96-AF3F-49C5A3DFE559}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{D69A8A87-BA4C-4EB0-8427-C9B5AEAD55D9}"
 EndProject
@@ -36,5 +39,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D8979DA5-0367-40CF-AB81-E2B7A1157B3C}
 	EndGlobalSection
 EndGlobal
