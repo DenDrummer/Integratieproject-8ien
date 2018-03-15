@@ -15,8 +15,12 @@ namespace IP_8IEN.DAL.EF
             Gebruiker g5 = new Gebruiker() {GebruikerId = 5, Email = "thomas.dewitte@student.kdg.be"};
             Gebruiker g6 = new Gebruiker() {GebruikerId = 6, Email = "victor.declercq@student.kdg.be"};
             // Add things that will be stored in the DB
-
-
+            context.Gebruikers.Add(g1);
+            context.Gebruikers.Add(g2);
+            context.Gebruikers.Add(g3);
+            context.Gebruikers.Add(g4);
+            context.Gebruikers.Add(g5);
+            context.Gebruikers.Add(g6);
             // Save the changes in the context (all added entities) to the database
             context.SaveChanges();
         }
