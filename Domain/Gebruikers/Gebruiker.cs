@@ -20,6 +20,5 @@ namespace IP_8IEN.BL.Domain.Gebruikers
 
         public ICollection<AlertInstelling> AlertInstellingen { get; private set; }
         public ICollection<Dashboard> Dashboards { get; private set; }
-        
     }
 }
