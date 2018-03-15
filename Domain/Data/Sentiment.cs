@@ -1,6 +1,6 @@
 ﻿namespace IP_8IEN.BL.Domain.Data
 {
-    class Sentiment
+    public class Sentiment
     {
         public int Polariteit { get; private set; }
         public int Objectiviteit { get; private set; }

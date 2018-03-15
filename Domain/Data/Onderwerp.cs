@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IP_8IEN.BL.Domain.Data
 {
-    class Onderwerp
+    public class Onderwerp
     {
         //PK
         public int OnderwerpId { get; private set; }
