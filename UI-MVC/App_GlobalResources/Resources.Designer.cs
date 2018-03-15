@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gebruik dit gebied om extra informatie te voorzien..
+        /// </summary>
+        internal static string AboutText {
+            get {
+                return ResourceManager.GetString("AboutText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 8IEN.
         /// </summary>
         internal static string Group {

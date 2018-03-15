@@ -120,6 +120,9 @@
   <data name="AboutMessage" xml:space="preserve">
     <value>Beschrijvingspagina van je applicatie.</value>
   </data>
+  <data name="AboutText" xml:space="preserve">
+    <value>Gebruik dit gebied om extra informatie te voorzien.</value>
+  </data>
   <data name="Group" xml:space="preserve">
     <value>8IEN</value>
   </data>
