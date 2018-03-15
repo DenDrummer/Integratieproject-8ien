@@ -15,6 +15,14 @@ namespace JSONTesting
         {
             StreamReader r = new StreamReader($"~\\..\\..\\..\\textgaindump.json");
             string json = r.ReadToEnd();
+            dynamic records = JsonConvert.DeserializeObject(json);
+            List<Message> msgs = new List<Message>();
+            int i = 0;
+            foreach (dynamic record in records)
+            {
+                //msgs.Add(new Message(i));
+                i++;
+            }
             //List<Message> msgs =  JsonConvert.DeserializeObject<List<Message>>(json);
         }
     }
