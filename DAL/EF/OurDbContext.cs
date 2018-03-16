@@ -5,28 +5,38 @@ using IP_8IEN.BL.Domain.Gebruikers;
 
 namespace IP_8IEN.DAL.EF
 {
-    class OurDbContext : DbContext
+    [DbConfigurationType(typeof(OurDbConfiguration))]
+    internal class OurDbContext : DbContext
     {
-        private readonly bool delaySave;
+        //private readonly bool delaySave;
         //DelaySave zorgt ervoor dat de gewone SaveChanges niet uitgevoerd wordt
         // indien deze boolean op true staat. 
-        public OurDbContext(bool unitOfWorkPresent = false) : base("OurDB_EFCodeFirst")
+        /*public OurDbContext(bool unitOfWorkPresent = false) : base("OurDB_EFCodeFirst")
         {
             Database.SetInitializer<OurDbContext>(new OurDbInitializer());
             delaySave = unitOfWorkPresent;
+        }*/
+
+        public OurDbContext() : base("OurDB_EFCodeFirst")
+        {
+            Database.SetInitializer<OurDbContext>(new OurDbInitializer());
         }
+
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<AlertInstelling>().HasRequired(g => g.Gebruiker).WithMany(a => a.AlertInstellingen).HasForeignKey<int>(g => g.GebruikerId);
-            modelBuilder.Entity<AlertInstelling>().HasRequired(o => o.Onderwerp).WithMany(a => a.AlertInstellingen).HasForeignKey<int>(o => o.OnderwerpId);
-            modelBuilder.Entity<Alert>().HasRequired(a => a.AlertInstelling).WithMany(a => a.Alerts).HasForeignKey<int>(a => a.AlertId);
+            //base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<AlertInstelling>().HasRequired(g => g.Gebruiker).WithMany(a => a.AlertInstellingen).HasForeignKey<int>(g => g.GebruikerId);
+            //modelBuilder.Entity<AlertInstelling>().HasRequired(o => o.Onderwerp).WithMany(a => a.AlertInstellingen).HasForeignKey<int>(o => o.OnderwerpId);
+            //modelBuilder.Entity<Alert>().HasRequired(a => a.AlertInstelling).WithMany(a => a.Alerts).HasForeignKey<int>(a => a.AlertId);
 
-
+            modelBuilder.Entity<Message>().HasKey(m => m.MessageId);
         }
-            
-        public DbSet<Gebruiker> Gebruikers { get; set; }
+
+
+
+        /*public DbSet<Gebruiker> Gebruikers { get; set; }
         public DbSet<AlertInstelling> AlertInstellingen { get; set; }
         public DbSet<Onderwerp> Onderwerpen { get; set; }
 
@@ -43,7 +53,7 @@ namespace IP_8IEN.DAL.EF
                 return base.SaveChanges();
             }
             throw new InvalidOperationException("No UnitOfWork present, use SaveChanges instead");
-        }
+        }*/
 
     }
 }
