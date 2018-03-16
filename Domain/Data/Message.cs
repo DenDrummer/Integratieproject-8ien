@@ -48,5 +48,9 @@ namespace IP_8IEN.BL.Domain.Data
             Urls = urls;
             Politician = politician;
         }
+
+        public Message()
+        {
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace IP_8IEN.DAL
 {
     public class DataRepository
     {
-        private readonly EF.OurDbContext ctx;
+        /*private readonly EF.OurDbContext ctx;
 
         public DataRepository()
         {
@@ -25,6 +25,6 @@ namespace IP_8IEN.DAL
         public IEnumerable<Onderwerp> ReadAllOnderwerpen()
         {
             return ctx.Onderwerpen.ToList();
-        }
+        }*/
     }
 }
