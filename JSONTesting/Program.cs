@@ -15,15 +15,36 @@ namespace JSONTesting
         {
             StreamReader r = new StreamReader($"~\\..\\..\\..\\textgaindump.json");
             string json = r.ReadToEnd();
-            dynamic records = JsonConvert.DeserializeObject(json);
+            dynamic tweets = JsonConvert.DeserializeObject(json);
             List<Message> msgs = new List<Message>();
-            int i = 0;
-            foreach (dynamic record in records)
+            foreach (var item in tweets.records)
             {
-                //msgs.Add(new Message(i));
-                i++;
+                Message msg = new Message(
+                    msgs.Count,
+                    item.source,
+                    item.id,
+                    item.user_id,
+                    item.geo,
+                    item.mentions.ToObject<List<string>>(),
+                    item.retweet,
+                    item.date,
+                    item.words.ToObject<List<string>>(),
+                    item.sentiment.ToObject<List<int>>(),
+                    item.hashtags.ToObject<List<string>>(),
+                    item.urls.ToObject<List<string>>(),
+                    item.politician.ToObject<List<string>>()));
+                Console.WriteLine(msg.MessageId);
+                Console.WriteLine(msg.Source);
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
             }
-            //List<Message> msgs =  JsonConvert.DeserializeObject<List<Message>>(json);
         }
     }
 }
