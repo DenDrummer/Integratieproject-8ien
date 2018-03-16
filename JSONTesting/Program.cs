@@ -81,7 +81,9 @@ namespace JSONTesting
                 Console.WriteLine();
                 Console.WriteLine("-=-=-=-=-=-=-=-=-=-");
                 Console.WriteLine();
+                msgs.Add(msg);
             }
+            //send msgs to 
             Console.ReadKey();
         }
     }
