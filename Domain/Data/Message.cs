@@ -7,29 +7,32 @@ namespace IP_8IEN.BL.Domain.Data
     {
         //PK
 
-        public int MessageId { get; private set; }
-        public string Source { get; private set; }
+        public int MessageId { get; set; }
+        public string Source { get; set; }
         //id van oorspronkelijke tweet, misschien niet nodig
-        public int Id { get; private set; }
+        public long Id { get; set; }
         //user id van oorspronkelijke tweet
-        public int UserId { get; private set; }
+        public string UserId { get; set; }
         //geo format nog onbekend
-        public string Geo { get; private set; }
-        public List<string> Mentions { get; private set; }
-        public bool Retweet { get; private set; }
-        public DateTime Date { get; private set; }
-        public List<string> Words { get; private set; }
+        public string Geo { get; set; }
+        public List<string> Mentions { get; set; }
+        public bool Retweet { get; set; }
+        public DateTime Date { get; set; }
+        public List<string> Words { get; set; }
         //twee getallen tussen -1 en 1
-        public Sentiment Sentiment { get; private set; }
-        public List<string> Hashtags { get; private set; }
-        public List<string> Urls { get; private set; }
-        public string Politician { get; private set; }
+        public List<double> Sentiment { get; set; }
+        public List<string> Hashtags { get; set; }
+        public List<string> Urls { get; set; }
+        public List<string> Politician { get; set; }
 
         //wat zou dit representeren uit de testdata? ~Jorden
-        public ICollection<SubjectMessage> subjectMessages { get; private set; }
+        public ICollection<SubjectMessage> subjectMessages { get; set; }
 
+        public Message()
+        {
 
-        public Message(int msgId, string source, int id, int userId, string geo, List<string> mentions, bool retweet, DateTime date, List<string> words, Sentiment sentiment, List<string> hashtags, List<string> urls, string politician)
+        }
+        public Message(int msgId, string source, long id, string userId, string geo, List<string> mentions, bool retweet, DateTime date, List<string> words, List<double> sentiment, List<string> hashtags, List<string> urls, List<string> politician)
         {
             MessageId = msgId;
             Source = source;
