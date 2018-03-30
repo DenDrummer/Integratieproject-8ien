@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using IP_8IEN.BL.Domain.Data;
 
 namespace IP_8IEN.DAL
@@ -13,10 +9,10 @@ namespace IP_8IEN.DAL
 
         public AlertRepository()
         {
-            Seeed();
+            Seed();
         }
 
-        private void Seeed()
+        private void Seed()
         {
             Alerts = new List<Alert>();
             Alert a1 = new Alert(1, 1);
