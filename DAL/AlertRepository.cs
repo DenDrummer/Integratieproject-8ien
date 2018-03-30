@@ -9,10 +9,10 @@ namespace IP_8IEN.DAL
 
         public AlertRepository()
         {
-            Seeed();
+            Seed();
         }
 
-        private void Seeed()
+        private void Seed()
         {
             Alerts = new List<Alert>();
             Alert a1 = new Alert(1, 1);
