@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -200,6 +201,7 @@
     <Content Include="Views\Alert\Create.cshtml" />
     <Content Include="Views\Alert\Edit.cshtml" />
     <Content Include="Views\Alert\Delete.cshtml" />
+    <Content Include="textgaindump.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
