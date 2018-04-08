@@ -9,7 +9,7 @@ namespace UI_MVC3.Controllers
 
         public ActionResult Index()
         {
-            mgr.AddMessages($"D:\\Jorden Laureyssens\\Documents\\KdG\\17-18\\Integratieproject 1\\integratieproject-8ien\\IP3_8IEN\\BL\\textgaindump.json");
+            mgr.AddMessages(Server.MapPath("~\\textgaindump.json"));
             return View();
         }
 
