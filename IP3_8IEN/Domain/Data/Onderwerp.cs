@@ -13,8 +13,8 @@ namespace IP3_8IEN.BL.Domain.Data
             //PK
             [Key]
             public int OnderwerpId { get; set; }
-        [MaxLength(100)]
-        public string Beschrijving { get; set; }
+            [MaxLength(100)]
+            public string Beschrijving { get; set; }
             public string Twitter { get; set; }
             
             //public Image Foto { get; private set; }

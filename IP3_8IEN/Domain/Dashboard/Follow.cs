@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using IP3_8IEN.BL.Domain.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace IP3_8IEN.BL.Domain.Dashboard
 {
@@ -6,5 +7,8 @@ namespace IP3_8IEN.BL.Domain.Dashboard
     {
         [Key]
         public int FollowId { get; set; }
+
+        public DashItem DashItems { get; set; }
+        public Onderwerp Onderwerpen { get; set; }
     }
 }

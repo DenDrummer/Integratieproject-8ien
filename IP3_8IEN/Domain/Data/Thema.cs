@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace IP3_8IEN.BL.Domain.Data
 {
-    class Thema
+    class Thema : Onderwerp
     {
-        public string Hashtag { get; private set; }
-
+        public string ThemaString { get; set; }
     }
 }

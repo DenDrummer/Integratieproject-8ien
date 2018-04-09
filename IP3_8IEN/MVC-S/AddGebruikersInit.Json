@@ -1,0 +1,46 @@
+{
+	"records": [
+		{
+			"Username": "Ivaylo",
+			"Voornaam": "Ivaylo",
+			"Achternaam": "Deshev",
+			"email": "ivaylo.deshev@student.kdg.be",
+			"Geboortedatum": "2017-09-15 13:25:39"
+		},
+		{
+			"Username": "Sam",
+			"Voornaam": "Sam",
+			"Achternaam": "Laureys",
+			"email": "sam.laureys@student.kdg.be" ,
+			"Geboortedatum": "2017-09-15 13:25:39"
+		},
+		{
+			"Username": "Jorden",
+			"Voornaam": "Jorden",
+			"Achternaam":  "Laureyssens" ,
+			"email":  "jorden.laureyssens@student.kdg.be" ,
+			"Geboortedatum": "2017-09-15 13:25:39"
+		},
+		{
+			"Username": "Stephane",
+			"Voornaam":  "Stephane" ,
+			"Achternaam":  "Boogaerts" ,
+			"email":  "stephane.boogaerts@student.kdg.be" ,
+			"Geboortedatum": "2017-09-15 13:25:39"
+		},
+		{
+			"Username": "Thomas",
+			"Voornaam":  "Thomas" ,
+			"Achternaam":  "Dewitte" ,
+			"email":  "thomas.dewitte@student.kdg.be" ,
+			"Geboortedatum": "2017-09-15 13:25:39"
+		},
+		{
+			"Username": "Victor",
+			"Voornaam":  "Victor" ,
+			"Achternaam":  "Declercq" ,
+			"email":  "victor.declercq@student.kdg.be" ,
+			"Geboortedatum": "2017-09-15 13:25:39"
+		}
+	]
+}

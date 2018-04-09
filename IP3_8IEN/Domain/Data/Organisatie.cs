@@ -9,22 +9,9 @@ using System.Threading.Tasks;
 
 namespace IP3_8IEN.BL.Domain.Data
 {
-    class Organisatie : Onderwerp
+    public class Organisatie : Onderwerp
     {
-        //PK
-        /*public int OnderwerpId { get; set; }
-        [MaxLength(100)]
-        public string Beschrijving { get; set; }
-        public string Twitter { get; set; }
-
-        //public Image Foto { get; private set; }
-
-        public ICollection<SubjectMessage> SubjectMessages { get; set; }
-        public ICollection<Follow> Follows { get; set; }
-        public ICollection<AlertInstelling> AlertInstellingen { get; set; }*/
-
-        //public int OrganisatieId { get; set; }
-        public string TwitterUrl { get; private set; }
+        public string NaamOrganisatie { get; set; }
 
         public ICollection<Tewerkstelling> Tewerkstellingen { get; set; }
     }

@@ -29,6 +29,7 @@ namespace IP3_8IEN.BL.Domain.Data
         public string Word5 { get; set; }
 
         //twee getallen tussen -1 en 1
+        //nog te wijzigen naar double
         public int SentimentPos { get; set; }
         public int SentimentNeg { get; set; }
 
@@ -43,8 +44,6 @@ namespace IP3_8IEN.BL.Domain.Data
         public string Mention4 { get; set; }
         public string Mention5 { get; set; }
 
-        
         public ICollection<SubjectMessage> SubjectMessages { get; set; }
-        
     }
 }

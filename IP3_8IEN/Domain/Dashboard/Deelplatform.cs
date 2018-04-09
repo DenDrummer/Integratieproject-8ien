@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace IP3_8IEN.BL.Domain.Dashboard
 {
-    class Deelplatform
+    public class Deelplatform
     {
         [Key]
         public int DeelplatformId { get; set; }
+        public string databron { get; set; }
+
+        public ICollection<Dashbord> Dashboards { get; set; }
     }
 }

@@ -1,25 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace IP3_8IEN.BL.Domain.Gebruikers
 {
     public class Alert
     {
+        [Key]
         public int AlertId { get; set; }
-        public int VolgId { get; private set; }
+        public string AlertContent { get; set; }
+        public DateTime CreatedOn { get; set; }
+        
         public AlertInstelling AlertInstelling;
-
-        public Alert(int alertId, int volgId)
-        {
-            AlertId = alertId;
-            VolgId = volgId;
-        }
-
-        public Alert()
-        {
-        }
     }
 }

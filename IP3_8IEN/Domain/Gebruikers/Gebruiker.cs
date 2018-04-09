@@ -1,38 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using IP3_8IEN.BL.Domain.Dashboard;
 
 namespace IP3_8IEN.BL.Domain.Gebruikers
 {
     public class Gebruiker
     {
-        //PK
+        [Key]
         public int GebruikerId { get; set; }
-
+        public string Username { get; set; }
+        public string Naam { get; set; }
         public string Voornaam { get; set; }
-        public string Achternaam { get; set; }
-        //[RegularExpression("([a-z0-9.]*)@([a-z.]*)")]
         public string Email { get; set; }
-        public DateTime GeboorteDatum { get; set; }
+        public DateTime Geboortedatum { get; set; }
 
-        #region security implications
-        public string Password { get; set; }
-        #endregion
+        //enum
+        public string Role { get; set; }
 
-        public ICollection<AlertInstelling> AlertInstellingen { get; private set; }
-        public ICollection<Dash> Dashboards { get; private set; }
+        //public string Psswd { get; set; }
 
-        public Gebruiker(int gebruikerId, string email)
-        {
-            GebruikerId = gebruikerId;
-            Email = email;
-        }
-
-        public Gebruiker()
-        {
-        }
+        public ICollection<WeeklyReview> WeeklyReviews { get; set; }
+        public ICollection<Dashbord> Dashboards { get; set; }
+        public ICollection<AlertInstelling> AlertInstellingen { get; set; }
     }
 }
