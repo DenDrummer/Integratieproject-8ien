@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-using IP3_8IEN.BL.Domain.Gebruikers;
-using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.BL.Domain.Dashboard;
 
 
-namespace IP3_8IEN.BL.Domain.Data
+namespace IP_8IEN.BL.Domain.Data
 {
 
         public abstract class Onderwerp

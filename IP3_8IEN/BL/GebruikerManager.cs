@@ -1,17 +1,17 @@
-﻿using IP3_8IEN.BL.Domain.Data;
-using IP3_8IEN.BL.Domain.Gebruikers;
+﻿using IP_8IEN.BL.Domain.Data;
+using IP_8IEN.BL.Domain.Gebruikers;
 using Newtonsoft.Json;
 using System.IO;
 
-using IP3_8IEN.DAL;
-using IP3_8IEN.DAL.EF;
+using IP_8IEN.DAL;
+using IP_8IEN.DAL.EF;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System;
-using IP3_8IEN.BL;
+using IP_8IEN.BL;
 
-namespace IP3_8IEN.BL
+namespace IP_8IEN.BL
 {
     public class GebruikerManager : IGebruikerManager
     {

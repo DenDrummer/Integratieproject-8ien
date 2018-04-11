@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IP3_8IEN.BL.Domain
+namespace IP_8IEN.BL.Domain
 {
     // Stond vroeger in UI_MVC_S -> Domainklasse hoort in BL.Domain thuis
     // Basis model voor het aanmaken van een nieuwe gebruiker

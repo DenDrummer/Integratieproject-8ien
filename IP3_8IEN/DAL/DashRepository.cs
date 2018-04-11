@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IP3_8IEN.BL.Domain.Dashboard;
-using IP3_8IEN.DAL.EF;
+using IP_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.DAL.EF;
 
-namespace IP3_8IEN.DAL
+namespace IP_8IEN.DAL
 {
     public class DashRepository : IDashRepository
     {

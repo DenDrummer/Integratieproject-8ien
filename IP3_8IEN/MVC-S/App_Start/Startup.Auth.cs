@@ -6,9 +6,9 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using MVC_S.Models;
-using IP3_8IEN.BL;
+using IP_8IEN.BL;
 using MVC_S.SignIn;
-using IP3_8IEN.BL.Domain;
+using IP_8IEN.BL.Domain;
 
 namespace MVC_S
 {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using IP3_8IEN.BL.Domain.Data;
-using IP3_8IEN.DAL.EF;
+using IP_8IEN.BL.Domain.Data;
+using IP_8IEN.DAL.EF;
 using System.Linq;
 
-namespace IP3_8IEN.DAL
+namespace IP_8IEN.DAL
 {
     public class MessageRepository : IMessageRepository
     {

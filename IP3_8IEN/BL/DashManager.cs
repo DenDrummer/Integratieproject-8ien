@@ -1,11 +1,11 @@
-﻿using IP3_8IEN.DAL;
+﻿using IP_8IEN.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IP3_8IEN.BL
+namespace IP_8IEN.BL
 {
     class DashManager : IDashManager
     {

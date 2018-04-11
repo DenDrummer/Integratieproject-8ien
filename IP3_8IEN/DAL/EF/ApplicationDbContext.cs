@@ -1,4 +1,4 @@
-﻿using IP3_8IEN.BL.Domain;
+﻿using IP_8IEN.BL.Domain;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IP3_8IEN.DAL.EF
+namespace IP_8IEN.DAL.EF
 {
     // Dit stond vroeger in UI_MVC_S -> Bad Practice
     // Toegang tot databank hoort thuis in DAL

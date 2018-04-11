@@ -1,5 +1,5 @@
-﻿using IP3_8IEN.BL;
-using IP3_8IEN.BL.Domain.Gebruikers;
+﻿using IP_8IEN.BL;
+using IP_8IEN.BL.Domain.Gebruikers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

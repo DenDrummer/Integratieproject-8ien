@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Dashboard;
 
-namespace IP3_8IEN.DAL
+namespace IP_8IEN.DAL
 {
     public interface IDashRepository
     {

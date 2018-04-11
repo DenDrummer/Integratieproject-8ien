@@ -1,4 +1,4 @@
-﻿using IP3_8IEN.BL;
+﻿using IP_8IEN.BL;
 using System.Web.Mvc;
 
 namespace UI_MVC3.Controllers

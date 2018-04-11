@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Dashboard;
 
-namespace IP3_8IEN.BL.Domain.Gebruikers
+namespace IP_8IEN.BL.Domain.Gebruikers
 {
     public class Gebruiker
     {

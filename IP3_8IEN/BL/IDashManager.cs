@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IP3_8IEN.BL
+namespace IP_8IEN.BL
 {
     public interface IDashManager
     {
