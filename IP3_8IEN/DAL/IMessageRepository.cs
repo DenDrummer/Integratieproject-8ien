@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 
-using IP3_8IEN.BL.Domain.Data;
+using IP_8IEN.BL.Domain.Data;
 
-namespace IP3_8IEN.DAL
+namespace IP_8IEN.DAL
 {
     public interface IMessageRepository
     {
+        //Dit is de repo voor de 'Data' package
+
         //16 mrt 2018 : Stephane
         void AddingMessage(Message message);
 
@@ -17,5 +19,16 @@ namespace IP3_8IEN.DAL
         //28 mrt 2018 : Stephane
         IEnumerable<Hashtag> ReadHashtags();
 
+        //30 mrt 2018 : Stephane
+        IEnumerable<Onderwerp> ReadSubjects();
+
+        //1 apr 2018 : Stephane
+        bool isUnitofWork();
+        void setUnitofWork(bool UoW);
+
+        //2 apr 2018 : Stephane
+        IEnumerable<Organisatie> ReadOrganisaties();
+        void AddingTewerkstelling(Tewerkstelling tewerkstelling);
+        void UdateOnderwerp(Onderwerp onderwerp);
     }
 }

@@ -1,17 +1,21 @@
-﻿using System;
+﻿using IP_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IP3_8IEN.BL.Domain.Gebruikers;
 
-namespace IP3_8IEN.BL
+namespace IP_8IEN.BL
 {
     public interface IGebruikerManager
     {
-        IEnumerable<Gebruiker> GetGebruikers();
-        IEnumerable<Alert> GetAlerts();
-        void AddMessage();
+        //30 mrt 2018 : stephane
+        void AddGebruikers(string filePath);
+        void AddAlertInstelling(string filePath);
+        Gebruiker FindUser(string username);
 
+        //31 mrt 2018 : Stephane
+        void AddAlerts(string filePath);
+        void AddAlert(string alertContent, int alertInstelling);
+        void initNonExistingRepo(bool withUnitOfWork);
+
+        //2 apr 2018 : Stephane
+        IEnumerable<Alert> GetAlerts();
     }
 }

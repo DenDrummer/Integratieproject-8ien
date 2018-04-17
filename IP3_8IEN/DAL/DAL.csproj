@@ -38,6 +38,14 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -54,12 +62,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlertRepository.cs" />
-    <Compile Include="DataRepository.cs" />
+    <Compile Include="DashRepository.cs" />
+    <Compile Include="EF\ApplicationDbContext.cs" />
     <Compile Include="EF\OurDbConfiguration.cs" />
     <Compile Include="EF\OurDbContext.cs" />
     <Compile Include="EF\OurDbInitializer.cs" />
     <Compile Include="GebruikerRepository.cs" />
+    <Compile Include="IDashRepository.cs" />
+    <Compile Include="IdentityRepository.cs" />
+    <Compile Include="IGebruikerRepository.cs" />
     <Compile Include="IMessageRepository.cs" />
     <Compile Include="MessageRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

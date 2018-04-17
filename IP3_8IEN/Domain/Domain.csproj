@@ -38,6 +38,14 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -53,12 +61,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dashboard\Dash.cs" />
+    <Compile Include="ApplicationUser.cs" />
+    <Compile Include="Dashboard\Cijfer.cs" />
+    <Compile Include="Dashboard\Dashbord.cs" />
+    <Compile Include="Dashboard\DashItem.cs" />
     <Compile Include="Dashboard\Deelplatform.cs" />
+    <Compile Include="Dashboard\Kruising.cs" />
+    <Compile Include="Dashboard\TileZone.cs" />
+    <Compile Include="Dashboard\Vergelijking.cs" />
     <Compile Include="Data\Hashtag.cs" />
     <Compile Include="Data\Organisatie.cs" />
     <Compile Include="Data\Persoon.cs" />
-    <Compile Include="Data\Sentiment.cs" />
     <Compile Include="Data\Tewerkstelling.cs" />
     <Compile Include="Data\Thema.cs" />
     <Compile Include="Gebruikers\Alert.cs" />
@@ -68,6 +81,7 @@
     <Compile Include="Data\Onderwerp.cs" />
     <Compile Include="Data\SubjectMessage.cs" />
     <Compile Include="Gebruikers\Gebruiker.cs" />
+    <Compile Include="Gebruikers\WeeklyReview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 
-using IP3_8IEN.BL.Domain.Data;
+using IP_8IEN.BL.Domain.Data;
 using Newtonsoft.Json;
 using System.IO;
 using System.Data.Entity;
 
-using IP3_8IEN.BL;
+using IP_8IEN.BL;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace IP3_8IEN.DAL.EF
+namespace IP_8IEN.DAL.EF
 {
     class OurDbInitializer : DropCreateDatabaseAlways<OurDbContext>
     //DropCreateDatabaseIfModelChanges

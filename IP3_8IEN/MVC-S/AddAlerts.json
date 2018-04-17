@@ -1,0 +1,28 @@
+{
+  "records": [
+    {
+      "AlertContent": "Dit is een 'Alert' message!",
+      "AlertInstellingId": "1"
+    },
+    {
+      "AlertContent": "Dit is een 'Alert' message!",
+      "AlertInstellingId": "2"
+    },
+    {
+      "AlertContent": "Dit is een 'Alert' message!",
+      "AlertInstellingId": "3"
+    },
+    {
+      "AlertContent": "Dit is een 'Alert' message!",
+      "AlertInstellingId": "2"
+    },
+    {
+      "AlertContent": "Dit is een 'Alert' message!",
+      "AlertInstellingId": "3"
+    },
+    {
+      "AlertContent": "Dit is een 'Alert' message!",
+      "AlertInstellingId": "4"
+    }
+  ]
+}

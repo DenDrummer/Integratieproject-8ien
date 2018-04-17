@@ -1,60 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
+using IP_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.DAL.EF;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IP3_8IEN.BL.Domain.Gebruikers;
 
-namespace IP3_8IEN.DAL
+namespace IP_8IEN.DAL
 {
-    public class GebruikerRepository
+    public class GebruikerRepository : IGebruikerRepository
     {
-        private List<Gebruiker> Gebruikers;
+        private OurDbContext ctx;
+        public bool isUoW;
 
         public GebruikerRepository()
         {
-
-            Seed();
+            ctx = new OurDbContext();
+            isUoW = false;
+            ctx.Database.Initialize(false);
         }
 
-        private void Seed()
+        public GebruikerRepository(UnitOfWork uow)
         {
-            Gebruikers = new List<Gebruiker>();
-            Gebruiker g1 = new Gebruiker() { GebruikerId = 1, Email = "ivaylo.deshev@student.kdg.be" };
-            Gebruiker g2 = new Gebruiker() { GebruikerId = 2, Email = "sam.laureys@student.kdg.be" };
-            Gebruiker g3 = new Gebruiker() { GebruikerId = 3, Email = "jorden.laureyssens@student.kdg.be" };
-            Gebruiker g4 = new Gebruiker() { GebruikerId = 4, Email = "stephane.boogaerts@student.kdg.be" };
-            Gebruiker g5 = new Gebruiker() { GebruikerId = 5, Email = "thomas.dewitte@student.kdg.be" };
-            Gebruiker g6 = new Gebruiker() { GebruikerId = 6, Email = "victor.declercq@student.kdg.be" };
-            // Add things that will be stored in the DB
-            Gebruikers.Add(g1);
-            Gebruikers.Add(g2);
-            Gebruikers.Add(g3);
-            Gebruikers.Add(g4);
-            Gebruikers.Add(g5);
-            Gebruikers.Add(g6);
+            ctx = uow.Context;
+            isUoW = true;
+        }
+
+        public bool isUnitofWork()
+        {
+            return isUoW;
+        }
+
+        public void setUnitofWork(bool UoW)
+        {
+            isUoW = UoW;
+        }
+
+        public void AddingAlertInstelling(AlertInstelling alertinstelling)
+        {
+            ctx.AlertInstellingen.Add(alertinstelling);
+            ctx.SaveChanges();
+        }
+
+        public void AddingGebruiker(Gebruiker gebruiker)
+        {
+            ctx.Gebruikers.Add(gebruiker);
+            ctx.SaveChanges();
+        }
+
+        public Gebruiker FindGebruiker(int userId)
+        {
+            Gebruiker user = ctx.Gebruikers.Find(userId);
+            return user;
         }
 
         public IEnumerable<Gebruiker> ReadGebruikers()
         {
-            return Gebruikers.ToList();
+            IEnumerable<Gebruiker> gebruikers = ctx.Gebruikers.ToList<Gebruiker>();
+            return gebruikers;
         }
 
-        //        private readonly OurDbContext ctx;
-        //
-        //        public GebruikerRepository()
-        //        {
-        //            ctx = new OurDbContext();
-        //        }
-        //
-        //        public GebruikerRepository(UnitOfWork uow)
-        //        {
-        //            ctx = uow.context;
-        //        }
-        //
-        //        public IEnumerable<Gebruiker> ReadGebruikers()
-        //        {
-        //            return ctx.Gebruikers.ToList();
-        //        }
+        public AlertInstelling ReadAlertInstelling(int alertInstellingId)
+        {
+            AlertInstelling alertInstelling = ctx.AlertInstellingen.Find(alertInstellingId);
+            return alertInstelling;
+        }
+
+        public void AddingAlert(Alert alert)
+        {
+            ctx.Alerts.Add(alert);
+            ctx.SaveChanges();
+        }
+
+        public IEnumerable<Alert> ReadAlerts()
+        {
+            return ctx.Alerts.ToList<Alert>();
+        }
+
+        public void UpdateAlertInstelling(AlertInstelling alertInstelling)
+        {
+            ctx.SaveChanges();
+        }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-using IP3_8IEN.BL.Domain.Gebruikers;
-using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.BL.Domain.Dashboard;
 
 
-namespace IP3_8IEN.BL.Domain.Data
+namespace IP_8IEN.BL.Domain.Data
 {
 
         public abstract class Onderwerp
@@ -13,8 +13,8 @@ namespace IP3_8IEN.BL.Domain.Data
             //PK
             [Key]
             public int OnderwerpId { get; set; }
-        [MaxLength(100)]
-        public string Beschrijving { get; set; }
+            [MaxLength(100)]
+            public string Beschrijving { get; set; }
             public string Twitter { get; set; }
             
             //public Image Foto { get; private set; }
