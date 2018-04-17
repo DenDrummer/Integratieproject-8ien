@@ -9,6 +9,7 @@ using System.Linq;
 using System;
 using System.Net;
 using System.Web.Script.Serialization;
+using System.Web;
 
 namespace IP_8IEN.BL
 {
@@ -39,24 +40,27 @@ namespace IP_8IEN.BL
             httpWebRequest.ContentType = "application/json; charset=utf-8";
             httpWebRequest.Accept = "application/json; charset=utf-8";
             httpWebRequest.Method = "POST";
-            
+
             string json;
 
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
                 json = new JavaScriptSerializer().Serialize(new
                 {
-                    name = "Annick De Ridder",
+                    //name = "Annick De Ridder",
                 });
 
                 streamWriter.Write(json);
             }
 
             var serializer = new JsonSerializer();
-            
+
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
             {
+                //File.WriteAllText("apiRequest.json", streamReader.ReadToEnd());
+                //File.WriteAllText(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest.json"), streamReader.ReadToEnd());
+
                 //File.WriteAllText("~\\JsonFiles\\apiRequest.json", streamReader.ReadToEnd());
                 File.WriteAllText(@"C:\Users\Nathan\Desktop\api.json", streamReader.ReadToEnd());
             }
@@ -86,7 +90,7 @@ namespace IP_8IEN.BL
             string[] mentions = { mention1, mention2, mention3, mention4, mention5 };
             string[] urls = { url1, url2 };
 
-            foreach (var item in tweets.records)
+            foreach (var item in tweets) //.records
             {
                 //voorgaande arrays opvullen
                 for (int i = 0; i <= item.words.Count - 1 && i <= 4; i++)
@@ -104,14 +108,32 @@ namespace IP_8IEN.BL
                     urls[i] = item.urls[i];
                 }
 
+                //kunnen null zijn
+                //string gender = item.profile.gender;
+                //string age = item.profile.age;
+                //string education = item.profile.education;
+                //string language = item.profile.language;
+                //string personality = item.profile.personality;
+
                 Message tweet = new Message()
                 {
                     Source = item.source,
                     Id = item.id,
-                    UserId = item.user_id,
-                    Geo = item.geo,
+
                     Retweet = item.retweet,
                     Date = item.date,
+
+                    //Gender = gender,
+                    //Age = age,
+                    //Education = education,
+                    //Language = language,
+                    //Personality = personality,
+                    Gender = item.profile.gender,
+                    Age = item.profile.age,
+                    Education = item.profile.education,
+                    Language = item.profile.language,
+                    Personality = item.profile.personality,
+
 
                     Word1 = words[0],
                     Word2 = words[1],
@@ -119,8 +141,8 @@ namespace IP_8IEN.BL
                     Word4 = words[3],
                     Word5 = words[4],
 
-                    SentimentPos = item.sentiment[0],
-                    SentimentNeg = item.sentiment[1],
+                    //SentimentPos = item.sentiment[0],
+                    //SentimentNeg = item.sentiment[1],
 
                     Mention1 = mentions[0],
                     Mention2 = mentions[1],
@@ -133,13 +155,28 @@ namespace IP_8IEN.BL
 
                     SubjectMessages = new Collection<SubjectMessage>()
                 };
+
+                try
+                {
+                    tweet.SentimentPos = item.sentiment[0];
+                    tweet.SentimentNeg = item.sentiment[1];
+                }
+                catch { }
+
+                try
+                {
+                    tweet.Geo1 = item.geo[0];
+                    tweet.Geo2 = item.geo[1];
+                }
+                catch { }
+
                 repo.AddingMessage(tweet);
 
-                string voornaam = item.politician[0];
-                string achternaam = item.politician[1];
-                Persoon persoon = AddPersoon(voornaam,achternaam);
-
-                AddSubjectMessage(tweet,persoon);
+                foreach (string person in item.persons)
+                {
+                    Persoon persoon = AddPersoon(person);
+                    AddSubjectMessage(tweet, persoon);
+                }
 
                 foreach (string hashtag in item.hashtags)
                 {
@@ -152,27 +189,24 @@ namespace IP_8IEN.BL
         // We gaan kijken of de 'Persoon' al in de databank bestaat.
         // Zoja: De bestaande 'Persoon' wordt meegegeven
         // Zonee: Een nieuwe 'Persoon' wordt geïnitialiseerd en meegegeven
-        public Persoon AddPersoon(string voornaam,string achternaam)
+        public Persoon AddPersoon(string naam)
         {
             initNonExistingRepo();
 
             Persoon persoon;
             IEnumerable<Persoon> personen = repo.ReadPersonen();
 
-            bool ifExists = personen.Any(x => x.Voornaam == voornaam
-                  && x.Achternaam == achternaam);
+            bool ifExists = personen.Any(x => x.Naam == naam);
 
             if (ifExists == true)
             {
-                persoon = personen.FirstOrDefault(x => x.Voornaam == voornaam
-                    && x.Achternaam == achternaam);
+                persoon = personen.FirstOrDefault(x => x.Naam == naam);
             }
             else
             {
                 persoon = new Persoon()
                 {
-                    Voornaam = voornaam,
-                    Achternaam = achternaam,
+                    Naam = naam,
                     SubjectMessages = new Collection<SubjectMessage>()
                 };
                 repo.AddOnderwerp(persoon);
@@ -276,7 +310,7 @@ namespace IP_8IEN.BL
             // Json /CSV
         }
 
-        public void AddTewerkstelling(string voornaam, string achternaam, string naamOrganisatie)
+        public void AddTewerkstelling(string naam, string naamOrganisatie)
         {
             initNonExistingRepo();
 
@@ -288,23 +322,23 @@ namespace IP_8IEN.BL
             IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
 
             //kijken of persoon en organisatie bestaan
-            bool ifExistsP = personen.Any(x => x.Voornaam == voornaam
-                  && x.Achternaam == achternaam);
+            bool ifExistsP = personen.Any(x => x.Naam == naam);
             bool ifExistsO = organisaties.Any(x => x.NaamOrganisatie == naamOrganisatie);
 
             //persoon & organisatie initialiseren
             if (ifExistsP)
             {
-                persoon = personen.FirstOrDefault(x => x.Voornaam == voornaam
-                  && x.Achternaam == achternaam);
-            } else
+                persoon = personen.FirstOrDefault(x => x.Naam == naam);
+            }
+            else
             {
-                throw new ArgumentException("Persoon '" + voornaam + " " + achternaam + "' not found!");
+                throw new ArgumentException("Persoon '" + naam + "' not found!");
             }
             if (ifExistsO)
             {
                 organisatie = organisaties.FirstOrDefault(x => x.NaamOrganisatie == naamOrganisatie);
-            } else
+            }
+            else
             {
                 throw new ArgumentException("Organisatie '" + naamOrganisatie + "' not found!");
             }

@@ -11,9 +11,8 @@ namespace IP_8IEN.BL.Domain.Data
 {
     public class Persoon : Onderwerp
     {
-        //Achternaam kan meerdere woorden bevatten vb: "van de .."
-        public string Achternaam { get; set; }
-        public string Voornaam { get; set; }
+        //Naam kan meerdere woorden bevatten
+        public string Naam { get; set; }
 
         public ICollection<Tewerkstelling> Tewerkstellingen { get; set; }
     }
