@@ -62,7 +62,7 @@ namespace IP_8IEN.BL
                 //File.WriteAllText(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest.json"), streamReader.ReadToEnd());
 
                 //File.WriteAllText("~\\JsonFiles\\apiRequest.json", streamReader.ReadToEnd());
-                File.WriteAllText(@"C:\Users\Nathan\Desktop\api.json", streamReader.ReadToEnd());
+                File.WriteAllText(@"C:\Users\Victor\Desktop\api.json", streamReader.ReadToEnd());
             }
         }
 
@@ -425,6 +425,87 @@ namespace IP_8IEN.BL
                 }
             }
         }
+
+
+        public class zscore
+        {
+            private string politician;
+            private double score;
+
+            public zscore(string politician, double score)
+            {
+                this.politician = politician;
+                this.score = score;
+            }
+            public override string ToString()
+            {
+                return "Politieker " + politician + "\n \t score: " + score;
+            }
+        }
+        /*
+        public void getAlerts()
+        {
+            List<Message> messages = new List<Message>();
+            List<zscore> zscores = new List<zscore>();
+            List<String> namen = new List<string>();
+            int totaalTweets;
+            double gemiddelde;
+            DateTime laatsteTweet = new DateTime(2018, 2, 18);
+
+
+            foreach (Message m in messages)
+            {
+                namen.Add(m.Politician);
+                namen = namen.Distinct().ToList();
+            }
+
+            List<int> tweetsPerDag = new List<int>();
+            foreach (string s in namen)
+            {
+                totaalTweets = messages.Where(Message => Message.Politician == s).Count();
+                //Message mm = messages.Where(Message => Message.Politician == s).OrderBy(o=>o.Date).First();
+                DateTime start = new DateTime(2017, 9, 7);
+                tweetsPerDag.Clear();
+                do
+                {
+                    tweetsPerDag.Add(messages.Where(Message => Message.Politician == s).Where(Message => Message.Date.Date == start).Count());
+                    start = start.AddDays(1);
+                    //Console.WriteLine(start);
+                } while (start <= laatsteTweet);
+                double totaal = 0;
+                foreach (int i in tweetsPerDag)
+                {
+                    totaal = totaal + i;
+                }
+                Console.WriteLine("1 " + totaal);
+                gemiddelde = totaal / tweetsPerDag.Count();
+                Console.WriteLine("1.1 " + gemiddelde + " " + tweetsPerDag.Count());
+                //tweetsPerDag.ForEach(i => Console.Write("{0}\n", i));
+
+
+                double average = tweetsPerDag.Average();
+                Console.WriteLine(average);
+                double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
+                double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
+
+                Console.WriteLine("2 " + sd);
+
+                zscores.Add(new zscore(s, (tweetsPerDag.Last() - gemiddelde) / sd));
+                Console.WriteLine(((double)tweetsPerDag.Last() - gemiddelde / gemiddelde * 100));
+                Console.WriteLine(tweetsPerDag.Last());
+                Console.WriteLine(gemiddelde);
+                Console.WriteLine("---");
+                Console.WriteLine(tweetsPerDag.Count());
+                Console.WriteLine(totaal);
+                Console.WriteLine(s);
+            }
+            Console.WriteLine("---");
+            zscores.ForEach(Console.WriteLine);
+
+            Console.ReadLine();
+        }
+        
+    }*/
     }
 }
 
