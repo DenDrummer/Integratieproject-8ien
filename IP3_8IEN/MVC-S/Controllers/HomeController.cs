@@ -52,5 +52,11 @@ namespace MVC_S.Controllers
 
             return View();
         }
+
+        public ActionResult TestGraphic()
+        {
+            ViewBag.Message = "Your Dashboard";
+            return View();
+        }
     }
 }
