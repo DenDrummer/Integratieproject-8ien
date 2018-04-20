@@ -67,6 +67,14 @@ namespace IP_8IEN.BL
             Gebruiker user = users.FirstOrDefault(x => x.Username == username);
             return user;
         }
+        public void DeleteGebruiker(string username)
+        {
+            initNonExistingRepo();
+            IEnumerable<Gebruiker> users = repo.ReadGebruikers();
+            Gebruiker user = users.FirstOrDefault(x => x.Username == username);
+            repo.DeleteGebruiker(user);
+
+        }
 
         // Hier werken we met 'Unit of Work'
         // omdat we informatie uit de data package nodig hebben
@@ -216,5 +224,6 @@ namespace IP_8IEN.BL
                 }
             }
         }
+
     }
 }

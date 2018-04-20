@@ -17,5 +17,7 @@ namespace IP_8IEN.BL
 
         //2 apr 2018 : Stephane
         IEnumerable<Alert> GetAlerts();
+        //20 april 2018: Ivaylo
+        void DeleteGebruiker(string username);
     }
 }

@@ -52,6 +52,15 @@ namespace IP_8IEN.DAL
             return user;
         }
 
+        public void DeleteGebruiker(Gebruiker gebruiker)
+        {
+            if (gebruiker != null)
+            {
+                ctx.Gebruikers.Remove(gebruiker);
+                ctx.SaveChanges();
+            }
+        }
+
         public IEnumerable<Gebruiker> ReadGebruikers()
         {
             IEnumerable<Gebruiker> gebruikers = ctx.Gebruikers.ToList<Gebruiker>();
