@@ -15,10 +15,9 @@ namespace MVC_S.Controllers
             // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
-
             //-- Laat deze twee in commentaar staan --//
             //dMgr.ApiRequestToJson();
-            //dMgr.AddMessages(@"C:\Users\Victor\Desktop\api.json");
+            //dMgr.AddMessages(@"C:\Users\Victor\Desktop\api2.json");
             //--                                    --//
 
             //dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.json"));
@@ -32,6 +31,8 @@ namespace MVC_S.Controllers
             //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+
+            dMgr.getAlerts();
         }
 
         public ActionResult Index()

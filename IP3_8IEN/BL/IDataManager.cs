@@ -10,7 +10,7 @@ namespace IP_8IEN.BL
 
         //25 mrt 2018 : Stephane
         //Persoon AddPersoon(string voornaam, string achternaam);
-        void AddSubjectMessage(Message msg, Persoon persoon);
+        SubjectMessage AddSubjectMessage(Message msg, Persoon persoon);  //20 apr 2018 Victor (update: subjmes toevoegen aan tweet)
 
         //28 mrt 2018 : Stephane
         Hashtag AddHashtag(string hashtag);
@@ -34,5 +34,9 @@ namespace IP_8IEN.BL
         //16 apr 2018 : Stephane
         void AddMessages(string sourceUrl);
         Persoon AddPersoon(string naam);
+
+        //20 apr 2018 : Victor
+        IEnumerable<Message> ReadMessages();
+        void getAlerts();
     }
 }

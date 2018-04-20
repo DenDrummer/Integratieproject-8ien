@@ -30,5 +30,9 @@ namespace IP_8IEN.DAL
         IEnumerable<Organisatie> ReadOrganisaties();
         void AddingTewerkstelling(Tewerkstelling tewerkstelling);
         void UdateOnderwerp(Onderwerp onderwerp);
+
+        //20 apr 2018 : Victor
+        IEnumerable<Message> ReadMessages();
+        void UpdateMessage();
     }
 }
