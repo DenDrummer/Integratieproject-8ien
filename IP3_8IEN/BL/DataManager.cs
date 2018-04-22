@@ -31,51 +31,58 @@ namespace IP_8IEN.BL
             repo = new MessageRepository(uowManager.UnitOfWork);
         }
 
+        //httpWebRequest POST naar 'textgain' api --> output doorgegeven aan 'AddMessages'
         public void ApiRequestToJson()
         {
-            string url = "http://kdg.textgain.com/query";
-
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-            httpWebRequest.Headers.Add("X-API-Key", "aEN3K6VJPEoh3sMp9ZVA73kkr");
-            httpWebRequest.ContentType = "application/json; charset=utf-8";
-            httpWebRequest.Accept = "application/json; charset=utf-8";
-            httpWebRequest.Method = "POST";
-
-            string json;
-
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-                json = new JavaScriptSerializer().Serialize(new
+                string url = "http://kdg.textgain.com/query";
+
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                httpWebRequest.Headers.Add("X-API-Key", "aEN3K6VJPEoh3sMp9ZVA73kkr");
+                httpWebRequest.ContentType = "application/json; charset=utf-8";
+                httpWebRequest.Accept = "application/json; charset=utf-8";
+                httpWebRequest.Method = "POST";
+
+                string json;
+                string jsonReturn;
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
-                    //name = "Annick De Ridder",
-                });
+                    //query opstellen : named parameters
+                    json = new JavaScriptSerializer().Serialize(new
+                    {
+                        //name = "Annick De Ridder",
+                        since = "19 Apr 2018 8:00",
+                        //until weglaten --> last scraping
+                        until = "19 Apr 2018 22:00",
+                    });
 
-                streamWriter.Write(json);
-            }
+                    streamWriter.Write(json);
+                }
 
-            var serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
 
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                //File.WriteAllText("apiRequest.json", streamReader.ReadToEnd());
-                //File.WriteAllText(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest.json"), streamReader.ReadToEnd());
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    jsonReturn = streamReader.ReadToEnd();
+                }
 
-                //File.WriteAllText("~\\JsonFiles\\apiRequest.json", streamReader.ReadToEnd());
-                File.WriteAllText(@"C:\Users\Nathan\Desktop\api.json", streamReader.ReadToEnd());
+                AddMessages(jsonReturn);
             }
         }
 
         // Hier worden tweets uit een json file naar zijn juiste klasse weggeschreven en gesynchroniseerd
         // Aangesproken klasse zijn : 'Message', 'Onderwerp', 'Persoon' & 'Hashtag' 
-        void IDataManager.AddMessages(string sourceUrl)
+        public void AddMessages(string json)
         {
             initNonExistingRepo();
 
-            //sourceUrl /relatief path
-            StreamReader r = new StreamReader(sourceUrl);
-            string json = r.ReadToEnd();
-            List<Message> messages = new List<Message>();
+            ////gebruik deze voor het inladen van een json file 
+            ////    (vb: sourceUrl = path naar testdata.json)
+            //StreamReader r = new StreamReader(sourceUrl);
+            //string json = r.ReadToEnd();
+            //List<Message> messages = new List<Message>();
 
             dynamic tweets = JsonConvert.DeserializeObject(json);
 
@@ -108,13 +115,6 @@ namespace IP_8IEN.BL
                     urls[i] = item.urls[i];
                 }
 
-                //kunnen null zijn
-                //string gender = item.profile.gender;
-                //string age = item.profile.age;
-                //string education = item.profile.education;
-                //string language = item.profile.language;
-                //string personality = item.profile.personality;
-
                 Message tweet = new Message()
                 {
                     Source = item.source,
@@ -123,26 +123,17 @@ namespace IP_8IEN.BL
                     Retweet = item.retweet,
                     Date = item.date,
 
-                    //Gender = gender,
-                    //Age = age,
-                    //Education = education,
-                    //Language = language,
-                    //Personality = personality,
                     Gender = item.profile.gender,
                     Age = item.profile.age,
                     Education = item.profile.education,
                     Language = item.profile.language,
                     Personality = item.profile.personality,
 
-
                     Word1 = words[0],
                     Word2 = words[1],
                     Word3 = words[2],
                     Word4 = words[3],
                     Word5 = words[4],
-
-                    //SentimentPos = item.sentiment[0],
-                    //SentimentNeg = item.sentiment[1],
 
                     Mention1 = mentions[0],
                     Mention2 = mentions[1],

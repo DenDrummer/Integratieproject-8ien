@@ -17,21 +17,21 @@ namespace MVC_S.Controllers
             gMgr = new GebruikerManager();
 
             //-- Laat deze twee in commentaar staan --//
-            //dMgr.ApiRequestToJson();
+            dMgr.ApiRequestToJson();
             //dMgr.AddMessages(@"C:\Users\Nathan\Desktop\api.json");
             //--                                    --//
 
-            dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.json"));
+            //dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.json"));
 
-            dMgr.AddOrganisation("Groen");
-            dMgr.AddOrganisation("Groen");
-            dMgr.AddOrganisation("VLD");
-            dMgr.AddTewerkstelling("Pascal Smet", "Groen");
-            dMgr.AddTewerkstelling("Tom Van Grieken", "Groen");
+            //dMgr.AddOrganisation("Groen");
+            //dMgr.AddOrganisation("Groen");
+            //dMgr.AddOrganisation("VLD");
+            //dMgr.AddTewerkstelling("Pascal Smet", "Groen");
+            //dMgr.AddTewerkstelling("Tom Van Grieken", "Groen");
 
-            gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
-            gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
-            gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
+            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
+            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
         }
 
         public ActionResult Index()
