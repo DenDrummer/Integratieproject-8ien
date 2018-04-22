@@ -270,7 +270,7 @@ namespace IP_8IEN.BL
             return onderwerpen;
         }
 
-        public void AddOrganisation(string naamOrganisatie)
+        public Organisatie AddOrganisation(string naamOrganisatie)
         {
             initNonExistingRepo();
 
@@ -292,6 +292,7 @@ namespace IP_8IEN.BL
                 };
                 repo.AddOnderwerp(organisatie);
             }
+            return organisatie;
         }
 
         public void AddOrganisations(string filePath)
@@ -374,9 +375,118 @@ namespace IP_8IEN.BL
             repo.UdateOnderwerp(persoon);
         }
 
-        public void AddTewerkstelling(Persoon persoon, Organisatie Organisatie)
+        public void AddTewerkstelling(Persoon persoon, string naamOrganisatie)
         {
-            //Todo
+            initNonExistingRepo();
+
+            //Persoon persoon;
+            Organisatie organisatie;
+
+            //lijst personen en organisaties opvragen
+            IEnumerable<Persoon> personen = repo.ReadPersonen();
+            IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
+
+            //kijken of persoon en organisatie bestaan
+            bool ifExistsP = personen.Any(x => x.Naam == persoon.Naam);
+            bool ifExistsO = organisaties.Any(x => x.NaamOrganisatie == naamOrganisatie);
+
+            //kijken of persoon bestaat 
+            if (!ifExistsP)
+            {
+                throw new ArgumentException("Persoon '" + persoon.Naam + "' not found!");
+            }
+            //kijken of organisatie bestaat & initialiseren
+            if (ifExistsO)
+            {
+                organisatie = organisaties.FirstOrDefault(x => x.NaamOrganisatie == naamOrganisatie);
+            }
+            else
+            {
+                organisatie = AddOrganisation(naamOrganisatie);
+            }
+
+            //'Tewerkstelling' initialiseren
+            Tewerkstelling tewerkstelling = new Tewerkstelling()
+            {
+                Persoon = persoon,
+                Organisatie = organisatie
+            };
+
+            //Tewerkstelling toevoegen aan de ICollection van 'Persoon'
+            var persoonColl = persoon.Tewerkstellingen;
+            if (persoonColl != null)
+            {
+                persoon.Tewerkstellingen = persoonColl.ToList();
+            }
+            else
+            {
+                persoon.Tewerkstellingen = new Collection<Tewerkstelling>();
+            }
+
+            persoon.Tewerkstellingen.Add(tewerkstelling);
+
+            //Tewerkstelling toevoegen aan de ICollection van 'Organisatie'
+            var organisatieColl = organisatie.Tewerkstellingen;
+            if (organisatieColl != null)
+            {
+                organisatie.Tewerkstellingen = organisatieColl.ToList();
+            }
+            else
+            {
+                organisatie.Tewerkstellingen = new Collection<Tewerkstelling>();
+            }
+
+            organisatie.Tewerkstellingen.Add(tewerkstelling);
+
+            //eerst tewerkstelling creëren zodat deze een PK toegewegen krijgt
+            repo.AddingTewerkstelling(tewerkstelling);
+            //dan de persoon & organisatie updaten met de nieuwe 'Tewerkstelling'
+            //Todo: misschien gewoon een UpdateContext maken
+            repo.UdateOnderwerp(persoon);
+        }
+
+        public void AddPersonen(string pathToJson)
+        {
+            StreamReader r = new StreamReader(pathToJson);
+            string json = r.ReadToEnd();
+            List<Message> messages = new List<Message>();
+
+            dynamic persons = JsonConvert.DeserializeObject(json);
+            
+
+            foreach(var person in persons)
+            {
+                initNonExistingRepo();
+
+                Persoon persoon = new Persoon()
+                {
+                    Naam = person.full_name,
+                    District = person.district,
+                    Level = person.level,
+                    Gender = person.gender,
+                    Twitter = person.twitter,
+                    Site = person.site,
+                    Facebook = person.facebook,
+                    Town = person.town,
+                    DateOfBirth = person.dateOfBirth,
+                //eventueel 'id' integreren, voorlopig niet nodig
+
+                SubjectMessages = new Collection<SubjectMessage>()
+                };
+
+                try
+                {
+                    //deze is soms null
+                    persoon.PostalCode = person.postal_code;
+                }
+                catch { }
+
+                repo.AddOnderwerp(persoon);
+
+                //persoon linken aan een organisatie
+                string naamOrganisatie = person.organisation;
+                AddTewerkstelling(persoon, naamOrganisatie);
+            }
         }
 
 

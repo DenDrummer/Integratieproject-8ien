@@ -227,6 +227,7 @@
     <Content Include="AddAlertInstelling.json" />
     <Content Include="AddAlerts.json" />
     <Content Include="AddGebruikersInit.Json" />
+    <Content Include="politici.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

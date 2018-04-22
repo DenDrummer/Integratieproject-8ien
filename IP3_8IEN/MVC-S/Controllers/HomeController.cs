@@ -13,15 +13,12 @@ namespace MVC_S.Controllers
         public HomeController()
         {
             // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
+            // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
-
-            //-- Laat deze twee in commentaar staan --//
-            dMgr.ApiRequestToJson();
-            //dMgr.AddMessages(@"C:\Users\Nathan\Desktop\api.json");
-            //--                                    --//
-
-            //dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.json"));
+            
+            //dMgr.ApiRequestToJson();
+            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
 
             //dMgr.AddOrganisation("Groen");
             //dMgr.AddOrganisation("Groen");
