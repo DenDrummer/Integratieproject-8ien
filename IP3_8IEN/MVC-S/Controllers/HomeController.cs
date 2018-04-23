@@ -16,15 +16,13 @@ namespace MVC_S.Controllers
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
-            
-            //dMgr.ApiRequestToJson();
-            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
 
-            //dMgr.AddOrganisation("Groen");
-            //dMgr.AddOrganisation("Groen");
-            //dMgr.AddOrganisation("VLD");
-            //dMgr.AddTewerkstelling("Pascal Smet", "Groen");
-            //dMgr.AddTewerkstelling("Tom Van Grieken", "Groen");
+
+            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            //dMgr.ApiRequestToJson();
+            //dMgr.CountSubjMsgsPersoon();
+            dMgr.ReadOnderwerpenWithSubjMsgs();
+            
 
             //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));

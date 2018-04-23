@@ -37,5 +37,10 @@ namespace IP_8IEN.BL
         //22 apr 2018 : Stephane
         void AddPersonen(string path);
         void AddTewerkstelling(Persoon persoon, string organisatie);
+        int CountSubjMsgsPersoon(); //Onderwerp onderwerp
+
+
+        //23 apr 2018 : Stephane
+        IEnumerable<Onderwerp> ReadOnderwerpenWithSubjMsgs();
     }
 }
