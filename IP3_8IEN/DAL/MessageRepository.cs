@@ -92,5 +92,13 @@ namespace IP_8IEN.DAL
         {
             ctx.SaveChanges();
         }
+        public IEnumerable<Message> ReadMessages()
+        {
+            return ctx.Messages;
+        }
+        public void UpdateMessage()
+        {
+            ctx.SaveChanges();
+        }
     }
 }
