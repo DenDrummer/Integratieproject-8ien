@@ -17,7 +17,6 @@ namespace MVC_S.Controllers
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
 
-
             //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             //dMgr.ApiRequestToJson();
             //dMgr.CountSubjMsgsPersoon();
@@ -27,6 +26,7 @@ namespace MVC_S.Controllers
             //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+
         }
 
         public ActionResult Index()
