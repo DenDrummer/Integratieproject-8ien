@@ -216,6 +216,7 @@
     <Content Include="AddAlertInstelling.json" />
     <Content Include="AddAlerts.json" />
     <Content Include="AddGebruikersInit.Json" />
+    <Content Include="politici.json" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />

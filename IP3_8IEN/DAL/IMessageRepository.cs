@@ -31,8 +31,11 @@ namespace IP_8IEN.DAL
         void AddingTewerkstelling(Tewerkstelling tewerkstelling);
         void UdateOnderwerp(Onderwerp onderwerp);
 
-        //20 apr 2018 : Victor
-        IEnumerable<Message> ReadMessages();
+        //20 apr 2018 : Stephane
+        IEnumerable<SubjectMessage> ReadSubjectMessages();
         void UpdateMessage();
+
+        //23 apr 2018 : Stephane
+        IEnumerable<Message> ReadMessages();
     }
 }

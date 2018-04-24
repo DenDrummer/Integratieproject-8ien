@@ -31,51 +31,57 @@ namespace IP_8IEN.BL
             repo = new MessageRepository(uowManager.UnitOfWork);
         }
 
+        //httpWebRequest POST naar 'textgain' api --> output doorgegeven aan 'AddMessages'
         public void ApiRequestToJson()
         {
-            string url = "http://kdg.textgain.com/query";
-
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-            httpWebRequest.Headers.Add("X-API-Key", "aEN3K6VJPEoh3sMp9ZVA73kkr");
-            httpWebRequest.ContentType = "application/json; charset=utf-8";
-            httpWebRequest.Accept = "application/json; charset=utf-8";
-            httpWebRequest.Method = "POST";
-
-            string json;
-
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-                json = new JavaScriptSerializer().Serialize(new
+                string url = "http://kdg.textgain.com/query";
+
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                httpWebRequest.Headers.Add("X-API-Key", "aEN3K6VJPEoh3sMp9ZVA73kkr");
+                httpWebRequest.ContentType = "application/json; charset=utf-8";
+                httpWebRequest.Accept = "application/json; charset=utf-8";
+                httpWebRequest.Method = "POST";
+
+                string json;
+                string jsonReturn;
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
-                    //name = "Annick De Ridder",
-                });
+                    //query opstellen : named parameters
+                    json = new JavaScriptSerializer().Serialize(new
+                    {
+                        //name = "Annick De Ridder",
+                        since = "19 Apr 2018 8:00",
+                        //until weglaten --> last scraping
+                        until = "19 Apr 2018 22:00",
+                    });
 
-                streamWriter.Write(json);
-            }
+                    streamWriter.Write(json);
+                }
 
-            var serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
 
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                //File.WriteAllText("apiRequest.json", streamReader.ReadToEnd());
-                //File.WriteAllText(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest.json"), streamReader.ReadToEnd());
-
-                //File.WriteAllText("~\\JsonFiles\\apiRequest.json", streamReader.ReadToEnd());
-                File.WriteAllText(@"C:\Users\Victor\Desktop\api2.json", streamReader.ReadToEnd());
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    jsonReturn = streamReader.ReadToEnd();
+                }
+                AddMessages(jsonReturn);
             }
         }
 
         // Hier worden tweets uit een json file naar zijn juiste klasse weggeschreven en gesynchroniseerd
         // Aangesproken klasse zijn : 'Message', 'Onderwerp', 'Persoon' & 'Hashtag' 
-        void IDataManager.AddMessages(string sourceUrl)
+        public void AddMessages(string json)
         {
             initNonExistingRepo();
 
-            //sourceUrl /relatief path
-            StreamReader r = new StreamReader(sourceUrl);
-            string json = r.ReadToEnd();
-            List<Message> messages = new List<Message>();
+            ////gebruik deze voor het inladen van een json file 
+            ////    (vb: sourceUrl = path naar testdata.json)
+            //StreamReader r = new StreamReader(sourceUrl);
+            //string json = r.ReadToEnd();
+            //List<Message> messages = new List<Message>();
 
             dynamic tweets = JsonConvert.DeserializeObject(json);
 
@@ -110,13 +116,6 @@ namespace IP_8IEN.BL
                     urls[i] = item.urls[i];
                 }
 
-                //kunnen null zijn
-                //string gender = item.profile.gender;
-                //string age = item.profile.age;
-                //string education = item.profile.education;
-                //string language = item.profile.language;
-                //string personality = item.profile.personality;
-
                 Message tweet = new Message()
                 {
                     Source = item.source,
@@ -125,26 +124,17 @@ namespace IP_8IEN.BL
                     Retweet = item.retweet,
                     Date = item.date,
 
-                    //Gender = gender,
-                    //Age = age,
-                    //Education = education,
-                    //Language = language,
-                    //Personality = personality,
                     Gender = item.profile.gender,
                     Age = item.profile.age,
                     Education = item.profile.education,
                     Language = item.profile.language,
                     Personality = item.profile.personality,
 
-
                     Word1 = words[0],
                     Word2 = words[1],
                     Word3 = words[2],
                     Word4 = words[3],
                     Word5 = words[4],
-
-                    //SentimentPos = item.sentiment[0],
-                    //SentimentNeg = item.sentiment[1],
 
                     Mention1 = mentions[0],
                     Mention2 = mentions[1],
@@ -284,7 +274,7 @@ namespace IP_8IEN.BL
             return onderwerpen;
         }
 
-        public void AddOrganisation(string naamOrganisatie)
+        public Organisatie AddOrganisation(string naamOrganisatie)
         {
             initNonExistingRepo();
 
@@ -306,6 +296,7 @@ namespace IP_8IEN.BL
                 };
                 repo.AddOnderwerp(organisatie);
             }
+            return organisatie;
         }
 
         public void AddOrganisations(string filePath)
@@ -388,9 +379,197 @@ namespace IP_8IEN.BL
             repo.UdateOnderwerp(persoon);
         }
 
-        public void AddTewerkstelling(Persoon persoon, Organisatie Organisatie)
+        public void AddTewerkstelling(Persoon persoon, string naamOrganisatie)
         {
-            //Todo
+            initNonExistingRepo();
+
+            //Persoon persoon;
+            Organisatie organisatie;
+
+            //lijst personen en organisaties opvragen
+            IEnumerable<Persoon> personen = repo.ReadPersonen();
+            IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
+
+            //kijken of persoon en organisatie bestaan
+            bool ifExistsP = personen.Any(x => x.Naam == persoon.Naam);
+            bool ifExistsO = organisaties.Any(x => x.NaamOrganisatie == naamOrganisatie);
+
+            //kijken of persoon bestaat 
+            if (!ifExistsP)
+            {
+                throw new ArgumentException("Persoon '" + persoon.Naam + "' not found!");
+            }
+            //kijken of organisatie bestaat & initialiseren
+            if (ifExistsO)
+            {
+                organisatie = organisaties.FirstOrDefault(x => x.NaamOrganisatie == naamOrganisatie);
+            }
+            else
+            {
+                organisatie = AddOrganisation(naamOrganisatie);
+            }
+
+            //'Tewerkstelling' initialiseren
+            Tewerkstelling tewerkstelling = new Tewerkstelling()
+            {
+                Persoon = persoon,
+                Organisatie = organisatie
+            };
+
+            //Tewerkstelling toevoegen aan de ICollection van 'Persoon'
+            var persoonColl = persoon.Tewerkstellingen;
+            if (persoonColl != null)
+            {
+                persoon.Tewerkstellingen = persoonColl.ToList();
+            }
+            else
+            {
+                persoon.Tewerkstellingen = new Collection<Tewerkstelling>();
+            }
+
+            persoon.Tewerkstellingen.Add(tewerkstelling);
+
+            //Tewerkstelling toevoegen aan de ICollection van 'Organisatie'
+            var organisatieColl = organisatie.Tewerkstellingen;
+            if (organisatieColl != null)
+            {
+                organisatie.Tewerkstellingen = organisatieColl.ToList();
+            }
+            else
+            {
+                organisatie.Tewerkstellingen = new Collection<Tewerkstelling>();
+            }
+
+            organisatie.Tewerkstellingen.Add(tewerkstelling);
+
+            //eerst tewerkstelling creëren zodat deze een PK toegewegen krijgt
+            repo.AddingTewerkstelling(tewerkstelling);
+            //dan de persoon & organisatie updaten met de nieuwe 'Tewerkstelling'
+            //Todo: misschien gewoon een UpdateContext maken
+            repo.UdateOnderwerp(persoon);
+        }
+
+        public void AddPersonen(string pathToJson)
+        {
+            StreamReader r = new StreamReader(pathToJson);
+            string json = r.ReadToEnd();
+            List<Message> messages = new List<Message>();
+
+            dynamic persons = JsonConvert.DeserializeObject(json);
+            
+
+            foreach(var person in persons)
+            {
+                initNonExistingRepo();
+
+                Persoon persoon = new Persoon()
+                {
+                    Naam = person.full_name,
+                    District = person.district,
+                    Level = person.level,
+                    Gender = person.gender,
+                    Twitter = person.twitter,
+                    Site = person.site,
+                    Facebook = person.facebook,
+                    Town = person.town,
+                    DateOfBirth = person.dateOfBirth,
+                //eventueel 'id' integreren, voorlopig niet nodig
+
+                SubjectMessages = new Collection<SubjectMessage>()
+                };
+
+                try
+                {
+                    //deze is soms null
+                    persoon.PostalCode = person.postal_code;
+                }
+                catch { }
+
+                repo.AddOnderwerp(persoon);
+
+                //persoon linken aan een organisatie
+                string naamOrganisatie = person.organisation;
+                AddTewerkstelling(persoon, naamOrganisatie);
+            }
+        }
+
+        public int CountSubjMsgsPersoon(Onderwerp onderwerp)
+        {
+            initNonExistingRepo();
+
+            int countedTweets = 0;
+
+            IEnumerable<Persoon> personen = repo.ReadPersonen();
+            IEnumerable<Hashtag> hashtags = repo.ReadHashtags();
+
+            //-- Als je een object meegeeft zet je deze in commentaar /verwijder --//
+            //Persoon onderwerp = personen.FirstOrDefault(p => p.OnderwerpId == 256);
+            //-----------------------------------------------------------------------//
+
+
+            IEnumerable<SubjectMessage> subjMsgs = repo.ReadSubjectMessages();
+
+            foreach (var subj in subjMsgs)
+            {
+                //kijkt of het om een 'persoon' gaat
+                if (subj.Persoon != null)
+                {
+                    if (subj.Persoon.OnderwerpId == onderwerp.OnderwerpId)
+                    {
+                        countedTweets++;
+                    }
+                }
+                //kijkt of het om een 'hashtag' gaat
+                if (subj.Hashtag != null)
+                {
+                    if (subj.Hashtag.OnderwerpId == onderwerp.OnderwerpId)
+                    {
+                        countedTweets++;
+                    }
+                }
+            }
+
+            return countedTweets;
+        }
+
+        public IEnumerable<Onderwerp> ReadOnderwerpenWithSubjMsgs()
+        {
+            initNonExistingRepo();
+            
+            IEnumerable<Onderwerp> onderwerpen = repo.ReadSubjects();
+            //-------------deze zijn nodig om automatisch keys te vinden-------------//
+            IEnumerable<Persoon> personen = repo.ReadPersonen();
+            IEnumerable<Hashtag> hashtags = repo.ReadHashtags();
+            IEnumerable<Message> messages = repo.ReadMessages();
+            //-----------------------------------------------------------------------//
+            IEnumerable<SubjectMessage> subjMsgs = repo.ReadSubjectMessages();
+
+            foreach(var subj in onderwerpen)
+            {
+                subj.SubjectMessages = new Collection<SubjectMessage>();
+            }
+
+            foreach (SubjectMessage subj in subjMsgs)
+            {
+                try
+                {
+                    if (subj.Persoon != null)
+                    {
+                        Persoon prsn = personen.FirstOrDefault(o => o.OnderwerpId == subj.Persoon.OnderwerpId);
+                        prsn.SubjectMessages.Add(subj);
+                    }
+                    else
+                    {
+                        Onderwerp ondrwrp = onderwerpen.FirstOrDefault(o => o.OnderwerpId == subj.Hashtag.OnderwerpId);
+                        ondrwrp.SubjectMessages.Add(subj);
+                    }
+                }
+                catch
+                {
+                    throw new ArgumentException("SubjectMessage " + subj.SubjectMsgId + " kan niet gelinkt worden");
+                }
+            }
+                return onderwerpen;
         }
 
 
