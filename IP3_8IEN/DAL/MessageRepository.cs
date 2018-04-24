@@ -80,7 +80,19 @@ namespace IP_8IEN.DAL
             ctx.Tewerkstellingen.Add(tewerkstelling);
             ctx.SaveChanges();
         }
+        public IEnumerable<SubjectMessage> ReadSubjectMessages()
+        {
+            return ctx.SubjectMessages.ToList<SubjectMessage>();
+        }
+        public IEnumerable<Message> ReadMessages()
+        {
+            return ctx.Messages.ToList<Message>();
+        }
         public void UdateOnderwerp(Onderwerp onderwerp)
+        {
+            ctx.SaveChanges();
+        }
+        public void UpdateMessage()
         {
             ctx.SaveChanges();
         }

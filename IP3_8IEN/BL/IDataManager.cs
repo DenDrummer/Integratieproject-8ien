@@ -10,7 +10,7 @@ namespace IP_8IEN.BL
 
         //25 mrt 2018 : Stephane
         //Persoon AddPersoon(string voornaam, string achternaam);
-        void AddSubjectMessage(Message msg, Persoon persoon);
+        SubjectMessage AddSubjectMessage(Message msg, Persoon persoon);  //20 apr 2018 Victor (update: subjmes toevoegen aan tweet)
 
         //28 mrt 2018 : Stephane
         Hashtag AddHashtag(string hashtag);
@@ -23,16 +23,25 @@ namespace IP_8IEN.BL
         void initNonExistingRepo(bool withUnitOfWork);
 
         //2 apr 2018 : Stephane
-        void AddOrganisation(string naamOrganisatie);
+        Organisatie AddOrganisation(string naamOrganisatie);
         void AddOrganisations(string filePath);
         void AddTewerkstelling(string naam, string organisatieNaam);
-        void AddTewerkstelling(Persoon persoon, Organisatie organisatie);
 
         //6 apr 2018 : Stephane
         void ApiRequestToJson();
 
         //16 apr 2018 : Stephane
-        void AddMessages(string sourceUrl);
+        void AddMessages(string json);
         Persoon AddPersoon(string naam);
+
+
+        //22 apr 2018 : Stephane
+        void AddPersonen(string path);
+        void AddTewerkstelling(Persoon persoon, string organisatie);
+        int CountSubjMsgsPersoon(Onderwerp onderwerp);
+
+        //23 apr 2018 : Stephane
+        IEnumerable<Onderwerp> ReadOnderwerpenWithSubjMsgs();
+
     }
 }
