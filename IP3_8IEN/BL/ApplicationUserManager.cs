@@ -58,7 +58,7 @@ namespace IP_8IEN.BL
             {
 
                 // Aanmaken van de Admin role
-                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                var role = new IdentityRole();
                 role.Name = "Admin";
                 roleManager.Create(role);
 
@@ -82,7 +82,7 @@ namespace IP_8IEN.BL
             // Manager role aanmaken    
             if (!roleManager.RoleExists("Manager"))
             {
-                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                var role = new IdentityRole();
                 role.Name = "Manager";
                 roleManager.Create(role);
 
@@ -91,7 +91,7 @@ namespace IP_8IEN.BL
             // Emloyee role aanmaken    
             if (!roleManager.RoleExists("Employee"))
             {
-                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                var role = new IdentityRole();
                 role.Name = "Employee";
                 roleManager.Create(role);
 

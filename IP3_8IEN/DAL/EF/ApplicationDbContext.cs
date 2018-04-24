@@ -13,7 +13,7 @@ namespace IP_8IEN.DAL.EF
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("OurDB_Identity", throwIfV1Schema: false)
+            : base("OurDB_EFCodeFirst", throwIfV1Schema: false)
         {
 
         }
