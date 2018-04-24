@@ -10,6 +10,9 @@ namespace IP_8IEN.BL
         void AddAlertInstelling(string filePath);
         Gebruiker FindUser(string username);
 
+        //Sam 24/4
+        IEnumerable<Gebruiker> GetGebruikers();
+
         //31 mrt 2018 : Stephane
         void AddAlerts(string filePath);
         void AddAlert(string alertContent, int alertInstelling);

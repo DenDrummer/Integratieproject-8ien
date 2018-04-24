@@ -6,44 +6,64 @@
 <h2>grafiektest</h2>
 
 
-    <!-- The canvas element, where the visualization is rendered -->
-    <canvas id="c" width="700" height="300"></canvas>
 
-    <!-- The slider controls -->
-    Size: <input type="range" min="10" max="500" step="1" oninput="changeSize(this)">
-    Hue: <input type="range" min="0" max="1" step="0.01" oninput="changeHue(this)">
+
+
+@*<p><img src="onechart.cshtml" /> </p>*@
+
+    <!-- The canvas element, where the visualization is rendered -->
+<canvas id="c" width="1000" height="1000">
+
+
+</canvas>
+
+<!-- The slider controls -->
+    amount: <input type="range" min="1" max="800" step="1" oninput="changeSize(this)">
+    size: <input type="range" min="100" max="1000" step="1" oninput="changeHue(this)">
 
     <!-- A link to the NodeBox JavaScript API  -->
-    <script src="https://nodebox.live/api/v1/ndbx.js"></script>
+<script src="https://nodebox.live/api/v1/ndbx.js"></script>
 
     <!-- Your custom initialization code -->
-    <script>
+<script>
     // Again, replace these with your own userId / projectId / functionId / canvasId
     var options = {
-      userId: 'demo',
-      projectId: 'embedding',
-      functionId: 'main',
-      canvasId: 'c',
-      autoplay: true
+        userId: 'JordenL',
+        projectId: 'test',
+        functionId: 'test3',
+        canvasId: 'c',
+        autoplay: true
     };
 
     // Initialize the NodeBox player object
     ndbx.embed(options, function(err, player) {
-      if (err) {
-        throw new Error(err);
-      } else {
-        window.player = player;
-      }
+        if (err) {
+            throw new Error(err);
+        } else {
+            window.player = player;
+        }
     });
-
+    var beschrijving = @Html.Raw(Json.Encode(ViewBag.BESCH));
+    //mousepos
+    //var posx = cursor.location.x;
+    //var posy = cursor.location.y;
+    //window.player.setValue('mousepos', 'x', posx);
+    //window.player.setValue('mousepos', 'y', posy);
+    
+    console.log(beschrijving);
+    window.player.setValue('TOPICS', 's', beschrijving);
     // This function is called when the size slider is dragged.
     function changeSize(e) {
-      window.player.setValue('rect1', 'width', e.value);
-      window.player.setValue('rect1', 'height', e.value);
+        //window.player.setValue('number1', 'v', e.value);
+        //window.player.setValue('string1', 's', 'Ivo');
     }
 
     // This function is called when the hue slider is dragged.
     function changeHue(e) {
-      window.player.setValue('hslColor1', 'hue', e.value);
+        //window.player.setValue('fit1', 'width', e.value);
+        //window.player.setValue('fit1', 'height', e.value);
+        window.player.setValue('TOPICS', 's', beschrijving);
     }
-    </script>
+</script>
+
+

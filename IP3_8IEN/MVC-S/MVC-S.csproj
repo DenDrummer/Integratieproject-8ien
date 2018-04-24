@@ -277,9 +277,11 @@
     <Content Include="textgaindump.json" />
     <Content Include="textgaintest2.json" />
     <Content Include="Views\Home\grafiektest.cshtml" />
+    <Content Include="Views\Home\onechart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\chart\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
