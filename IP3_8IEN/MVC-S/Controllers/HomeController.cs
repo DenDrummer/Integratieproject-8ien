@@ -21,6 +21,7 @@ namespace MVC_S.Controllers
             //dMgr.AddMessages(@"C:\Users\Nathan\Desktop\api.json");
             //--                                    --//
 
+            /*
             dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.json"));
 
             dMgr.AddOrganisation("Groen");
@@ -31,7 +32,7 @@ namespace MVC_S.Controllers
 
             gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
             gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
-            gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));*/
         }
 
         public ActionResult Index()
@@ -49,6 +50,72 @@ namespace MVC_S.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        public ActionResult Dashboard()
+        {
+            
+            return View();
+        }
+
+        public ActionResult Personen()
+        {
+
+            return View();
+        }
+
+        public ActionResult Themas()
+        {
+
+            return View();
+        }
+
+        public ActionResult Organisatie()
+        {
+
+            return View();
+        }
+
+        public ActionResult Alerts()
+        {
+
+            return View();
+        }
+
+        public ActionResult WeeklyReview()
+        {
+
+            return View();
+        }
+
+        public ActionResult AdminCRUD()
+        {
+
+            return View();
+        }
+
+        public ActionResult AdminOmgeving()
+        {
+
+            return View();
+        }
+
+        public ActionResult Superadmin()
+        {
+
+            return View();
+        }
+
+        public ActionResult Instellingen()
+        {
+
+            return View();
+        }
+
+        public ActionResult Zoeken()
+        {
 
             return View();
         }
