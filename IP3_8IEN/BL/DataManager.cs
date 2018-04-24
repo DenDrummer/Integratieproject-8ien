@@ -167,7 +167,7 @@ namespace IP_8IEN.BL
                 foreach (string person in item.persons)
                 {
                     Persoon persoon = AddPersoon(person);
-                    tweet.SubjectMessages.Add(AddSubjectMessage(tweet, persoon));
+                    AddSubjectMessage(tweet, persoon);
                 }
 
                 foreach (string hashtag in item.hashtags)
