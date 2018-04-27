@@ -5,17 +5,38 @@
 
 <h2>grafiektest</h2>
 
+<script src="~/scripts/sparkline/jquery.sparkline.min.js"></script>
 
+<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+    <ul id="sparks" class="">
+        <li class="sparks-info">
+            <h5> My Income <span class="txt-color-blue">$47,171</span></h5>
+            <div class="sparkline txt-color-blue hidden-mobile hidden-md hidden-sm">
+                1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471
+            </div>
+        </li>
+        <li class="sparks-info">
+            <h5> Site Traffic <span class="txt-color-purple"><i class="fa fa-arrow-circle-up" data-rel="bootstrap-tooltip" title="Increased"></i>&nbsp;45%</span></h5>
+            <div class="sparkline txt-color-purple hidden-mobile hidden-md hidden-sm">
+                110,150,300,130,400,240,220,310,220,300, 270, 210
+            </div>
+        </li>
+        <li class="sparks-info">
+            <h5> Site Orders <span class="txt-color-greenDark"><i class="fa fa-shopping-cart"></i>&nbsp;2447</span></h5>
+            <div class="sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm">
+                110,150,300,130,400,240,220,310,220,300, 270, 210
+            </div>
+        </li>
+    </ul>
+</div>
 
 
 
 @*<p><img src="onechart.cshtml" /> </p>*@
 
     <!-- The canvas element, where the visualization is rendered -->
-<canvas id="c" width="1000" height="1000">
-
-
-</canvas>
+<canvas id="c1" width="500" height="1000"></canvas>
+<canvas id="c2" width="500" height="1000"></canvas>
 
 <!-- The slider controls -->
     amount: <input type="range" min="1" max="800" step="1" oninput="changeSize(this)">
@@ -31,9 +52,16 @@
         userId: 'JordenL',
         projectId: 'test',
         functionId: 'test3',
-        canvasId: 'c',
+        canvasId: 'c1',
         autoplay: true
     };
+    //var options = {
+    //    userId: '18ien',
+    //    projectId: 'barometerV1',
+    //    functionId: 'main',
+    //    canvasId: 'c',
+    //    autoplay: true
+    //};
 
     // Initialize the NodeBox player object
     ndbx.embed(options, function(err, player) {
@@ -63,6 +91,37 @@
         //window.player.setValue('fit1', 'width', e.value);
         //window.player.setValue('fit1', 'height', e.value);
         window.player.setValue('TOPICS', 's', beschrijving);
+    }
+</script>
+
+<script>
+   
+    var options = {
+        userId: '18ien',
+        projectId: 'barometerV1',
+        functionId: 'main',
+        canvasId: 'c2',
+        autoplay: true
+    };
+
+    ndbx.embed(options, function(err, player) {
+        if (err) {
+            throw new Error(err);
+        } else {
+            window.player = player;
+        }
+    });
+    var beschrijving = @Html.Raw(Json.Encode(ViewBag.BESCH));
+    console.log(beschrijving);
+
+ 
+    function changeSize(e) {
+       
+    }
+
+  
+    function changeHue(e) {
+     
     }
 </script>
 
