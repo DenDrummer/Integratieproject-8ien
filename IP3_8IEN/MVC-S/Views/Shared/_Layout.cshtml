@@ -24,7 +24,7 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("TestGraphic", "TestGraphic", "Home")</li>
+                    <li>@Html.ActionLink("grafiektest", "grafiektest", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -40,6 +40,9 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @*Sam 24/4*@
+    @Scripts.Render("~/scripts/charts")
+    
     @RenderSection("scripts", required: false)
 </body>
 </html>

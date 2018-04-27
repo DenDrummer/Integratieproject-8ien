@@ -76,6 +76,12 @@ namespace IP_8IEN.BL
 
         }
 
+        public IEnumerable<Gebruiker> GetGebruikers()
+        {
+            initNonExistingRepo();
+            return repo.ReadGebruikers();
+        }
+
         // Hier werken we met 'Unit of Work'
         // omdat we informatie uit de data package nodig hebben
         public void AddAlertInstelling(string filePath)
