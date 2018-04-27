@@ -56,9 +56,9 @@ namespace MVC_S
                 //    "~/scripts/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js",
                 //"~/scripts/plugin/sparkline/jquery.sparkline.min.js"
                 //,
-                "~/scripts/sparkline/jquery.sparkline.min.js"
-            //    "~/scripts/plugin/morris/morris.min.js",
-            //    "~/scripts/plugin/morris/raphael.min.js",
+                "~/scripts/sparkline/jquery.sparkline.min.js",
+                "~/scripts/plugin/morris/morris.min.js",
+                "~/scripts/plugin/morris/raphael.min.js"
             //    "~/scripts/plugin/flot/jquery.flot.cust.min.js",
             //    "~/scripts/plugin/flot/jquery.flot.resize.min.js",
             //    "~/scripts/plugin/flot/jquery.flot.time.min.js",

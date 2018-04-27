@@ -231,11 +231,15 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\morris\morris-chart-settings.min.js" />
+    <Content Include="Scripts\morris\morris.min.js" />
+    <Content Include="Scripts\morris\raphael.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\smartwidgets\jarvis.widget.min.js" />
@@ -280,6 +284,7 @@
     <Content Include="textgaintest2.json" />
     <Content Include="Views\Home\grafiektest.cshtml" />
     <Content Include="Views\Home\onechart.cshtml" />
+    <Content Include="Views\Home\grafiektest2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
