@@ -1,73 +1,66 @@
 ﻿@{
     ViewBag.Title = "Personen";
 }
-<h2>@ViewBag.Title</h2>
+
+
+<br />
 
 
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Gebruikersinformatie
+                @ViewBag.Title
             </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-2">
                         <form role="form">
                             <div class="form-group">
-                                <label>Naam</label>
-                                <input class="form-control" />
-                                <p class="help-block">Bart De Wever</p>
+                                <img src="../Fotos/bartdewever.jpg" alt="Bart De Wever" style="max-height:100%; max-width:100%">
 
                             </div>
                         </form>
                     </div>
                     <div class="col-lg-5">
-                        <div class="col-lg-4">
-                            <form role="form">
-                                
-                                    <label >Naam: <br /></label>
-                                    <br />
-                                    <label>Twitter: <br /></label>
-                                    <br />
-                                    <label>Facebook: <br /></label>
-                                    <br />
-                                    <label>Beschrijving: <br /></label>
-                                    <br />
-                                    <label>Organisaties: <br /></label>
+                        <table>
+                            <tr>
+                                <td><b>Naam: </b></td>
+                                <td>Bart De Wever</td>
+                            </tr>
+                            <tr>
+                                <td><b>Twitter:</b> </td>
+                                <td>Bart_DeWever</td>
+                            </tr>
+                            <tr>
+                                <td><b>Facebook:</b> </td>
+                                <td>BartjeDeWever</td>
+                            </tr>
+                            <tr>
+                                <td><b>Geboortedatum:</b> </td>
+                                <td>21/12/1970</td>
+                            </tr>
+                            <tr>
+                                <td><b>Kieskring:</b> </td>
+                                <td>Antwerpen</td>
+                            </tr>
 
-                                
-                            </form>
-                        </div>
-                        <div class="col-lg-8">
-                            <form role="form">
-                                <div class="form-group">
+                            <tr>
+                                <td><b>Organisatie:</b> </td>
+                                <td>NVA, Stad Antwerpen</td>
+                            </tr>
+                            <tr>
+                                <td><b>Korte Beschrijving:</b> </td>
+                                <td>Bart Albert Liliane De Wever (Mortsel, 21 december 1970) is een Belgisch Vlaams-nationalistisch politicus. Hij is sinds 2004 partijvoorzitter van de Nieuw-Vlaamse Alliantie (N-VA). Sinds 1 januari 2013 is Bart De Wever burgemeester van Antwerpen.</td>
+                            </tr>
+                        </table>
 
-                                    <p>Bart De Wever <br /></p>
-                                    <br />
-                                    <p>
-                                        &#64;Bart_DeWever
-                                        <br />
-                                    </p>
-                                    <br />
-                                    <p>BartjeDeWever <br /></p>
-                                    <br />
-                                    <p>Bart Albert Liliane De Wever (Mortsel, 21 december 1970) is een Belgisch Vlaams-nationalistisch politicus. Hij is sinds 2004 partijvoorzitter van de Nieuw-Vlaamse Alliantie (N-VA). Sinds 1 januari 2013 is Bart De Wever burgemeester van Antwerpen. <br /></p>
-                                    <br />
-                                    <p>NVA, Stad Antwerpen <br /></p>
-                                </div>
-                            </form>
-                        </div>
-                        
+
                     </div>
                     <div class="col-lg-5">
                         <form role="form">
-                            <div class="form-group">
-                                <label>Naam</label>
-                                <input class="form-control" />
-                                <p class="help-block">Bart De Wever</p>
-
-                            </div>
+                            <a class="twitter-timeline" data-height="500" data-theme="light" href="https://twitter.com/Bart_DeWever?ref_src=twsrc%5Etfw">Tweets by Bart_DeWever</a>
+                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                         </form>
                     </div>
                 </div>
