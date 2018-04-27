@@ -62,6 +62,7 @@ namespace MVC_S.Controllers
             return View();
         }
 
+
         public ActionResult grafiektest()
         {
             //List<string> list = new List<string>();
