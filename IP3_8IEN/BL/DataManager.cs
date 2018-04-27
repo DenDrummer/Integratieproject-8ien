@@ -736,10 +736,10 @@ namespace IP_8IEN.BL
             }
 
             System.Diagnostics.Debug.WriteLine("got here 4");
-            GetRanking(1,24);
+            GetRanking(1,24,false);
         }
 
-        public Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren)
+        public Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true)
         {
             initNonExistingRepo();
             List<Persoon> personen = repo.ReadPersonen().ToList();
@@ -756,16 +756,26 @@ namespace IP_8IEN.BL
                 List<Message> messages2 = messages.Where(m => m.IsFrom(p)).ToList();
                 laatstePeriode = messages2.Where(m => lastTweet.AddHours(interval_uren * -1) < m.Date).Count();
                 voorlaatstePeriode = messages2.Where(m => lastTweet.AddHours((interval_uren *2) * -1) < m.Date && m.Date < lastTweet.AddHours(interval_uren * -1)).Count();
-                ranking.Add(p, CalculateChange(voorlaatstePeriode, laatstePeriode));
+                if (puntNotatie == true)
+                {
+                    ranking.Add(p, CalculateChange(voorlaatstePeriode, laatstePeriode));
+                }
+                else
+                {
+                    ranking.Add(p, CalculateChange(voorlaatstePeriode, laatstePeriode)*100);
+                }
                 /*if (laatstePeriode != 0 && voorlaatstePeriode != 0)
                 {
                     ranking.Add(p, ((laatstePeriode - voorlaatstePeriode) / voorlaatstePeriode) * 100);
                 }*/
             }
+
             foreach (var v in ranking)
             {
                 System.Diagnostics.Debug.WriteLine(v.Key.Naam + " " + v.Value);
             }
+
+            
 
             return ranking; 
         }
