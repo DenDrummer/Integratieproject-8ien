@@ -10,6 +10,7 @@ using System;
 using System.Net;
 using System.Web.Script.Serialization;
 using System.Web;
+using System.Net.Mail;
 
 namespace IP_8IEN.BL
 {
@@ -736,7 +737,31 @@ namespace IP_8IEN.BL
             }
 
             System.Diagnostics.Debug.WriteLine("got here 4");
-            GetRanking(1,24,false);
+            SendMail();
+        }
+
+        public void SendMail()
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress("integratieproject.8ien@gmail.com");
+                mail.To.Add("thomas.dewitte@student.kdg.be");
+                mail.Subject = "YOU CUNT";
+                mail.Body = "This is for testing SMTP mail from GMAIL";
+
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("integratieproject.8ien@gmail.com", "integratieproject");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Mail says no");
+            }
         }
 
         public Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true)
