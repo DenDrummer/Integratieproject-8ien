@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Google.DataTable.Net.Wrapper, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.DataTable.Net.Wrapper.3.1.2.0\lib\Google.DataTable.Net.Wrapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -212,6 +215,124 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DataTabes\Buttons-1.5.1\css\buttons.bootstrap.css" />
+    <Content Include="DataTabes\Buttons-1.5.1\css\buttons.bootstrap.min.css" />
+    <Content Include="DataTabes\Buttons-1.5.1\css\buttons.bootstrap4.css" />
+    <Content Include="DataTabes\Buttons-1.5.1\css\buttons.bootstrap4.min.css" />
+    <Content Include="DataTabes\Buttons-1.5.1\css\buttons.dataTables.css" />
+    <Content Include="DataTabes\Buttons-1.5.1\css\buttons.dataTables.min.css" />
+    <Content Include="DataTabes\Buttons-1.5.1\css\buttons.foundation.css" />
+    <Content Include="DataTabes\Buttons-1.5.1\css\buttons.foundation.min.css" />
+    <Content Include="DataTabes\Buttons-1.5.1\css\buttons.jqueryui.css" />
+    <Content Include="DataTabes\Buttons-1.5.1\css\buttons.jqueryui.min.css" />
+    <Content Include="DataTabes\Buttons-1.5.1\css\buttons.semanticui.css" />
+    <Content Include="DataTabes\Buttons-1.5.1\css\buttons.semanticui.min.css" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.bootstrap.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.bootstrap.min.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.bootstrap4.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.bootstrap4.min.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.colVis.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.colVis.min.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.flash.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.flash.min.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.foundation.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.foundation.min.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.html5.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.html5.min.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.jqueryui.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.jqueryui.min.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.print.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.print.min.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.semanticui.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\buttons.semanticui.min.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\dataTables.buttons.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\js\dataTables.buttons.min.js" />
+    <Content Include="DataTabes\Buttons-1.5.1\swf\flashExport.swf" />
+    <Content Include="DataTabes\ColReorder-1.4.1\css\colReorder.bootstrap.css" />
+    <Content Include="DataTabes\ColReorder-1.4.1\css\colReorder.bootstrap.min.css" />
+    <Content Include="DataTabes\ColReorder-1.4.1\css\colReorder.bootstrap4.css" />
+    <Content Include="DataTabes\ColReorder-1.4.1\css\colReorder.bootstrap4.min.css" />
+    <Content Include="DataTabes\ColReorder-1.4.1\css\colReorder.dataTables.css" />
+    <Content Include="DataTabes\ColReorder-1.4.1\css\colReorder.dataTables.min.css" />
+    <Content Include="DataTabes\ColReorder-1.4.1\css\colReorder.foundation.css" />
+    <Content Include="DataTabes\ColReorder-1.4.1\css\colReorder.foundation.min.css" />
+    <Content Include="DataTabes\ColReorder-1.4.1\css\colReorder.jqueryui.css" />
+    <Content Include="DataTabes\ColReorder-1.4.1\css\colReorder.jqueryui.min.css" />
+    <Content Include="DataTabes\ColReorder-1.4.1\css\colReorder.semanticui.css" />
+    <Content Include="DataTabes\ColReorder-1.4.1\css\colReorder.semanticui.min.css" />
+    <Content Include="DataTabes\ColReorder-1.4.1\js\dataTables.colReorder.js" />
+    <Content Include="DataTabes\ColReorder-1.4.1\js\dataTables.colReorder.min.js" />
+    <Content Include="DataTabes\DataTables-1.10.16\css\dataTables.bootstrap.css" />
+    <Content Include="DataTabes\DataTables-1.10.16\css\dataTables.bootstrap.min.css" />
+    <Content Include="DataTabes\DataTables-1.10.16\css\dataTables.bootstrap4.css" />
+    <Content Include="DataTabes\DataTables-1.10.16\css\dataTables.bootstrap4.min.css" />
+    <Content Include="DataTabes\DataTables-1.10.16\css\dataTables.foundation.css" />
+    <Content Include="DataTabes\DataTables-1.10.16\css\dataTables.foundation.min.css" />
+    <Content Include="DataTabes\DataTables-1.10.16\css\dataTables.jqueryui.css" />
+    <Content Include="DataTabes\DataTables-1.10.16\css\dataTables.jqueryui.min.css" />
+    <Content Include="DataTabes\DataTables-1.10.16\css\dataTables.semanticui.css" />
+    <Content Include="DataTabes\DataTables-1.10.16\css\dataTables.semanticui.min.css" />
+    <Content Include="DataTabes\DataTables-1.10.16\css\jquery.dataTables.css" />
+    <Content Include="DataTabes\DataTables-1.10.16\css\jquery.dataTables.min.css" />
+    <Content Include="DataTabes\DataTables-1.10.16\images\sort_asc.png" />
+    <Content Include="DataTabes\DataTables-1.10.16\images\sort_asc_disabled.png" />
+    <Content Include="DataTabes\DataTables-1.10.16\images\sort_both.png" />
+    <Content Include="DataTabes\DataTables-1.10.16\images\sort_desc.png" />
+    <Content Include="DataTabes\DataTables-1.10.16\images\sort_desc_disabled.png" />
+    <Content Include="DataTabes\DataTables-1.10.16\js\dataTables.bootstrap.js" />
+    <Content Include="DataTabes\DataTables-1.10.16\js\dataTables.bootstrap.min.js" />
+    <Content Include="DataTabes\DataTables-1.10.16\js\dataTables.bootstrap4.js" />
+    <Content Include="DataTabes\DataTables-1.10.16\js\dataTables.bootstrap4.min.js" />
+    <Content Include="DataTabes\DataTables-1.10.16\js\dataTables.foundation.js" />
+    <Content Include="DataTabes\DataTables-1.10.16\js\dataTables.foundation.min.js" />
+    <Content Include="DataTabes\DataTables-1.10.16\js\dataTables.jqueryui.js" />
+    <Content Include="DataTabes\DataTables-1.10.16\js\dataTables.jqueryui.min.js" />
+    <Content Include="DataTabes\DataTables-1.10.16\js\dataTables.semanticui.js" />
+    <Content Include="DataTabes\DataTables-1.10.16\js\dataTables.semanticui.min.js" />
+    <Content Include="DataTabes\DataTables-1.10.16\js\jquery.dataTables.js" />
+    <Content Include="DataTabes\DataTables-1.10.16\js\jquery.dataTables.min.js" />
+    <Content Include="DataTabes\datatables.css" />
+    <Content Include="DataTabes\datatables.js" />
+    <Content Include="DataTabes\datatables.min.css" />
+    <Content Include="DataTabes\datatables.min.js" />
+    <Content Include="DataTabes\Responsive-2.2.1\css\responsive.bootstrap.css" />
+    <Content Include="DataTabes\Responsive-2.2.1\css\responsive.bootstrap.min.css" />
+    <Content Include="DataTabes\Responsive-2.2.1\css\responsive.bootstrap4.css" />
+    <Content Include="DataTabes\Responsive-2.2.1\css\responsive.bootstrap4.min.css" />
+    <Content Include="DataTabes\Responsive-2.2.1\css\responsive.dataTables.css" />
+    <Content Include="DataTabes\Responsive-2.2.1\css\responsive.dataTables.min.css" />
+    <Content Include="DataTabes\Responsive-2.2.1\css\responsive.foundation.css" />
+    <Content Include="DataTabes\Responsive-2.2.1\css\responsive.foundation.min.css" />
+    <Content Include="DataTabes\Responsive-2.2.1\css\responsive.jqueryui.css" />
+    <Content Include="DataTabes\Responsive-2.2.1\css\responsive.jqueryui.min.css" />
+    <Content Include="DataTabes\Responsive-2.2.1\css\responsive.semanticui.css" />
+    <Content Include="DataTabes\Responsive-2.2.1\css\responsive.semanticui.min.css" />
+    <Content Include="DataTabes\Responsive-2.2.1\js\dataTables.responsive.js" />
+    <Content Include="DataTabes\Responsive-2.2.1\js\dataTables.responsive.min.js" />
+    <Content Include="DataTabes\Responsive-2.2.1\js\responsive.bootstrap.js" />
+    <Content Include="DataTabes\Responsive-2.2.1\js\responsive.bootstrap.min.js" />
+    <Content Include="DataTabes\Responsive-2.2.1\js\responsive.bootstrap4.js" />
+    <Content Include="DataTabes\Responsive-2.2.1\js\responsive.bootstrap4.min.js" />
+    <Content Include="DataTabes\Responsive-2.2.1\js\responsive.foundation.js" />
+    <Content Include="DataTabes\Responsive-2.2.1\js\responsive.foundation.min.js" />
+    <Content Include="DataTabes\Responsive-2.2.1\js\responsive.jqueryui.js" />
+    <Content Include="DataTabes\Responsive-2.2.1\js\responsive.jqueryui.min.js" />
+    <Content Include="DataTabes\Responsive-2.2.1\js\responsive.semanticui.js" />
+    <Content Include="DataTabes\Responsive-2.2.1\js\responsive.semanticui.min.js" />
+    <Content Include="DataTabes\Scroller-1.4.4\css\scroller.bootstrap.css" />
+    <Content Include="DataTabes\Scroller-1.4.4\css\scroller.bootstrap.min.css" />
+    <Content Include="DataTabes\Scroller-1.4.4\css\scroller.bootstrap4.css" />
+    <Content Include="DataTabes\Scroller-1.4.4\css\scroller.bootstrap4.min.css" />
+    <Content Include="DataTabes\Scroller-1.4.4\css\scroller.dataTables.css" />
+    <Content Include="DataTabes\Scroller-1.4.4\css\scroller.dataTables.min.css" />
+    <Content Include="DataTabes\Scroller-1.4.4\css\scroller.foundation.css" />
+    <Content Include="DataTabes\Scroller-1.4.4\css\scroller.foundation.min.css" />
+    <Content Include="DataTabes\Scroller-1.4.4\css\scroller.jqueryui.css" />
+    <Content Include="DataTabes\Scroller-1.4.4\css\scroller.jqueryui.min.css" />
+    <Content Include="DataTabes\Scroller-1.4.4\css\scroller.semanticui.css" />
+    <Content Include="DataTabes\Scroller-1.4.4\css\scroller.semanticui.min.css" />
+    <Content Include="DataTabes\Scroller-1.4.4\js\dataTables.scroller.js" />
+    <Content Include="DataTabes\Scroller-1.4.4\js\dataTables.scroller.min.js" />
     <Content Include="Fotos\bartdewever.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -222,6 +343,7 @@
     <Content Include="Fotos\NVA.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Google.DataTable.Net.Wrapper.XML" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -241,6 +363,8 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="DataTabes\Buttons-1.5.1\css\common.scss" />
+    <Content Include="DataTabes\Buttons-1.5.1\css\mixins.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\flot-data.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
