@@ -1,4 +1,5 @@
 ﻿using IP_8IEN.BL.Domain.Data;
+using System;
 using System.Collections.Generic;
 
 namespace IP_8IEN.BL
@@ -47,6 +48,13 @@ namespace IP_8IEN.BL
 
         //24 apr 2018 : Victor
         void GetAlerts();
+
+        //27 apr 2018 : Victor
+        void SendMail();
+        Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
+        double CalculateChange(long previous, long current);
+        int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
+        Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
 
 
     }
