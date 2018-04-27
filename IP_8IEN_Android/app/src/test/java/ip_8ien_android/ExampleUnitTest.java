@@ -1,4 +1,4 @@
-package com.example.jorden.ip_8ien_android;
+package ip_8ien_android;
 
 import org.junit.Test;
 
