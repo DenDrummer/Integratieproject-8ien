@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IP_8IEN.BL.Domain.Data.Persoon
+
+@{
     ViewBag.Title = "Personen";
 }
 
@@ -25,12 +27,12 @@
                     <div class="col-lg-5">
                         <table>
                             <tr>
-                                <td><b>Naam: </b></td>
-                                <td>Bart De Wever</td>
+                                <td><b>@Html.DisplayNameFor(model => model.Naam): </b></td>
+                                <td>@Html.DisplayFor(model => model.Naam)</td>
                             </tr>
                             <tr>
-                                <td><b>Twitter:</b> </td>
-                                <td>Bart_DeWever</td>
+                                <td><b>@Html.DisplayNameFor(model => model.Twitter):</b> </td>
+                                <td>@Html.DisplayFor(model => model.Twitter)</td>
                             </tr>
                             <tr>
                                 <td><b>Facebook:</b> </td>
@@ -46,12 +48,12 @@
                             </tr>
 
                             <tr>
-                                <td><b>Organisatie:</b> </td>
-                                <td>NVA, Stad Antwerpen</td>
+                                <td><b>@Html.DisplayNameFor(model => model.Tewerkstellingen):</b> </td>
+                                <td>@Html.DisplayFor(model => model.Tewerkstellingen)</td>
                             </tr>
                             <tr>
-                                <td><b>Korte Beschrijving:</b> </td>
-                                <td>Bart Albert Liliane De Wever (Mortsel, 21 december 1970) is een Belgisch Vlaams-nationalistisch politicus. Hij is sinds 2004 partijvoorzitter van de Nieuw-Vlaamse Alliantie (N-VA). Sinds 1 januari 2013 is Bart De Wever burgemeester van Antwerpen.</td>
+                                <td><b>@Html.DisplayNameFor(model => model.Beschrijving):</b> </td>
+                                <td>@Html.DisplayFor(model => model.Beschrijving)</td>
                             </tr>
                         </table>
 

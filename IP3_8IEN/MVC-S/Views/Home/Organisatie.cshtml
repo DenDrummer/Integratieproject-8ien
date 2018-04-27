@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IP_8IEN.BL.Domain.Data.Organisatie
+
+@{
     ViewBag.Title = "Organisatie";
 }
 <h2>@ViewBag.Title</h2>
@@ -26,16 +28,16 @@
                     <div class="col-lg-5">
                         <table>
                             <tr>
-                                <td><b>Naam: </b></td>
-                                <td>Nieuw-Vlaamse Alliantie</td>
+                                <td><b>@Html.DisplayNameFor(model => model.NaamOrganisatie): </b></td>
+                                <td>@Html.DisplayFor(model => model.NaamOrganisatie)</td>
                             </tr>
                             <tr>
                                 <td><b>Afkorting: </b></td>
                                 <td>N-VA</td>
                             </tr>
                             <tr>
-                                <td><b>Twitter:</b> </td>
-                                <td>de_NVA</td>
+                                <td><b>@Html.DisplayNameFor(model => model.Twitter):</b> </td>
+                                <td>@Html.DisplayFor(model => model.Twitter)</td>
                             </tr>
                             <tr>
                                 <td><b>Facebook:</b> </td>
@@ -55,8 +57,8 @@
                             </tr>
 
                             <tr>
-                                <td><b>Leden:</b> </td>
-                                <td>Bart De Wever, Jan Jambon</td>
+                                <td><b>@Html.DisplayNameFor(model => model.Tewerkstellingen):</b> </td>
+                                <td>@Html.DisplayFor(model => model.Tewerkstellingen)</td>
                             </tr>
                             <tr>
                                 <td><b>Ideologie:</b> </td>

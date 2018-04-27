@@ -2,6 +2,8 @@
 using IP_8IEN.BL;
 using System.IO;
 using System.Web;
+using IP_8IEN.BL.Domain.Data;
+using System.Collections.Generic;
 
 namespace MVC_S.Controllers
 {
@@ -62,8 +64,26 @@ namespace MVC_S.Controllers
 
         public ActionResult Personen()
         {
+            Organisatie nva = new Organisatie()
+            {
+                NaamOrganisatie = "N-VA",
+                Tewerkstellingen = new List<Tewerkstelling>()
+            };
+            Persoon bart = new Persoon()
+            {
+                Naam = "Bart De Wever",
+                Twitter = "@Bart_DeWever",
+                Tewerkstellingen = new List<Tewerkstelling>(),
 
-            return View();
+            };
+            Tewerkstelling nvaBart = new Tewerkstelling()
+            {
+                Organisatie = nva,
+                Persoon = bart
+            };
+            nva.Tewerkstellingen.Add(nvaBart);
+            bart.Tewerkstellingen.Add(nvaBart);
+            return View(bart);
         }
 
         public ActionResult Themas()
