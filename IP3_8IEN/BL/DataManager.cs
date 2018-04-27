@@ -52,9 +52,9 @@ namespace IP_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "19 Apr 2018 8:00",
+                        since = "01 Apr 2018 0:01",
                         //until weglaten --> last scraping
-                        until = "19 Apr 2018 22:00",
+                        until = "26 Apr 2018 23:59",
                     });
 
                     streamWriter.Write(json);
@@ -572,6 +572,19 @@ namespace IP_8IEN.BL
                 return onderwerpen;
         }
 
+        public IEnumerable<Message> ReadMessagesWithSubjMsgs()
+        {
+            initNonExistingRepo();
+
+            //-------------deze zijn nodig om automatisch keys in te laden------------//
+            IEnumerable<Persoon> personen = repo.ReadPersonen();
+            IEnumerable<Hashtag> hashtags = repo.ReadHashtags();
+            IEnumerable<SubjectMessage> subjMsgs = repo.ReadSubjectMessages();
+            //-----------------------------------------------------------------------//
+            IEnumerable<Message> messages = repo.ReadMessages();
+
+            return messages;
+        }
 
         //Unit of Work related
         public void initNonExistingRepo(bool withUnitOfWork = false)
@@ -626,18 +639,12 @@ namespace IP_8IEN.BL
                 return "Politieker " + politician + "\n \t score: " + score;
             }
         }
+        
 
-        public IEnumerable<Message> ReadMessages()
+
+        public void GetAlerts()
         {
-            initNonExistingRepo();
-            IEnumerable<Message> messages = repo.ReadMessages();
-            return messages;
-        }
-
-
-        public void getAlerts()
-        {
-            List<Message> messages = ReadMessages().ToList();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<zscore> zscores = new List<zscore>();
             List<String> namen = new List<string>();
             int totaalTweets;
@@ -688,7 +695,7 @@ namespace IP_8IEN.BL
                 tweetsPerDag.Clear();
                 do
                 {
-                   tweetsPerDag.Add(ms.Where(m => m.Date == start).Count());
+                   tweetsPerDag.Add(ms.Where(m => m.Date.Date == start.Date).Count());
                     //tweetsPerDag.Add(messages.Where(Message => Message.Politician == s).Where(Message => Message.Date.Date == start).Count());
                     start = start.AddDays(1);
                     System.Diagnostics.Debug.WriteLine(start);
@@ -714,7 +721,7 @@ namespace IP_8IEN.BL
                 System.Diagnostics.Debug.WriteLine("2 " + sd);
 
                 zscores.Add(new zscore(s, (tweetsPerDag.Last() - gemiddelde) / sd));
-                System.Diagnostics.Debug.WriteLine(((double)tweetsPerDag.Last() - gemiddelde / gemiddelde * 100));
+                System.Diagnostics.Debug.WriteLine((((double)tweetsPerDag.Last() - gemiddelde) / (gemiddelde * 100)));
                 System.Diagnostics.Debug.WriteLine(tweetsPerDag.Last());
                 System.Diagnostics.Debug.WriteLine(gemiddelde);
                 System.Diagnostics.Debug.WriteLine("---");
@@ -729,7 +736,50 @@ namespace IP_8IEN.BL
             }
 
             System.Diagnostics.Debug.WriteLine("got here 4");
+            GetRanking(1,24);
         }
+
+        public Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren)
+        {
+            initNonExistingRepo();
+            List<Persoon> personen = repo.ReadPersonen().ToList();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            int laatstePeriode;
+            int voorlaatstePeriode;
+            
+            Dictionary<Persoon, double> ranking = new Dictionary<Persoon, double>();
+
+            foreach (Persoon p in personen)
+            {
+                int teller = messages.Where(m => m.IsFrom(p)).Count();
+                List<Message> messages2 = messages.Where(m => m.IsFrom(p)).ToList();
+                laatstePeriode = messages2.Where(m => lastTweet.AddHours(interval_uren * -1) < m.Date).Count();
+                voorlaatstePeriode = messages2.Where(m => lastTweet.AddHours((interval_uren *2) * -1) < m.Date && m.Date < lastTweet.AddHours(interval_uren * -1)).Count();
+                ranking.Add(p, CalculateChange(voorlaatstePeriode, laatstePeriode));
+                /*if (laatstePeriode != 0 && voorlaatstePeriode != 0)
+                {
+                    ranking.Add(p, ((laatstePeriode - voorlaatstePeriode) / voorlaatstePeriode) * 100);
+                }*/
+            }
+            foreach (var v in ranking)
+            {
+                System.Diagnostics.Debug.WriteLine(v.Key.Naam + " " + v.Value);
+            }
+
+            return ranking; 
+        }
+        double CalculateChange(long previous, long current)
+        {
+            if (previous != 0)
+            {
+
+                var change = current - previous;
+                return (double)change / previous;
+            }
+            return 0;
+        }
+
     }
 
 }

@@ -21,11 +21,13 @@ namespace MVC_S.Controllers
             //dMgr.ApiRequestToJson();
             //dMgr.CountSubjMsgsPersoon();
             dMgr.ReadOnderwerpenWithSubjMsgs();
-            
+
 
             //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+
+            dMgr.GetAlerts();
 
         }
 
