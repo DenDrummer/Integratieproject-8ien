@@ -3,6 +3,8 @@ using IP_8IEN.BL;
 using System.IO;
 using System.Web;
 using System.Threading;
+using System.Web.Hosting;
+using System.Threading.Tasks;
 
 namespace MVC_S.Controllers
 {
@@ -28,8 +30,21 @@ namespace MVC_S.Controllers
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
 
-            dMgr.GetAlerts();
+            //dMgr.GetAlerts();
 
+            HostingEnvironment.QueueBackgroundWorkItem(ct => SendMailAsync(dMgr));
+
+        }
+        private async Task SendMailAsync(IDataManager dMgr)
+        {
+            while (true)
+            {
+                await Task.Run(() =>
+                {
+                    dMgr.GetAlerts();
+                });
+                Thread.Sleep(10800000);
+            }
         }
 
         public ActionResult Index()
