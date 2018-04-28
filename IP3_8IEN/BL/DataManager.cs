@@ -807,7 +807,7 @@ namespace IP_8IEN.BL
             return ranking;
         }
 
-        double CalculateChange(long previous, long current)
+        public double CalculateChange(long previous, long current)
         {
             if (previous != 0)
             {
