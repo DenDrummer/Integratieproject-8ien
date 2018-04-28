@@ -9,7 +9,6 @@ using System.Linq;
 using System;
 using System.Net;
 using System.Web.Script.Serialization;
-using System.Web;
 using System.Net.Mail;
 
 namespace IP_8IEN.BL

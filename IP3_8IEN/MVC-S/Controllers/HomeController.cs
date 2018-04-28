@@ -1,11 +1,8 @@
 ﻿using System.Web.Mvc;
 using IP_8IEN.BL;
-using System.IO;
-using System.Web;
 using IP_8IEN.BL.Domain.Data;
 using System.Collections.Generic;
 using System.Threading;
-using System.Web.Hosting;
 using System.Threading.Tasks;
 
 namespace MVC_S.Controllers

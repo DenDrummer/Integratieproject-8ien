@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using IP_8IEN.BL.Domain.Data;
 using IP_8IEN.DAL.EF;

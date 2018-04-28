@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-using IP_8IEN.DAL.EF;
 using IP_8IEN.DAL;
 using IP_8IEN.BL.Domain;
 
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace IP_8IEN.BL 
+namespace IP_8IEN.BL
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {

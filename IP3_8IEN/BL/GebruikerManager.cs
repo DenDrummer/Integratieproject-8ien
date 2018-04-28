@@ -4,12 +4,10 @@ using Newtonsoft.Json;
 using System.IO;
 
 using IP_8IEN.DAL;
-using IP_8IEN.DAL.EF;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System;
-using IP_8IEN.BL;
 
 namespace IP_8IEN.BL
 {
