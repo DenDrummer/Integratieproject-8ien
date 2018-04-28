@@ -4,6 +4,9 @@ using System.IO;
 using System.Web;
 using IP_8IEN.BL.Domain.Data;
 using System.Collections.Generic;
+using System.Threading;
+using System.Web.Hosting;
+using System.Threading.Tasks;
 
 namespace MVC_S.Controllers
 {
@@ -15,26 +18,40 @@ namespace MVC_S.Controllers
         public HomeController()
         {
             // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
+            // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
 
-            //-- Laat deze twee in commentaar staan --//
+            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             //dMgr.ApiRequestToJson();
-            //dMgr.AddMessages(@"C:\Users\Nathan\Desktop\api.json");
-            //--                                    --//
+            //dMgr.CountSubjMsgsPersoon();
+            dMgr.ReadOnderwerpenWithSubjMsgs();
 
             /*
             dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.json"));
 
-            dMgr.AddOrganisation("Groen");
-            dMgr.AddOrganisation("Groen");
-            dMgr.AddOrganisation("VLD");
-            dMgr.AddTewerkstelling("Pascal Smet", "Groen");
-            dMgr.AddTewerkstelling("Tom Van Grieken", "Groen");
+            //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
+            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
+            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+
+            //dMgr.GetAlerts();
+
+            HostingEnvironment.QueueBackgroundWorkItem(ct => SendMailAsync(dMgr));
 
             gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
             gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));*/
+        }
+        private async Task SendMailAsync(IDataManager dMgr)
+        {
+            while (true)
+            {
+                await Task.Run(() =>
+                {
+                    dMgr.GetAlerts();
+                });
+                Thread.Sleep(10800000);
+            }
         }
 
         public ActionResult Index()

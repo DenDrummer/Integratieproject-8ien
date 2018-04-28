@@ -13,6 +13,8 @@ namespace IP_8IEN.BL.Domain.Gebruikers
 
         public Gebruiker Gebruiker { get; set; }
         public Onderwerp Onderwerp { get; set; }
+        public Onderwerp Onderwerp2 { get; set; }
+
 
         public ICollection<Alert> alerts { get; set; }
     }

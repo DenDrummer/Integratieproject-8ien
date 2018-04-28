@@ -55,5 +55,17 @@ namespace IP_8IEN.BL.Domain.Data
         public double Geo2 { get; set; }
 
         public ICollection<SubjectMessage> SubjectMessages { get; set; }
+
+        public bool IsFrom(Persoon persoon)
+        {
+            foreach (SubjectMessage s in SubjectMessages)
+            {
+                if (s.Persoon == persoon)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
