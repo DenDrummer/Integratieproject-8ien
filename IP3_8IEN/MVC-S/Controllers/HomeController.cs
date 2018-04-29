@@ -4,6 +4,7 @@ using IP_8IEN.BL.Domain.Data;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
 
 namespace MVC_S.Controllers
 {
@@ -78,17 +79,20 @@ namespace MVC_S.Controllers
 
         public ActionResult Personen()
         {
-            Organisatie nva = new Organisatie()
-            {
-                NaamOrganisatie = "N-VA",
-                Tewerkstellingen = new List<Tewerkstelling>()
-            };
             Persoon bart = new Persoon()
             {
                 Naam = "Bart De Wever",
                 Twitter = "@Bart_DeWever",
+                Facebook = "BartjeDeWever",
+                DateOfBirth = new DateTime(1970, 12, 21),
+                District = "Antwerpen",
                 Tewerkstellingen = new List<Tewerkstelling>(),
-
+                Beschrijving = "Bart Albert Liliane De Wever (Mortsel, 21 december 1970) is een Belgisch Vlaams-nationalistisch politicus. Hij is sinds 2004 partijvoorzitter van de Nieuw-Vlaamse Alliantie (N-VA). Sinds 1 januari 2013 is Bart De Wever burgemeester van Antwerpen."
+            };
+            Organisatie nva = new Organisatie()
+            {
+                NaamOrganisatie = "NVA",
+                Tewerkstellingen = new List<Tewerkstelling>()
             };
             Tewerkstelling nvaBart = new Tewerkstelling()
             {
@@ -97,6 +101,18 @@ namespace MVC_S.Controllers
             };
             nva.Tewerkstellingen.Add(nvaBart);
             bart.Tewerkstellingen.Add(nvaBart);
+            Organisatie stadA = new Organisatie()
+            {
+                NaamOrganisatie = "Stad Antwerpen",
+                Tewerkstellingen = new List<Tewerkstelling>()
+            };
+            Tewerkstelling stadABart = new Tewerkstelling()
+            {
+                Organisatie = stadA,
+                Persoon = bart
+            };
+            nva.Tewerkstellingen.Add(stadABart);
+            bart.Tewerkstellingen.Add(stadABart);
             return View(bart);
         }
 

@@ -753,7 +753,7 @@ namespace IP_8IEN.BL
 
                 mail.From = new MailAddress("integratieproject.8ien@gmail.com");
                 mail.To.Add("thomas.dewitte@student.kdg.be");
-                mail.Subject = "YOU CUNT";
+                mail.Subject = "YOU CUNT"; //srsly Vic? ~Jorden
                 mail.Body = "This is for testing SMTP mail from GMAIL";
 
                 SmtpServer.Port = 587;
