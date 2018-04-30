@@ -124,8 +124,29 @@ namespace MVC_S.Controllers
 
         public ActionResult Organisatie()
         {
-
-            return View();
+            Organisatie nva = new Organisatie()
+            {
+                NaamOrganisatie = "NVA",
+                Tewerkstellingen = new List<Tewerkstelling>()
+            };
+            Persoon bart = new Persoon()
+            {
+                Naam = "Bart De Wever",
+                Twitter = "@Bart_DeWever",
+                Facebook = "BartjeDeWever",
+                DateOfBirth = new DateTime(1970, 12, 21),
+                District = "Antwerpen",
+                Tewerkstellingen = new List<Tewerkstelling>(),
+                Beschrijving = "Bart Albert Liliane De Wever (Mortsel, 21 december 1970) is een Belgisch Vlaams-nationalistisch politicus. Hij is sinds 2004 partijvoorzitter van de Nieuw-Vlaamse Alliantie (N-VA). Sinds 1 januari 2013 is Bart De Wever burgemeester van Antwerpen."
+            };
+            Tewerkstelling nvaBart = new Tewerkstelling()
+            {
+                Organisatie = nva,
+                Persoon = bart
+            };
+            nva.Tewerkstellingen.Add(nvaBart);
+            bart.Tewerkstellingen.Add(nvaBart);
+            return View(nva);
         }
 
         public ActionResult Alerts()

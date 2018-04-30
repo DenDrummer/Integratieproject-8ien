@@ -28,41 +28,50 @@
                     <div class="col-lg-5">
                         <table>
                             <tr>
-                                <td><b>@Html.DisplayNameFor(model => model.NaamOrganisatie): </b></td>
+                                <td valign="top"><b>@Html.DisplayNameFor(model => model.NaamOrganisatie): </b></td>
                                 <td>@Html.DisplayFor(model => model.NaamOrganisatie)</td>
                             </tr>
                             <tr>
-                                <td><b>Afkorting: </b></td>
+                                <td valign="top"><b>Afkorting: </b></td>
                                 <td>N-VA</td>
                             </tr>
                             <tr>
-                                <td><b>@Html.DisplayNameFor(model => model.Twitter):</b> </td>
+                                <td valign="top"><b>@Html.DisplayNameFor(model => model.Twitter):</b> </td>
                                 <td>@Html.DisplayFor(model => model.Twitter)</td>
                             </tr>
                             <tr>
-                                <td><b>Facebook:</b> </td>
+                                <td valign="top"><b>Facebook:</b> </td>
                                 <td>NVA</td>
                             </tr>
                             <tr>
-                                <td><b>Opgericht op:</b> </td>
+                                <td valign="top"><b>Opgericht op:</b> </td>
                                 <td>13 oktober 2001</td>
                             </tr>
                             <tr>
-                                <td><b>Oprichter:</b> </td>
+                                <td valign="top"><b>Oprichter:</b> </td>
                                 <td>Geert Bourgouis</td>
                             </tr>
                             <tr>
-                                <td><b>Leider:</b> </td>
+                                <td valign="top"><b>Leider:</b> </td>
                                 <td>Bart De Wever</td>
                             </tr>
 
                             <tr>
-                                <td><b>@Html.DisplayNameFor(model => model.Tewerkstellingen):</b> </td>
-                                <td>@Html.DisplayFor(model => model.Tewerkstellingen)</td>
+                                <td valign="top"><b>@Html.DisplayNameFor(model => model.Tewerkstellingen):</b> </td>
+                                <td>
+                                    @for (int i = 0; i < Model.Tewerkstellingen.Count; i++)
+                                    {
+                                        if (i != 0)
+                                        {
+                                            @Html.Raw(", ")
+                                        }
+                                        @Html.DisplayFor(model => model.Tewerkstellingen.ElementAt(i).Persoon.Naam)
+                                    }
+                                </td>
                             </tr>
                             <tr>
-                                <td><b>Ideologie:</b> </td>
-                                <td>Ideologie: Nationalisme, Conservatisme</td>
+                                <td valign="top"><b>Ideologie:</b> </td>
+                                <td>Nationalisme, Conservatisme</td>
                             </tr>
                         </table>
 
