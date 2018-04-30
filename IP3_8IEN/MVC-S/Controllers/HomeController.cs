@@ -77,9 +77,13 @@ namespace MVC_S.Controllers
             return View();
         }
 
-        public ActionResult Personen()
+        public ActionResult Personen(/*int id*/)
         {
-            Persoon bart = new Persoon()
+            //Persoon persoon = dMgr.GetPersoon(id);
+            /*  verwijder alle onderstaande code buiten de return
+             *      zodra er via bovenstaande methode
+             *      een persoon kan binnengehaald worden*/
+            Persoon persoon = new Persoon()
             {
                 Naam = "Bart De Wever",
                 Twitter = "@Bart_DeWever",
@@ -97,10 +101,10 @@ namespace MVC_S.Controllers
             Tewerkstelling nvaBart = new Tewerkstelling()
             {
                 Organisatie = nva,
-                Persoon = bart
+                Persoon = persoon
             };
             nva.Tewerkstellingen.Add(nvaBart);
-            bart.Tewerkstellingen.Add(nvaBart);
+            persoon.Tewerkstellingen.Add(nvaBart);
             Organisatie stadA = new Organisatie()
             {
                 NaamOrganisatie = "Stad Antwerpen",
@@ -109,22 +113,34 @@ namespace MVC_S.Controllers
             Tewerkstelling stadABart = new Tewerkstelling()
             {
                 Organisatie = stadA,
-                Persoon = bart
+                Persoon = persoon
             };
             nva.Tewerkstellingen.Add(stadABart);
-            bart.Tewerkstellingen.Add(stadABart);
-            return View(bart);
+            persoon.Tewerkstellingen.Add(stadABart);
+            return View(persoon);
         }
 
-        public ActionResult Themas()
+        public ActionResult Themas(/*int id*/)
         {
-
-            return View();
+            //Thema thema = dMgr.GetThema(id);
+            /*  verwijder alle onderstaande code buiten de return
+             *      zodra er via bovenstaande methode
+             *      een thema kan binnengehaald worden*/
+            Thema thema = new Thema()
+            {
+                ThemaString = "thema",
+                Beschrijving = "beschrijving over het thema"
+            };
+            return View(thema);
         }
 
-        public ActionResult Organisatie()
+        public ActionResult Organisatie(/*int id*/)
         {
-            Organisatie nva = new Organisatie()
+            //Organisatie organisatie = dMgr.GetOrganisatie(id);
+            /*  verwijder alle onderstaande code buiten de return
+             *      zodra er via bovenstaande methode
+             *      een organisatie kan binnengehaald worden*/
+            Organisatie organisatie = new Organisatie()
             {
                 NaamOrganisatie = "NVA",
                 Tewerkstellingen = new List<Tewerkstelling>()
@@ -141,12 +157,12 @@ namespace MVC_S.Controllers
             };
             Tewerkstelling nvaBart = new Tewerkstelling()
             {
-                Organisatie = nva,
+                Organisatie = organisatie,
                 Persoon = bart
             };
-            nva.Tewerkstellingen.Add(nvaBart);
+            organisatie.Tewerkstellingen.Add(nvaBart);
             bart.Tewerkstellingen.Add(nvaBart);
-            return View(nva);
+            return View(organisatie);
         }
 
         public ActionResult Alerts()

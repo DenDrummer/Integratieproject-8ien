@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IP_8IEN.BL.Domain.Data.Thema
+
+@{
     ViewBag.Title = "Thema";
 }
 <h2>@ViewBag.Title</h2>
@@ -26,11 +28,19 @@
                     <div class="col-lg-5">
                         <table>
                             <tr>
-                                <td><b>Hashtags: </b></td>
+                                <td valign="top"><b>@Html.DisplayNameFor(m => m.ThemaString): </b></td>
+                                <td>@Html.DisplayFor(m => m.ThemaString)</td>
+                            </tr>
+                            <tr>
+                                <td valign="top"><b>@Html.DisplayNameFor(m => m.Beschrijving): </b></td>
+                                <td>@Html.DisplayFor(m => m.Beschrijving)</td>
+                            </tr>
+                            <tr>
+                                <td valign="top"><b>Hashtags: </b></td>
                                 <td>#KrisPeetersJood</td>
                             </tr>
                             <tr>
-                                <td><b>Aantal Mentions:</b> </td>
+                                <td valign="top"><b>Aantal Mentions: </b></td>
                                 <td>6586</td>
                             </tr>
 
