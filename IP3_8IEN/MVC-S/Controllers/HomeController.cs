@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
+using IP_8IEN.BL.Domain.Gebruikers;
 
 namespace MVC_S.Controllers
 {
@@ -77,12 +78,13 @@ namespace MVC_S.Controllers
             return View();
         }
 
-        public ActionResult Personen(/*int id*/)
+        public ActionResult Personen(/*int onderwerpId*/)
         {
-            //Persoon persoon = dMgr.GetPersoon(id);
+            //Persoon persoon = xMgr.GetPersoon(onderwerpId);
             /*  verwijder alle onderstaande code buiten de return
              *      zodra er via bovenstaande methode
-             *      een persoon kan binnengehaald worden*/
+             *      een persoon kan binnengehaald worden
+             *      en vervang de xMgr met de correcte mgr*/
             Persoon persoon = new Persoon()
             {
                 Naam = "Bart De Wever",
@@ -120,12 +122,13 @@ namespace MVC_S.Controllers
             return View(persoon);
         }
 
-        public ActionResult Themas(/*int id*/)
+        public ActionResult Themas(/*int onderwerpId*/)
         {
-            //Thema thema = dMgr.GetThema(id);
+            //Thema thema = xMgr.GetThema(onderwerpId);
             /*  verwijder alle onderstaande code buiten de return
              *      zodra er via bovenstaande methode
-             *      een thema kan binnengehaald worden*/
+             *      een thema kan binnengehaald worden
+             *      en vervang de xMgr met de correcte mgr*/
             Thema thema = new Thema()
             {
                 ThemaString = "thema",
@@ -134,12 +137,13 @@ namespace MVC_S.Controllers
             return View(thema);
         }
 
-        public ActionResult Organisatie(/*int id*/)
+        public ActionResult Organisatie(/*int onderwerpId*/)
         {
-            //Organisatie organisatie = dMgr.GetOrganisatie(id);
+            //Organisatie organisatie = xMgr.GetOrganisatie(onderwerpId);
             /*  verwijder alle onderstaande code buiten de return
              *      zodra er via bovenstaande methode
-             *      een organisatie kan binnengehaald worden*/
+             *      een organisatie kan binnengehaald worden
+             *      en vervang de xMgr met de correcte mgr*/
             Organisatie organisatie = new Organisatie()
             {
                 NaamOrganisatie = "NVA",
@@ -165,16 +169,25 @@ namespace MVC_S.Controllers
             return View(organisatie);
         }
 
-        public ActionResult Alerts()
+        public ActionResult Alerts(/*int alertId*/)
         {
-
-            return View();
+            //Alert alert = xMgr.GetAlerts(alertId)
+            /*  verwijder alle onderstaande code buiten de return
+             *      zodra er via bovenstaande methode
+             *      een alert kan binnengehaald worden
+             *      en vervang de xMgr met de correcte mgr*/
+            Alert alert = new Alert()
+            {
+                AlertContent = "This is the content of an alert"
+            };
+            return View(alert);
         }
 
-        public ActionResult WeeklyReview()
+        public ActionResult WeeklyReview(int weeklyReviewId)
         {
-
-            return View();
+            //WeeklyReview wr = xMgr.GetWeeklyReview(weeklyReviewId);
+            WeeklyReview wr = new WeeklyReview();
+            return View(wr);
         }
 
         public ActionResult AdminCRUD()
