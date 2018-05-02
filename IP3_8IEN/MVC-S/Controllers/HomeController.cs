@@ -97,7 +97,8 @@ namespace MVC_S.Controllers
             };
             Organisatie nva = new Organisatie()
             {
-                NaamOrganisatie = "NVA",
+                NaamOrganisatie = "Nieuw-Vlaamse Alliantie",
+                Afkorting = "N-VA",
                 Tewerkstellingen = new List<Tewerkstelling>()
             };
             Tewerkstelling nvaBart = new Tewerkstelling()
@@ -146,7 +147,8 @@ namespace MVC_S.Controllers
              *      en vervang de xMgr met de correcte mgr*/
             Organisatie organisatie = new Organisatie()
             {
-                NaamOrganisatie = "NVA",
+                NaamOrganisatie = "Nieuw-Vlaamse Alliantie",
+                Afkorting = "N-VA",
                 Tewerkstellingen = new List<Tewerkstelling>()
             };
             Persoon bart = new Persoon()

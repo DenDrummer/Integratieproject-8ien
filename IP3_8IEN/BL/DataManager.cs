@@ -838,7 +838,7 @@ namespace IP_8IEN.BL
             return aantal;
         }
 
-        public Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon,int aantalDagenTerug = 0)
+        public Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0)
         {
             initNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
@@ -862,14 +862,12 @@ namespace IP_8IEN.BL
                 tweetsPerDag.Add(lastTweet.Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
                 lastTweet = lastTweet.AddDays(-1);
             } while (lastTweet >= stop);
-            
-            foreach(var v in tweetsPerDag)
+
+            foreach (var v in tweetsPerDag)
             {
                 System.Diagnostics.Debug.WriteLine(v.Key + " " + v.Value);
             }
             return tweetsPerDag;
         }
     }
-
-    }
-
+}
