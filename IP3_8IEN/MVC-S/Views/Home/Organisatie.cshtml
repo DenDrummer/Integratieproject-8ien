@@ -40,20 +40,20 @@
                                 <td>@Html.DisplayFor(model => model.Twitter)</td>
                             </tr>
                             <tr>
-                                <td valign="top"><b>Facebook:</b> </td>
-                                <td>NVA</td>
+                                <td valign="top"><b>@Html.DisplayNameFor(model => model.Facebook):</b> </td>
+                                <td>@Html.DisplayFor(model => model.Facebook)</td>
                             </tr>
                             <tr>
-                                <td valign="top"><b>Opgericht op:</b> </td>
-                                <td>13 oktober 2001</td>
+                                <td valign="top"><b>@Html.DisplayNameFor(model => model.Oprichtingsdatum):</b> </td>
+                                <td>@Html.DisplayFor(model => model.Oprichtingsdatum)</td>
                             </tr>
                             <tr>
-                                <td valign="top"><b>Oprichter:</b> </td>
-                                <td>Geert Bourgouis</td>
+                                <td valign="top"><b>@Html.DisplayNameFor(model => model.Oprichter):</b> </td>
+                                <td>@Html.DisplayFor(model => model.Oprichter.Naam)</td>
                             </tr>
                             <tr>
-                                <td valign="top"><b>Leider:</b> </td>
-                                <td>Bart De Wever</td>
+                                <td valign="top"><b>@Html.DisplayNameFor(model => model.Leider):</b> </td>
+                                <td>@Html.DisplayFor(model => model.Leider.Naam)</td>
                             </tr>
 
                             <tr>
@@ -70,8 +70,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td valign="top"><b>Ideologie:</b> </td>
-                                <td>Nationalisme, Conservatisme</td>
+                                <td valign="top"><b>@Html.DisplayNameFor(model => model.Ideologie):</b> </td>
+                                <td>@Html.DisplayFor(model => model.Ideologie)</td>
                             </tr>
                         </table>
 

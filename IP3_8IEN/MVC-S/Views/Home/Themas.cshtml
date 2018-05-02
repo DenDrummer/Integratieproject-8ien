@@ -36,17 +36,14 @@
                                 <td>@Html.DisplayFor(m => m.Beschrijving)</td>
                             </tr>
                             <tr>
-                                <td valign="top"><b>Hashtags: </b></td>
+                                <td valign="top"><b>@Html.DisplayNameFor(m => m.Hashtags): </b></td>
                                 <td>#KrisPeetersJood</td>
                             </tr>
                             <tr>
                                 <td valign="top"><b>Aantal Mentions: </b></td>
-                                <td>6586</td>
+                                <td>@Html.DisplayFor(m => m.SubjectMessages.Count)@*6586*@</td>
                             </tr>
-
                         </table>
-
-
                     </div>
                     <div class="col-lg-5">
                         <form role="form">

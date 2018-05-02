@@ -472,7 +472,7 @@ namespace IP_8IEN.BL
                     Site = person.site,
                     Facebook = person.facebook,
                     Town = person.town,
-                    DateOfBirth = person.dateOfBirth,
+                    Geboortedatum = person.dateOfBirth,
                     //eventueel 'id' integreren, voorlopig niet nodig
 
                     SubjectMessages = new Collection<SubjectMessage>()
