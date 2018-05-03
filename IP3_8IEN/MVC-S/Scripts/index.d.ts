@@ -67,7 +67,8 @@ export interface Modifiers {
     y?: 'left' | 'right'
   };
 
-  [name: string]: (BaseModifier & Record<string, any>) | undefined;
+  // deze geeft vaak een error, iets met verschillende versies te maken  <----
+  //[name: string]: (BaseModifier & Record<string, any>) | undefined;
 }
 
 export interface Offset {
