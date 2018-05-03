@@ -16,6 +16,6 @@ namespace IP_8IEN.BL.Domain.Gebruikers
         public Onderwerp Onderwerp2 { get; set; }
 
 
-        public ICollection<Alert> alerts { get; set; }
+        public ICollection<Alert> Alerts { get; set; }
     }
 }

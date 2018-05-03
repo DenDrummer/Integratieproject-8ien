@@ -11,5 +11,11 @@ namespace IP_8IEN.BL.Domain.Gebruikers
         public DateTime CreatedOn { get; set; }
         
         public AlertInstelling AlertInstelling;
+
+
+        public override string ToString()
+        {
+            return AlertContent;
+        }
     }
 }

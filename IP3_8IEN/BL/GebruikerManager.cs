@@ -10,6 +10,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System;
 using IP_8IEN.BL;
+using System.Net.Mail;
+using System.Text;
 
 namespace IP_8IEN.BL
 {
@@ -133,17 +135,17 @@ namespace IP_8IEN.BL
                 CreatedOn = DateTime.Now
             };
             //alert toevoegen aan de ICollection van 'AlertInstelling'
-            var alertColl = alertInstelling.alerts;
+            var alertColl = alertInstelling.Alerts;
             if (alertColl != null)
             {
-                alertInstelling.alerts = alertColl.ToList();
+                alertInstelling.Alerts = alertColl.ToList();
             }
             else
             {
-                alertInstelling.alerts = new Collection<Alert>();
+                alertInstelling.Alerts = new Collection<Alert>();
             }
 
-            alertInstelling.alerts.Add(alert);
+            alertInstelling.Alerts.Add(alert);
 
             //eerst alert creëren zodat deze een PK toegewegen krijgt
             repo.AddingAlert(alert);
@@ -160,12 +162,12 @@ namespace IP_8IEN.BL
             string json = r.ReadToEnd();
             List<Message> alertList = new List<Message>();
 
-            dynamic alerts = JsonConvert.DeserializeObject(json);
+            dynamic Alerts = JsonConvert.DeserializeObject(json);
 
             string alertContent;
             int alertInstellingId;
 
-            foreach (var item in alerts.records)
+            foreach (var item in Alerts.records)
             {
                 alertContent = item.AlertContent;
                 alertInstellingId = item.AlertInstellingId;
@@ -214,6 +216,65 @@ namespace IP_8IEN.BL
                         // repo behoudt zijn context
                     }
                 }
+            }
+        }
+
+        public void WeeklyReview()
+        {
+            List<Gebruiker> gebruikers = new List<Gebruiker>();
+            gebruikers = repo.ReadGebruikers().ToList();
+            List<Alert> dezeWeek = new List<Alert>();
+
+            foreach (Gebruiker g in gebruikers)
+            {
+                foreach (AlertInstelling al in g.AlertInstellingen)
+                {
+                    foreach (Alert a in al.Alerts)
+                    {
+                        if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
+                        {
+                            dezeWeek.Add(a);
+                        }
+                    }
+                }
+            }
+            SendMail(dezeWeek);
+         }
+        private bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
+        {
+            var cal = System.Globalization.DateTimeFormatInfo.CurrentInfo.Calendar;
+            var d1 = date1.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date1));
+            var d2 = date2.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date2));
+
+            return d1 == d2;
+        }
+        public void SendMail(List<Alert> alerts)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress("integratieproject.8ien@gmail.com");
+                mail.To.Add("thomas.dewitte@student.kdg.be");
+                mail.Subject = "Test";
+                StringBuilder sb = new StringBuilder();
+                foreach (Alert a in alerts)
+                {
+                    sb.AppendLine(a.ToString());
+                    sb.AppendLine("----");
+                }
+                mail.Body = sb.ToString();
+
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("integratieproject.8ien@gmail.com", "integratieproject");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Mail says no");
             }
         }
     }
