@@ -23,6 +23,7 @@ namespace MVC_S.Controllers
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
+            
 
 
             //**** initialisatie blok databank ****//
@@ -82,12 +83,16 @@ namespace MVC_S.Controllers
 
         public ActionResult Personen(/*int onderwerpId*/)
         {
+
+            int id = 1;
+            Persoon persoon = dMgr.GetPersoon(id);
+
             //Persoon persoon = xMgr.GetPersoon(onderwerpId);
             /*  verwijder alle onderstaande code buiten de return
              *      zodra er via bovenstaande methode
              *      een persoon kan binnengehaald worden
              *      en vervang de xMgr met de correcte mgr*/
-            Persoon persoon = new Persoon()
+            /*Persoon persoon = new Persoon()
             {
                 Naam = "Bart De Wever",
                 Twitter = "@Bart_DeWever",
@@ -125,7 +130,7 @@ namespace MVC_S.Controllers
                 Persoon = persoon
             };
             nva.Tewerkstellingen.Add(stadABart);
-            persoon.Tewerkstellingen.Add(stadABart);
+            persoon.Tewerkstellingen.Add(stadABart);*/
             return View(persoon);
         }
 

@@ -597,6 +597,20 @@ namespace IP_8IEN.BL
             return messages;
         }
 
+        public Persoon GetPersoon(int persoonId)
+        {
+            initNonExistingRepo();
+
+            //-------------deze zijn nodig om automatisch keys in te laden------------//
+            IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
+            IEnumerable<Tewerkstelling> tewerkstellingen = repo.ReadTewerkstellingen();
+            //-----------------------------------------------------------------------//
+
+            Persoon persoon = repo.ReadPersoon(persoonId);
+
+            return persoon;
+        }
+
         //Unit of Work related
         public void initNonExistingRepo(bool withUnitOfWork = false)
         {
