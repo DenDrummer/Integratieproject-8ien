@@ -1,7 +1,7 @@
 ﻿$(function () {
 
     Morris.Area({
-        element: 'morris-area-chart',
+        element: 'morris-chart1',
         data: [{
             period: '2010 Q1',
             iphone: 2666,
@@ -62,7 +62,7 @@
     });
 
     Morris.Donut({
-        element: 'morris-donut-chart',
+        element: 'morris-chart2',
         data: [{
             label: "Download Sales",
             value: 12
@@ -77,7 +77,7 @@
     });
 
     Morris.Bar({
-        element: 'morris-bar-chart',
+        element: 'morris-chart3',
         data: [{
             y: '2006',
             a: 100,
