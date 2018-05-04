@@ -27,8 +27,8 @@ namespace MVC_S.Controllers
 
 
             //**** initialisatie blok databank ****//
-            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
-            //dMgr.ApiRequestToJson();
+            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            dMgr.ApiRequestToJson();
 
             //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
