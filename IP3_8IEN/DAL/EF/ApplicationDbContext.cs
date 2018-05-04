@@ -1,10 +1,5 @@
 ﻿using IP_8IEN.BL.Domain;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IP_8IEN.DAL.EF
 {
@@ -13,7 +8,7 @@ namespace IP_8IEN.DAL.EF
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("OurDB_Identity", throwIfV1Schema: false)
+            : base("OurDB_EFCodeFirst", throwIfV1Schema: false)
         {
 
         }
