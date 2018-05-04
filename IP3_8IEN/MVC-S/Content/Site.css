@@ -176,3 +176,6 @@ label {
     display:block;
 }
 
+tr.instellingRow>td{
+    padding-bottom:30px;
+}
