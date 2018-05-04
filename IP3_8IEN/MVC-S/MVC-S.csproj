@@ -463,6 +463,7 @@
     <Content Include="Views\Alert\NotAllowed.cshtml" />
     <Content Include="Views\Alert\NotFound.cshtml" />
     <Content Include="Views\Alert\BadRequest.cshtml" />
+    <Content Include="Views\Shared\_ShortDateView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
