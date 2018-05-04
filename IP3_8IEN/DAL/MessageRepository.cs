@@ -116,5 +116,10 @@ namespace IP_8IEN.DAL
                 return ReadMessages();
             }
         }
+        public Organisatie ReadOrganisatie(int organisatieId)
+        {
+            IEnumerable<Organisatie> organisaties = ctx.Organisaties.Include("Tewerkstellingen").Include("Tewerkstellingen.Persoon");
+            return organisaties.FirstOrDefault(o => o.OnderwerpId == organisatieId);
+        }
     }
 }

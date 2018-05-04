@@ -178,6 +178,14 @@ namespace IP_8IEN.BL
             return repo.ReadAlerts();
         }
 
+        public Alert GetAlert(int alertId)
+        {
+            initNonExistingRepo();
+
+            Alert alert = repo.ReadAlert(alertId);
+            return alert;
+        }
+
         //Unit of Work related
         public void initNonExistingRepo(bool withUnitOfWork = false)
         {

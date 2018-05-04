@@ -17,6 +17,9 @@ namespace IP_8IEN.BL
 
         //2 apr 2018 : Stephane
         IEnumerable<Alert> GetAlerts();
-        
+
+        //4 mei 2018 : Stephane
+        Alert GetAlert(int alertId);
+
     }
 }
