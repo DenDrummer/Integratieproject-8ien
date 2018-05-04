@@ -17,5 +17,8 @@ namespace IP_8IEN.BL
 
         //2 apr 2018 : Stephane
         IEnumerable<Alert> GetAlerts();
+
+        //4 apr 2018 : Victor
+        void WeeklyReview();
     }
 }

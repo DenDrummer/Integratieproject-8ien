@@ -20,10 +20,10 @@ namespace MVC_S.Controllers
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
 
-            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
-            dMgr.ApiRequestToJson();
+            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            //dMgr.ApiRequestToJson();
             //dMgr.CountSubjMsgsPersoon();
-            dMgr.ReadOnderwerpenWithSubjMsgs();
+            //dMgr.ReadOnderwerpenWithSubjMsgs();
 
 
             //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
@@ -32,7 +32,7 @@ namespace MVC_S.Controllers
 
             //dMgr.GetAlerts();
 
-            HostingEnvironment.QueueBackgroundWorkItem(ct => SendMailAsync(dMgr));
+            HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
 
         }
         private async Task SendMailAsync(IDataManager dMgr)
@@ -42,6 +42,18 @@ namespace MVC_S.Controllers
                 await Task.Run(() =>
                 {
                     dMgr.GetAlerts();
+                });
+                Thread.Sleep(10800000);
+            }
+        }
+
+        private async Task WeeklyReview(IGebruikerManager gMgr)
+        {
+            while (true)
+            {
+                await Task.Run(() =>
+                {
+                    gMgr.WeeklyReview();
                 });
                 Thread.Sleep(10800000);
             }

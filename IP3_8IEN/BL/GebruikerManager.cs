@@ -221,14 +221,17 @@ namespace IP_8IEN.BL
 
         public void WeeklyReview()
         {
+            initNonExistingRepo();
             List<Gebruiker> gebruikers = new List<Gebruiker>();
             gebruikers = repo.ReadGebruikers().ToList();
             List<Alert> dezeWeek = new List<Alert>();
 
             foreach (Gebruiker g in gebruikers)
             {
+                if (g.AlertInstellingen != null) {
                 foreach (AlertInstelling al in g.AlertInstellingen)
                 {
+                    if (al.Alerts != null) {
                     foreach (Alert a in al.Alerts)
                     {
                         if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
@@ -236,9 +239,11 @@ namespace IP_8IEN.BL
                             dezeWeek.Add(a);
                         }
                     }
+                    }
                 }
+                }
+                SendMail(dezeWeek,g.Email);
             }
-            SendMail(dezeWeek);
          }
         private bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
         {
@@ -248,7 +253,7 @@ namespace IP_8IEN.BL
 
             return d1 == d2;
         }
-        public void SendMail(List<Alert> alerts)
+        public void SendMail(List<Alert> alerts, string email)
         {
             try
             {
@@ -256,7 +261,7 @@ namespace IP_8IEN.BL
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
                 mail.From = new MailAddress("integratieproject.8ien@gmail.com");
-                mail.To.Add("thomas.dewitte@student.kdg.be");
+                mail.To.Add(email);
                 mail.Subject = "Test";
                 StringBuilder sb = new StringBuilder();
                 foreach (Alert a in alerts)
