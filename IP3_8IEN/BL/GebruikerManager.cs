@@ -287,7 +287,7 @@ namespace IP_8IEN.BL
 
                 SmtpServer.Port = 587;
                 SmtpServer.Credentials = new System.Net.NetworkCredential("integratieproject.8ien@gmail.com", "integratieproject");
-                SmtpServer.EnableSsl = true;
+                SmtpServer.EnableSsl = true; 
 
                 SmtpServer.Send(mail);
             }
