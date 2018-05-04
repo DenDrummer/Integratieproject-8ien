@@ -79,6 +79,7 @@ namespace MVC_S.Controllers
             return View();
         }
 
+        //Get: Persoon/1
         public ActionResult Personen(/*int onderwerpId*/)
         {
             int id = 1;
