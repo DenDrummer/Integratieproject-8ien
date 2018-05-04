@@ -5,8 +5,31 @@
 
 <h2>grafiektest</h2>
 
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/sparkline/jquery.sparkline.min.js"></script>
 
+<script src="~/Scripts/morris/morris.min.js"></script>
+<script src="~/Scripts/morris/raphael.min.js"></script>
 
+<script type="text/javascript">
+    $(function() {
+        /** This code runs when everything has been loaded on the page */
+        /* Inline sparklines take their values from the contents of the tag */
+        $('.inlinesparkline').sparkline();
+
+        /* Sparklines can also take their values from the first argument
+        passed to the sparkline() function */
+        var myvalues = [10,8,5,7,4,4,1];
+        $('.dynamicsparkline').sparkline(myvalues);
+
+        /* The second argument gives options such as chart type */
+        $('.dynamicbar').sparkline(myvalues, {type: 'bar', barColor: 'green'} );
+
+        /* Use 'html' instead of an array of values to pass options
+        to a sparkline with data in the tag */
+        $('.inlinebar').sparkline('html', {type: 'bar', barColor: 'red'} );
+    });
+</script>
 
 <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
     <ul id="sparks" class="">
@@ -30,6 +53,8 @@
         </li>
     </ul>
 </div>
+
+<div id="sales-graph" class="chart no-padding"></div>
 
 @*<section id="widget-grid" class="">
     <!-- row -->
@@ -183,7 +208,7 @@
     }
     
 </script>
-
+    *@
 <script type="text/javascript">
     
     $(document).ready(function () {
@@ -256,7 +281,7 @@
         }
 
 })
-</script>*@
+</script>
     
 
 
