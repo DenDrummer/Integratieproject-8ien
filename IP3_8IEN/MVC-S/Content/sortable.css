@@ -1,0 +1,16 @@
+﻿#sortable {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 100px;
+}
+
+.sortable {
+    padding: 10px 0;
+    margin: 1px 0;
+    width: 100px;
+    text-align: center;
+    color: #ffffff;
+    background-color: #51A0ED;
+}
