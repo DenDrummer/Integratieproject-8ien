@@ -20,5 +20,8 @@ namespace IP_8IEN.DAL
 
         //2 apr 2018 : Stephane
         IEnumerable<Alert> ReadAlerts();
+
+        //4 mei 2018 : Victor
+        IEnumerable<Gebruiker> ReadGebruikersWithAlertInstellingen();
     }
 }

@@ -33,15 +33,16 @@ namespace MVC_S.Controllers
             //dMgr.GetAlerts();
 
             HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
+            //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
 
         }
-        private async Task SendMailAsync(IDataManager dMgr)
+        private async Task RetrieveAPIData(IDataManager dMgr)
         {
             while (true)
             {
                 await Task.Run(() =>
                 {
-                    dMgr.GetAlerts();
+                    dMgr.ApiRequestToJson();
                 });
                 Thread.Sleep(10800000);
             }

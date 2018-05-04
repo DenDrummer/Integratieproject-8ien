@@ -223,11 +223,21 @@ namespace IP_8IEN.BL
         {
             initNonExistingRepo();
             List<Gebruiker> gebruikers = new List<Gebruiker>();
-            gebruikers = repo.ReadGebruikers().ToList();
+            gebruikers = repo.ReadGebruikersWithAlertInstellingen().ToList();
             List<Alert> dezeWeek = new List<Alert>();
+            StringBuilder sb = new StringBuilder();
 
             foreach (Gebruiker g in gebruikers)
             {
+                sb.Clear();
+                sb.Append(@"<div id=""wrapper"" style=""width:600px;margin:0 auto; border:1px solid black; 
+                            overflow:hidden; padding: 10px 10px 10px 10px;"" ><p><i>");
+                sb.Append(g.Voornaam + " " + g.Naam);
+                sb.Append(@", </i></p>
+                            <p>Via de Weekly Review wordt u op de hoogte gehouden van alle trending Onderwerpen die </br>
+                            u volgt. Indien u op de hoogte gehouden wilt worden van nog meer onderwerpen, kan u 
+                            </br> steeds extra onderwerpen volgen op <a href=""www.8ien.be""> Weekly Reviews </a>. </p>
+                            <h3>Personen</h3> <div style=""margin: 0px;""> <p>Naam : BARTJE </p> <ul>");
                 if (g.AlertInstellingen != null) {
                 foreach (AlertInstelling al in g.AlertInstellingen)
                 {
@@ -237,12 +247,14 @@ namespace IP_8IEN.BL
                         if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
                         {
                             dezeWeek.Add(a);
+                                    sb.Append("<li>" +  a.ToString() + "</li>");
                         }
                     }
                     }
                 }
                 }
-                SendMail(dezeWeek,g.Email);
+                sb.Append(@"</ul></div></div>");
+                //SendMail(dezeWeek, g.Email, sb.ToString());
             }
          }
         private bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
@@ -253,7 +265,7 @@ namespace IP_8IEN.BL
 
             return d1 == d2;
         }
-        public void SendMail(List<Alert> alerts, string email)
+        public void SendMail(List<Alert> alerts, string email, string body)
         {
             try
             {
@@ -263,13 +275,8 @@ namespace IP_8IEN.BL
                 mail.From = new MailAddress("integratieproject.8ien@gmail.com");
                 mail.To.Add(email);
                 mail.Subject = "Test";
-                StringBuilder sb = new StringBuilder();
-                foreach (Alert a in alerts)
-                {
-                    sb.AppendLine(a.ToString());
-                    sb.AppendLine("----");
-                }
-                mail.Body = sb.ToString();
+                mail.Body = body;
+                mail.IsBodyHtml = true;
 
                 SmtpServer.Port = 587;
                 SmtpServer.Credentials = new System.Net.NetworkCredential("integratieproject.8ien@gmail.com", "integratieproject");
