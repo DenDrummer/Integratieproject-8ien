@@ -26,7 +26,8 @@ namespace MVC_S
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/sortable.css"));
+                      "~/Content/sortable.css",
+                      "~/Content/morris.css"));
             
             //Sam 24/4
             //bundles.Add(new StyleBundle("~/content/smartadmin").IncludeDirectory("~/content/css", "*.min.css"));

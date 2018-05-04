@@ -73,7 +73,8 @@
             label: "Mail-Order Sales",
             value: 20
         }],
-        resize: true
+        resize: true,
+respawn:true
     });
 
     Morris.Bar({
@@ -111,7 +112,8 @@
         ykeys: ['a', 'b'],
         labels: ['Series A', 'Series B'],
         hideHover: 'auto',
-        resize: true
+        resize: true,
+respawn: true
     });
 
 });
