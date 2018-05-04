@@ -1,19 +1,11 @@
-﻿using System.Collections.Generic;
-
-using IP_8IEN.BL.Domain.Data;
-using Newtonsoft.Json;
-using System.IO;
-using System.Data.Entity;
-
-using IP_8IEN.BL;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Data.Entity;
 
 namespace IP_8IEN.DAL.EF
 {
     class OurDbInitializer : DropCreateDatabaseIfModelChanges<OurDbContext>
     //DropCreateDatabaseIfModelChanges
     //DropCreateDatabaseAlways
+    //CreateDatabaseIfNotExists
     {
 
         protected override void Seed(OurDbContext context)

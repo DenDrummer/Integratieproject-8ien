@@ -15,7 +15,7 @@ namespace IP_8IEN.BL.Domain.Data
             public int OnderwerpId { get; set; }
             [MaxLength(100)]
             public string Beschrijving { get; set; }
-            public string Twitter { get; set; }
+            //public string Twitter { get; set; }
             
             //public Image Foto { get; private set; }
 

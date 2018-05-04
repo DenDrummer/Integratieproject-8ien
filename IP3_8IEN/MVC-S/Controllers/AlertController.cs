@@ -1,9 +1,6 @@
 ﻿using IP_8IEN.BL;
 using IP_8IEN.BL.Domain.Gebruikers;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MVC_S.Controllers

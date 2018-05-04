@@ -1,0 +1,88 @@
+﻿@model IP_8IEN.BL.Domain.Gebruikers.Alert
+
+@{
+    ViewBag.Title = "Alerts";
+}
+<h2>@ViewBag.Title</h2>
+
+<br />
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @ViewBag.Title
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form role="form">
+                            <div class="form-group" style="border-right: 1px solid" ;>
+                                <h2>Bestaande Alerts!</h2>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6">
+                        <h2>Nieuwe Alert Maken!</h2>
+                        <table>
+                            <tr>
+                                <td><b>Ontvangen op: </b></td>
+                                <td><input type="checkbox" name="checkEmailA" value="Email"> Email</td>
+                            </tr>
+                            <tr>
+                                <td> </td>
+                                <td><input type="checkbox" name="checkNotificatieA" value="Notificatie"> Notifactie</td>
+                            </tr>
+                            <tr>
+                                <td> </td>
+                                <td><input type="checkbox" name="checkAndroidA" value="Android"> Android App</td>
+                            </tr>
+                            <tr>
+                                <td><b>Type Alert: </b> </td>
+                                <td><input type="radio" name="type" value="stijgdaling"> Stijging/Daling (Selected)<br></td>
+                            </tr>
+                            <tr>
+                                <td> </td>
+                                <td><input type="radio" name="type" value="vergelijking"> Vergelijking tussen Onderwerpen<br></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input type="radio" name="type" value="verhouding"> Verhouding positief/negatief<br></td>
+                            </tr>
+                            <tr>
+                                <td><b>Onderwerptype: </b></td>
+                                <td>
+                                    <select>
+                                        <option value="personen">Personen</option>
+                                        <option value="organisaties">Organisaties</option>
+                                        <option value="themas">Themas</option>
+
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Onderwerp 1: </b></td>
+                                <td><input type="text" name="search1" placeholder="Search.."></td>
+                            </tr>
+                            <tr>
+                                <td><b>Onderwerp 2: </b></td>
+                                <td><input type="text" name="search2" placeholder="Search.."></td>
+                            </tr>
+                            <tr>
+                                <td><b>Waarde: </b></td>
+                                <td><input type="text" name="txtWaarde" value="geef waarde in" readonly></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><button type="button">Alert Toevoegen</button></td>
+                            </tr>
+
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

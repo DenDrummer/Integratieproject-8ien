@@ -9,7 +9,7 @@ using IP_8IEN.BL.Domain;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace IP_8IEN.BL 
+namespace IP_8IEN.BL
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
@@ -45,7 +45,7 @@ namespace IP_8IEN.BL
         }
 
         // Roles in ASP.Identity
-        private void CreateRolesandUsers()
+        private async Task CreateRolesandUsers()
         {
             // Context moet opgehaald worden uit de repository!
             // ApplicationDbContext context = (ApplicationDbContext)(((IdentityRepository)Store).Context);
@@ -54,13 +54,14 @@ namespace IP_8IEN.BL
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(repo.GetContext()));
 
             // Bij initialisatie van het systeem wordt Admin aangemaakt
-            if (!roleManager.RoleExists("Admin"))
+            bool x = await roleManager.RoleExistsAsync("Admin");
+            if (!x)
             {
 
                 // Aanmaken van de Admin role
                 var role = new IdentityRole();
                 role.Name = "Admin";
-                roleManager.Create(role);
+                await roleManager.CreateAsync(role);
 
                 // Administrator aanmaken
 
@@ -68,7 +69,7 @@ namespace IP_8IEN.BL
                 user.UserName = "AdminQwerty@mail.com";
                 user.Email = "AdminQwerty@mail.com";
 
-                string userPWD = "Azerty123.";
+                string userPWD = "Azerty123!";
 
                 var chkUser = this.Create(user, userPWD);
 
@@ -80,20 +81,22 @@ namespace IP_8IEN.BL
             }
 
             // Manager role aanmaken    
-            if (!roleManager.RoleExists("Manager"))
+            x = await roleManager.RoleExistsAsync("Manager");
+            if (!x)
             {
                 var role = new IdentityRole();
                 role.Name = "Manager";
-                roleManager.Create(role);
+                await roleManager.CreateAsync(role);
 
             }
 
             // Emloyee role aanmaken    
-            if (!roleManager.RoleExists("Employee"))
+            x = await roleManager.RoleExistsAsync("Employee");
+            if (!x)
             {
                 var role = new IdentityRole();
                 role.Name = "Employee";
-                roleManager.Create(role);
+                await roleManager.CreateAsync(role);
 
             }
         }

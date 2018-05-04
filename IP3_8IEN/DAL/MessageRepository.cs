@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using IP_8IEN.BL.Domain.Data;
 using IP_8IEN.DAL.EF;
 using System.Linq;
+using System.Data.Entity;
 
 namespace IP_8IEN.DAL
 {
@@ -55,7 +55,7 @@ namespace IP_8IEN.DAL
 
         public IEnumerable<Persoon> ReadPersonen()
         {
-            //return ctx.Personen;
+            //return ctx.Personen.Include("Tewerkstellingen").Include("Onderwerpen").ToList<Persoon>();
             return ctx.Personen.ToList<Persoon>();
         }
 
@@ -71,7 +71,7 @@ namespace IP_8IEN.DAL
         }
 
         public IEnumerable<Organisatie> ReadOrganisaties()
-        {
+        {            
             return ctx.Organisaties.ToList<Organisatie>();
         }
 
@@ -80,9 +80,46 @@ namespace IP_8IEN.DAL
             ctx.Tewerkstellingen.Add(tewerkstelling);
             ctx.SaveChanges();
         }
+        public IEnumerable<SubjectMessage> ReadSubjectMessages()
+        {
+            return ctx.SubjectMessages.ToList<SubjectMessage>();
+        }
+        public IEnumerable<Message> ReadMessages()
+        {
+            return ctx.Messages.ToList<Message>();
+        }
         public void UdateOnderwerp(Onderwerp onderwerp)
         {
             ctx.SaveChanges();
+        }
+        public void UpdateMessage()
+        {
+            ctx.SaveChanges();
+        }
+        public Persoon ReadPersoon(int persoonId)
+        {
+            IEnumerable<Persoon> personen = ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie");//.Find(persoonId);
+            return personen.FirstOrDefault(p => p.OnderwerpId == persoonId);
+        }
+        public IEnumerable<Tewerkstelling> ReadTewerkstellingen()
+        {
+            return ctx.Tewerkstellingen.ToList<Tewerkstelling>();
+        }
+        public IEnumerable<Message> ReadMessages(bool subjM)
+        {
+            if(subjM)
+            {
+                IEnumerable<Message> messages = ctx.Messages.Include("SubjectMessages").Include("SubjectMessages.Persoon");
+                return messages;
+            } else
+            {
+                return ReadMessages();
+            }
+        }
+        public Organisatie ReadOrganisatie(int organisatieId)
+        {
+            IEnumerable<Organisatie> organisaties = ctx.Organisaties.Include("Tewerkstellingen").Include("Tewerkstellingen.Persoon");
+            return organisaties.FirstOrDefault(o => o.OnderwerpId == organisatieId);
         }
     }
 }

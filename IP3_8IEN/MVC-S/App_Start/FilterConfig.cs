@@ -1,5 +1,6 @@
-﻿using System.Web;
+﻿using System;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace MVC_S
 {
@@ -9,9 +10,7 @@ namespace MVC_S
         {
             filters.Add(new HandleErrorAttribute());
         }
-
-
-        /*
+        
         // Zorgt ervoor dat je niet rechtstreeks een controller kan aanspreken
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
         public class NoDirectAccessAttribute : ActionFilterAttribute
@@ -25,6 +24,6 @@ namespace MVC_S
                                               RouteValueDictionary(new { controller = "Home", action = "Index" }));
                 }
             }
-        }*/
+        }
     }
 }

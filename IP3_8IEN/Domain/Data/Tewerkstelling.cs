@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IP_8IEN.BL.Domain.Data
+﻿namespace IP_8IEN.BL.Domain.Data
 {
     public class Tewerkstelling
     {
         public int TewerkstellingId { get; set; }
+
+        public string Position { get; set; }
 
         public Persoon Persoon { get; set; }
         public Organisatie Organisatie { get; set; }

@@ -1,0 +1,166 @@
+﻿@{
+    ViewBag.Title = "WeeklyReview";
+}
+
+
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Hieronder ziet u een overzicht van alle personen/organisaties/themas die in onze databank zitten. Daarnaast kan u zien wie u volgt.
+            </div>
+            <div class="panel-body">
+                <table width="100%" class="table table-striped table-bordered table-hover" id="weeklyreviewTable">
+                    <thead>
+                        <tr class="odd gradeX">
+                            <th>Type</th>
+                            <th>Naam</th>
+                            <th>Twitter</th>
+                            <th>Volgen?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="odd gradeX">
+                            <td>Persoon</td>
+                            <td>Bart De Wever</td>
+                            <td>Bart_DeWever</td>
+                            <td>Y</td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td>Persoon</td>
+                            <td>Bart De Wever</td>
+                            <td>Bart_DeWever</td>
+                            <td>Y</td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td>Persoon</td>
+                            <td>Bart De Wever</td>
+                            <td>Bart_DeWever</td>
+                            <td>Y</td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td>Persoon</td>
+                            <td>Bart De Wever</td>
+                            <td>Bart_DeWever</td>
+                            <td>Y</td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td>Persoon</td>
+                            <td>Bart De Wever</td>
+                            <td>Bart_DeWever</td>
+                            <td>Y</td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td>Persoon</td>
+                            <td>Bart De Wever</td>
+                            <td>Bart_DeWever</td>
+                            <td>Y</td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td>Persoon</td>
+                            <td>Bart De Wever</td>
+                            <td>Bart_DeWever</td>
+                            <td>Y</td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td>Persoon</td>
+                            <td>Bart De Wever</td>
+                            <td>Bart_DeWever</td>
+                            <td>Y</td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td>Persoon</td>
+                            <td>Bart De Wever</td>
+                            <td>Bart_DeWever</td>
+                            <td>Y</td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td>Persoon</td>
+                            <td>Kris Peeters</td>
+                            <td>Kris_Peeters</td>
+                            <td>Y</td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td>Persoon</td>
+                            <td>Jan Jambon</td>
+                            <td>Jambon_Jan</td>
+                            <td>N</td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td>Organisatie</td>
+                            <td>N-VA</td>
+                            <td>de_NVA</td>
+                            <td>Y</td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td>Organisatie</td>
+                            <td>CD&V</td>
+                            <td>CDV</td>
+                            <td>N</td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td>Thema</td>
+                            <td>De veiligheid</td>
+                            <td>#veiligheid</td>
+                            <td>N</td>
+                        </tr>
+                    </tbody>
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                        Instellingen                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <form role="form">
+                                <div class="form-group" style="border-right: 1px solid;">
+                                    <label>Welke informatie wilt u ontvangen over de onderwerpen die u volgt?</label>
+                                    <input type="checkbox" name="checkTotaalBerichten" value="Totaal"> Totaal Aantal Berichten<br>
+                                    <input type="checkbox" name="checkTrends" value="Trends" > Trends<br>
+                                    <input type="checkbox" name="checkVerhalen" value="Verhalen"> Verhalen<br>
+                                    <input type="checkbox" name="checkTermen" value="Termen" > Termen<br>
+
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-6">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label>Op welke manier wilt u uw Weekly Review ontvagen?</label>
+                                    <input type="checkbox" name="checkEmail" value="Email"> Email<br>
+                                    <input type="checkbox" name="checkNotifcatie" value="Notificatie"> Notificatie<br>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+
+        @section scripts{
+
+            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+
+            <script>
+                $(document).ready(function () {
+                    $('#weeklyreviewTable').DataTable();
+                });</script>
+
+        }
+
+
+
