@@ -3,6 +3,7 @@
 using IP_8IEN.BL.Domain.Data;
 using IP_8IEN.DAL.EF;
 using System.Linq;
+using System.Data.Entity;
 
 namespace IP_8IEN.DAL
 {
@@ -70,7 +71,7 @@ namespace IP_8IEN.DAL
         }
 
         public IEnumerable<Organisatie> ReadOrganisaties()
-        {
+        {            
             return ctx.Organisaties.ToList<Organisatie>();
         }
 
@@ -94,6 +95,14 @@ namespace IP_8IEN.DAL
         public void UpdateMessage()
         {
             ctx.SaveChanges();
+        }
+        public Persoon ReadPersoon(int persoonId)
+        {
+            return ctx.Personen.Find(persoonId);
+        }
+        public IEnumerable<Tewerkstelling> ReadTewerkstellingen()
+        {
+            return ctx.Tewerkstellingen.ToList<Tewerkstelling>();
         }
     }
 }

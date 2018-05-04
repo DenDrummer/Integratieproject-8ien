@@ -6,6 +6,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System;
 using IP_8IEN.BL.Domain.Gebruikers;
+using System.Web.Hosting;
+using System.IO;
+using System.Web;
 
 namespace MVC_S.Controllers
 {
@@ -20,26 +23,26 @@ namespace MVC_S.Controllers
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
+            
 
+
+            //**** initialisatie blok databank ****//
             //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             //dMgr.ApiRequestToJson();
-            //dMgr.CountSubjMsgsPersoon();
-            dMgr.ReadOnderwerpenWithSubjMsgs();
-
-            /*
-            dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.json"));
 
             //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            //**** initialisatie blok databank ****//
 
+            //**** dit zijn test methodes ****//
+            //dMgr.CountSubjMsgsPersoon();
+            //dMgr.ReadOnderwerpenWithSubjMsgs();
             //dMgr.GetAlerts();
+            //**** dit zijn test methodes ****//
 
             HostingEnvironment.QueueBackgroundWorkItem(ct => SendMailAsync(dMgr));
 
-            gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
-            gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
-            gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));*/
         }
         private async Task SendMailAsync(IDataManager dMgr)
         {
@@ -80,12 +83,16 @@ namespace MVC_S.Controllers
 
         public ActionResult Personen(/*int onderwerpId*/)
         {
+
+            int id = 1;
+            Persoon persoon = dMgr.GetPersoon(id);
+
             //Persoon persoon = xMgr.GetPersoon(onderwerpId);
             /*  verwijder alle onderstaande code buiten de return
              *      zodra er via bovenstaande methode
              *      een persoon kan binnengehaald worden
              *      en vervang de xMgr met de correcte mgr*/
-            Persoon persoon = new Persoon()
+            /*Persoon persoon = new Persoon()
             {
                 Naam = "Bart De Wever",
                 Twitter = "@Bart_DeWever",
@@ -101,7 +108,7 @@ namespace MVC_S.Controllers
                 Afkorting = "N-VA",
                 Twitter = "@de_NVA",
                 Facebook = "NVA",
-                Oprichtingsdatum = new DateTime(2001, 10, 13),
+                //Oprichtingsdatum = new DateTime(2001, 10, 13),
                 Tewerkstellingen = new List<Tewerkstelling>(),
                 Ideologie = "Nationalisme, Conservatisme"
             };
@@ -123,7 +130,7 @@ namespace MVC_S.Controllers
                 Persoon = persoon
             };
             nva.Tewerkstellingen.Add(stadABart);
-            persoon.Tewerkstellingen.Add(stadABart);
+            persoon.Tewerkstellingen.Add(stadABart);*/
             return View(persoon);
         }
 
@@ -155,7 +162,7 @@ namespace MVC_S.Controllers
                 Afkorting = "N-VA",
                 Twitter = "@de_NVA",
                 Facebook = "NVA",
-                Oprichtingsdatum = new DateTime(2001,10,13),
+                //Oprichtingsdatum = new DateTime(2001,10,13),
                 Tewerkstellingen = new List<Tewerkstelling>(),
                 Ideologie = "Nationalisme, Conservatisme"
             };
@@ -208,8 +215,14 @@ namespace MVC_S.Controllers
 
         public ActionResult AdminOmgeving()
         {
+            // stephane : note : deze 'if else' kun je gebruiken voor authorisatie
+            if (User.IsInRole("Admin")){
 
-            return View();
+                return View();
+            } else
+            {
+                return RedirectToAction("NotAllowed", "Error");
+            }
         }
 
         public ActionResult Superadmin()

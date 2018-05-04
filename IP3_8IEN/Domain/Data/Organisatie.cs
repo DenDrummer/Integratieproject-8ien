@@ -9,7 +9,8 @@ namespace IP_8IEN.BL.Domain.Data
         public string Afkorting { get; set; }
         public string Twitter { get; set; }
         public string Facebook { get; set; }
-        public DateTime Oprichtingsdatum { get; set; }
+        //DateTime kan niet 'null' zijn
+        //public DateTime Oprichtingsdatum { get; set; }
         public Persoon Oprichter { get; set; }
         public Persoon Leider { get; set; }
         public string Ideologie { get; set; }

@@ -52,7 +52,7 @@ namespace IP_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "01 Apr 2018 0:01",
+                        since = "26 Apr 2018 0:01",
                         //until weglaten --> last scraping
                         until = "26 Apr 2018 23:59",
                     });
@@ -200,7 +200,10 @@ namespace IP_8IEN.BL
             {
                 persoon = new Persoon()
                 {
+                    
                     Naam = naam,
+                    // DateTime kan niet null zijn --> voorlopig tijd van creatie meegeven
+                    Geboortedatum = DateTime.Now,
                     SubjectMessages = new Collection<SubjectMessage>()
                 };
                 repo.AddOnderwerp(persoon);
@@ -472,11 +475,19 @@ namespace IP_8IEN.BL
                     Site = person.site,
                     Facebook = person.facebook,
                     Town = person.town,
-                    Geboortedatum = person.dateOfBirth,
                     //eventueel 'id' integreren, voorlopig niet nodig
 
                     SubjectMessages = new Collection<SubjectMessage>()
                 };
+
+                try
+                {
+                    //DateTime kan niet 'null' zijn
+                    persoon.Geboortedatum = person.dateOfBirth;
+                } catch
+                {
+                    persoon.Geboortedatum = DateTime.Now;
+                }
 
                 try
                 {
@@ -584,6 +595,20 @@ namespace IP_8IEN.BL
             IEnumerable<Message> messages = repo.ReadMessages();
 
             return messages;
+        }
+
+        public Persoon GetPersoon(int persoonId)
+        {
+            initNonExistingRepo();
+
+            //-------------deze zijn nodig om automatisch keys in te laden------------//
+            IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
+            IEnumerable<Tewerkstelling> tewerkstellingen = repo.ReadTewerkstellingen();
+            //-----------------------------------------------------------------------//
+
+            Persoon persoon = repo.ReadPersoon(persoonId);
+
+            return persoon;
         }
 
         //Unit of Work related
