@@ -52,7 +52,6 @@ namespace IP_8IEN.BL
         //27 apr 2018 : Victor
         void SendMail();
         Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
-        double CalculateChange(long previous, long current);
         int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
         Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
 

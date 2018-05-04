@@ -10,6 +10,7 @@ using System;
 using System.Net;
 using System.Web.Script.Serialization;
 using System.Net.Mail;
+using IP_8IEN.BL.Domain.Gebruikers;
 
 namespace IP_8IEN.BL
 {
@@ -54,7 +55,7 @@ namespace IP_8IEN.BL
                         //name = "Annick De Ridder",
                         since = "26 Apr 2018 0:01",
                         //until weglaten --> last scraping
-                        until = "26 Apr 2018 23:59",
+                        //until = "26 Apr 2018 23:59",
                     });
 
                     streamWriter.Write(json);
@@ -731,7 +732,7 @@ namespace IP_8IEN.BL
 
                 mail.From = new MailAddress("integratieproject.8ien@gmail.com");
                 mail.To.Add("thomas.dewitte@student.kdg.be");
-                mail.Subject = "YOU CUNT"; //srsly Vic? ~Jorden
+                mail.Subject = "Test";
                 mail.Body = "This is for testing SMTP mail from GMAIL";
 
                 SmtpServer.Port = 587;
