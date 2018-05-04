@@ -57,7 +57,8 @@ namespace IP_8IEN.BL
         Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
 
         //3 mei 2018 : Stephane
-        Persoon GetPersoon(int persoonId); 
+        Persoon GetPersoon(int persoonId);
+        Organisatie GetOrganisatie(int organisatieId);
 
     }
 }

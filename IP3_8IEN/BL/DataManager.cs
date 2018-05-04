@@ -553,8 +553,15 @@ namespace IP_8IEN.BL
             initNonExistingRepo();
 
             Persoon persoon = repo.ReadPersoon(persoonId);
-
             return persoon;
+        }
+
+        public Organisatie GetOrganisatie(int organisatieId)
+        {
+            initNonExistingRepo();
+
+            Organisatie organisatie = repo.ReadOrganisatie(organisatieId);
+            return organisatie;
         }
 
         //Unit of Work related

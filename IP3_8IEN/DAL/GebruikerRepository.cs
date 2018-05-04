@@ -78,5 +78,10 @@ namespace IP_8IEN.DAL
         {
             ctx.SaveChanges();
         }
+        public Alert ReadAlert(int alertId)
+        {
+            Alert alert = ctx.Alerts.Find(alertId);
+            return alert;
+        }
     }
 }

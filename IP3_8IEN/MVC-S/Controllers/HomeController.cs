@@ -23,13 +23,7 @@ namespace MVC_S.Controllers
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
-
-            int id = 1;
-            //dMgr.GetPersoon(id);
-            dMgr.ReadMessagesWithSubjMsgs();
-
-
-
+            
             //**** initialisatie blok databank ****//
             //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             //dMgr.ApiRequestToJson();
@@ -110,52 +104,16 @@ namespace MVC_S.Controllers
 
         public ActionResult Organisatie(/*int onderwerpId*/)
         {
-            //Organisatie organisatie = xMgr.GetOrganisatie(onderwerpId);
-            /*  verwijder alle onderstaande code buiten de return
-             *      zodra er via bovenstaande methode
-             *      een organisatie kan binnengehaald worden
-             *      en vervang de xMgr met de correcte mgr*/
-            Organisatie organisatie = new Organisatie()
-            {
-                NaamOrganisatie = "Nieuw-Vlaamse Alliantie",
-                Afkorting = "N-VA",
-                Twitter = "@de_NVA",
-                Facebook = "NVA",
-                //Oprichtingsdatum = new DateTime(2001,10,13),
-                Tewerkstellingen = new List<Tewerkstelling>(),
-                Ideologie = "Nationalisme, Conservatisme"
-            };
-            Persoon bart = new Persoon()
-            {
-                Naam = "Bart De Wever",
-                Twitter = "@Bart_DeWever",
-                Facebook = "BartjeDeWever",
-                Geboortedatum = new DateTime(1970, 12, 21),
-                District = "Antwerpen",
-                Tewerkstellingen = new List<Tewerkstelling>(),
-                Beschrijving = "Bart Albert Liliane De Wever (Mortsel, 21 december 1970) is een Belgisch Vlaams-nationalistisch politicus. Hij is sinds 2004 partijvoorzitter van de Nieuw-Vlaamse Alliantie (N-VA). Sinds 1 januari 2013 is Bart De Wever burgemeester van Antwerpen."
-            };
-            Tewerkstelling nvaBart = new Tewerkstelling()
-            {
-                Organisatie = organisatie,
-                Persoon = bart
-            };
-            organisatie.Tewerkstellingen.Add(nvaBart);
-            bart.Tewerkstellingen.Add(nvaBart);
+            int id = 2;
+            Organisatie organisatie = dMgr.GetOrganisatie(id);
+
             return View(organisatie);
         }
 
         public ActionResult Alerts(/*int alertId*/)
         {
-            //Alert alert = xMgr.GetAlerts(alertId)
-            /*  verwijder alle onderstaande code buiten de return
-             *      zodra er via bovenstaande methode
-             *      een alert kan binnengehaald worden
-             *      en vervang de xMgr met de correcte mgr*/
-            Alert alert = new Alert()
-            {
-                AlertContent = "This is the content of an alert"
-            };
+            int id = 1;
+            Alert alert = gMgr.GetAlert(id);
             return View(alert);
         }
 
