@@ -433,7 +433,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Alert\Index.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
     <Content Include="textgaindump.json" />
     <Content Include="textgaintest2.json" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
@@ -458,14 +458,14 @@
     <Content Include="Views\Home\AdminOmgeving.cshtml" />
     <Content Include="Views\Home\Superadmin.cshtml" />
     <Content Include="Views\Home\Zoeken.cshtml" />
-    <Content Include="Views\Alert\Internal.cshtml" />
-    <Content Include="Views\Alert\NotAllowed.cshtml" />
-    <Content Include="Views\Alert\NotFound.cshtml" />
-    <Content Include="Views\Alert\BadRequest.cshtml" />
+    <Content Include="Views\Error\Internal.cshtml" />
+    <Content Include="Views\Error\NotAllowed.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\BadRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Error\" />
+    <Folder Include="Views\Alert\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
