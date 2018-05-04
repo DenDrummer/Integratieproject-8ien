@@ -55,7 +55,7 @@ namespace IP_8IEN.DAL
 
         public IEnumerable<Persoon> ReadPersonen()
         {
-            //return ctx.Personen;
+            //return ctx.Personen.Include("Tewerkstellingen").Include("Onderwerpen").ToList<Persoon>();
             return ctx.Personen.ToList<Persoon>();
         }
 
@@ -98,11 +98,23 @@ namespace IP_8IEN.DAL
         }
         public Persoon ReadPersoon(int persoonId)
         {
-            return ctx.Personen.Find(persoonId);
+            IEnumerable<Persoon> personen = ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie");//.Find(persoonId);
+            return personen.FirstOrDefault(p => p.OnderwerpId == persoonId);
         }
         public IEnumerable<Tewerkstelling> ReadTewerkstellingen()
         {
             return ctx.Tewerkstellingen.ToList<Tewerkstelling>();
+        }
+        public IEnumerable<Message> ReadMessages(bool subjM)
+        {
+            if(subjM)
+            {
+                IEnumerable<Message> messages = ctx.Messages.Include("SubjectMessages").Include("SubjectMessages.Persoon");
+                return messages;
+            } else
+            {
+                return ReadMessages();
+            }
         }
     }
 }

@@ -513,10 +513,6 @@ namespace IP_8IEN.BL
             IEnumerable<Persoon> personen = repo.ReadPersonen();
             IEnumerable<Hashtag> hashtags = repo.ReadHashtags();
 
-            //-- Als je een object meegeeft zet je deze in commentaar /verwijder --//
-            //Persoon onderwerp = personen.FirstOrDefault(p => p.OnderwerpId == 256);
-            //-----------------------------------------------------------------------//
-
 
             IEnumerable<SubjectMessage> subjMsgs = repo.ReadSubjectMessages();
 
@@ -542,57 +538,12 @@ namespace IP_8IEN.BL
 
             return countedTweets;
         }
-
-        public IEnumerable<Onderwerp> ReadOnderwerpenWithSubjMsgs()
-        {
-            initNonExistingRepo();
-
-            IEnumerable<Onderwerp> onderwerpen = repo.ReadSubjects();
-            //-------------deze zijn nodig om automatisch keys te vinden-------------//
-            IEnumerable<Persoon> personen = repo.ReadPersonen();
-            IEnumerable<Hashtag> hashtags = repo.ReadHashtags();
-            IEnumerable<Message> messages = repo.ReadMessages();
-            //-----------------------------------------------------------------------//
-            IEnumerable<SubjectMessage> subjMsgs = repo.ReadSubjectMessages();
-
-            foreach (var subj in onderwerpen)
-            {
-                subj.SubjectMessages = new Collection<SubjectMessage>();
-            }
-
-            foreach (SubjectMessage subj in subjMsgs)
-            {
-                try
-                {
-                    if (subj.Persoon != null)
-                    {
-                        Persoon prsn = personen.FirstOrDefault(o => o.OnderwerpId == subj.Persoon.OnderwerpId);
-                        prsn.SubjectMessages.Add(subj);
-                    }
-                    else
-                    {
-                        Onderwerp ondrwrp = onderwerpen.FirstOrDefault(o => o.OnderwerpId == subj.Hashtag.OnderwerpId);
-                        ondrwrp.SubjectMessages.Add(subj);
-                    }
-                }
-                catch
-                {
-                    throw new ArgumentException("SubjectMessage " + subj.SubjectMsgId + " kan niet gelinkt worden");
-                }
-            }
-            return onderwerpen;
-        }
-
+        
         public IEnumerable<Message> ReadMessagesWithSubjMsgs()
         {
             initNonExistingRepo();
 
-            //-------------deze zijn nodig om automatisch keys in te laden------------//
-            IEnumerable<Persoon> personen = repo.ReadPersonen();
-            IEnumerable<Hashtag> hashtags = repo.ReadHashtags();
-            IEnumerable<SubjectMessage> subjMsgs = repo.ReadSubjectMessages();
-            //-----------------------------------------------------------------------//
-            IEnumerable<Message> messages = repo.ReadMessages();
+            IEnumerable<Message> messages = repo.ReadMessages(true);
 
             return messages;
         }
@@ -600,11 +551,6 @@ namespace IP_8IEN.BL
         public Persoon GetPersoon(int persoonId)
         {
             initNonExistingRepo();
-
-            //-------------deze zijn nodig om automatisch keys in te laden------------//
-            IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
-            IEnumerable<Tewerkstelling> tewerkstellingen = repo.ReadTewerkstellingen();
-            //-----------------------------------------------------------------------//
 
             Persoon persoon = repo.ReadPersoon(persoonId);
 

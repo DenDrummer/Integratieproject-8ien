@@ -23,7 +23,11 @@ namespace MVC_S.Controllers
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
-            
+
+            int id = 1;
+            //dMgr.GetPersoon(id);
+            dMgr.ReadMessagesWithSubjMsgs();
+
 
 
             //**** initialisatie blok databank ****//
@@ -83,54 +87,9 @@ namespace MVC_S.Controllers
 
         public ActionResult Personen(/*int onderwerpId*/)
         {
-
             int id = 1;
             Persoon persoon = dMgr.GetPersoon(id);
-
-            //Persoon persoon = xMgr.GetPersoon(onderwerpId);
-            /*  verwijder alle onderstaande code buiten de return
-             *      zodra er via bovenstaande methode
-             *      een persoon kan binnengehaald worden
-             *      en vervang de xMgr met de correcte mgr*/
-            /*Persoon persoon = new Persoon()
-            {
-                Naam = "Bart De Wever",
-                Twitter = "@Bart_DeWever",
-                Facebook = "BartjeDeWever",
-                Geboortedatum = new DateTime(1970, 12, 21),
-                District = "Antwerpen",
-                Tewerkstellingen = new List<Tewerkstelling>(),
-                Beschrijving = "Bart Albert Liliane De Wever (Mortsel, 21 december 1970) is een Belgisch Vlaams-nationalistisch politicus. Hij is sinds 2004 partijvoorzitter van de Nieuw-Vlaamse Alliantie (N-VA). Sinds 1 januari 2013 is Bart De Wever burgemeester van Antwerpen."
-            };
-            Organisatie nva = new Organisatie()
-            {
-                NaamOrganisatie = "Nieuw-Vlaamse Alliantie",
-                Afkorting = "N-VA",
-                Twitter = "@de_NVA",
-                Facebook = "NVA",
-                //Oprichtingsdatum = new DateTime(2001, 10, 13),
-                Tewerkstellingen = new List<Tewerkstelling>(),
-                Ideologie = "Nationalisme, Conservatisme"
-            };
-            Tewerkstelling nvaBart = new Tewerkstelling()
-            {
-                Organisatie = nva,
-                Persoon = persoon
-            };
-            nva.Tewerkstellingen.Add(nvaBart);
-            persoon.Tewerkstellingen.Add(nvaBart);
-            Organisatie stadA = new Organisatie()
-            {
-                NaamOrganisatie = "Stad Antwerpen",
-                Tewerkstellingen = new List<Tewerkstelling>()
-            };
-            Tewerkstelling stadABart = new Tewerkstelling()
-            {
-                Organisatie = stadA,
-                Persoon = persoon
-            };
-            nva.Tewerkstellingen.Add(stadABart);
-            persoon.Tewerkstellingen.Add(stadABart);*/
+            
             return View(persoon);
         }
 

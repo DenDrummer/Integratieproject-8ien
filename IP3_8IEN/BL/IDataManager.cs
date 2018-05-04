@@ -43,7 +43,7 @@ namespace IP_8IEN.BL
 
 
         //23 apr 2018 : Stephane
-        IEnumerable<Onderwerp> ReadOnderwerpenWithSubjMsgs();
+        //IEnumerable<Onderwerp> ReadOnderwerpenWithSubjMsgs(); [verwijderd] 4 mei 2018 : Stephane
         IEnumerable<Message> ReadMessagesWithSubjMsgs();
 
         //24 apr 2018 : Victor
