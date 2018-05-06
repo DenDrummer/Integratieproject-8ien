@@ -24,5 +24,7 @@ namespace IP_8IEN.BL
         //4 mei 2018 : Stephane
         Alert GetAlert(int alertId);
 
+        //6 mei 2018 : Stephane
+        //void AddApplicationGebruikers(string filePath);
     }
 }

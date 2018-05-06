@@ -16,13 +16,18 @@ namespace MVC_S.Controllers
     {
         private IDataManager dMgr;
         private IGebruikerManager gMgr;
+        private ApplicationUserManager aMgr;
 
         public HomeController()
         {
             // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
-            //dMgr = new DataManager();
-            //gMgr = new GebruikerManager();
+            dMgr = new DataManager();
+            gMgr = new GebruikerManager();
+
+            //deze doet soms raar.. ik weet niet waarom
+            aMgr = new ApplicationUserManager();
+            aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
 
             #region initialisatie blok databank
             //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
@@ -181,8 +186,8 @@ namespace MVC_S.Controllers
             gMgr = new GebruikerManager();
 
             #region initialisatie blok databank
-            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
-            dMgr.ApiRequestToJson();
+            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            //dMgr.ApiRequestToJson();
             //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));

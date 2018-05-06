@@ -20,6 +20,8 @@ namespace IP_8IEN.BL
         private IGebruikerRepository repo;
         private IDataManager dataMgr;
 
+        private ApplicationUserManager appUserMgr;
+
         // Deze constructor gebruiken we voor operaties binnen de package
         public GebruikerManager()
         {
@@ -33,6 +35,35 @@ namespace IP_8IEN.BL
             repo = new GebruikerRepository(uowManager.UnitOfWork);
         }
 
+        ////inladen vanuit json formaat
+        //public void AddApplicationGebruikers(string filePath)
+        //{
+        //    initNonExistingRepo();
+
+        //    appUserMgr = new ApplicationUserManager();
+
+        //    //sourceUrl /relatief path
+        //    StreamReader r = new StreamReader(filePath);
+        //    string json = r.ReadToEnd();
+        //    List<Message> gebruikers = new List<Message>();
+
+        //    dynamic users = JsonConvert.DeserializeObject(json);
+
+        //    foreach (var item in users.records)
+        //    {
+        //        Domain.ApplicationUser gebruiker = new Domain.ApplicationUser()
+        //        {
+        //            UserName = item.Username,
+        //            VoorNaam = item.Voornaam,
+        //            AchterNaam = item.Achternaam,
+        //            Email = item.email,
+        //            Geboortedatum = item.Geboortedatum
+        //        };
+        //        string passw = item.Password;
+        //        appUserMgr.CreateAsync(gebruiker, passw);
+        //    }
+        //}
+
         //inladen vanuit json formaat
         public void AddGebruikers(string filePath)
         {
@@ -41,7 +72,6 @@ namespace IP_8IEN.BL
             //sourceUrl /relatief path
             StreamReader r = new StreamReader(filePath);
             string json = r.ReadToEnd();
-            List<Message> gebruikers = new List<Message>();
 
             dynamic users = JsonConvert.DeserializeObject(json);
 
