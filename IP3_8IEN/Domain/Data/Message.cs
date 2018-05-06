@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IP_8IEN.BL.Domain.Data
 {
@@ -55,5 +52,17 @@ namespace IP_8IEN.BL.Domain.Data
         public double Geo2 { get; set; }
 
         public ICollection<SubjectMessage> SubjectMessages { get; set; }
+
+        public bool IsFrom(Persoon persoon)
+        {
+            foreach (SubjectMessage s in SubjectMessages)
+            {
+                if (s.Persoon == persoon)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

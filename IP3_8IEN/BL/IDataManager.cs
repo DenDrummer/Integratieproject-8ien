@@ -1,4 +1,5 @@
 ﻿using IP_8IEN.BL.Domain.Data;
+using System;
 using System.Collections.Generic;
 
 namespace IP_8IEN.BL
@@ -38,10 +39,25 @@ namespace IP_8IEN.BL
         //22 apr 2018 : Stephane
         void AddPersonen(string path);
         void AddTewerkstelling(Persoon persoon, string organisatie);
-        int CountSubjMsgsPersoon(Onderwerp onderwerp);
+        int CountSubjMsgsPersoon(Onderwerp onderwerp); //Onderwerp onderwerp
+
 
         //23 apr 2018 : Stephane
-        IEnumerable<Onderwerp> ReadOnderwerpenWithSubjMsgs();
+        //IEnumerable<Onderwerp> ReadOnderwerpenWithSubjMsgs(); [verwijderd] 4 mei 2018 : Stephane
+        IEnumerable<Message> ReadMessagesWithSubjMsgs();
+
+        //24 apr 2018 : Victor
+        void GetAlerts();
+
+        //27 apr 2018 : Victor
+        void SendMail();
+        Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
+        int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
+        Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
+
+        //3 mei 2018 : Stephane
+        Persoon GetPersoon(int persoonId);
+        Organisatie GetOrganisatie(int organisatieId);
 
     }
 }

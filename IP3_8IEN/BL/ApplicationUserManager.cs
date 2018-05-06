@@ -66,10 +66,10 @@ namespace IP_8IEN.BL
                 // Administrator aanmaken
 
                 var user = new ApplicationUser();
-                user.UserName = "AdminQwerty";
+                user.UserName = "AdminQwerty@mail.com";
                 user.Email = "AdminQwerty@mail.com";
 
-                string userPWD = "Azerty123.";
+                string userPWD = "Azerty123!";
 
                 var chkUser = this.Create(user, userPWD);
 
@@ -83,7 +83,7 @@ namespace IP_8IEN.BL
             // Manager role aanmaken    
             x = await roleManager.RoleExistsAsync("Manager");
             if (!x)
-            { 
+            {
                 var role = new IdentityRole();
                 role.Name = "Manager";
                 await roleManager.CreateAsync(role);

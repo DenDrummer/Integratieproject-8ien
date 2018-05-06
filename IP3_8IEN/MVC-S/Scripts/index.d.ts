@@ -67,7 +67,7 @@ export interface Modifiers {
     y?: 'left' | 'right'
   };
 
-    //deze gaf een error na een merge
+  // deze geeft vaak een error, iets met verschillende versies te maken  <----
   //[name: string]: (BaseModifier & Record<string, any>) | undefined;
 }
 

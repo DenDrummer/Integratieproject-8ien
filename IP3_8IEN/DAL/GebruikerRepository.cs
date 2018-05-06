@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using IP_8IEN.BL.Domain.Gebruikers;
 using IP_8IEN.DAL.EF;
 using System.Linq;
@@ -78,6 +77,16 @@ namespace IP_8IEN.DAL
         public void UpdateAlertInstelling(AlertInstelling alertInstelling)
         {
             ctx.SaveChanges();
+        }
+        public IEnumerable<Gebruiker> ReadGebruikersWithAlertInstellingen()
+        {
+            IEnumerable<Gebruiker> gebruikers = ctx.Gebruikers.Include("AlertInstellingen").Include("AlertInstellingen.Alerts");
+            return gebruikers;
+        }
+        public Alert ReadAlert(int alertId)
+        {
+            Alert alert = ctx.Alerts.Find(alertId);
+            return alert;
         }
     }
 }

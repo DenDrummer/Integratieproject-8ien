@@ -750,6 +750,7 @@ pre code {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+  background-color:white;
 }
 
 .container:before,
@@ -2001,8 +2002,6 @@ textarea.input-lg {
   border-radius: 4px;
   -webkit-user-select: none;
      -moz-user-select: none;
-      -ms-user-select: none;
-       -o-user-select: none;
           user-select: none;
 }
 
@@ -4017,6 +4016,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   min-height: 50px;
   margin-bottom: 20px;
   border: 1px solid transparent;
+  
 }
 
 .navbar:before,
@@ -5151,7 +5151,6 @@ a.thumbnail:focus {
 .progress.active .progress-bar {
   -webkit-animation: progress-bar-stripes 2s linear infinite;
      -moz-animation: progress-bar-stripes 2s linear infinite;
-      -ms-animation: progress-bar-stripes 2s linear infinite;
        -o-animation: progress-bar-stripes 2s linear infinite;
           animation: progress-bar-stripes 2s linear infinite;
 }

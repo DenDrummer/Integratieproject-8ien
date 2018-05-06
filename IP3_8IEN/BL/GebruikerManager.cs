@@ -4,12 +4,13 @@ using Newtonsoft.Json;
 using System.IO;
 
 using IP_8IEN.DAL;
-using IP_8IEN.DAL.EF;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System;
 using IP_8IEN.BL;
+using System.Net.Mail;
+using System.Text;
 
 namespace IP_8IEN.BL
 {
@@ -133,17 +134,17 @@ namespace IP_8IEN.BL
                 CreatedOn = DateTime.Now
             };
             //alert toevoegen aan de ICollection van 'AlertInstelling'
-            var alertColl = alertInstelling.alerts;
+            var alertColl = alertInstelling.Alerts;
             if (alertColl != null)
             {
-                alertInstelling.alerts = alertColl.ToList();
+                alertInstelling.Alerts = alertColl.ToList();
             }
             else
             {
-                alertInstelling.alerts = new Collection<Alert>();
+                alertInstelling.Alerts = new Collection<Alert>();
             }
 
-            alertInstelling.alerts.Add(alert);
+            alertInstelling.Alerts.Add(alert);
 
             //eerst alert creëren zodat deze een PK toegewegen krijgt
             repo.AddingAlert(alert);
@@ -160,12 +161,12 @@ namespace IP_8IEN.BL
             string json = r.ReadToEnd();
             List<Message> alertList = new List<Message>();
 
-            dynamic alerts = JsonConvert.DeserializeObject(json);
+            dynamic Alerts = JsonConvert.DeserializeObject(json);
 
             string alertContent;
             int alertInstellingId;
 
-            foreach (var item in alerts.records)
+            foreach (var item in Alerts.records)
             {
                 alertContent = item.AlertContent;
                 alertInstellingId = item.AlertInstellingId;
@@ -178,6 +179,14 @@ namespace IP_8IEN.BL
         {
             initNonExistingRepo();
             return repo.ReadAlerts();
+        }
+
+        public Alert GetAlert(int alertId)
+        {
+            initNonExistingRepo();
+
+            Alert alert = repo.ReadAlert(alertId);
+            return alert;
         }
 
         //Unit of Work related
@@ -214,6 +223,77 @@ namespace IP_8IEN.BL
                         // repo behoudt zijn context
                     }
                 }
+            }
+        }
+
+        public void WeeklyReview()
+        {
+            initNonExistingRepo();
+            List<Gebruiker> gebruikers = new List<Gebruiker>();
+            gebruikers = repo.ReadGebruikersWithAlertInstellingen().ToList();
+            List<Alert> dezeWeek = new List<Alert>();
+            StringBuilder sb = new StringBuilder();
+
+            foreach (Gebruiker g in gebruikers)
+            {
+                sb.Clear();
+                sb.Append(@"<div id=""wrapper"" style=""width:600px;margin:0 auto; border:1px solid black; 
+                            overflow:hidden; padding: 10px 10px 10px 10px;"" ><p><i>");
+                sb.Append(g.Voornaam + " " + g.Naam);
+                sb.Append(@", </i></p>
+                            <p>Via de Weekly Review wordt u op de hoogte gehouden van alle trending Onderwerpen die </br>
+                            u volgt. Indien u op de hoogte gehouden wilt worden van nog meer onderwerpen, kan u 
+                            </br> steeds extra onderwerpen volgen op <a href=""www.8ien.be""> Weekly Reviews </a>. </p>
+                            <h3>Personen</h3> <div style=""margin: 0px;""> <p>Naam : BARTJE </p> <ul>");
+                if (g.AlertInstellingen != null) {
+                foreach (AlertInstelling al in g.AlertInstellingen)
+                {
+                    if (al.Alerts != null) {
+                    foreach (Alert a in al.Alerts)
+                    {
+                        if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
+                        {
+                            dezeWeek.Add(a);
+                                    sb.Append("<li>" +  a.ToString() + "</li>");
+                        }
+                    }
+                    }
+                }
+                }
+                sb.Append(@"</ul></div></div>");
+                //SendMail(dezeWeek, g.Email, sb.ToString());
+            }
+         }
+        private bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
+        {
+            var cal = System.Globalization.DateTimeFormatInfo.CurrentInfo.Calendar;
+            var d1 = date1.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date1));
+            var d2 = date2.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date2));
+
+            return d1 == d2;
+        }
+        public void SendMail(List<Alert> alerts, string email, string body)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress("integratieproject.8ien@gmail.com");
+                mail.To.Add(email);
+                mail.Subject = "Test";
+                mail.Body = body;
+                mail.IsBodyHtml = true;
+
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("integratieproject.8ien@gmail.com", "integratieproject");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Mail says no");
             }
         }
     }
