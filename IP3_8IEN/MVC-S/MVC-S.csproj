@@ -464,10 +464,10 @@
     <Content Include="Views\Alert\NotFound.cshtml" />
     <Content Include="Views\Alert\BadRequest.cshtml" />
     <Content Include="Views\Shared\_ShortDateView.cshtml" />
+    <Content Include="Views\Home\Initialize.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Alert\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

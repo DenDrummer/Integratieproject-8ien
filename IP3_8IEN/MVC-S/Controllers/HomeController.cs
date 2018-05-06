@@ -21,15 +21,15 @@ namespace MVC_S.Controllers
         {
             // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
-            dMgr = new DataManager();
-            gMgr = new GebruikerManager();
+            //dMgr = new DataManager();
+            //gMgr = new GebruikerManager();
 
             #region initialisatie blok databank
-            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
-            dMgr.ApiRequestToJson();
-            gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
-            gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
-            gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            //dMgr.ApiRequestToJson();
+            //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
+            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
+            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
             #endregion
 
             //**** dit zijn test methodes ****//
@@ -169,6 +169,24 @@ namespace MVC_S.Controllers
 
         public ActionResult Zoeken()
         {
+
+            return View();
+        }
+
+        public ActionResult Initialize()
+        {
+            // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
+            // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
+            dMgr = new DataManager();
+            gMgr = new GebruikerManager();
+
+            #region initialisatie blok databank
+            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            dMgr.ApiRequestToJson();
+            //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
+            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
+            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            #endregion
 
             return View();
         }
