@@ -55,7 +55,7 @@ namespace IP_8IEN.BL
                         //name = "Annick De Ridder",
                         since = "26 Apr 2018 0:01",
                         //until weglaten --> last scraping
-                        //until = "26 Apr 2018 23:59",
+                        until = "26 Apr 2018 23:59",
                     });
 
                     streamWriter.Write(json);
