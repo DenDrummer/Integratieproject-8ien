@@ -9,6 +9,7 @@ using IP_8IEN.BL.Domain.Gebruikers;
 using System.Web.Hosting;
 using System.IO;
 using System.Web;
+using IP_8IEN.BL.Domain;
 
 namespace MVC_S.Controllers
 {
@@ -141,6 +142,7 @@ namespace MVC_S.Controllers
             return View(wr);
         }
 
+        // GET : Home/Create
         public ActionResult AdminCRUD()
         {
 
