@@ -2,6 +2,7 @@
 using IP_8IEN.BL.Domain.Gebruikers;
 using IP_8IEN.DAL.EF;
 using System.Linq;
+using IP3_8IEN.BL.Domain.Gebruikers;
 
 namespace IP_8IEN.DAL
 {
@@ -87,6 +88,23 @@ namespace IP_8IEN.DAL
         {
             Alert alert = ctx.Alerts.Find(alertId);
             return alert;
+        }
+        public IEnumerable<ValueFluctuation> ReadValueFluctuations()
+        {
+            IEnumerable<ValueFluctuation> valueFluctuations = ctx.Fluctuations.Include("Alerts");
+            return valueFluctuations;
+        }
+
+        public IEnumerable<HogerLager> ReadHogerLagers()
+        {
+            IEnumerable<HogerLager> hogerLagers = ctx.HogerLagers.Include("Alerts");
+            return hogerLagers;
+        }
+
+        public IEnumerable<PositiefNegatief> ReadPositiefNegatiefs()
+        {
+            IEnumerable<PositiefNegatief> positiefNegatiefs = ctx.PositiefNegatiefs.Include("Alerts");
+            return positiefNegatiefs;
         }
     }
 }
