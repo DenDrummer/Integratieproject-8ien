@@ -229,6 +229,13 @@ namespace MVC_S.Controllers
 
         public ActionResult grafiektest2()
         {
+            Persoon persoon = dMgr.GetPersoon(170);
+
+            int aantalTweets = dMgr.GetNumber(persoon);
+            //int aantalTweets = 69;
+            ViewBag.NUMMER1 = aantalTweets;
+            System.Diagnostics.Debug.WriteLine("tweets per dag");
+
             return View();
         }
 

@@ -159,4 +159,9 @@
         }
     });
 
+    function newNumber(number) {
+        document.getElementById("chart7").innerHTML = number;
+
+    }
+
 });
