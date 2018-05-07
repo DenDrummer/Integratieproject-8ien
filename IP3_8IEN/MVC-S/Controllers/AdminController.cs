@@ -31,10 +31,13 @@ namespace MVC_S.Controllers
         }
 
         // HTTPGET Controller action to edit user
+        // zoeken op email /username kan conflicten opleveren
+        // niet meteen 'good practice' op deze manier
         [HttpGet]
-        public ActionResult EditUser()
+        public async Task<ActionResult> EditUser(string id)
         {
-            return View();
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            return await Task.Run(() => View(user));
         }
 
         // HTTPPOST Controller action to edit user
@@ -42,8 +45,7 @@ namespace MVC_S.Controllers
         public async Task<ActionResult> EditUser(ApplicationUser model)
         {
             //Get User by the Email passed in.
-            /*It's better practice to find user by the Id, (without exposing the id to the view).
-            However, to keep this example simple, we can find the user by email instead*/
+            //It's better practice to find user by the Id, (without exposing the id to the view).
             var user = await _userManager.FindByEmailAsync(model.Email);
 
             //edit user: replace values of UserViewModel properties 
@@ -57,6 +59,36 @@ namespace MVC_S.Controllers
             await _userManager.UpdateAsync(user);
 
             return RedirectToAction("index");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> DeleteUser(string id)
+        {
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            return await Task.Run(() => View(user));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteUser(string id, FormCollection collection)
+        {
+            try
+            {
+                ApplicationUser user = await _userManager.FindByIdAsync(id);
+                await _userManager.DeleteAsync(user);
+
+                return await Task.Run(() => RedirectToAction("Index"));
+            }
+            catch
+            {
+                return await Task.Run(() => View());
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> DetailsUser(string id)
+        {
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            return await Task.Run(() => View(user));
         }
     }
 }
