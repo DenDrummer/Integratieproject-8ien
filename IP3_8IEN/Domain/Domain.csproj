@@ -80,6 +80,9 @@
     <Compile Include="Data\Onderwerp.cs" />
     <Compile Include="Data\SubjectMessage.cs" />
     <Compile Include="Gebruikers\Gebruiker.cs" />
+    <Compile Include="Gebruikers\HogerLager.cs" />
+    <Compile Include="Gebruikers\PositiefNegatief.cs" />
+    <Compile Include="Gebruikers\ValueFluctuation.cs" />
     <Compile Include="Gebruikers\WeeklyReview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

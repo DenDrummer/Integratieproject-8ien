@@ -4,4 +4,64 @@
 <h2>@ViewBag.Title</h2>
 
 
-<p>Use this area to provide additional information.</p>
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#info" data-toggle="tab">User Informatie</a></li>
+    <li><a href="#settings" data-toggle="tab">Account Settings</a></li>
+    <li><a href="#paswoord" data-toggle="tab">Verander paswoord</a></li>
+    <li><a href="#layout" data-toggle="tab">Layout </a></li>
+</ul>
+
+<div class="tab-content well">
+    <div class="tab-pane active col-lg-12" id="info">
+        <div class="row">
+            <div class="col-lg-2">
+                <img src="../Fotos/bartdewever.jpg" alt="Bart De Wever" style="max-height:100%; max-width:100%">
+            </div>
+            <div class="col-lg-8">
+                <table>
+                    <tr>
+                        <td><b>Voornaam: </b></td>
+                        <td><input type="text" name="txtVoornaam"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Achternaam: </b></td>
+                        <td><input type="text" name="txtAchternaam"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Username: </b></td>
+                        <td><input type="text" name="txtUserName"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Email: </b></td>
+                        <td><input type="email" name="txtEmail"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Geboortedatum: </b></td>
+                        <td><input type="date" name="txtDate"></td>
+                    </tr>
+                      <tr>
+                        <td colspan="2"><button type="button" class="btn basic">Opslaan</button></td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="settings">
+        Address Tab Content goes here
+    </div>
+    <div class="tab-pane" id="paswoord">
+        Address Tab Content goes here
+    </div>
+    <div class="tab-pane" id="layout">
+        Address Tab Content goes here
+    </div>
+</div>
+
+        public int GebruikerId { get; set; }
+        public string Username { get; set; }
+        public string Naam { get; set; }
+        public string Voornaam { get; set; }
+        public string Email { get; set; }
+        public DateTime Geboortedatum { get; set; }
+

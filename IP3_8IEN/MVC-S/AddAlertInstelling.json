@@ -2,33 +2,52 @@
   "records": [
     {
       "Username": "Ivaylo",
+      "NotificationWeb": "true",
+      "Email": "true",
+      "MobileNotification" :  "true",
       "OnderwerpId": "17",
       "Threshold": "20"
     },
     {
       "Username": "Sam",
+      "NotificationWeb": "true",
+      "Email": "true",
+      "MobileNotification": "true",
       "OnderwerpId": "4",
-      "Threshold": "20"
+      "OnderwerpId2": "6"
     },
     {
       "Username": "Jorden",
-      "OnderwerpId":  "1" ,
-      "Threshold": "20"
-    },
-    {
-      "Username": "Stephane",
+      "NotificationWeb": "true",
+      "Email": "true",
+      "MobileNotification": "true",
       "OnderwerpId": "1",
       "Threshold": "20"
     },
     {
-      "Username":  "Thomas",
-      "OnderwerpId":  "10",
+      "Username": "Stephane",
+      "NotificationWeb": "true",
+      "Email": "true",
+      "MobileNotification": "true",
+      "OnderwerpId": "1",
+      "Threshold": "20",
+      "OnderwerpId2": "19"
+    },
+    {
+      "Username": "Thomas",
+      "NotificationWeb": "true",
+      "Email": "true",
+      "MobileNotification": "true",
+      "OnderwerpId": "10",
       "Threshold": "20"
     },
     {
-      "Username":  "Victor",
-      "OnderwerpId":  "4",
-      "Threshold": "20"
+      "Username": "Victor",
+      "NotificationWeb": "true",
+      "Email": "true",
+      "MobileNotification": "true",
+      "OnderwerpId": "4",
+      "Negatief" :  "true"
     }
   ]
 }
