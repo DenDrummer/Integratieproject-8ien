@@ -42,6 +42,7 @@
 /// <reference path="morris/morris.min.js" />
 /// <reference path="morris/morris-chart-settings.min.js" />
 /// <reference path="morris/raphael.min.js" />
+/// <reference path="morrisdata.js" />
 /// <reference path="morris-data.js" />
 /// <reference path="popper.js" />
 /// <reference path="popper-utils.js" />
