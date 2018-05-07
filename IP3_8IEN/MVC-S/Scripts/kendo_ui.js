@@ -25,9 +25,4 @@
         }
     });
 
-    $("#reset").click(function () {
-        localStorage.clear(); //clear the local storage
-        alert("Local storage is cleared. Please reload the page!");
-    });
-
 });
