@@ -8,19 +8,19 @@ namespace MVC_S
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                        "~/scripts/jquery.validate*"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
+                        "~/scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js",
+                      "~/scripts/bootstrap.js",
+                      "~/scripts/respond.js",
                       "~/DataTables/datatables.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -61,8 +61,9 @@ namespace MVC_S
                 //"~/scripts/plugin/sparkline/jquery.sparkline.min.js"
                 //,
                 "~/scripts/sparkline/jquery.sparkline.min.js",
-                "~/scripts/plugin/morris/morris.min.js",
-                "~/scripts/plugin/morris/raphael.min.js"
+                "~/scripts/morris/morris.min.js",
+                "~/scripts/morris/raphael.min.js",
+                "~/scripts/morris/morris-chart-settings.min.js"
             //    "~/scripts/plugin/flot/jquery.flot.cust.min.js",
             //    "~/scripts/plugin/flot/jquery.flot.resize.min.js",
             //    "~/scripts/plugin/flot/jquery.flot.time.min.js",
@@ -104,6 +105,11 @@ namespace MVC_S
             //    ));
 
             //BundleTable.EnableOptimizations = true;
+
+            bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
+                      "~/scripts/kendo.all.min.js",
+                      "~/scripts/kendo_ui.js"));
+           
         }
     }
 }
