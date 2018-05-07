@@ -216,7 +216,7 @@ namespace MVC_S.Controllers
         public ActionResult GetData()
         {
             Persoon persoon = dMgr.GetPersoon(170);
-            return Json(dMgr.GetTweetsPerDag(persoon,5), JsonRequestBehavior.AllowGet);
+            return Json(dMgr.GetTweetsPerDag(persoon,20), JsonRequestBehavior.AllowGet);
         }
 
 
