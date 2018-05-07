@@ -161,7 +161,11 @@
 
     function newNumber(number) {
         document.getElementById("chart7").innerHTML = number;
-
     }
+
+    var mydiv = document.getElementById("chart7");
+    var mycontent = document.createElement("p");
+    mycontent.appendChild(document.createTextNode("This is a paragraph"));
+    mydiv.appendChild(mycontent);
 
 });

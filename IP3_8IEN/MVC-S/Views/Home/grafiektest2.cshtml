@@ -63,13 +63,19 @@
 <script src="~/Scripts/morris/morris.min.js"></script>
 <script src="~/Scripts/morris/morris-chart-settings.min.js"></script>*@
 
+@Scripts.Render("~/bundles/kendo")
+
 
 <!-- A link to the NodeBox JavaScript API  -->
 <script src="https://nodebox.live/api/v1/ndbx.js"></script>
 <script src="@Url.Content("~/Scripts/morris-data.js")"></script>
 <script>
 
-var nummer = @Html.Raw(Json.Encode(ViewBag.NUMMER1));
-document.getElementById("chart7").innerHTML = nummer;
+    var number = @Html.Raw(Json.Encode(ViewBag.NUMMER1));
+    console.log(number);
+    //document.getElementById("chart7").innerHTML = number;
+    //$("#chart7").append("<p>This is a paragraph</p>");
+
+    
 </script>
 
