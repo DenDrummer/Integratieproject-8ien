@@ -60,7 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationUser.cs" />
+    <Compile Include="Gebruikers\ApplicationUser.cs" />
     <Compile Include="Dashboard\Cijfer.cs" />
     <Compile Include="Dashboard\Dashbord.cs" />
     <Compile Include="Dashboard\DashItem.cs" />

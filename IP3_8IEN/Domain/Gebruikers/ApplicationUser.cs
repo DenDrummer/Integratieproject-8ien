@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using IP_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Gebruikers;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -16,5 +20,14 @@ namespace IP_8IEN.BL.Domain
             // Add custom user claims here
             return userIdentity;
         }
+
+        // Extentions 
+        public DateTime? Geboortedatum { get; set; }
+        public string VoorNaam { get; set; }
+        public string AchterNaam { get; set; }
+
+        public ICollection<WeeklyReview> WeeklyReviews { get; set; }
+        public ICollection<Dashbord> Dashboards { get; set; }
+        public ICollection<AlertInstelling> AlertInstellingen { get; set; }
     }
 }
