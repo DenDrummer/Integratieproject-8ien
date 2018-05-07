@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using IP_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.BL.Domain.Gebruikers;
 
 namespace IP_8IEN.DAL
 {
@@ -27,5 +28,10 @@ namespace IP_8IEN.DAL
 
         //4 mei 2018 : Stephane
         Alert ReadAlert(int alertId);
+
+        //4 mei 2018 : Victor
+        IEnumerable<ValueFluctuation> ReadValueFluctuations();
+        IEnumerable<PositiefNegatief> ReadPositiefNegatiefs();
+        IEnumerable<HogerLager> ReadHogerLagers();
     }
 }
