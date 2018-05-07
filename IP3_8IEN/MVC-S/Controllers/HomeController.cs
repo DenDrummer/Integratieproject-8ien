@@ -194,5 +194,9 @@ namespace MVC_S.Controllers
 
             return View();
         }
+        public ActionResult Grafiektest2()
+        {
+            return View();
+        }
     }
 }
