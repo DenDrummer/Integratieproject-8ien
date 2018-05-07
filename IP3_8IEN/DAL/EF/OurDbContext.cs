@@ -3,6 +3,7 @@ using IP_8IEN.BL.Domain.Data;
 using IP_8IEN.BL.Domain.Gebruikers;
 using System;
 using IP_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Gebruikers;
 
 namespace IP_8IEN.DAL.EF
 {
@@ -39,6 +40,11 @@ namespace IP_8IEN.DAL.EF
         public DbSet<Cijfer> Cijfers { get; set; }
         public DbSet<Kruising> Kruisingen { get; set; }
         public DbSet<Vergelijking> Vergelijkingen { get; set; }
+
+        //4 mei 2018 : Victor
+        public DbSet<ValueFluctuation> Fluctuations { get; set; }
+        public DbSet<PositiefNegatief> PositiefNegatiefs { get; set; }
+        public DbSet<HogerLager> HogerLagers { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -11,6 +11,7 @@ using System;
 using IP_8IEN.BL;
 using System.Net.Mail;
 using System.Text;
+using IP3_8IEN.BL.Domain.Gebruikers;
 
 namespace IP_8IEN.BL
 {
@@ -83,8 +84,14 @@ namespace IP_8IEN.BL
             dynamic alertInstellingen = JsonConvert.DeserializeObject(json);
 
             string user = null;
+            bool notificationWeb;
+            bool email;
+            bool mobileNotification;
+            bool state;
             int onderwerpId;
+            int onderwerpId2;
             int thresh;
+            bool negatief;
 
 
             dataMgr = new DataManager(uowManager);
@@ -97,21 +104,68 @@ namespace IP_8IEN.BL
 
             foreach (var item in alertInstellingen.records)
             {
-                user = item.Username;
-                onderwerpId = item.OnderwerpId;
-                thresh = item.Threshold;
-
-                Gebruiker gebruiker = FindUser(user);
-                Onderwerp onderwerp = onderwerpen.FirstOrDefault(x => x.OnderwerpId == onderwerpId);
-
-                AlertInstelling alertInst = new AlertInstelling()
+                try
                 {
-                    ThresholdVal = thresh,
-                    AlertState = true,
-                    Gebruiker = gebruiker,
-                    Onderwerp = onderwerp
-                };
-                repo.AddingAlertInstelling(alertInst);
+                    ValueFluctuation vf = new ValueFluctuation()
+                    {
+                        Gebruiker = FindUser((String)item.Username),
+                        NotificationWeb = (bool)item.NotificationWeb,
+                        Email = (bool)item.Email,
+                        MobileNotification = (bool)item.MobileNotification,
+                        AlertState = true,
+                        Onderwerp = onderwerpen.FirstOrDefault(x => x.OnderwerpId == (int)item.OnderwerpId),
+                        ThresholdValue = item.Threshold
+                    };
+                    repo.AddingAlertInstelling(vf);
+                    System.Diagnostics.Debug.WriteLine("jah");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("nah"+ ex);
+                }
+                
+
+                try
+                {
+                    HogerLager hl = new HogerLager()
+                    {
+                        Gebruiker = FindUser((String)item.Username),
+                        NotificationWeb = (bool)item.NotificationWeb,
+                        Email = (bool)item.Email,
+                        MobileNotification = (bool)item.MobileNotification,
+                        AlertState = true,
+                        Onderwerp = onderwerpen.FirstOrDefault(x => x.OnderwerpId == (int)item.OnderwerpId),
+                        Onderwerp2 = item.OnderwerpId2
+                    };
+                    repo.AddingAlertInstelling(hl);
+                    System.Diagnostics.Debug.WriteLine("jah");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("nah" + ex);
+                }
+
+                try
+                {
+                    PositiefNegatief pn = new PositiefNegatief()
+                    {
+                        Gebruiker = FindUser((String)item.Username),
+                        NotificationWeb = (bool)item.NotificationWeb,
+                        Email = (bool)item.Email,
+                        MobileNotification = (bool)item.MobileNotification,
+                        AlertState = true,
+                        Onderwerp = onderwerpen.FirstOrDefault(x => x.OnderwerpId == (int)item.OnderwerpId),
+                        negatief = (bool)item.Negatief
+                    };
+                    repo.AddingAlertInstelling(pn);
+                    System.Diagnostics.Debug.WriteLine("jah");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("nah" + ex);
+                }
+                
+                
                 uowManager.Save();
             }
             //we zetten 'UoW' boolian terug op true
@@ -122,36 +176,44 @@ namespace IP_8IEN.BL
         // We initialiseren een 'Alert' met het toewijzen van een 'AlertInstelling' adhv een 'Id' 
         // ook voegen het moment van creatie toe ('CreatedOn')
         // 'AlertContent' kan een string zijn met informatie om te verzenden naar een gebruiker
+
+
         public void AddAlert(string alertContent, int alertInstellingId)
         {
             initNonExistingRepo();
 
-            AlertInstelling alertInstelling = repo.ReadAlertInstelling(alertInstellingId);
+            IEnumerable<AlertInstelling> fluctuations = repo.ReadValueFluctuations();
+            List<AlertInstelling> Ais = fluctuations.ToList();
+            Ais.AddRange(repo.ReadHogerLagers().ToList());
+            Ais.AddRange(repo.ReadPositiefNegatiefs().ToList());
+
+            AlertInstelling ai = Ais.FirstOrDefault(v => v.AlertInstellingId == alertInstellingId);
             Alert alert = new Alert()
             {
                 AlertContent = alertContent,
-                AlertInstelling = alertInstelling,
+                AlertInstelling = ai,
                 CreatedOn = DateTime.Now
             };
             //alert toevoegen aan de ICollection van 'AlertInstelling'
-            var alertColl = alertInstelling.Alerts;
+            var alertColl = ai.Alerts;
             if (alertColl != null)
             {
-                alertInstelling.Alerts = alertColl.ToList();
+                ai.Alerts = alertColl.ToList();
             }
             else
             {
-                alertInstelling.Alerts = new Collection<Alert>();
+                ai.Alerts = new Collection<Alert>();
             }
 
-            alertInstelling.Alerts.Add(alert);
+            ai.Alerts.Add(alert);
 
             //eerst alert creëren zodat deze een PK toegewegen krijgt
             repo.AddingAlert(alert);
             //dan de AlertInstelling updaten met de nieuwe 'Alert'
-            repo.UpdateAlertInstelling(alertInstelling);
+            repo.UpdateAlertInstelling(ai);
         }
         
+
         // Alerts inlezen via json bestand
         public void AddAlerts(string filePath)
         {
