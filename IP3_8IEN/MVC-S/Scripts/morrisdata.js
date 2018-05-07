@@ -1,7 +1,7 @@
 ﻿$(function () {
 
     Morris.Area({
-        element: 'chart1',
+        element: 'morris-area-chart',
         data: [{
             period: '2010 Q1',
             iphone: 2666,
@@ -62,7 +62,7 @@
     });
 
     Morris.Donut({
-        element: 'chart2',
+        element: 'morris-donut-chart',
         data: [{
             label: "Download Sales",
             value: 12
@@ -77,7 +77,7 @@
     });
 
     Morris.Bar({
-        element: 'chart3',
+        element: 'morris-bar-chart',
         data: [{
             y: '2006',
             a: 100,
@@ -112,51 +112,6 @@
         labels: ['Series A', 'Series B'],
         hideHover: 'auto',
         resize: true
-    });
-
-    function loadCanvas(id) {
-        var canvas = document.createElement('canvas'),
-        div = document.getElementById(id);
-        canvas.id = "canvas-"+id;
-        canvas.width = 500;
-        canvas.height = 500;
-        
-        
-        
-        div.appendChild(canvas);
-    }
-
-    loadCanvas('chart5');
-    loadCanvas('chart6');
-    var options = {
-        userId: 'JordenL',
-        projectId: 'test',
-        functionId: 'test3',
-        canvasId: 'canvas-chart5',
-        autoplay: true
-    };
-    var options2 = {
-        userId: '18ien',
-        projectId: 'barometerV1',
-        functionId: 'main',
-        canvasId: 'canvas-chart6',
-        autoplay: true
-    };
-
-    // Initialize the NodeBox player object
-    ndbx.embed(options, function(err, player) {
-        if (err) {
-            throw new Error(err);
-        } else {
-            window.player = player;
-        }
-    });
-    ndbx.embed(options2, function (err, player) {
-        if (err) {
-            throw new Error(err);
-        } else {
-            window.player = player;
-        }
     });
 
 });
