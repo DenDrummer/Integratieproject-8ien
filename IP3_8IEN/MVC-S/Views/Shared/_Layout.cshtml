@@ -164,7 +164,7 @@ else
                         </div>
                         <!-- /input-group -->
                     </li>
-                    <li>@Html.ActionLink("Dashboard", "Dashboard", "Home")</li>
+                    <li>@Html.ActionLink("Dashboard", "grafiektest2", "Home")</li>
                     <li>@Html.ActionLink("Personen", "Personen", "Home") </li>
                     <li>@Html.ActionLink("Themas", "Themas", "Home") </li>
                     <li>@Html.ActionLink("Organisatie", "Organisatie", "Home") </li>
@@ -192,9 +192,9 @@ else
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @*Sam 24/4*@
-    @Scripts.Render("~/scripts/charts")
+    @Scripts.Render("~/Scripts/charts")
 
-    @Scripts.Render("~/scripts/smartadmin")
+    @Scripts.Render("~/Scripts/smartadmin")
     @RenderSection("scripts", required: false)
 </body>
 </html>

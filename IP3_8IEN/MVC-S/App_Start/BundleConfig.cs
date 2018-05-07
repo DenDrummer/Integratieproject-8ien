@@ -27,11 +27,7 @@ namespace MVC_S
                       "~/Content/bootstrap.css",
                       "~/Content/Site.css",
                       "~/Content/sb-admin-2.css",
-                      "~/DataTables/datatables.css"
-                      ));
-
-            
-                      "~/Content/site.css",
+                      "~/DataTables/datatables.css",
                       "~/Content/sortable.css",
                       "~/Content/morris.css"));
             
