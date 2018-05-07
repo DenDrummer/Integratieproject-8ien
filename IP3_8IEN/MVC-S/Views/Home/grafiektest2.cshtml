@@ -1,41 +1,145 @@
 ﻿@Scripts.Render("~/bundles/kendo")
 @Scripts.Render("~/scripts/charts")
-<ul>
-    <div id="sortable"></div>
-</ul>
-<script id="tmp" type="text/x-kendo-template">
-    @*<li class="sortable">Item #:data#</li>*@
 
-    <div class="col-lg-6 sortable">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Chart Example#:data#
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <div id="chart#:data#">
-                    @*<canvas id="canvas#:data#"></canvas>*@
-                </div>
-            </div>
-            <!-- /.panel-body -->
-        </div>
-        <!-- /.panel -->
-    </div>
+<script type="text/javascript">
+    $(function() {
+        /** This code runs when everything has been loaded on the page */
+        /* Inline sparklines take their values from the contents of the tag */
+        $('.inlinesparkline').sparkline();
 
+        /* Sparklines can also take their values from the first argument
+        passed to the sparkline() function */
+        var myvalues = [10,8,5,7,4,4,1];
+        $('.dynamicsparkline').sparkline(myvalues);
+
+        /* The second argument gives options such as chart type */
+        $('.dynamicbar').sparkline(myvalues, {type: 'bar', barColor: 'green'} );
+
+        /* Use 'html' instead of an array of values to pass options
+        to a sparkline with data in the tag */
+        $('.inlinebar').sparkline('html', {type: 'bar', barColor: 'red'} );
+    });
 </script>
-<script src="@Url.Content("~/Scripts/morris-data.js")"></script>
 
-<!-- A link to the NodeBox JavaScript API  -->
-<script src="https://nodebox.live/api/v1/ndbx.js"></script>
+    <p>
+        Inline Sparkline: <span class="inlinesparkline">1,4,4,7,5,9,10</span>.
+    </p>
+    <p>
+        Sparkline with dynamic data: <span class="dynamicsparkline">Loading..</span>
+    </p>
+    <p>
+        Bar chart with dynamic data: <span class="dynamicbar">Loading..</span>
+    </p>
+    <p>
+        Bar chart with inline data: <span class="inlinebar">1,3,4,5,3,5</span>
+    </p>
 
-<script>
+
+
+
+<ul>
+        <div id="sortable"></div>
+    </ul>
+    <script id="tmp" type="text/x-kendo-template">
+        @*<li class="sortable">Item #:data#</li>*@
+
+        <div class="col-lg-6 sortable">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Chart Example#:data#
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div id="chart#:data#">
+                        @*<canvas id="canvas#:data#"></canvas>*@
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+
+    </script>
+
+    <script>
+        var initialData = [1, 2, 3, 4, 5, 6, 7], //initial items order (used if there is no saved data
+            localStorageSupport = (('localStorage' in window && window['localStorage'] !== null)),
+            data,
+            html;
+
+        if (localStorageSupport) {
+            //retrieve local storage data if such is available, else use the default order
+            data = JSON.parse(localStorage.getItem("sortableData")) || initialData;
+        } else {
+            alert("your browser does not support local storage");
+            data = initialData;
+        }
+
+        html = kendo.render(kendo.template($("#tmp").html()), data); //render the HTML with the data
+        $("#sortable").html(html); //append the HTML to the Sortable container
+
+        $("#sortable").kendoSortable({ //initialize the sortable widget
+            filter: ".sortable",
+            change: function (e) {
+                var item = data.splice(e.oldIndex, 1)[0]; //remove the item that has changed its order
+                data.splice(e.newIndex, 0, item); //add the item back using the newIndex
+
+                localStorage.setItem("sortableData", kendo.stringify(data)); //set the updated data in the local storage
+            }
+        });
+
+    </script>
+
+
+
+
+
+    @*
+        <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+        <script src="~/Scripts/morris/raphael.min.js"></script>
+        <script src="~/Scripts/morris/morris.min.js"></script>
+        <script src="~/Scripts/morris/morris-chart-settings.min.js"></script>*@
+
+
+    <!-- A link to the NodeBox JavaScript API  -->
+    <script src="https://nodebox.live/api/v1/ndbx.js"></script>
+    <script src="@Url.Content("~/Scripts/morris-data.js")"></script>
+<script type="text/javascript">
 
     var number = @Html.Raw(Json.Encode(ViewBag.NUMMER1));
+    var name = @Html.Raw(Json.Encode(ViewBag.NAAM1));
     console.log(number);
     //document.getElementById("chart7").innerHTML = number;
     //$("#chart7").append("<p>This is a paragraph</p>");
 
-    
+    var mydiv = document.getElementById("chart7");
+    var mycontent = document.createElement("p");
+    mycontent.appendChild(document.createTextNode(name+" heeft: "+number+" tweets"));
+    mydiv.appendChild(mycontent);
+</script>
+
+
+<!--Get Data for Graph-->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.get('@Url.Action("GetData","Home")', function (result) {
+
+           Morris.Area({
+                // ID of the element in which to draw the chart.
+                element: 'chart4',
+                // Chart data records -- each entry in this array corresponds to a point on
+                // the chart.
+                data: result,
+                // The name of the data record attribute that contains x-values.
+                xkey: 'label',
+                ykeys: ['value'],
+                labels: ['Success requests'],
+                pointSize: 2,
+                hideHover: 'auto',
+                resize: true
+            });
+    });
+});
 </script>
 
 

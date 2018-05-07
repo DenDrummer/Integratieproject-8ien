@@ -9,6 +9,10 @@ using IP_8IEN.BL.Domain.Gebruikers;
 using System.Web.Hosting;
 using System.IO;
 using System.Web;
+using System.Web.Helpers;
+using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Gebruikers;
+using Microsoft.Ajax.Utilities;
 
 namespace MVC_S.Controllers
 {
@@ -192,11 +196,31 @@ namespace MVC_S.Controllers
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
             #endregion
 
+
+            
+
             return View();
         }
         public ActionResult Grafiektest2()
         {
+            Persoon persoon = dMgr.GetPersoon(170);
+            //int aantalTweets = dMgr.GetNumber(persoon);
+            int aantalTweets = 69;
+            ViewBag.NUMMER1 = aantalTweets;
+            ViewBag.naam1 = persoon.Naam;
+            //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
+
             return View();
         }
+
+        public ActionResult GetData()
+        {
+            Persoon persoon = dMgr.GetPersoon(170);
+            return Json(dMgr.GetTweetsPerDag(persoon,5), JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
     }
 }

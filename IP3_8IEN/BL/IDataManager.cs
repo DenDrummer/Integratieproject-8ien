@@ -1,6 +1,7 @@
 ﻿using IP_8IEN.BL.Domain.Data;
 using System;
 using System.Collections.Generic;
+using IP3_8IEN.BL.Domain.Dashboard;
 
 namespace IP_8IEN.BL
 {
@@ -53,7 +54,9 @@ namespace IP_8IEN.BL
         void SendMail();
         Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
         int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
-        Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
+        //SAm
+        //Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
+        List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
 
         //3 mei 2018 : Stephane
         Persoon GetPersoon(int persoonId);
