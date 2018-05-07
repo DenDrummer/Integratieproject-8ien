@@ -37,6 +37,7 @@ namespace MVC_S.Controllers
             //dMgr.ApiRequestToJson();
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
             #endregion
 
             //**** dit zijn test methodes ****//
@@ -215,7 +216,7 @@ namespace MVC_S.Controllers
 
         public ActionResult GetData()
         {
-            Persoon persoon = dMgr.GetPersoon(170);
+            Persoon persoon = dMgr.GetPersoon(231);
             return Json(dMgr.GetTweetsPerDag(persoon,20), JsonRequestBehavior.AllowGet);
         }
 

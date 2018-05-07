@@ -833,27 +833,35 @@ namespace IP_8IEN.BL
             else
             {
                 stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
-                stop.AddDays(aantalDagenTerug * -1);
+                stop.AddDays(-20);
             }
 
             Dictionary<DateTime, int> tweetsPerDag = new Dictionary<DateTime, int>();
             //Sam
             List<GraphData> GraphDataList = new List<GraphData>();
-
+            /*
             do
             {
                 //Sam
-                string Date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
                 //Sam
-                GraphDataList.Add(new GraphData(Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count()));
+                GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count()));
 
                 tweetsPerDag.Add(lastTweet.Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
                 lastTweet = lastTweet.AddDays(-1);
-            } while (lastTweet >= stop);
-            
-            foreach (var v in tweetsPerDag)
+            } while (lastTweet >= stop);*/
+            for (int i = 0; i < 5; i++)
             {
-                System.Diagnostics.Debug.WriteLine(v.Key + " " + v.Value);
+                //Sam
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                //Sam
+                GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count()));
+                lastTweet = lastTweet.AddDays(-1);
+            }
+            
+            foreach (var v in GraphDataList)
+            {
+                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value);
             }
             
 
