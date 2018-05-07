@@ -2,7 +2,7 @@
 
 namespace IP_8IEN.DAL.EF
 {
-    class OurDbInitializer : DropCreateDatabaseIfModelChanges<OurDbContext>
+    class OurDbInitializer : CreateDatabaseIfNotExists<OurDbContext>
     //DropCreateDatabaseIfModelChanges
     //DropCreateDatabaseAlways
     //CreateDatabaseIfNotExists

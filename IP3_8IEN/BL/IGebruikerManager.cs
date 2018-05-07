@@ -10,9 +10,6 @@ namespace IP_8IEN.BL
         void AddAlertInstelling(string filePath);
         Gebruiker FindUser(string username);
 
-        //Sam 24/4
-        IEnumerable<Gebruiker> GetGebruikers();
-
         //31 mrt 2018 : Stephane
         void AddAlerts(string filePath);
         void AddAlert(string alertContent, int alertInstelling);
@@ -27,7 +24,7 @@ namespace IP_8IEN.BL
         //4 mei 2018 : Stephane
         Alert GetAlert(int alertId);
 
-        //20 april 2018: Ivaylo
-        void DeleteGebruiker(string username);
+        //6 mei 2018 : Stephane
+        //void AddApplicationGebruikers(string filePath);
     }
 }
