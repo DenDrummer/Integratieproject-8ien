@@ -195,16 +195,21 @@ namespace MVC_S.Controllers
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
             #endregion
+
+
+            
+
+            return View();
+        }
+        public ActionResult Grafiektest2()
+        {
+            Persoon persoon = dMgr.GetPersoon(170);
             //int aantalTweets = dMgr.GetNumber(persoon);
             int aantalTweets = 69;
             ViewBag.NUMMER1 = aantalTweets;
             ViewBag.naam1 = persoon.Naam;
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
 
-            return View();
-        }
-        public ActionResult Grafiektest2()
-        {
             return View();
         }
 
