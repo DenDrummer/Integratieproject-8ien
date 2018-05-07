@@ -10,6 +10,7 @@ using System;
 using System.Net;
 using System.Web.Script.Serialization;
 using System.Net.Mail;
+using IP3_8IEN.BL.Domain.Dashboard;
 using IP_8IEN.BL.Domain.Gebruikers;
 
 namespace IP_8IEN.BL
@@ -53,9 +54,9 @@ namespace IP_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "4 May 2018 0:01",
+                        since = "1 Apr 2018 00:01",
                         //until weglaten --> last scraping
-                        //until = "26 Apr 2018 23:59",
+                        until = "30 Apr 2018 00:01",
                     });
 
                     streamWriter.Write(json);
@@ -816,8 +817,9 @@ namespace IP_8IEN.BL
 
             return aantal;
         }
-
-        public Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0)
+        //Sam
+        //public Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0)
+            public List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0)
         {
             initNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
@@ -835,18 +837,27 @@ namespace IP_8IEN.BL
             }
 
             Dictionary<DateTime, int> tweetsPerDag = new Dictionary<DateTime, int>();
+            //Sam
+            List<GraphData> GraphDataList = new List<GraphData>();
 
             do
             {
+                //Sam
+                string Date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                //Sam
+                GraphDataList.Add(new GraphData(Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count()));
+
                 tweetsPerDag.Add(lastTweet.Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
                 lastTweet = lastTweet.AddDays(-1);
             } while (lastTweet >= stop);
-
+            
             foreach (var v in tweetsPerDag)
             {
                 System.Diagnostics.Debug.WriteLine(v.Key + " " + v.Value);
             }
-            return tweetsPerDag;
+            
+
+            return GraphDataList;
         }
     }
 }

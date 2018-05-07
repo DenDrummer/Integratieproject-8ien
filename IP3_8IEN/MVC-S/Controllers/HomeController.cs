@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Helpers;
+using IP3_8IEN.BL.Domain.Dashboard;
 using IP_8IEN.BL.Domain.Gebruikers;
 using Microsoft.Ajax.Utilities;
 
@@ -234,7 +235,8 @@ namespace MVC_S.Controllers
             //int aantalTweets = dMgr.GetNumber(persoon);
             int aantalTweets = 69;
             ViewBag.NUMMER1 = aantalTweets;
-            System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
+            ViewBag.naam1 = persoon.Naam;
+            //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
 
             return View();
         }
@@ -242,6 +244,12 @@ namespace MVC_S.Controllers
         public ActionResult grafiektest3()
         {
             return View();
+        }
+
+        public ActionResult GetData()
+        {
+            Persoon persoon = dMgr.GetPersoon(170);
+            return Json(dMgr.GetTweetsPerDag(persoon,5), JsonRequestBehavior.AllowGet);
         }
 
 

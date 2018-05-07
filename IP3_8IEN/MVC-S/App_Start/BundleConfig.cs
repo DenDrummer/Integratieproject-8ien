@@ -107,8 +107,9 @@ namespace MVC_S
             //BundleTable.EnableOptimizations = true;
 
             bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
-                      "~/scripts/kendo.all.min.js",
-                      "~/scripts/kendo_ui.js"));
+                      "~/scripts/kendo.all.min.js"
+                     // ,"~/scripts/kendo_ui.js"
+                      ));
            
         }
     }
