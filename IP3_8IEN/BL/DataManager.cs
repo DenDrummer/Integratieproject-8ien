@@ -833,7 +833,7 @@ namespace IP_8IEN.BL
             else
             {
                 stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
-                stop.AddDays(-20);
+                stop.AddDays(aantalDagenTerug * -1);
             }
 
             Dictionary<DateTime, int> tweetsPerDag = new Dictionary<DateTime, int>();
@@ -850,7 +850,7 @@ namespace IP_8IEN.BL
                 tweetsPerDag.Add(lastTweet.Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
                 lastTweet = lastTweet.AddDays(-1);
             } while (lastTweet >= stop);*/
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < aantalDagenTerug+1; i++)
             {
                 //Sam
                 string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
