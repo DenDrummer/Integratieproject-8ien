@@ -748,18 +748,20 @@ namespace IP_8IEN.BL
             }
         }
 
-        public Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true)
-        {
+        //public Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true)
+        public List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = true)
+        
+            {
             initNonExistingRepo();
             List<Persoon> personen = repo.ReadPersonen().ToList();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
             int laatstePeriode;
             int voorlaatstePeriode;
-
-            Dictionary<Persoon, double> ranking = new Dictionary<Persoon, double>();
-
-            foreach (Persoon p in personen)
+                //Sam
+                //Dictionary<Persoon, double> ranking = new Dictionary<Persoon, double>();
+                List<GraphData> ranking = new List<GraphData>();
+                foreach (Persoon p in personen)
             {
                 int teller = messages.Where(m => m.IsFrom(p)).Count();
                 List<Message> messages2 = messages.Where(m => m.IsFrom(p)).ToList();
@@ -767,11 +769,11 @@ namespace IP_8IEN.BL
                 voorlaatstePeriode = messages2.Where(m => lastTweet.AddHours((interval_uren * 2) * -1) < m.Date && m.Date < lastTweet.AddHours(interval_uren * -1)).Count();
                 if (puntNotatie == true)
                 {
-                    ranking.Add(p, CalculateChange(voorlaatstePeriode, laatstePeriode));
+                    ranking.Add(new GraphData(p.Naam, (int)CalculateChange(voorlaatstePeriode, laatstePeriode)));
                 }
                 else
                 {
-                    ranking.Add(p, CalculateChange(voorlaatstePeriode, laatstePeriode) * 100);
+                    ranking.Add(new GraphData(p.Naam, (int)CalculateChange(voorlaatstePeriode, laatstePeriode) * 100));
                 }
                 /*if (laatstePeriode != 0 && voorlaatstePeriode != 0)
                 {
@@ -781,7 +783,7 @@ namespace IP_8IEN.BL
 
             foreach (var v in ranking)
             {
-                System.Diagnostics.Debug.WriteLine(v.Key.Naam + " " + v.Value);
+                //System.Diagnostics.Debug.WriteLine(v.Key.Naam + " " + v.Value);
             }
 
             return ranking;
@@ -864,6 +866,55 @@ namespace IP_8IEN.BL
                 System.Diagnostics.Debug.WriteLine(v.label + " " + v.value);
             }
             
+
+            return GraphDataList;
+        }
+
+        public List<GraphData2> GetTweetsPerDag2(Persoon persoon1, Persoon persoon2, Persoon persoon3, Persoon persoon4, Persoon persoon5, int aantalDagenTerug = 0)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            DateTime stop = new DateTime();
+
+            if (aantalDagenTerug == 0)
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().First().Date;
+            }
+            else
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                stop.AddDays(aantalDagenTerug * -1);
+            }
+
+            Dictionary<DateTime, int> tweetsPerDag = new Dictionary<DateTime, int>();
+            //Sam
+            List<GraphData2> GraphDataList = new List<GraphData2>();
+            /*
+            do
+            {
+                //Sam
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                //Sam
+                GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count()));
+
+                tweetsPerDag.Add(lastTweet.Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
+                lastTweet = lastTweet.AddDays(-1);
+            } while (lastTweet >= stop);*/
+            for (int i = 0; i < aantalDagenTerug + 1; i++)
+            {
+                //Sam
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                //Sam
+                GraphDataList.Add(new GraphData2(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon1)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon2)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon3)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon4)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon5)).Count()));
+                lastTweet = lastTweet.AddDays(-1);
+            }
+
+            foreach (var v in GraphDataList)
+            {
+                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value1);
+            }
+
 
             return GraphDataList;
         }

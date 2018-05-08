@@ -1,80 +1,81 @@
 ﻿$(function () {
 
-    Morris.Area({
-        element: 'chart1',
-        data: [{
-            period: '2010 Q1',
-            Bartje: 2666,
-            Anouk: null,
-            Ivo: 2647
-        }, {
-            period: '2010 Q2',
-            Bartje: 2778,
-            Anouk: 2294,
-            Ivo: 2441
-        }, {
-            period: '2010 Q3',
-            Bartje: 4912,
-                Anouk: 1969,
-            Ivo: 2501
-        }, {
-            period: '2010 Q4',
-            Bartje: 3767,
-            Anouk: 3597,
-            Ivo: 5689
-        }, {
-            period: '2011 Q1',
-            Bartje: 6810,
-            Anouk: 1914,
-            Ivo: 2293
-        }, {
-            period: '2011 Q2',
-            Bartje: 5670,
-            Anouk: 4293,
-            Ivo: 1881
-        }, {
-            period: '2011 Q3',
-            Bartje: 4820,
-            Anouk: 3795,
-            Ivo: 1588
-        }, {
-            period: '2011 Q4',
-            Bartje: 15073,
-            Anouk: 5967,
-            Ivo: 5175
-        }, {
-            period: '2012 Q1',
-            Bartje: 10687,
-            Anouk: 4460,
-            Ivo: 2028
-        }, {
-            period: '2012 Q2',
-            Bartje: 8432,
-            Anouk: 5713,
-            Ivo: 1791
-        }],
-        xkey: 'period',
-        ykeys: ['Bartje', 'Anouk', 'Ivo'],
-        labels: ['Bartje', 'Anouk', 'Ivaylo'],
-        pointSize: 2,
-        hideHover: 'auto',
-        resize: true
-    });
+   
+    //Morris.Area({
+    //    element: 'chart1',
+    //    data: [{
+    //        period: '2010 Q1',
+    //        Bartje: 2666,
+    //        Anouk: null,
+    //        Ivo: 2647
+    //    }, {
+    //        period: '2010 Q2',
+    //        Bartje: 2778,
+    //        Anouk: 2294,
+    //        Ivo: 2441
+    //    }, {
+    //        period: '2010 Q3',
+    //        Bartje: 4912,
+    //            Anouk: 1969,
+    //        Ivo: 2501
+    //    }, {
+    //        period: '2010 Q4',
+    //        Bartje: 3767,
+    //        Anouk: 3597,
+    //        Ivo: 5689
+    //    }, {
+    //        period: '2011 Q1',
+    //        Bartje: 6810,
+    //        Anouk: 1914,
+    //        Ivo: 2293
+    //    }, {
+    //        period: '2011 Q2',
+    //        Bartje: 5670,
+    //        Anouk: 4293,
+    //        Ivo: 1881
+    //    }, {
+    //        period: '2011 Q3',
+    //        Bartje: 4820,
+    //        Anouk: 3795,
+    //        Ivo: 1588
+    //    }, {
+    //        period: '2011 Q4',
+    //        Bartje: 15073,
+    //        Anouk: 5967,
+    //        Ivo: 5175
+    //    }, {
+    //        period: '2012 Q1',
+    //        Bartje: 10687,
+    //        Anouk: 4460,
+    //        Ivo: 2028
+    //    }, {
+    //        period: '2012 Q2',
+    //        Bartje: 8432,
+    //        Anouk: 5713,
+    //        Ivo: 1791
+    //    }],
+    //    xkey: 'period',
+    //    ykeys: ['Bartje', 'Anouk', 'Ivo'],
+    //    labels: ['Bartje', 'Anouk', 'Ivaylo'],
+    //    pointSize: 2,
+    //    hideHover: 'auto',
+    //    resize: true
+    //});
 
-    Morris.Donut({
-        element: 'chart2',
-        data: [{
-            label: "Download Sales",
-            value: 12
-        }, {
-            label: "In-Store Sales",
-            value: 30
-        }, {
-            label: "Mail-Order Sales",
-            value: 20
-        }],
-        resize: true
-    });
+    //Morris.Donut({
+    //    element: 'chart2',
+    //    data: [{
+    //        label: "Download Sales",
+    //        value: 12
+    //    }, {
+    //        label: "In-Store Sales",
+    //        value: 30
+    //    }, {
+    //        label: "Mail-Order Sales",
+    //        value: 20
+    //    }],
+    //    resize: true
+    //});
 
     Morris.Bar({
         element: 'chart3',

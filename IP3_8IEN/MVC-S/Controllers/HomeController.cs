@@ -37,7 +37,7 @@ namespace MVC_S.Controllers
             //dMgr.ApiRequestToJson();
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
-            //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
+
             #endregion
 
             //**** dit zijn test methodes ****//
@@ -214,10 +214,25 @@ namespace MVC_S.Controllers
             return View();
         }
 
-        public ActionResult GetData()
+        public ActionResult GetData(int id)
         {
-            Persoon persoon = dMgr.GetPersoon(231);
+            Persoon persoon = dMgr.GetPersoon(id);
             return Json(dMgr.GetTweetsPerDag(persoon,20), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetRank(int aantal)
+        {
+            
+            return Json(dMgr.GetRanking(aantal,100), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetData2(int id1, int id2, int id3, int id4, int id5 )
+        {
+            Persoon persoon1 = dMgr.GetPersoon(id1);
+            Persoon persoon2 = dMgr.GetPersoon(id2);
+            Persoon persoon3 = dMgr.GetPersoon(id3);
+            Persoon persoon4 = dMgr.GetPersoon(id4);
+            Persoon persoon5 = dMgr.GetPersoon(id5);
+            return Json(dMgr.GetTweetsPerDag2(persoon1, persoon2, persoon3, persoon4, persoon5, 20), JsonRequestBehavior.AllowGet);
         }
 
 

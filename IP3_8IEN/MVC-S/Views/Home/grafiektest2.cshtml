@@ -62,7 +62,7 @@
     </script>
 
     <script>
-        var initialData = [1, 2, 3, 4, 5, 6, 7], //initial items order (used if there is no saved data
+        var initialData = [1, 2, 3, 4, 5, 6, 7, 8], //initial items order (used if there is no saved data
             localStorageSupport = (('localStorage' in window && window['localStorage'] !== null)),
             data,
             html;
@@ -122,9 +122,9 @@
 <!--Get Data for Graph-->
 <script type="text/javascript">
     $(document).ready(function() {
-        $.get('@Url.Action("GetData","Home")', function (result) {
+        $.get('@Url.Action("GetData","Home",new {id = 231})', function (result) {
 
-           Morris.Area({
+            Morris.Area({
                 // ID of the element in which to draw the chart.
                 element: 'chart4',
                 // Chart data records -- each entry in this array corresponds to a point on
@@ -133,14 +133,56 @@
                 // The name of the data record attribute that contains x-values.
                 xkey: 'label',
                 ykeys: ['value'],
-                labels: ['aantal tweets'],
-               titel:'Bart De Wever',
+                labels: ['aantal tweets Van Verhofstad'],
                 pointSize: 2,
                 hideHover: 'auto',
                 resize: true
             });
+        });
+
+
+       
+
     });
-});
 </script>
+<script type="text/javascript">
+    $(document).ready(function() {
 
+        $.get('@Url.Action("GetData","Home",new {id = 170})', function (result) {
 
+            Morris.Line({
+                // ID of the element in which to draw the chart.
+                element: 'chart1',
+                // Chart data records -- each entry in this array corresponds to a point on
+                // the chart.
+                data: result,
+                // The name of the data record attribute that contains x-values.
+                xkey: 'label',
+                ykeys: ['value'],
+                labels: ['aantal tweets van Bart De Wever'],
+                pointSize: 2,
+                hideHover: 'auto',
+                resize: true
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+       $.get('@Url.Action("GetRank","Home",new {aantal = 5})', function (result) {
+
+            Morris.Donut({
+                // ID of the element in which to draw the chart.
+                element: 'chart2',
+                // Chart data records -- each entry in this array corresponds to a point on
+                // the chart.
+                data: result,
+                // The name of the data record attribute that contains x-values.
+                
+                hideHover: 'auto',
+                resize: true
+            });
+        });
+        });
+</script>
