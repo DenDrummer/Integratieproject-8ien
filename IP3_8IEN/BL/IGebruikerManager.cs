@@ -24,5 +24,8 @@ namespace IP_8IEN.BL
         //4 mei 2018 : Stephane
         Alert GetAlert(int alertId);
 
+        //8 mei 2018 : Victor
+        void GetAlertHogerLager();
+
     }
 }

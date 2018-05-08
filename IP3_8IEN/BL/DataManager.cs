@@ -619,8 +619,6 @@ namespace IP_8IEN.BL
             }
         }
 
-
-
         public void GetAlerts()
         {
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();

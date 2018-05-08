@@ -32,5 +32,6 @@ namespace IP_8IEN.DAL
         IEnumerable<ValueFluctuation> ReadValueFluctuations();
         IEnumerable<PositiefNegatief> ReadPositiefNegatiefs();
         IEnumerable<HogerLager> ReadHogerLagers();
+
     }
 }

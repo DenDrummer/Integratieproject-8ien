@@ -104,8 +104,7 @@ namespace IP_8IEN.BL
 
             foreach (var item in alertInstellingen.records)
             {
-                try
-                {
+                if (item.Threshold != null) {
                     ValueFluctuation vf = new ValueFluctuation()
                     {
                         Gebruiker = FindUser((String)item.Username),
@@ -118,15 +117,7 @@ namespace IP_8IEN.BL
                     };
                     repo.AddingAlertInstelling(vf);
                     System.Diagnostics.Debug.WriteLine("jah");
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("nah"+ ex);
-                }
-                
-
-                try
-                {
+                }else if (item.OnderwerpId2 != null) {
                     HogerLager hl = new HogerLager()
                     {
                         Gebruiker = FindUser((String)item.Username),
@@ -135,18 +126,12 @@ namespace IP_8IEN.BL
                         MobileNotification = (bool)item.MobileNotification,
                         AlertState = true,
                         Onderwerp = onderwerpen.FirstOrDefault(x => x.OnderwerpId == (int)item.OnderwerpId),
-                        Onderwerp2 = item.OnderwerpId2
+                        Onderwerp2 = onderwerpen.FirstOrDefault(x => x.OnderwerpId == (int)item.OnderwerpId2)
                     };
                     repo.AddingAlertInstelling(hl);
                     System.Diagnostics.Debug.WriteLine("jah");
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("nah" + ex);
-                }
-
-                try
-                {
+                }else
+                { 
                     PositiefNegatief pn = new PositiefNegatief()
                     {
                         Gebruiker = FindUser((String)item.Username),
@@ -159,10 +144,6 @@ namespace IP_8IEN.BL
                     };
                     repo.AddingAlertInstelling(pn);
                     System.Diagnostics.Debug.WriteLine("jah");
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("nah" + ex);
                 }
                 
                 
@@ -286,6 +267,82 @@ namespace IP_8IEN.BL
                     }
                 }
             }
+        }
+
+
+
+        public void GetAlertHogerLager()
+        {
+            initNonExistingRepo();
+            dataMgr = new DataManager();
+
+            List<HogerLager> hogerLagers = repo.ReadHogerLagers().ToList();
+
+            foreach(HogerLager hl in hogerLagers)
+            {
+                if(CalculateZscore(hl.Onderwerp) > CalculateZscore(hl.Onderwerp2))
+                {
+
+                }
+            }
+        }
+
+        public double CalculateZscore(Onderwerp onderwerp)
+        {
+            int totaalTweets = 0;
+            //totaalTweets = messages.Where(Message => Message.Politician == s).Count();
+            bool test;
+            List<Message> messages = dataMgr.ReadMessagesWithSubjMsgs().ToList();
+            List<Message> ms = new List<Message>();
+            List<int> tweetsPerDag = new List<int>();
+            double gemiddelde;
+            Persoon p = (Persoon)onderwerp;
+            DateTime laatsteTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+
+            foreach (Message m in messages)
+            {
+                test = false;
+                foreach (SubjectMessage sm in m.SubjectMessages)
+                {
+                    if (sm.Persoon != null && sm.Persoon.Naam == p.Naam)
+                    {
+                        test = true;
+                    }
+                }
+                if (test)
+                {
+                    totaalTweets++;
+                    ms.Add(m);
+                }
+            }
+
+            //Message mm = messages.Where(Message => Message.Politician == s).OrderBy(o=>o.Date).First();
+            DateTime start = messages.OrderBy(m => m.Date).ToList().First().Date;
+            tweetsPerDag.Clear();
+            do
+            {
+                tweetsPerDag.Add(ms.Where(m => m.Date.Date == start.Date).Count());
+                //tweetsPerDag.Add(messages.Where(Message => Message.Politician == s).Where(Message => Message.Date.Date == start).Count());
+                start = start.AddDays(1);
+
+            } while (start <= laatsteTweet);
+            double totaal = 0;
+            foreach (int i in tweetsPerDag)
+            {
+                totaal = totaal + i;
+            }
+
+            gemiddelde = totaal / tweetsPerDag.Count();
+
+
+
+            double average = tweetsPerDag.Average();
+            System.Diagnostics.Debug.WriteLine(average);
+            double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
+            double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
+
+
+            return ((tweetsPerDag.Last() - gemiddelde) / sd);
         }
 
         public void WeeklyReview()

@@ -97,7 +97,7 @@ namespace IP_8IEN.DAL
 
         public IEnumerable<HogerLager> ReadHogerLagers()
         {
-            IEnumerable<HogerLager> hogerLagers = ctx.HogerLagers.Include("Alerts");
+            IEnumerable<HogerLager> hogerLagers = ctx.HogerLagers.Include("Onderwerp").Include("Onderwerp2");
             return hogerLagers;
         }
 
