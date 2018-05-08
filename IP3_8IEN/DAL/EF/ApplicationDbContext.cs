@@ -1,4 +1,4 @@
-﻿using IP_8IEN.BL.Domain;
+﻿using IP_8IEN.BL.Domain.Gebruikers;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 

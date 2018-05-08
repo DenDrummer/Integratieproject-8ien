@@ -1,0 +1,36 @@
+﻿@model IEnumerable<IP_8IEN.BL.Domain.Data.Persoon>
+
+@{
+    ViewBag.Title = "Persoon";
+}
+
+<h2>Persoon</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Naam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Twitter)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Naam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Twitter)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditPersoon", new { id=item.OnderwerpId }) |
+            @Html.ActionLink("Details", "DetailsPersoon", new { id=item.OnderwerpId }) |
+            @Html.ActionLink("Delete", "DeletePersoon", new { id=item.OnderwerpId })
+        </td>
+    </tr>
+}
+
+</table>

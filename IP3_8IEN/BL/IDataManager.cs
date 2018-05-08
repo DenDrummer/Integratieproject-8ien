@@ -67,5 +67,7 @@ namespace IP_8IEN.BL
         Persoon GetPersoon(int persoonId);
         Organisatie GetOrganisatie(int organisatieId);
 
+        //8 mai 2018 : Stephane
+        IEnumerable<Persoon> GetPersonen();
     }
 }

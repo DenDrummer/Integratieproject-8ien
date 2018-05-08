@@ -10,6 +10,7 @@ using MVC_S.SignIn;
 using IP_8IEN.BL;
 using IP_8IEN.BL.Domain;
 using System.Net;
+using IP_8IEN.BL.Domain.Gebruikers;
 
 namespace MVC_S.Controllers
 {

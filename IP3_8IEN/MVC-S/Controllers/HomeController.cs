@@ -150,6 +150,7 @@ namespace MVC_S.Controllers
             return View(wr);
         }
 
+        // GET : Home/Create
         public ActionResult AdminCRUD()
         {
 
