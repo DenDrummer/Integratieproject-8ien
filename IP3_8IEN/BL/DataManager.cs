@@ -749,7 +749,7 @@ namespace IP_8IEN.BL
         }
 
         //public Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true)
-        public List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = true)
+        public List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = false)
         
             {
             initNonExistingRepo();
@@ -786,8 +786,9 @@ namespace IP_8IEN.BL
                 //System.Diagnostics.Debug.WriteLine(v.Key.Naam + " " + v.Value);
             }
 
-            return ranking;
-        }
+                ranking = ranking.OrderByDescending(r => r.value).ToList();
+            return ranking.GetRange(0, aantal);
+            }
 
         public double CalculateChange(long previous, long current)
         {
@@ -804,7 +805,7 @@ namespace IP_8IEN.BL
         public int GetNumber(Persoon persoon, int laatsteAantalUren = 0)
         {
             initNonExistingRepo();
-            List<Message> messages = repo.ReadMessages().ToList();
+            List<Message> messages = repo.ReadMessages(true).ToList();
             DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
             int aantal;
 
