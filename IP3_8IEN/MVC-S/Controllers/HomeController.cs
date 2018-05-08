@@ -103,8 +103,12 @@ namespace MVC_S.Controllers
         //Get: Persoon/1
         public ActionResult Personen(/*int onderwerpId*/)
         {
-            int id = 1;
+            int id = 231;
             Persoon persoon = dMgr.GetPersoon(id);
+            string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
+            string aantalT = "aantal tweets van " + persoon.Naam;
+            ViewBag.TWITTER = twit;
+            ViewBag.AANTALT = aantalT;
             
             return View(persoon);
         }
