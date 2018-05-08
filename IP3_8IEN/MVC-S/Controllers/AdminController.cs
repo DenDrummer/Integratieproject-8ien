@@ -1,4 +1,5 @@
 ﻿using IP_8IEN.BL;
+using IP_8IEN.BL.Domain.Data;
 using IP_8IEN.BL.Domain.Gebruikers;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace MVC_S.Controllers
     //[Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
+        private DataManager _dataManager;
         private ApplicationUserManager _userManager;
 
 
@@ -20,11 +22,18 @@ namespace MVC_S.Controllers
         {
             // Inject the datacontext and userManager Dependencies
             _userManager = new ApplicationUserManager();
+            _dataManager = new DataManager();
         }
 
 
         // GET: Admin
         public ActionResult Index()
+        {
+            IEnumerable<ApplicationUser> users = _userManager.GetUsers();
+            return View(users);
+        }
+        
+        public ActionResult User()
         {
             IEnumerable<ApplicationUser> users = _userManager.GetUsers();
             return View(users);
@@ -89,6 +98,12 @@ namespace MVC_S.Controllers
         {
             ApplicationUser user = await _userManager.FindByIdAsync(id);
             return await Task.Run(() => View(user));
+        }
+
+        public ActionResult Persoon()
+        {
+            IEnumerable<Persoon> personen = _dataManager.GetPersonen();
+            return View(personen);
         }
     }
 }

@@ -565,6 +565,13 @@ namespace IP_8IEN.BL
             return organisatie;
         }
 
+        public IEnumerable<Persoon> GetPersonen()
+        {
+            initNonExistingRepo();
+            IEnumerable<Persoon> personen = repo.ReadPersonen();
+            return personen;
+        }
+
         //Unit of Work related
         public void initNonExistingRepo(bool withUnitOfWork = false)
         {
@@ -602,6 +609,7 @@ namespace IP_8IEN.BL
             }
         }
 
+        
 
         public class zscore
         {
