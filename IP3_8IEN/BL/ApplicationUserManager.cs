@@ -4,16 +4,18 @@ using System.Threading.Tasks;
 
 using IP_8IEN.DAL.EF;
 using IP_8IEN.DAL;
-using IP_8IEN.BL.Domain;
+using IP_8IEN.BL.Domain.Gebruikers;
 
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace IP_8IEN.BL
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        //1 apr 2018 : Stephane
+        //IdentityRepository repo =  new IdentityRepository();
 
         public ApplicationUserManager()
             : base(new IdentityRepository())
@@ -28,11 +30,11 @@ namespace IP_8IEN.BL
             // Configure validation logic for passwords
             PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequiredLength = 8,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults
@@ -48,8 +50,8 @@ namespace IP_8IEN.BL
         private async Task CreateRolesandUsers()
         {
             // Context moet opgehaald worden uit de repository!
-            // ApplicationDbContext context = (ApplicationDbContext)(((IdentityRepository)Store).Context);
-            IdentityRepository repo = new IdentityRepository();
+            // ApplicationDbContext repo = (ApplicationDbContext)(((IdentityRepository)Store).Context);
+            IdentityRepository repo =  new IdentityRepository();
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(repo.GetContext()));
 
@@ -132,6 +134,30 @@ namespace IP_8IEN.BL
             var t = await this.CreateAsync(user, pwd);
             this.AddToRole(user.Id, role);
             return t;
+        }
+
+        ////inladen vanuit json formaat
+        public void AddApplicationGebruikers(string filePath)
+        {
+            //sourceUrl /relatief path
+            StreamReader r = new StreamReader(filePath);
+            string json = r.ReadToEnd();
+
+            dynamic users = JsonConvert.DeserializeObject(json);
+
+            foreach (var item in users.records)
+            {
+                ApplicationUser gebruiker = new ApplicationUser()
+                {
+                    UserName = item.Username,
+                    VoorNaam = item.Voornaam,
+                    AchterNaam = item.Achternaam,
+                    Email = item.email,
+                    Geboortedatum = item.Geboortedatum
+                };
+                string passw = item.Password;
+                this.CreateUserWithRoleAsync(gebruiker, passw, "Admin");
+            }
         }
     }
 }

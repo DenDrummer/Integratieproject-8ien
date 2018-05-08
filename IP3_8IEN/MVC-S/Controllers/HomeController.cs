@@ -9,6 +9,7 @@ using IP_8IEN.BL.Domain.Gebruikers;
 using System.Web.Hosting;
 using System.IO;
 using System.Web;
+using IP_8IEN.BL.Domain;
 
 namespace MVC_S.Controllers
 {
@@ -16,6 +17,7 @@ namespace MVC_S.Controllers
     {
         private IDataManager dMgr;
         private IGebruikerManager gMgr;
+        private ApplicationUserManager aMgr;
 
         public HomeController()
         {
@@ -23,23 +25,25 @@ namespace MVC_S.Controllers
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
-            
-            #region initialisatie blok databank
-            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
-            dMgr.ApiRequestToJson();
 
-            gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
-            gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
-            gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            aMgr = new ApplicationUserManager();
+            //aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
+
+            #region initialisatie blok databank
+            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            //dMgr.ApiRequestToJson();
+            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
+            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
             #endregion
 
             //**** dit zijn test methodes ****//
             //dMgr.CountSubjMsgsPersoon();
             //dMgr.ReadOnderwerpenWithSubjMsgs();
             //dMgr.GetAlerts();
+            //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
             //**** dit zijn test methodes ****//
 
-            HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
+            //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
             //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
 
         }
@@ -138,6 +142,7 @@ namespace MVC_S.Controllers
             return View(wr);
         }
 
+        // GET : Home/Create
         public ActionResult AdminCRUD()
         {
 
@@ -170,6 +175,24 @@ namespace MVC_S.Controllers
 
         public ActionResult Zoeken()
         {
+
+            return View();
+        }
+
+        public ActionResult Initialize()
+        {
+            // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
+            // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
+            dMgr = new DataManager();
+            gMgr = new GebruikerManager();
+
+            #region initialisatie blok databank
+            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            //dMgr.ApiRequestToJson();
+            gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
+            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
+            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            #endregion
 
             return View();
         }

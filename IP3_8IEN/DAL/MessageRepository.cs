@@ -55,8 +55,8 @@ namespace IP_8IEN.DAL
 
         public IEnumerable<Persoon> ReadPersonen()
         {
-            //return ctx.Personen.Include("Tewerkstellingen").Include("Onderwerpen").ToList<Persoon>();
-            return ctx.Personen.ToList<Persoon>();
+            return ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie").ToList<Persoon>();
+            //return ctx.Personen.ToList<Persoon>();
         }
 
         public IEnumerable<Hashtag> ReadHashtags()

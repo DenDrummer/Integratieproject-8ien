@@ -1,0 +1,14 @@
+﻿@model IEnumerable<IP_8IEN.BL.Domain.Gebruikers.ApplicationUser>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+    <p>
+        @Html.ActionLink("Users", "User")
+        @Html.ActionLink("Personen", "Persoon")
+        @Html.ActionLink("Organisaties", "Organisatie")
+    </p>
+</table>

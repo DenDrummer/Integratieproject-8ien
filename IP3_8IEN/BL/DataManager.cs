@@ -53,9 +53,9 @@ namespace IP_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "4 May 2018 0:01",
+                        since = "26 Apr 2018 00:01",
                         //until weglaten --> last scraping
-                        //until = "26 Apr 2018 23:59",
+                        until = "26 Apr 2018 23:59",
                     });
 
                     streamWriter.Write(json);
@@ -565,6 +565,13 @@ namespace IP_8IEN.BL
             return organisatie;
         }
 
+        public IEnumerable<Persoon> GetPersonen()
+        {
+            initNonExistingRepo();
+            IEnumerable<Persoon> personen = repo.ReadPersonen();
+            return personen;
+        }
+
         //Unit of Work related
         public void initNonExistingRepo(bool withUnitOfWork = false)
         {
@@ -602,6 +609,7 @@ namespace IP_8IEN.BL
             }
         }
 
+        
 
         public class zscore
         {
