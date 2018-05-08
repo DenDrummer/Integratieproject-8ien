@@ -100,10 +100,19 @@ namespace MVC_S.Controllers
             return await Task.Run(() => View(user));
         }
 
+        [HttpGet]
         public ActionResult Persoon()
         {
             IEnumerable<Persoon> personen = _dataManager.GetPersonen();
             return View(personen);
         }
+
+        [HttpGet]
+        public ActionResult DetailsPersoon(int id)
+        {
+            Persoon persoon = _dataManager.GetPersoon(id);
+            return View(persoon);
+        }
+
     }
 }
