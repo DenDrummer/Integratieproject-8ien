@@ -10,7 +10,6 @@ using System;
 using System.Net;
 using System.Web.Script.Serialization;
 using System.Net.Mail;
-using IP_8IEN.BL.Domain.Gebruikers;
 
 namespace IP_8IEN.BL
 {
@@ -53,7 +52,7 @@ namespace IP_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "4 May 2018 0:01",
+                        since = "28 Apr 2018 0:01",
                         //until weglaten --> last scraping
                         //until = "26 Apr 2018 23:59",
                     });
@@ -151,8 +150,8 @@ namespace IP_8IEN.BL
 
                 try
                 {
-                    tweet.SentimentPos = item.sentiment[0];
-                    tweet.SentimentNeg = item.sentiment[1];
+                    tweet.Polarity = item.sentiment[0];
+                    tweet.Objectivity = item.sentiment[1];
                 }
                 catch { }
 
@@ -201,7 +200,7 @@ namespace IP_8IEN.BL
             {
                 persoon = new Persoon()
                 {
-                    
+
                     Naam = naam,
                     // DateTime kan niet null zijn --> voorlopig tijd van creatie meegeven
                     Geboortedatum = DateTime.Now,
@@ -539,7 +538,7 @@ namespace IP_8IEN.BL
 
             return countedTweets;
         }
-        
+
         public IEnumerable<Message> ReadMessagesWithSubjMsgs()
         {
             initNonExistingRepo();
@@ -845,6 +844,158 @@ namespace IP_8IEN.BL
                 System.Diagnostics.Debug.WriteLine(v.Key + " " + v.Value);
             }
             return tweetsPerDag;
+        }
+
+        public double GetPolarityByPerson(Persoon persoon)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            double totalPolarity = 0;
+
+            messages = messages.Where(m => m.IsFrom(persoon)).ToList();
+
+            foreach (Message m in messages)
+            {
+                totalPolarity += m.Polarity;
+            }
+
+            return totalPolarity / messages.Count;
+        }
+
+        public double GetPolarityByPerson(Persoon persoon, DateTime start)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            double totalPolarity = 0;
+
+            messages = messages.Where(m => m.IsFrom(persoon) && m.Date > start).ToList();
+
+            foreach (Message m in messages)
+            {
+                totalPolarity += m.Polarity;
+            }
+
+            return totalPolarity / messages.Count;
+        }
+
+        public double GetPolarityByPerson(Persoon persoon, DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            double totalPolarity = 0;
+
+            messages = messages.Where(m => m.IsFrom(persoon) && m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                totalPolarity += m.Polarity;
+            }
+
+            return totalPolarity / messages.Count;
+        }
+
+        public double GetObjectivityByPerson(Persoon persoon)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            double totalObjectivity = 0;
+
+            messages = messages.Where(m => m.IsFrom(persoon)).ToList();
+
+            foreach (Message m in messages)
+            {
+                totalObjectivity += m.Objectivity;
+            }
+
+            return totalObjectivity / messages.Count;
+        }
+
+        public double GetObjectivityByPerson(Persoon persoon, DateTime start)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            double totalObjectivity = 0;
+
+            messages = messages.Where(m => m.IsFrom(persoon) && m.Date > start).ToList();
+
+            foreach (Message m in messages)
+            {
+                totalObjectivity += m.Objectivity;
+            }
+
+            return totalObjectivity / messages.Count;
+        }
+
+        public double GetObjectivityByPerson(Persoon persoon,DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            double totalObjectivity = 0;
+
+            messages = messages.Where(m => m.IsFrom(persoon) && m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                totalObjectivity += m.Objectivity;
+            }
+
+            return totalObjectivity / messages.Count;
+        }
+
+        public int GetMentionCountByName(string naam)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            int counter = 0;
+
+            foreach (Message m in messages)
+            {
+                if (m.Mention1 == naam || m.Mention2 == naam || m.Mention3 == naam || m.Mention4 == naam || m.Mention5 == naam)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+
+        public int GetMentionCountByName(string naam, DateTime start)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            int counter = 0;
+            messages = messages.Where(m => m.Date > start).ToList();
+
+            foreach (Message m in messages)
+            {
+                if (m.Mention1 == naam || m.Mention2 == naam || m.Mention3 == naam || m.Mention4 == naam || m.Mention5 == naam)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+
+        public int GetMentionCountByName(string naam, DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            int counter = 0;
+
+            messages = messages.Where(m => m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                if (m.Mention1 == naam || m.Mention2 == naam || m.Mention3 == naam || m.Mention4 == naam || m.Mention5 == naam)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+
+        public List<GraphData> GetTopWordsCount()
+        {
+
         }
     }
 }

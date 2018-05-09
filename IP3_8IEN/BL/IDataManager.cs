@@ -59,5 +59,16 @@ namespace IP_8IEN.BL
         Persoon GetPersoon(int persoonId);
         Organisatie GetOrganisatie(int organisatieId);
 
+        //4 mei 2018 : Victor
+        double GetPolarityByPerson(Persoon persoon);
+        double GetPolarityByPerson(Persoon persoon, DateTime start);
+        double GetPolarityByPerson(Persoon persoon, DateTime start, DateTime stop);
+        double GetObjectivityByPerson(Persoon persoon);
+        double GetObjectivityByPerson(Persoon persoon, DateTime start);
+        double GetObjectivityByPerson(Persoon persoon, DateTime start, DateTime stop);
+        int GetMentionCountByName(string naam);
+        int GetMentionCountByName(string naam, DateTime start);
+        int GetMentionCountByName(string naam, DateTime start, DateTime stop);
+
     }
 }

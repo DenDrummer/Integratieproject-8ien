@@ -32,9 +32,10 @@ namespace IP_8IEN.BL.Domain.Data
         public string Word4 { get; set; }
         public string Word5 { get; set; }
 
-        //twee getallen tussen -1 en 1
-        public double SentimentPos { get; set; }
-        public double SentimentNeg { get; set; }
+        //getal tussen -1 en 1
+        public double Polarity { get; set; }
+        //getal tussen 0 en 1
+        public double Objectivity { get; set; }
 
         //urls
         public string Url1 { get; set; }

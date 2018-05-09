@@ -270,7 +270,6 @@ namespace IP_8IEN.BL
         }
 
 
-
         public void GetAlertHogerLager()
         {
             initNonExistingRepo();
@@ -280,15 +279,16 @@ namespace IP_8IEN.BL
 
             foreach(HogerLager hl in hogerLagers)
             {
-                if(CalculateZscore(hl.Onderwerp) > CalculateZscore(hl.Onderwerp2))
+                if(CalculateZscore(hl.Onderwerp) < CalculateZscore(hl.Onderwerp2))
                 {
-
+                    int i = 0;
                 }
             }
         }
 
         public double CalculateZscore(Onderwerp onderwerp)
         {
+            initNonExistingRepo();
             int totaalTweets = 0;
             //totaalTweets = messages.Where(Message => Message.Politician == s).Count();
             bool test;
@@ -341,8 +341,8 @@ namespace IP_8IEN.BL
             double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
             double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
 
-
-            return ((tweetsPerDag.Last() - gemiddelde) / sd);
+            double test2 = ((tweetsPerDag.Last() - gemiddelde) / sd);
+            return test2;
         }
 
         public void WeeklyReview()
@@ -363,7 +363,7 @@ namespace IP_8IEN.BL
                             <p>Via de Weekly Review wordt u op de hoogte gehouden van alle trending Onderwerpen die </br>
                             u volgt. Indien u op de hoogte gehouden wilt worden van nog meer onderwerpen, kan u 
                             </br> steeds extra onderwerpen volgen op <a href=""www.8ien.be""> Weekly Reviews </a>. </p>
-                            <h3>Personen</h3> <div style=""margin: 0px;""> <p>Naam : BARTJE </p> <ul>");
+                            <h3>Personen</h3> <div style=""margin: 0px;""> <p>Naam : Bart De Wever </p> <ul>");
                 if (g.AlertInstellingen != null) {
                 foreach (AlertInstelling al in g.AlertInstellingen)
                 {
@@ -380,7 +380,7 @@ namespace IP_8IEN.BL
                 }
                 }
                 sb.Append(@"</ul></div></div>");
-                //SendMail(dezeWeek, g.Email, sb.ToString());
+                SendMail(dezeWeek, g.Email, sb.ToString());
             }
          }
         private bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
