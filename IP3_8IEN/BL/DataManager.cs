@@ -10,6 +10,7 @@ using System;
 using System.Net;
 using System.Web.Script.Serialization;
 using System.Net.Mail;
+using IP3_8IEN.BL.Domain.Dashboard;
 
 namespace IP_8IEN.BL
 {
@@ -995,7 +996,299 @@ namespace IP_8IEN.BL
 
         public List<GraphData> GetTopWordsCount()
         {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> words = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
 
+            foreach (Message m in messages)
+            {
+                words.Add(m.Word1);
+                words.Add(m.Word2);
+                words.Add(m.Word3);
+                words.Add(m.Word4);
+                words.Add(m.Word5);
+            }
+
+            words = words.Distinct().ToList();
+
+            foreach (String w in words)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Word1 == w || m.Word2 == w || m.Word3 == w || m.Word4 == w || m.Word5 == w)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(w, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data;
+        }
+
+        public List<GraphData> GetTopWordsCount(int aantal)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> words = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            foreach (Message m in messages)
+            {
+                words.Add(m.Word1);
+                words.Add(m.Word2);
+                words.Add(m.Word3);
+                words.Add(m.Word4);
+                words.Add(m.Word5);
+            }
+
+            words = words.Distinct().ToList();
+
+            foreach (String w in words)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Word1 == w || m.Word2 == w || m.Word3 == w || m.Word4 == w || m.Word5 == w)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(w, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data.GetRange(0,aantal);
+        }
+
+        public List<GraphData> GetTopWordsCount(int aantal, DateTime start)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> words = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            messages = messages.Where(m => m.Date > start).ToList();
+
+            foreach (Message m in messages)
+            {
+                words.Add(m.Word1);
+                words.Add(m.Word2);
+                words.Add(m.Word3);
+                words.Add(m.Word4);
+                words.Add(m.Word5);
+            }
+
+            words = words.Distinct().ToList();
+
+            foreach (String w in words)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Word1 == w || m.Word2 == w || m.Word3 == w || m.Word4 == w || m.Word5 == w)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(w, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data.GetRange(0, aantal);
+        }
+
+        public List<GraphData> GetTopWordsCount(int aantal, DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> words = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            messages = messages.Where(m => m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                words.Add(m.Word1);
+                words.Add(m.Word2);
+                words.Add(m.Word3);
+                words.Add(m.Word4);
+                words.Add(m.Word5);
+            }
+
+            words = words.Distinct().ToList();
+
+            foreach (String w in words)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Word1 == w || m.Word2 == w || m.Word3 == w || m.Word4 == w || m.Word5 == w)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(w, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data.GetRange(0, aantal);
+        }
+
+        public List<GraphData> GetTopWordsCount(DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> words = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            messages = messages.Where(m => m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                words.Add(m.Word1);
+                words.Add(m.Word2);
+                words.Add(m.Word3);
+                words.Add(m.Word4);
+                words.Add(m.Word5);
+            }
+
+            words = words.Distinct().ToList();
+
+            foreach (String w in words)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Word1 == w || m.Word2 == w || m.Word3 == w || m.Word4 == w || m.Word5 == w)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(w, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data;
+        }
+
+        public int GetWordCountByName(string name)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            int counter = 0;
+
+            foreach (Message m in messages)
+            {
+                if (m.Word1 == name || m.Word2 == name || m.Word3 == name || m.Word4 == name || m.Word5 == name)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+
+        public int GetWordCountByName(string name, DateTime start)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            int counter = 0;
+
+            messages = messages.Where(m => m.Date > start).ToList();
+
+            foreach (Message m in messages)
+            {
+                if (m.Word1 == name || m.Word2 == name || m.Word3 == name || m.Word4 == name || m.Word5 == name)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+
+        public int GetWordCountByName(string name, DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            int counter = 0;
+
+            messages = messages.Where(m => m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                if (m.Word1 == name || m.Word2 == name || m.Word3 == name || m.Word4 == name || m.Word5 == name)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+
+        public List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<GraphData> data = new List<GraphData>();
+
+            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFrom(p1)).Count()));
+            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFrom(p2)).Count()));
+
+            return data;
+        }
+
+        public List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<GraphData> data = new List<GraphData>();
+
+            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFrom(p1)).Count()));
+            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFrom(p2)).Count()));
+            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFrom(p3)).Count()));
+
+            return data;
+        }
+
+        public List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3, Persoon p4)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<GraphData> data = new List<GraphData>();
+
+            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFrom(p1)).Count()));
+            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFrom(p2)).Count()));
+            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFrom(p3)).Count()));
+            data.Add(new GraphData(p4.Naam, messages.Where(m => m.IsFrom(p4)).Count()));
+
+            return data;
+        }
+
+        public List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3,Persoon p4,Persoon p5)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<GraphData> data = new List<GraphData>();
+
+            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFrom(p1)).Count()));
+            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFrom(p2)).Count()));
+            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFrom(p3)).Count()));
+            data.Add(new GraphData(p4.Naam, messages.Where(m => m.IsFrom(p4)).Count()));
+            data.Add(new GraphData(p5.Naam, messages.Where(m => m.IsFrom(p5)).Count()));
+
+            return data;
         }
     }
 }
