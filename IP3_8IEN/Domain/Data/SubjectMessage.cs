@@ -9,5 +9,6 @@ namespace IP_8IEN.BL.Domain.Data
         public Message Msg { get; set; }
         public Persoon Persoon { get; set; }
         public Hashtag Hashtag { get; set; }
+        public Organisatie organisatie { get; set; }
     }
 }

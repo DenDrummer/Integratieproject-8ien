@@ -333,7 +333,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Fotos\noti.png" />
     <Content Include="Fotos\NVA.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -369,6 +368,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="AddApplicationGebruikers.Json" />
+    <None Include="Properties\PublishProfiles\deploy_FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\deploy_kdgServer.pubxml" />
+    <None Include="Properties\PublishProfiles\file_deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -376,8 +378,6 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\flot-data.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -466,10 +466,6 @@
     <Content Include="Views\Home\AdminOmgeving.cshtml" />
     <Content Include="Views\Home\Superadmin.cshtml" />
     <Content Include="Views\Home\Zoeken.cshtml" />
-    <Content Include="Views\Alert\Internal.cshtml" />
-    <Content Include="Views\Alert\NotAllowed.cshtml" />
-    <Content Include="Views\Alert\NotFound.cshtml" />
-    <Content Include="Views\Alert\BadRequest.cshtml" />
     <Content Include="Views\Shared\_ShortDateView.cshtml" />
     <Content Include="Views\Home\Initialize.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
@@ -479,9 +475,15 @@
     <Content Include="Views\Admin\User.cshtml" />
     <Content Include="Views\Admin\Persoon.cshtml" />
     <Content Include="Views\Home\Grafiektest2.cshtml" />
+    <Content Include="Views\Admin\DetailsPersoon.cshtml" />
+    <Content Include="Views\Admin\EditPersoon.cshtml" />
+    <Content Include="Views\Admin\Organisatie.cshtml" />
+    <Content Include="Views\Admin\DetailsOrganisatie.cshtml" />
+    <Content Include="Views\Admin\EditOrganisatie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Alert\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

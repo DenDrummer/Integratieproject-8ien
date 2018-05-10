@@ -100,10 +100,59 @@ namespace MVC_S.Controllers
             return await Task.Run(() => View(user));
         }
 
+        [HttpGet]
         public ActionResult Persoon()
         {
             IEnumerable<Persoon> personen = _dataManager.GetPersonen();
             return View(personen);
+        }
+
+        [HttpGet]
+        public ActionResult DetailsPersoon(int id)
+        {
+            Persoon persoon = _dataManager.GetPersoon(id);
+            return View(persoon);
+        }
+
+        [HttpGet]
+        public ActionResult EditPersoon(int id)
+        {
+            Persoon persoon = _dataManager.GetPersoon(id);
+            return View(persoon);
+        }
+
+        [HttpGet]
+        public ActionResult Organisatie()
+        {
+            IEnumerable<Organisatie> organisaties = _dataManager.GetOrganisaties();
+            return View(organisaties);
+        }
+
+        [HttpGet]
+        public ActionResult DetailsOrganisatie(int id)
+        {
+            Organisatie organisatie = _dataManager.GetOrganisatie(id);
+            return View(organisatie);
+        }
+
+        [HttpGet]
+        public ActionResult EditOrganisatie(int id)
+        {
+            Organisatie organisatie = _dataManager.GetOrganisatie(id);
+            return View(organisatie);
+        }
+
+        [HttpPost]
+        public ActionResult EditOrganisatie(int id, Organisatie organisatie)
+        {
+            if (ModelState.IsValid)
+            {
+               // _dataManager.ChangeOrganisation(organisatie);
+
+                return RedirectToAction("Index");
+            }
+
+            return View();
         }
     }
 }

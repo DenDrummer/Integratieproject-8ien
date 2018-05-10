@@ -54,7 +54,7 @@ namespace IP_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "1 Apr 2018 00:01",
+                        since = "29 Apr 2018 00:01",
                         //until weglaten --> last scraping
                         until = "30 Apr 2018 00:01",
                     });
@@ -75,15 +75,15 @@ namespace IP_8IEN.BL
 
         // Hier worden tweets uit een json file naar zijn juiste klasse weggeschreven en gesynchroniseerd
         // Aangesproken klasse zijn : 'Message', 'Onderwerp', 'Persoon' & 'Hashtag' 
-        public void AddMessages(string json)
+        public void AddMessages(string sourceUrl)//(string json)
         {
             initNonExistingRepo();
 
-            ////gebruik deze voor het inladen van een json file 
-            ////    (vb: sourceUrl = path naar testdata.json)
-            //StreamReader r = new StreamReader(sourceUrl);
-            //string json = r.ReadToEnd();
-            //List<Message> messages = new List<Message>();
+            //gebruik deze voor het inladen van een json file 
+            //    (vb: sourceUrl = path naar testdata.json)
+            StreamReader r = new StreamReader(sourceUrl);
+            string json = r.ReadToEnd();
+            List<Message> messages = new List<Message>();
 
             dynamic tweets = JsonConvert.DeserializeObject(json);
 
@@ -571,6 +571,13 @@ namespace IP_8IEN.BL
             initNonExistingRepo();
             IEnumerable<Persoon> personen = repo.ReadPersonen();
             return personen;
+        }
+
+        public IEnumerable<Organisatie> GetOrganisaties()
+        {
+            initNonExistingRepo();
+            IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
+            return organisaties;
         }
 
         //Unit of Work related

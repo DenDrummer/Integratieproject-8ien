@@ -69,5 +69,6 @@ namespace IP_8IEN.BL
 
         //8 mai 2018 : Stephane
         IEnumerable<Persoon> GetPersonen();
+        IEnumerable<Organisatie> GetOrganisaties();
     }
 }

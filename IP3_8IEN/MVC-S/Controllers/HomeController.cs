@@ -26,10 +26,10 @@ namespace MVC_S.Controllers
         {
             // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
-            dMgr = new DataManager();
-            gMgr = new GebruikerManager();
+            //dMgr = new DataManager();
+            //gMgr = new GebruikerManager();
 
-            aMgr = new ApplicationUserManager();
+            //aMgr = new ApplicationUserManager();
             //aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
 
             #region initialisatie blok databank
@@ -194,16 +194,20 @@ namespace MVC_S.Controllers
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
 
+            aMgr = new ApplicationUserManager();
+            aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
+
             #region initialisatie blok databank
-            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             //dMgr.ApiRequestToJson();
-            gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
-            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
-            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.Json"));
+            gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
+            gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+
             #endregion
 
 
-            
+
 
             return View();
         }
