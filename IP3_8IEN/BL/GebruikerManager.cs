@@ -381,7 +381,9 @@ namespace IP_8IEN.BL
                 sb.Clear();
                 sb.Append(@"<div id=""wrapper"" style=""width:600px;margin:0 auto; border:1px solid black; 
                             overflow:hidden; padding: 10px 10px 10px 10px;"" ><p><i>");
-                sb.Append(g.Voornaam + " " + g.Naam);
+                // Voor- en Achternaam kunnen voorlopig leeg zijn
+                //sb.Append(g.Voornaam + " " + g.Naam);
+                sb.Append(g.Username);
                 sb.Append(@", </i></p>
                             <p>Via de Weekly Review wordt u op de hoogte gehouden van alle trending Onderwerpen die </br>
                             u volgt. Indien u op de hoogte gehouden wilt worden van nog meer onderwerpen, kan u 
