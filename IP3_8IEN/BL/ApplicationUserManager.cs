@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using IP_8IEN.DAL.EF;
 using IP_8IEN.DAL;
 using IP_8IEN.BL.Domain.Gebruikers;
 
@@ -16,6 +15,7 @@ namespace IP_8IEN.BL
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         //IdentityRepository repo =  new IdentityRepository();
+        private IGebruikerManager _gebruikerMgr;
 
         public ApplicationUserManager()
             : base(new IdentityRepository())
@@ -137,8 +137,10 @@ namespace IP_8IEN.BL
         }
 
         ////inladen vanuit json formaat
-        public void AddApplicationGebruikers(string filePath)
+        public async Task AddApplicationGebruikers(string filePath)
         {
+            _gebruikerMgr = new GebruikerManager();
+
             //sourceUrl /relatief path
             StreamReader r = new StreamReader(filePath);
             string json = r.ReadToEnd();
@@ -157,6 +159,9 @@ namespace IP_8IEN.BL
                 };
                 string passw = item.Password;
                 this.CreateUserWithRoleAsync(gebruiker, passw, "Admin");
+
+                // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken : Identity doet moeilijk
+                _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName);
             }
         }
     }

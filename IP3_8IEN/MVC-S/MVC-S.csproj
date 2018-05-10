@@ -480,6 +480,7 @@
     <Content Include="Views\Admin\Organisatie.cshtml" />
     <Content Include="Views\Admin\DetailsOrganisatie.cshtml" />
     <Content Include="Views\Admin\EditOrganisatie.cshtml" />
+    <Content Include="Views\Home\UserDashBoard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,8 +1,14 @@
-﻿using IP_8IEN.DAL;
+﻿using IP_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Data;
+using IP_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.DAL;
+using IP3_8IEN.BL.Domain.Dashboard;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace IP_8IEN.BL
 {
-    class DashManager : IDashManager
+    public class DashManager : IDashManager
     {
         private UnitOfWorkManager uowManager;
         private DashRepository repo;//= new MessageRepository();
@@ -19,7 +25,64 @@ namespace IP_8IEN.BL
             repo = new DashRepository(uowManager.UnitOfWork);
         }
 
-        
+        public Dashbord GetDashboard(Gebruiker user)
+        {
+            initNonExistingRepo();
+
+            Dashbord dash = repo.ReadDashbord(user);
+            return dash;
+        }
+
+        public DashItem AddDashItem(Gebruiker user, Onderwerp onderwerp)
+        {
+            initNonExistingRepo();
+
+            DashItem dashItem = new DashItem();
+            repo.AddDashItem(dashItem);
+
+            Follow follow = new Follow()
+            {
+                Onderwerp = onderwerp,
+                DashItem = dashItem
+            };
+            repo.AddFollow(follow);
+            
+            ICollection<Follow> follows = new Collection<Follow>();
+            follows.Add(follow);
+            dashItem.Follows = follows;
+
+            Dashbord dashbord = GetDashboard(user);
+            TileZone tile = new TileZone()
+            {
+                Dashbord = dashbord,
+                DashItem = dashItem
+            };
+
+            dashItem.TileZones.Add(tile);
+            repo.UpdateDashItem(dashItem);
+
+            return dashItem;
+        }
+
+        public void AddGraph(GraphData graph)
+        {
+            initNonExistingRepo();
+
+            repo.AddGraph(graph);
+        }
+
+        public Dashbord AddDashBord(Gebruiker gebruiker)
+        {
+            initNonExistingRepo();
+
+            Dashbord dashbord = new Dashbord
+            {
+                User = gebruiker,
+                TileZones = new Collection<TileZone>()
+            };
+            repo.AddDashBord(dashbord);
+            return dashbord;
+        }
 
         //Unit of Work related
         public void initNonExistingRepo(bool withUnitOfWork = false)

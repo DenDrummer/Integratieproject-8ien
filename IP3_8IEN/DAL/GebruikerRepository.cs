@@ -115,5 +115,11 @@ namespace IP_8IEN.DAL
             IEnumerable<PositiefNegatief> positiefNegatiefs = ctx.PositiefNegatiefs.Include("Alerts");
             return positiefNegatiefs;
         }
+
+        public void UpdateGebruiker(Gebruiker gebruiker)
+        {
+            ctx.Entry(gebruiker).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
+        }
     }
 }

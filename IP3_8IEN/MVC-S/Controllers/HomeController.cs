@@ -13,6 +13,9 @@ using System.Web.Helpers;
 using IP3_8IEN.BL.Domain.Dashboard;
 using IP_8IEN.BL.Domain.Gebruikers;
 using Microsoft.Ajax.Utilities;
+using IP_8IEN.BL.Domain.Dashboard;
+using Microsoft.AspNet.Identity;
+using System.Linq;
 
 namespace MVC_S.Controllers
 {
@@ -20,36 +23,21 @@ namespace MVC_S.Controllers
     {
         private IDataManager dMgr;
         private IGebruikerManager gMgr;
+        private IDashManager dashMgr;
         private ApplicationUserManager aMgr;
 
         public HomeController()
         {
-            // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
-            // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
-            //dMgr = new DataManager();
-            //gMgr = new GebruikerManager();
+            // initialisatie methodes zitting in Initialize()
+            dMgr = new DataManager();
+            gMgr = new GebruikerManager();
 
-            //aMgr = new ApplicationUserManager();
-            //aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
+            aMgr = new ApplicationUserManager();
+            aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
+            
 
-            #region initialisatie blok databank
-            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
-            //dMgr.ApiRequestToJson();
-            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
-            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
-
-            #endregion
-
-            //**** dit zijn test methodes ****//
-            //dMgr.CountSubjMsgsPersoon();
-            //dMgr.ReadOnderwerpenWithSubjMsgs();
-            //dMgr.GetAlerts();
-            //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
-            //**** dit zijn test methodes ****//
-
-            //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
-            //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
-
+            //dashMgr = new DashManager();
+            //dashMgr.AddDashBord(user);
         }
         private async Task RetrieveAPIData(IDataManager dMgr)
         {
@@ -150,16 +138,36 @@ namespace MVC_S.Controllers
             return View(wr);
         }
 
-        // GET : Home/Create
-        public ActionResult AdminCRUD()
-        {
+        //public async Task<ActionResult> UserDashBoard()
+        //{
+        //    //Dashbord van ingelogde gebruiker ophalen
+        //    try
+        //    {
+        //        ApplicationUser appUser = await aMgr.FindByIdAsync(User.Identity.GetUserId());
+        //        Gebruiker user = 
 
-            return View();
-        }
+        //        Dashbord dashbord = dashMgr.GetDashboard(user);
+
+        //        return await Task.Run(() => View(dashbord));
+        //    }
+        //    catch
+        //    {
+        //        return await Task.Run(() => View());
+        //    }
+
+        //    //Persoon persoon = dMgr.GetPersoon(170);
+        //    //int aantalTweets = dMgr.GetNumber(persoon);
+        //    //// int aantalTweets = 69;
+        //    //ViewBag.NUMMER1 = aantalTweets;
+        //    //ViewBag.naam1 = persoon.Naam;
+        //    ////System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
+
+        //    return View();
+        //}
 
         public ActionResult AdminOmgeving()
         {
-            // stephane : note : deze 'if else' kun je gebruiken voor authorisatie
+            // note : deze 'if else' kun je gebruiken voor authorisatie
             if (User.IsInRole("Admin")){
 
                 return View();
@@ -167,12 +175,6 @@ namespace MVC_S.Controllers
             {
                 return RedirectToAction("NotAllowed", "Error");
             }
-        }
-
-        public ActionResult Superadmin()
-        {
-
-            return View();
         }
 
         public ActionResult Instellingen()
@@ -190,7 +192,7 @@ namespace MVC_S.Controllers
         public ActionResult Initialize()
         {
             // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
-            // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
+            // Let op: telkens de 'Initialize() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
 
@@ -198,16 +200,22 @@ namespace MVC_S.Controllers
             aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
 
             #region initialisatie blok databank
-            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             //dMgr.ApiRequestToJson();
-            dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.Json"));
-            gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
-            gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
-
+            //dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.Json"));
+            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
+            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
             #endregion
 
+            //**** dit zijn test methodes ****//
+            //dMgr.CountSubjMsgsPersoon();
+            //dMgr.ReadOnderwerpenWithSubjMsgs();
+            //dMgr.GetAlerts();
+            //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
+            //**** dit zijn test methodes ****//
 
-
+            //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
+            //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
 
             return View();
         }

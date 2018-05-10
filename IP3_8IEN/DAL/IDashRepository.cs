@@ -1,4 +1,7 @@
 ﻿using IP_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Data;
+using IP_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.BL.Domain.Dashboard;
 
 namespace IP_8IEN.DAL
 {
@@ -7,7 +10,13 @@ namespace IP_8IEN.DAL
         //5 apr 2018
         bool isUnitofWork();
         void setUnitofWork(bool UoW);
-        void AddDashItem(DashItem dashItem);
+        //void AddDashItem(DashItem dashItem);
 
+        //10 mei 2018 : Stephane
+        Dashbord ReadDashbord(Gebruiker user);
+        void AddFollow(Follow follow);
+        void UpdateDashItem(DashItem dashItem);
+        void AddGraph(GraphData graph);
+        void AddDashBord(Dashbord dashbord);
     }
 }

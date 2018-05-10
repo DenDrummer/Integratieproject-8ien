@@ -121,6 +121,19 @@ namespace MVC_S.Controllers
             return View(persoon);
         }
 
+        [HttpPost]
+        public ActionResult EditPersoon(int id, Persoon persoon)
+        {
+            if (ModelState.IsValid)
+            {
+                _dataManager.ChangePersoon(persoon);
+
+                return RedirectToAction("Index");
+            }
+
+            return View();
+        }
+
         [HttpGet]
         public ActionResult Organisatie()
         {
@@ -147,7 +160,7 @@ namespace MVC_S.Controllers
         {
             if (ModelState.IsValid)
             {
-               // _dataManager.ChangeOrganisation(organisatie);
+               _dataManager.ChangeOrganisation(organisatie);
 
                 return RedirectToAction("Index");
             }

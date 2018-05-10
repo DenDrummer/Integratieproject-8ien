@@ -12,6 +12,7 @@ using IP_8IEN.BL;
 using System.Net.Mail;
 using System.Text;
 using IP3_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.BL.Domain.Dashboard;
 
 namespace IP_8IEN.BL
 {
@@ -20,8 +21,7 @@ namespace IP_8IEN.BL
         private UnitOfWorkManager uowManager;
         private IGebruikerRepository repo;
         private IDataManager dataMgr;
-
-        private ApplicationUserManager appUserMgr;
+        private IDashManager dashMgr;
 
         // Deze constructor gebruiken we voor operaties binnen de package
         public GebruikerManager()
@@ -66,29 +66,29 @@ namespace IP_8IEN.BL
         //}
 
         //inladen vanuit json formaat
-        public void AddGebruikers(string filePath)
-        {
-            initNonExistingRepo();
+        //public void AddGebruikers(string filePath)
+        //{
+        //    initNonExistingRepo();
 
-            //sourceUrl /relatief path
-            StreamReader r = new StreamReader(filePath);
-            string json = r.ReadToEnd();
+        //    //sourceUrl /relatief path
+        //    StreamReader r = new StreamReader(filePath);
+        //    string json = r.ReadToEnd();
 
-            dynamic users = JsonConvert.DeserializeObject(json);
+        //    dynamic users = JsonConvert.DeserializeObject(json);
 
-            foreach (var item in users.records)
-            {
-                Gebruiker gebruiker = new Gebruiker()
-                {
-                    Username = item.Username,
-                    Voornaam = item.Voornaam,
-                    Naam = item.Achternaam,
-                    Email = item.email,
-                    Geboortedatum = item.Geboortedatum
-                };
-                repo.AddingGebruiker(gebruiker);
-            }
-        }
+        //    foreach (var item in users.records)
+        //    {
+        //        Gebruiker gebruiker = new Gebruiker()
+        //        {
+        //            Username = item.Username,
+        //            Voornaam = item.Voornaam,
+        //            Naam = item.Achternaam,
+        //            Email = item.email,
+        //            Geboortedatum = item.Geboortedatum
+        //        };
+        //        repo.AddingGebruiker(gebruiker);
+        //    }
+        //}
 
         // We zoeken een gebruiker op basis van 'Username'
         public Gebruiker FindUser(string username)
@@ -293,6 +293,42 @@ namespace IP_8IEN.BL
 
             Alert alert = repo.ReadAlert(alertId);
             return alert;
+        }
+
+        public void AddGebruiker(string userName, string id, string naam, string voornaam)
+        {
+            initNonExistingRepo(true);
+
+            //dashMgr = new DashManager();
+
+            Gebruiker gebruiker = new Gebruiker
+            {
+                GebruikerId = id,
+                Username = userName,
+                Voornaam = voornaam,
+                Naam = naam
+            };
+            repo.AddingGebruiker(gebruiker);
+
+            dashMgr = new DashManager(uowManager);
+            //We laten de transactie eve denken dat we geen 'UoW' gebruiken zodat er niet
+            //van repo gewisseld wordt bij het aanroepen van een nieuwe methode
+            bool UoW = false;
+            repo.setUnitofWork(UoW);
+            Dashbord dashbord = dashMgr.AddDashBord(gebruiker);
+
+            uowManager.Save();
+            //we zetten 'UoW' boolian terug op true
+            UoW = true;
+            repo.setUnitofWork(UoW);
+
+            gebruiker.Dashboards.Add(dashbord);
+            UpdateGebruiker(gebruiker);
+        }
+
+        public void UpdateGebruiker(Gebruiker gebruiker)
+        {
+            repo.UpdateGebruiker(gebruiker);
         }
 
         //Unit of Work related
