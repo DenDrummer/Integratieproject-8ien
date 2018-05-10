@@ -286,3 +286,6 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+/IP3_8IEN/MVC-S/Scripts/test1.js
+/IP3_8IEN/MVC-S/Scripts/test2.js
+/IP3_8IEN/MVC-S/Scripts/test2.js.map

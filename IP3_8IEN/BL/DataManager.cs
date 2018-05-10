@@ -37,7 +37,7 @@ namespace IP_8IEN.BL
         public void ApiRequestToJson()
         {
             {
-                string url = "http://kdg.textgain.com/query";
+                string url = "https://kdg.textgain.com/query";
 
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                 httpWebRequest.Headers.Add("X-API-Key", "aEN3K6VJPEoh3sMp9ZVA73kkr");

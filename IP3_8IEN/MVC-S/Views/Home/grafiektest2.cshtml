@@ -1,7 +1,7 @@
 ﻿@*@Scripts.Render("~/bundles/kendo")*@
 @Scripts.Render("~/scripts/charts")
 <script src="~/Scripts/kendo.all.min.js"></script>
-
+<script src="~/Scripts/morris-data.js"></script>
 <script type="text/javascript">
     $(function() {
         /** This code runs when everything has been loaded on the page */
@@ -31,10 +31,15 @@
     <p>
         Bar chart with dynamic data: <span class="dynamicbar">Loading..</span>
     </p>
-    <p>
-        Bar chart with inline data: <span class="inlinebar">1,3,4,5,3,5</span>
-    </p>
-
+<p>
+    Bar chart with inline data: <span class="inlinebar">1,3,4,5,3,5</span>
+</p>
+@*TEST*@
+<div id="test1">
+    
+</div>
+<button type="button" onclick="newNumber('klotezooi')">Click</button>
+@*TEST*@
 
 
 
@@ -62,35 +67,35 @@
 
     </script>
 
-    <script>
-        var initialData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], //initial items order (used if there is no saved data
-            localStorageSupport = (('localStorage' in window && window['localStorage'] !== null)),
-            data,
-            html;
+<script>
+    var initialData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], //initial items order (used if there is no saved data
+        localStorageSupport = (('localStorage' in window && window['localStorage'] !== null)),
+        data,
+        html;
 
-        if (localStorageSupport) {
-            //retrieve local storage data if such is available, else use the default order
-            data = JSON.parse(localStorage.getItem("sortableData")) || initialData;
-        } else {
-            alert("your browser does not support local storage");
-            data = initialData;
+    if (localStorageSupport) {
+        //retrieve local storage data if such is available, else use the default order
+        data = JSON.parse(localStorage.getItem("sortableData")) || initialData;
+    } else {
+        alert("your browser does not support local storage");
+        data = initialData;
+    }
+
+    html = kendo.render(kendo.template($("#tmp").html()), data); //render the HTML with the data
+    $("#sortable").html(html); //append the HTML to the Sortable container
+
+    $("#sortable").kendoSortable({ //initialize the sortable widget
+        filter: ".sortable",
+        change: function (e) {
+            var item = data.splice(e.oldIndex, 1)[0]; //remove the item that has changed its order
+            data.splice(e.newIndex, 0, item); //add the item back using the newIndex
+
+            localStorage.setItem("sortableData", kendo.stringify(data)); //set the updated data in the local storage
         }
+    });
 
-        html = kendo.render(kendo.template($("#tmp").html()), data); //render the HTML with the data
-        $("#sortable").html(html); //append the HTML to the Sortable container
-
-        $("#sortable").kendoSortable({ //initialize the sortable widget
-            filter: ".sortable",
-            change: function (e) {
-                var item = data.splice(e.oldIndex, 1)[0]; //remove the item that has changed its order
-                data.splice(e.newIndex, 0, item); //add the item back using the newIndex
-
-                localStorage.setItem("sortableData", kendo.stringify(data)); //set the updated data in the local storage
-            }
-        });
-
-
-    </script>
+    
+</script>
 
 
 
@@ -172,7 +177,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-       $.get('@Url.Action("GetRank","Home",new {aantal = 5})', function (result) {
+        $.get('@Url.Action("GetRank","Home",new {aantal = 5})', function (result) {
 
             Morris.Donut({
                 // ID of the element in which to draw the chart.
@@ -186,5 +191,5 @@
                 resize: true
             });
         });
-        });
+    });
 </script>
