@@ -21,6 +21,6 @@ namespace IP3_8IEN.BL.Domain.Dashboard
         public string label { get; set; }
         public int value1 { get; set; }
 
-        DashItem DashItem { get; set; }
+        public DashItem DashItem { get; set; }
     }
 }

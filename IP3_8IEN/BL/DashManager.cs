@@ -10,6 +10,7 @@ namespace IP_8IEN.BL
 {
     public class DashManager : IDashManager
     {
+        private DataManager dataMgr;
         private UnitOfWorkManager uowManager;
         private DashRepository repo;//= new MessageRepository();
 
@@ -33,35 +34,96 @@ namespace IP_8IEN.BL
             return dash;
         }
 
-        public DashItem AddDashItem(Gebruiker user, Onderwerp onderwerp)
+        public DashItem CreateDashitem()
         {
             initNonExistingRepo();
 
-            DashItem dashItem = new DashItem();
+            DashItem dashItem;
+            dashItem = new DashItem();
             repo.AddDashItem(dashItem);
+
+            return dashItem;
+        }
+
+        public Follow CreateFollow(int dashId, int id)
+        {
+            initNonExistingRepo(true);
+
+            DashItem dashItem = repo.GetDashItem(dashId);
+
+            dataMgr = new DataManager(uowManager);
+            bool UoW = false;
+            repo.setUnitofWork(UoW);
+
+            Persoon onderwerp = dataMgr.GetPersoon(id);
 
             Follow follow = new Follow()
             {
-                Onderwerp = onderwerp,
-                DashItem = dashItem
+                DashItem = dashItem,
+                Onderwerp = onderwerp
             };
             repo.AddFollow(follow);
-            
-            ICollection<Follow> follows = new Collection<Follow>();
-            follows.Add(follow);
-            dashItem.Follows = follows;
 
+            uowManager.Save();
+
+            UoW = true;
+            repo.setUnitofWork(UoW);
+
+            return follow;
+        }
+
+        public DashItem SetupDashItem(/*DashItem dashItem,*/ Gebruiker user, Follow follow)
+        {
+            initNonExistingRepo(true);
+
+            bool UoW = false;
+            repo.setUnitofWork(UoW);
+
+            follow.DashItem.Follows = new Collection<Follow>();
+            follow.DashItem.Follows.Add(follow);
+            
             Dashbord dashbord = GetDashboard(user);
+
             TileZone tile = new TileZone()
             {
                 Dashbord = dashbord,
-                DashItem = dashItem
+                DashItem = follow.DashItem
             };
 
-            dashItem.TileZones.Add(tile);
-            repo.UpdateDashItem(dashItem);
+            repo.AddTileZone(tile);
+            follow.DashItem.TileZones.Add(tile);
+            repo.UpdateFollow(follow);
+            //repo.UpdateDashItem(dashItem);
 
-            return dashItem;
+            uowManager.Save();
+            UoW = true;
+            repo.setUnitofWork(UoW);
+
+            return follow.DashItem;
+        }
+
+        public void LinkGraphsToUser(List<GraphData> graphDataList, int dashId /*DashItem dashItem*/)
+        {
+            initNonExistingRepo();
+
+            //bool UoW = false;
+            //repo.setUnitofWork(UoW);
+
+            DashItem dashItem = repo.GetDashItem(dashId);
+            dashItem.Graphdata = new Collection<GraphData>();
+
+            foreach (GraphData graph in graphDataList)
+            {
+                dashItem.Graphdata.Add(graph);
+                graph.DashItem = dashItem;
+                repo.UpdateGraphData(graph);
+            }
+
+            UpdateDashItem(dashItem);
+
+            //uowManager.Save();
+            //UoW = true;
+            //repo.setUnitofWork(UoW);
         }
 
         public void AddGraph(GraphData graph)
@@ -82,6 +144,11 @@ namespace IP_8IEN.BL
             };
             repo.AddDashBord(dashbord);
             return dashbord;
+        }
+
+        public void UpdateDashItem(DashItem dashItem)
+        {
+            repo.UpdateDashItem(dashItem);
         }
 
         //Unit of Work related

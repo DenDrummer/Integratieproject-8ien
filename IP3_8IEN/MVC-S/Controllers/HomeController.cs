@@ -28,16 +28,11 @@ namespace MVC_S.Controllers
 
         public HomeController()
         {
-            // initialisatie methodes zitting in Initialize()
-            dMgr = new DataManager();
-            gMgr = new GebruikerManager();
+            // initialisatie Admins zitten in InitializeAdmins()
+            // initialisatie methodes zitten in Initialize()
 
-            aMgr = new ApplicationUserManager();
-            aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
-            
-
-            //dashMgr = new DashManager();
-            //dashMgr.AddDashBord(user);
+            //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
+            //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
         }
         private async Task RetrieveAPIData(IDataManager dMgr)
         {
@@ -189,25 +184,30 @@ namespace MVC_S.Controllers
             return View();
         }
 
-        public ActionResult Initialize()
+        public async Task<ActionResult> InitializeAdmins()
+        {
+            aMgr = new ApplicationUserManager();
+            await aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
+
+            return await Task.Run(() => View());
+        }
+
+            public ActionResult Initialize()
         {
             // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
             // Let op: telkens de 'Initialize() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
-
-            aMgr = new ApplicationUserManager();
-            aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
-
+            
             #region initialisatie blok databank
-            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
-            //dMgr.ApiRequestToJson();
-            //dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.Json"));
+            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            dMgr.ApiRequestToJson();
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
             #endregion
 
             //**** dit zijn test methodes ****//
+            //dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.Json"));
             //dMgr.CountSubjMsgsPersoon();
             //dMgr.ReadOnderwerpenWithSubjMsgs();
             //dMgr.GetAlerts();
@@ -251,9 +251,5 @@ namespace MVC_S.Controllers
             Persoon persoon5 = dMgr.GetPersoon(id5);
             return Json(dMgr.GetTweetsPerDag2(persoon1, persoon2, persoon3, persoon4, persoon5, 20), JsonRequestBehavior.AllowGet);
         }
-
-
-
-
     }
 }

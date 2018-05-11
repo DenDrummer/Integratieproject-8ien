@@ -18,5 +18,11 @@ namespace IP_8IEN.DAL
         void UpdateDashItem(DashItem dashItem);
         void AddGraph(GraphData graph);
         void AddDashBord(Dashbord dashbord);
+
+        //11 mei 2018 : Stephane
+        void AddTileZone(TileZone tileZone);
+        void UpdateGraphData(GraphData graph);
+        DashItem GetDashItem(int dashId);
+        void UpdateFollow(Follow follow);
     }
 }

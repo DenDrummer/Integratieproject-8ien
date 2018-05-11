@@ -39,7 +39,7 @@ namespace IP_8IEN.BL
         public void ApiRequestToJson()
         {
             {
-                string url = "http://kdg.textgain.com/query";
+                string url = "https://kdg.textgain.com/query";
 
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                 httpWebRequest.Headers.Add("X-API-Key", "aEN3K6VJPEoh3sMp9ZVA73kkr");
@@ -458,6 +458,8 @@ namespace IP_8IEN.BL
 
         public void AddPersonen(string pathToJson)
         {
+            initNonExistingRepo();
+
             StreamReader r = new StreamReader(pathToJson);
             string json = r.ReadToEnd();
             List<Message> messages = new List<Message>();
@@ -467,8 +469,6 @@ namespace IP_8IEN.BL
 
             foreach (var person in persons)
             {
-                initNonExistingRepo();
-
                 Persoon persoon = new Persoon()
                 {
                     Naam = person.full_name,
@@ -959,7 +959,7 @@ namespace IP_8IEN.BL
 
         public List<GraphData> GetTweetsPerDag(Persoon persoon, Gebruiker user, int aantalDagenTerug = 0)
         {
-            initNonExistingRepo();
+            initNonExistingRepo(true);
 
             dashMgr = new DashManager();
 
@@ -978,6 +978,17 @@ namespace IP_8IEN.BL
             }
 
             Dictionary<DateTime, int> tweetsPerDag = new Dictionary<DateTime, int>();
+
+            //======= Edit : 10 mei 2018 : Stephane ======//
+
+            //bool UoW = false;
+            //repo.setUnitofWork(UoW);
+
+            //Domain.Dashboard.DashItem dashItem = dashMgr.AddDashItem(user, persoon);
+            //dashItem.Graphdata = new Collection<GraphData>();
+
+            //=======                              =======//
+
             //Sam
             List<GraphData> GraphDataList = new List<GraphData>();
             for (int i = 0; i < aantalDagenTerug + 1; i++)
@@ -985,24 +996,23 @@ namespace IP_8IEN.BL
                 //Sam
                 string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
                 //Sam
+
                 //======= Edit : 10 mei 2018 : Stephane ======//
-                Domain.Dashboard.DashItem dashItem = dashMgr.AddDashItem(user, persoon);
+                
                 GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
                 dashMgr.AddGraph(graph);
-                dashItem.Graphdata.Add(graph);
+                //dashItem.Graphdata.Add(graph);
+                //dashMgr.UpdateDashItem(dashItem);
+
+                //UoW = true;
+                //repo.setUnitofWork(UoW);
+
                 //=======                              =======//
+
                 GraphDataList.Add(graph);
                 lastTweet = lastTweet.AddDays(-1);
             }
-
-            foreach (var v in GraphDataList)
-            {
-                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value1);
-            }
-            //======= Edit : 10 mei 2018 : Stephane ======//
-            
-            //=======                              =======//
-
+            uowManager.Save();
             return GraphDataList;
         }
     }

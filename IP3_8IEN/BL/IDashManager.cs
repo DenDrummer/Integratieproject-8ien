@@ -13,8 +13,15 @@ namespace IP_8IEN.BL
 
         //10 mei 2018 : Stephane
         Dashbord GetDashboard(Gebruiker user);
-        DashItem AddDashItem(Gebruiker user, Onderwerp onderwerp);
+        //DashItem AddDashItem(Gebruiker user, Onderwerp onderwerp);
         void AddGraph(GraphData graph);
         Dashbord AddDashBord(Gebruiker gebruiker);
+
+        //11 mei 2018 : Stephane
+        void UpdateDashItem(DashItem dashItem);
+        DashItem SetupDashItem(/*DashItem dashItem, */Gebruiker user, Follow follow);
+        void LinkGraphsToUser(List<GraphData> graphDataList, int dashId /*DashItem dashItem*/);
+        DashItem CreateDashitem();
+        Follow CreateFollow(int dashId, int onderwerpid);
     }
 }

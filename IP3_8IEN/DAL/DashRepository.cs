@@ -14,12 +14,14 @@ namespace IP_8IEN.DAL
         public DashRepository()
         {
             ctx = new OurDbContext();
+            isUoW = false;
             ctx.Database.Initialize(false);
         }
 
         public DashRepository(UnitOfWork uow)
         {
             ctx = uow.Context;
+            isUoW = true;
         }
 
         public Dashbord ReadDashbord(Gebruiker user)
@@ -51,6 +53,37 @@ namespace IP_8IEN.DAL
             ctx.SaveChanges();
         }
 
+        //gebruik deze methode voor het type: 'Vergelijking','Kruising' en 'Cijfer'
+        public void AddDashItem(DashItem dashItem)
+        {
+            ctx.DashItems.Add(dashItem);
+            ctx.SaveChanges();
+        }
+
+        public void AddTileZone(TileZone tileZone)
+        {
+            ctx.TileZones.Add(tileZone);
+            ctx.SaveChanges();
+        }
+
+        public void UpdateGraphData(GraphData graph)
+        {
+            ctx.Entry(graph).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
+        public DashItem GetDashItem(int dashId)
+        {
+            DashItem dashItem = ctx.DashItems.Find(dashId);
+            return dashItem;
+        }
+
+        public void UpdateFollow(Follow follow)
+        {
+            ctx.Entry(follow).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
         ////UoW related
         //public DashRepository(UnitOfWork uow)
         //{
@@ -63,12 +96,6 @@ namespace IP_8IEN.DAL
         public void setUnitofWork(bool UoW)
         {
             isUoW = UoW;
-        }
-
-        //gebruik deze methode voor het type: 'Vergelijking','Kruising' en 'Cijfer'
-        public void AddDashItem(DashItem dashItem)
-        {
-            ctx.DashItems.Add(dashItem);
         }
     }
 }

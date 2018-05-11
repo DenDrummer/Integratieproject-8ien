@@ -8,13 +8,16 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace MVC_S.Controllers
 {
     //[Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private DataManager _dataManager;
+        private IDataManager _dataManager;
+        private IGebruikerManager _gebrManager;
+        private IDashManager _dashManager;
         private ApplicationUserManager _userManager;
 
 
@@ -23,6 +26,8 @@ namespace MVC_S.Controllers
             // Inject the datacontext and userManager Dependencies
             _userManager = new ApplicationUserManager();
             _dataManager = new DataManager();
+            _gebrManager = new GebruikerManager();
+            _dashManager = new DashManager();
         }
 
 
@@ -165,6 +170,41 @@ namespace MVC_S.Controllers
                 return RedirectToAction("Index");
             }
 
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult CreateGrafiekLine()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateGrafiekLine(Persoon persoon)
+        {
+            ApplicationUser currUser = await _userManager.FindByIdAsync(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = _gebrManager.FindUser(userName);
+
+            // Als de zoekmthode klaar is wordt het onderwerp door de view meegegeven //
+            int id = 231; // <-- Verhofstadt
+            int nDagen = 10;
+            Persoon p = _dataManager.GetPersoon(id);
+
+            // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+            List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, user, nDagen);
+            IP_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem();
+            IP_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId,p.OnderwerpId);
+            IP_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(/*newDashItem, */user, follow);
+            _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+            // ================================================================================ //
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult CreateGrafiekDonut()
+        {
             return View();
         }
     }
