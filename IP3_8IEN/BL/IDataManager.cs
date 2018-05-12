@@ -78,11 +78,16 @@ namespace IP_8IEN.BL
         int GetWordCountByName(string name);
         int GetWordCountByName(string name, DateTime start);
         int GetWordCountByName(string name, DateTime start, DateTime stop);
-        List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1);
         List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2);
         List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3);
         List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3, Persoon p4);
         List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5);
+        List<GraphData> GetTopStoryCount();
+        List<GraphData> GetTopStoryCount(int aantal);
+        List<GraphData> GetTopStoryCount(int aantal, DateTime start);
+        List<GraphData> GetTopStoryCount(int aantal, DateTime start, DateTime stop);
+        List<GraphData> GetTopStoryCount(DateTime start, DateTime stop);
+        List<GraphData> GetTopStoryByPolitician(Persoon persoon);
 
     }
 }

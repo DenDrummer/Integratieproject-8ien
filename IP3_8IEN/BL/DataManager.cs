@@ -1290,5 +1290,240 @@ namespace IP_8IEN.BL
 
             return data;
         }
+
+        public List<GraphData> GetTopStoryCount()
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> stories = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            
+
+            foreach (Message m in messages)
+            {
+                stories.Add(m.Word1);
+                stories.Add(m.Word2);
+                stories.Add(m.Word3);
+                stories.Add(m.Word4);
+                stories.Add(m.Word5);
+            }
+
+            stories = stories.Distinct().ToList();
+
+            foreach (String s in stories)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Url1 == s || m.Url2 == s)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(s, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data;
+        }
+
+        public List<GraphData> GetTopStoryCount(int aantal)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> stories = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+
+
+            foreach (Message m in messages)
+            {
+                stories.Add(m.Word1);
+                stories.Add(m.Word2);
+                stories.Add(m.Word3);
+                stories.Add(m.Word4);
+                stories.Add(m.Word5);
+            }
+
+            stories = stories.Distinct().ToList();
+
+            foreach (String s in stories)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Url1 == s || m.Url2 == s)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(s, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data.GetRange(0,aantal);
+        }
+
+        public List<GraphData> GetTopStoryCount(int aantal, DateTime start)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> stories = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            messages = messages.Where(m => m.Date > start).ToList();
+
+            foreach (Message m in messages)
+            {
+                stories.Add(m.Word1);
+                stories.Add(m.Word2);
+                stories.Add(m.Word3);
+                stories.Add(m.Word4);
+                stories.Add(m.Word5);
+            }
+
+            stories = stories.Distinct().ToList();
+
+            foreach (String s in stories)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Url1 == s || m.Url2 == s)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(s, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data.GetRange(0,aantal);
+        }
+
+        public List<GraphData> GetTopStoryCount(int aantal, DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> stories = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            messages = messages.Where(m => m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                stories.Add(m.Word1);
+                stories.Add(m.Word2);
+                stories.Add(m.Word3);
+                stories.Add(m.Word4);
+                stories.Add(m.Word5);
+            }
+
+            stories = stories.Distinct().ToList();
+
+            foreach (String s in stories)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Url1 == s || m.Url2 == s)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(s, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data.GetRange(0, aantal);
+        }
+
+        public List<GraphData> GetTopStoryCount(DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> stories = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            messages = messages.Where(m => m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                stories.Add(m.Word1);
+                stories.Add(m.Word2);
+                stories.Add(m.Word3);
+                stories.Add(m.Word4);
+                stories.Add(m.Word5);
+            }
+
+            stories = stories.Distinct().ToList();
+
+            foreach (String s in stories)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Url1 == s || m.Url2 == s)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(s, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data;
+        }
+
+        public List<GraphData> GetTopStoryByPolitician(Persoon persoon)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> stories = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            messages = messages.Where(m => m.IsFrom(persoon)).ToList();
+
+            foreach (Message m in messages)
+            {
+                stories.Add(m.Word1);
+                stories.Add(m.Word2);
+                stories.Add(m.Word3);
+                stories.Add(m.Word4);
+                stories.Add(m.Word5);
+            }
+
+            stories = stories.Distinct().ToList();
+
+            foreach (String s in stories)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Url1 == s || m.Url2 == s)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(s, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data;
+
+        }
     }
 }
