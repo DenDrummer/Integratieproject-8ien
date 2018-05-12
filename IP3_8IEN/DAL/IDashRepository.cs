@@ -2,6 +2,7 @@
 using IP_8IEN.BL.Domain.Data;
 using IP_8IEN.BL.Domain.Gebruikers;
 using IP3_8IEN.BL.Domain.Dashboard;
+using System.Collections.Generic;
 
 namespace IP_8IEN.DAL
 {
@@ -22,7 +23,11 @@ namespace IP_8IEN.DAL
         //11 mei 2018 : Stephane
         void AddTileZone(TileZone tileZone);
         void UpdateGraphData(GraphData graph);
-        DashItem GetDashItem(int dashId);
+        DashItem ReadDashItem(int dashId);
         void UpdateFollow(Follow follow);
+
+        //12 mei 2018 : Stephane
+        IEnumerable<Follow> ReadFollows();
+        void UpdateDashboard(Dashbord dashbord);
     }
 }

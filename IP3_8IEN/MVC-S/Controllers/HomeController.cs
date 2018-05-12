@@ -133,32 +133,34 @@ namespace MVC_S.Controllers
             return View(wr);
         }
 
-        //public async Task<ActionResult> UserDashBoard()
-        //{
-        //    //Dashbord van ingelogde gebruiker ophalen
-        //    try
-        //    {
-        //        ApplicationUser appUser = await aMgr.FindByIdAsync(User.Identity.GetUserId());
-        //        Gebruiker user = 
+        public async Task<ActionResult> UserDashBoard()
+        {
+            //Dashbord van ingelogde gebruiker ophalen
+            try
+            {
+                ApplicationUser appUser = await aMgr.FindByIdAsync(User.Identity.GetUserId());
+                string userName = appUser.UserName;
+                Gebruiker user = gMgr.FindUser(userName);
 
-        //        Dashbord dashbord = dashMgr.GetDashboard(user);
+                Dashbord dashbord = dashMgr.GetDashboard(user);
+                dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem minstens 12h up-to-date is
 
-        //        return await Task.Run(() => View(dashbord));
-        //    }
-        //    catch
-        //    {
-        //        return await Task.Run(() => View());
-        //    }
+                return await Task.Run(() => View(dashbord));
+            }
+            catch
+            {
+                return await Task.Run(() => View());
+            }
 
-        //    //Persoon persoon = dMgr.GetPersoon(170);
-        //    //int aantalTweets = dMgr.GetNumber(persoon);
-        //    //// int aantalTweets = 69;
-        //    //ViewBag.NUMMER1 = aantalTweets;
-        //    //ViewBag.naam1 = persoon.Naam;
-        //    ////System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
+            //Persoon persoon = dMgr.GetPersoon(170);
+            //int aantalTweets = dMgr.GetNumber(persoon);
+            //// int aantalTweets = 69;
+            //ViewBag.NUMMER1 = aantalTweets;
+            //ViewBag.naam1 = persoon.Naam;
+            ////System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
 
-        //    return View();
-        //}
+            return View();
+        }
 
         public ActionResult AdminOmgeving()
         {

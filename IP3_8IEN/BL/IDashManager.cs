@@ -21,7 +21,11 @@ namespace IP_8IEN.BL
         void UpdateDashItem(DashItem dashItem);
         DashItem SetupDashItem(/*DashItem dashItem, */Gebruiker user, Follow follow);
         void LinkGraphsToUser(List<GraphData> graphDataList, int dashId /*DashItem dashItem*/);
-        DashItem CreateDashitem();
+        DashItem CreateDashitem(bool adminGraph);
         Follow CreateFollow(int dashId, int onderwerpid);
+
+        //12 mei 2018 : Stephane
+        IEnumerable<Follow> GetFollows(bool admin = false);
+        Dashbord UpdateDashboard(Dashbord dashbord);
     }
 }

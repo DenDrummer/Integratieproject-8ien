@@ -158,7 +158,7 @@ namespace IP_8IEN.BL
                     Geboortedatum = item.Geboortedatum
                 };
                 string passw = item.Password;
-                this.CreateUserWithRoleAsync(gebruiker, passw, "Admin");
+                await this.CreateUserWithRoleAsync(gebruiker, passw, "Admin");
 
                 // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken : Identity doet moeilijk
                 _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName);

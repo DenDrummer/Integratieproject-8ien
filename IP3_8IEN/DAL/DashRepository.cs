@@ -2,6 +2,7 @@
 using IP_8IEN.BL.Domain.Gebruikers;
 using IP_8IEN.DAL.EF;
 using IP3_8IEN.BL.Domain.Dashboard;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace IP_8IEN.DAL
@@ -26,7 +27,7 @@ namespace IP_8IEN.DAL
 
         public Dashbord ReadDashbord(Gebruiker user)
         {
-            Dashbord dashbord = ctx.Dashbords.Include("TileZones").Include("User").FirstOrDefault(u => u.User.GebruikerId == user.GebruikerId);
+            Dashbord dashbord = ctx.Dashbords.Include("TileZones").Include("TileZones.DashItem").FirstOrDefault(u => u.User.GebruikerId == user.GebruikerId);
             return dashbord;
         }
 
@@ -72,7 +73,7 @@ namespace IP_8IEN.DAL
             ctx.SaveChanges();
         }
 
-        public DashItem GetDashItem(int dashId)
+        public DashItem ReadDashItem(int dashId)
         {
             DashItem dashItem = ctx.DashItems.Find(dashId);
             return dashItem;
@@ -81,6 +82,18 @@ namespace IP_8IEN.DAL
         public void UpdateFollow(Follow follow)
         {
             ctx.Entry(follow).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
+        public IEnumerable<Follow> ReadFollows()
+        {
+            IEnumerable<Follow> follows = ctx.Follows.Include("DashItem").Include("Onderwerp").ToList();
+            return follows;
+        }
+
+        public void UpdateDashboard(Dashbord dashbord)
+        {
+            ctx.Entry(dashbord).State = System.Data.Entity.EntityState.Modified;
             ctx.SaveChanges();
         }
 

@@ -288,17 +288,17 @@ namespace IP_8IEN.BL
             Organisatie organisatie;
             IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
 
-            bool ifExists = organisaties.Any(x => x.NaamOrganisatie == naamOrganisatie);
+            bool ifExists = organisaties.Any(x => x.Naam == naamOrganisatie);
 
             if (ifExists == true)
             {
-                organisatie = organisaties.FirstOrDefault(x => x.NaamOrganisatie == naamOrganisatie);
+                organisatie = organisaties.FirstOrDefault(x => x.Naam == naamOrganisatie);
             }
             else
             {
                 organisatie = new Organisatie()
                 {
-                    NaamOrganisatie = naamOrganisatie,
+                    Naam = naamOrganisatie,
                     Tewerkstellingen = new Collection<Tewerkstelling>()
                 };
                 repo.AddOnderwerp(organisatie);
@@ -326,7 +326,7 @@ namespace IP_8IEN.BL
 
             //kijken of persoon en organisatie bestaan
             bool ifExistsP = personen.Any(x => x.Naam == naam);
-            bool ifExistsO = organisaties.Any(x => x.NaamOrganisatie == naamOrganisatie);
+            bool ifExistsO = organisaties.Any(x => x.Naam == naamOrganisatie);
 
             //persoon & organisatie initialiseren
             if (ifExistsP)
@@ -339,7 +339,7 @@ namespace IP_8IEN.BL
             }
             if (ifExistsO)
             {
-                organisatie = organisaties.FirstOrDefault(x => x.NaamOrganisatie == naamOrganisatie);
+                organisatie = organisaties.FirstOrDefault(x => x.Naam == naamOrganisatie);
             }
             else
             {
@@ -399,7 +399,7 @@ namespace IP_8IEN.BL
 
             //kijken of persoon en organisatie bestaan
             bool ifExistsP = personen.Any(x => x.Naam == persoon.Naam);
-            bool ifExistsO = organisaties.Any(x => x.NaamOrganisatie == naamOrganisatie);
+            bool ifExistsO = organisaties.Any(x => x.Naam == naamOrganisatie);
 
             //kijken of persoon bestaat 
             if (!ifExistsP)
@@ -409,7 +409,7 @@ namespace IP_8IEN.BL
             //kijken of organisatie bestaat & initialiseren
             if (ifExistsO)
             {
-                organisatie = organisaties.FirstOrDefault(x => x.NaamOrganisatie == naamOrganisatie);
+                organisatie = organisaties.FirstOrDefault(x => x.Naam == naamOrganisatie);
             }
             else
             {

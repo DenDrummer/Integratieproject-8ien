@@ -6,7 +6,7 @@ namespace IP_8IEN.BL.Domain.Dashboard
     {
         [Key]
         public int TileZoneId { get; set; }
-
+        
         public Dashbord Dashbord { get; set; }
         public DashItem DashItem { get; set; }
     }

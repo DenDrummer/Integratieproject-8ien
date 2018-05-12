@@ -3,8 +3,10 @@ using IP_8IEN.BL.Domain.Data;
 using IP_8IEN.BL.Domain.Gebruikers;
 using IP_8IEN.DAL;
 using IP3_8IEN.BL.Domain.Dashboard;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace IP_8IEN.BL
 {
@@ -34,12 +36,21 @@ namespace IP_8IEN.BL
             return dash;
         }
 
-        public DashItem CreateDashitem()
+        public DashItem CreateDashitem(bool adminGraph)
         {
             initNonExistingRepo();
 
             DashItem dashItem;
-            dashItem = new DashItem();
+            dashItem = new DashItem() { LastModified = System.DateTime.Now };
+
+            if (adminGraph)
+            {
+                dashItem.AdminGraph = true;
+            } else
+            {
+                dashItem.AdminGraph = false;
+            }
+
             repo.AddDashItem(dashItem);
 
             return dashItem;
@@ -49,7 +60,7 @@ namespace IP_8IEN.BL
         {
             initNonExistingRepo(true);
 
-            DashItem dashItem = repo.GetDashItem(dashId);
+            DashItem dashItem = repo.ReadDashItem(dashId);
 
             dataMgr = new DataManager(uowManager);
             bool UoW = false;
@@ -109,7 +120,7 @@ namespace IP_8IEN.BL
             //bool UoW = false;
             //repo.setUnitofWork(UoW);
 
-            DashItem dashItem = repo.GetDashItem(dashId);
+            DashItem dashItem = repo.ReadDashItem(dashId);
             dashItem.Graphdata = new Collection<GraphData>();
 
             foreach (GraphData graph in graphDataList)
@@ -150,6 +161,62 @@ namespace IP_8IEN.BL
         {
             repo.UpdateDashItem(dashItem);
         }
+
+        public IEnumerable<Follow> GetFollows(bool admin = false)
+        {
+            IEnumerable<Follow> follows =  repo.ReadFollows();
+
+            if (admin)
+            {
+                //enkel vaste grafieken teruggeven
+                follows = follows.Where(a => a.DashItem.AdminGraph == true);
+                return follows;
+            }
+            else { return follows; }
+        }
+
+        public Dashbord UpdateDashboard(Dashbord dashbord)
+        {
+            DateTime timeNow = DateTime.Now;
+            foreach(TileZone tileZone in dashbord.TileZones)
+            {
+                double hours = (timeNow - tileZone.DashItem.LastModified).TotalHours;
+                if (hours > 3)
+                {
+                    int i = 0;
+                    int[] persoonId = { 0,0,0,0,0 };
+
+                    foreach(Follow follow in tileZone.DashItem.Follows)
+                    {
+                        try
+                        {
+                            persoonId[i] = follow.Onderwerp.OnderwerpId;
+                            i++;
+                        }
+                        catch { throw new Exception("Out of bounds"); }
+                        
+                    }
+                    List<GraphData> graphs;
+                    Persoon persoon;
+
+                    //We gebruiken de i teller om de overload op methodes te bepalen
+                    if (i == 1)
+                    {
+                        persoon = dataMgr.GetPersoon(persoonId[0]);
+                        graphs = dataMgr.GetTweetsPerDag(persoon);
+                        tileZone.DashItem.Graphdata = graphs;
+
+                        foreach (var graph in tileZone.DashItem.Graphdata)
+                        {
+                            repo.UpdateGraphData(graph);
+                        }
+                    }
+                }
+            }
+
+            return dashbord;
+        }
+
 
         //Unit of Work related
         public void initNonExistingRepo(bool withUnitOfWork = false)

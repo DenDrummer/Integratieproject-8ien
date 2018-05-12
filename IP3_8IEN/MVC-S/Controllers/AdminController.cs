@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using IP_8IEN.BL.Domain.Dashboard;
 
 namespace MVC_S.Controllers
 {
@@ -174,6 +175,15 @@ namespace MVC_S.Controllers
         }
 
         [HttpGet]
+        public ActionResult Grafiek()
+        {
+            // enkel grafieken aangemaakt in de AdminController opvragen
+            IEnumerable<Follow> follows = _dashManager.GetFollows(true);
+
+            return View(follows);
+        }
+
+        [HttpGet]
         public ActionResult CreateGrafiekLine()
         {
             return View();
@@ -193,7 +203,7 @@ namespace MVC_S.Controllers
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
             List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, user, nDagen);
-            IP_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem();
+            IP_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true);
             IP_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId,p.OnderwerpId);
             IP_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(/*newDashItem, */user, follow);
             _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);

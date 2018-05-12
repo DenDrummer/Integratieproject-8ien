@@ -9,9 +9,6 @@ namespace IP_8IEN.BL.Domain.Dashboard
         [Key]
         public int FollowId { get; set; }
 
-        GraphData Graph { get; set; }
-        GraphData2 Graph2 { get; set; }
-
         public DashItem DashItem { get; set; }
         public Onderwerp Onderwerp { get; set; }
     }
