@@ -25,7 +25,10 @@ namespace IP_8IEN.BL
         Alert GetAlert(int alertId);
 
         //8 mei 2018 : Victor
-        void GetAlertHogerLager();
+        void GetAlertHogerLagers();
 
+        //15 mei 2018 : Victor
+        void GetAlertValueFluctuations();
+        void GetAlertPositiefNegatiefs();
     }
 }

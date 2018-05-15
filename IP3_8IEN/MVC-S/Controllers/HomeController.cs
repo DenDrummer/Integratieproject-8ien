@@ -41,7 +41,7 @@ namespace MVC_S.Controllers
 
             HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
             //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
-            gMgr.GetAlertHogerLager();
+            gMgr.GetAlertHogerLagers();
         }
         private async Task RetrieveAPIData(IDataManager dMgr)
         {

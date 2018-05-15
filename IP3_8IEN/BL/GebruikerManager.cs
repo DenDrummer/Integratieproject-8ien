@@ -270,7 +270,7 @@ namespace IP_8IEN.BL
         }
 
 
-        public void GetAlertHogerLager()
+        public void GetAlertHogerLagers()
         {
             initNonExistingRepo();
             dataMgr = new DataManager();
@@ -279,14 +279,129 @@ namespace IP_8IEN.BL
 
             foreach(HogerLager hl in hogerLagers)
             {
-                if(CalculateZscore(hl.Onderwerp) < CalculateZscore(hl.Onderwerp2))
+                //Check if onderwerp is een peroon
+                if (hl.Onderwerp is Persoon && hl.Onderwerp2 is Persoon)
                 {
-                    int i = 0;
+                    if (hl.OneHigherThanTwo)
+                    {
+                        if (CalculateZscore(hl.Onderwerp) < CalculateZscore(hl.Onderwerp2))
+                        {
+                            Persoon p1 = (Persoon)hl.Onderwerp;
+                            Persoon p2 = (Persoon)hl.Onderwerp2;
+                            repo.AddingAlert(new Alert()
+                            {
+                                AlertContent = p2.Naam + "is nu populairder dan " + p1.Naam,
+                                AlertInstelling = hl,
+                                CreatedOn = DateTime.Now
+                            });
+                        }
+                    }
+                    else
+                    {
+                        if (CalculateZscore(hl.Onderwerp) > CalculateZscore(hl.Onderwerp2))
+                        {
+                            Persoon p1 = (Persoon)hl.Onderwerp;
+                            Persoon p2 = (Persoon)hl.Onderwerp2;
+                            repo.AddingAlert(new Alert()
+                            {
+                                AlertContent = p1.Naam + "is nu populairder dan " + p2.Naam,
+                                AlertInstelling = hl,
+                                CreatedOn = DateTime.Now
+                            });
+                        }
+                    }
+                }
+                //als onderwerp een organistatie is
+                else
+                {
+                    //TODO
+                }
+            }
+        }
+        
+        public void GetAlertValueFluctuations()
+        {
+            initNonExistingRepo();
+            dataMgr = new DataManager();
+
+            List<ValueFluctuation> valueFluctuations = repo.ReadValueFluctuations().ToList();
+            List<Message> messages = dataMgr.ReadMessagesWithSubjMsgs().ToList();
+
+            foreach(ValueFluctuation vf in valueFluctuations)
+            {
+                if (vf.Onderwerp is Persoon)
+                {
+                    if (messages.Where(m => m.IsFromPersoon((Persoon)vf.Onderwerp) && m.Date.Date == DateTime.Now.Date).Count() > vf.CurrentValue + vf.ThresholdValue)
+                    {
+                        Persoon p = (Persoon)vf.Onderwerp;
+                        repo.AddingAlert(new Alert()
+                        {
+
+                            AlertContent = "Thresholdvalue voor " + p.Naam + " is overschreden",
+                            AlertInstelling = vf,
+                            CreatedOn = DateTime.Now
+                        });
+                    }
+                }
+                else
+                {
+                    //TODO
                 }
             }
         }
 
-        public double CalculateZscore(Onderwerp onderwerp)
+        public void GetAlertPositiefNegatiefs()
+        {
+            initNonExistingRepo();
+            dataMgr = new DataManager();
+            double total = 1;
+
+            List<PositiefNegatief> positiefNegatiefs = repo.ReadPositiefNegatiefs().ToList();
+            List<Message> messages = dataMgr.ReadMessagesWithSubjMsgs().ToList();
+
+            foreach (PositiefNegatief pn in positiefNegatiefs)
+            {
+                if (pn.Onderwerp is Persoon)
+                {
+                    messages = messages.Where(m => m.IsFromPersoon((Persoon)pn.Onderwerp)).ToList();
+                    total = messages.Sum(m => m.Polarity);
+
+                    if (pn.negatief == true)
+                    {
+                        if (total / messages.Count() > 0)
+                        {
+                            Persoon p = (Persoon)pn.Onderwerp;
+                            repo.AddingAlert(new Alert()
+                            {
+                                AlertContent = p.Naam + " is nu positief",
+                                AlertInstelling = pn,
+                                CreatedOn = DateTime.Now
+                            });
+                        }
+                    }
+                    else
+                    {
+                        if (total / messages.Count() < 0)
+                        {
+                            Persoon p = (Persoon)pn.Onderwerp;
+                            repo.AddingAlert(new Alert()
+                            {
+                                AlertContent = p.Naam + " is nu negatief",
+                                AlertInstelling = pn,
+                                CreatedOn = DateTime.Now
+                            });
+                        }
+                    }
+                }
+                else
+                {
+                    //TODO
+                }
+            }
+
+        }
+
+        double CalculateZscore(Onderwerp onderwerp)
         {
             initNonExistingRepo();
             int totaalTweets = 0;
@@ -383,7 +498,7 @@ namespace IP_8IEN.BL
                 SendMail(dezeWeek, g.Email, sb.ToString());
             }
          }
-        private bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
+        bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
         {
             var cal = System.Globalization.DateTimeFormatInfo.CurrentInfo.Calendar;
             var d1 = date1.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date1));
@@ -391,7 +506,7 @@ namespace IP_8IEN.BL
 
             return d1 == d2;
         }
-        public void SendMail(List<Alert> alerts, string email, string body)
+        void SendMail(List<Alert> alerts, string email, string body)
         {
             try
             {

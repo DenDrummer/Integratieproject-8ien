@@ -758,8 +758,8 @@ namespace IP_8IEN.BL
 
             foreach (Persoon p in personen)
             {
-                int teller = messages.Where(m => m.IsFrom(p)).Count();
-                List<Message> messages2 = messages.Where(m => m.IsFrom(p)).ToList();
+                int teller = messages.Where(m => m.IsFromPersoon(p)).Count();
+                List<Message> messages2 = messages.Where(m => m.IsFromPersoon(p)).ToList();
                 laatstePeriode = messages2.Where(m => lastTweet.AddHours(interval_uren * -1) < m.Date).Count();
                 voorlaatstePeriode = messages2.Where(m => lastTweet.AddHours((interval_uren * 2) * -1) < m.Date && m.Date < lastTweet.AddHours(interval_uren * -1)).Count();
                 if (puntNotatie == true)
@@ -805,11 +805,11 @@ namespace IP_8IEN.BL
 
             if (laatsteAantalUren == 0)
             {
-                aantal = messages.Where(m => m.IsFrom(persoon)).Count();
+                aantal = messages.Where(m => m.IsFromPersoon(persoon)).Count();
             }
             else
             {
-                aantal = messages.Where(m => m.IsFrom(persoon) && m.Date > lastTweet.AddHours(laatsteAantalUren * -1)).Count();
+                aantal = messages.Where(m => m.IsFromPersoon(persoon) && m.Date > lastTweet.AddHours(laatsteAantalUren * -1)).Count();
             }
 
             return aantal;
@@ -836,7 +836,7 @@ namespace IP_8IEN.BL
 
             do
             {
-                tweetsPerDag.Add(lastTweet.Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
+                tweetsPerDag.Add(lastTweet.Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon)).Count());
                 lastTweet = lastTweet.AddDays(-1);
             } while (lastTweet >= stop);
 
@@ -853,7 +853,7 @@ namespace IP_8IEN.BL
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             double totalPolarity = 0;
 
-            messages = messages.Where(m => m.IsFrom(persoon)).ToList();
+            messages = messages.Where(m => m.IsFromPersoon(persoon)).ToList();
 
             foreach (Message m in messages)
             {
@@ -869,7 +869,7 @@ namespace IP_8IEN.BL
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             double totalPolarity = 0;
 
-            messages = messages.Where(m => m.IsFrom(persoon) && m.Date > start).ToList();
+            messages = messages.Where(m => m.IsFromPersoon(persoon) && m.Date > start).ToList();
 
             foreach (Message m in messages)
             {
@@ -885,7 +885,7 @@ namespace IP_8IEN.BL
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             double totalPolarity = 0;
 
-            messages = messages.Where(m => m.IsFrom(persoon) && m.Date > start && m.Date < stop).ToList();
+            messages = messages.Where(m => m.IsFromPersoon(persoon) && m.Date > start && m.Date < stop).ToList();
 
             foreach (Message m in messages)
             {
@@ -901,7 +901,7 @@ namespace IP_8IEN.BL
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             double totalObjectivity = 0;
 
-            messages = messages.Where(m => m.IsFrom(persoon)).ToList();
+            messages = messages.Where(m => m.IsFromPersoon(persoon)).ToList();
 
             foreach (Message m in messages)
             {
@@ -917,7 +917,7 @@ namespace IP_8IEN.BL
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             double totalObjectivity = 0;
 
-            messages = messages.Where(m => m.IsFrom(persoon) && m.Date > start).ToList();
+            messages = messages.Where(m => m.IsFromPersoon(persoon) && m.Date > start).ToList();
 
             foreach (Message m in messages)
             {
@@ -933,7 +933,7 @@ namespace IP_8IEN.BL
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             double totalObjectivity = 0;
 
-            messages = messages.Where(m => m.IsFrom(persoon) && m.Date > start && m.Date < stop).ToList();
+            messages = messages.Where(m => m.IsFromPersoon(persoon) && m.Date > start && m.Date < stop).ToList();
 
             foreach (Message m in messages)
             {
@@ -1243,8 +1243,8 @@ namespace IP_8IEN.BL
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<GraphData> data = new List<GraphData>();
 
-            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFrom(p1)).Count()));
-            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFrom(p2)).Count()));
+            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
+            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
 
             return data;
         }
@@ -1255,9 +1255,9 @@ namespace IP_8IEN.BL
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<GraphData> data = new List<GraphData>();
 
-            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFrom(p1)).Count()));
-            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFrom(p2)).Count()));
-            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFrom(p3)).Count()));
+            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
+            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
+            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()));
 
             return data;
         }
@@ -1268,10 +1268,10 @@ namespace IP_8IEN.BL
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<GraphData> data = new List<GraphData>();
 
-            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFrom(p1)).Count()));
-            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFrom(p2)).Count()));
-            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFrom(p3)).Count()));
-            data.Add(new GraphData(p4.Naam, messages.Where(m => m.IsFrom(p4)).Count()));
+            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
+            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
+            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()));
+            data.Add(new GraphData(p4.Naam, messages.Where(m => m.IsFromPersoon(p4)).Count()));
 
             return data;
         }
@@ -1282,11 +1282,11 @@ namespace IP_8IEN.BL
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<GraphData> data = new List<GraphData>();
 
-            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFrom(p1)).Count()));
-            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFrom(p2)).Count()));
-            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFrom(p3)).Count()));
-            data.Add(new GraphData(p4.Naam, messages.Where(m => m.IsFrom(p4)).Count()));
-            data.Add(new GraphData(p5.Naam, messages.Where(m => m.IsFrom(p5)).Count()));
+            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
+            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
+            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()));
+            data.Add(new GraphData(p4.Naam, messages.Where(m => m.IsFromPersoon(p4)).Count()));
+            data.Add(new GraphData(p5.Naam, messages.Where(m => m.IsFromPersoon(p5)).Count()));
 
             return data;
         }
@@ -1494,7 +1494,7 @@ namespace IP_8IEN.BL
             List<GraphData> data = new List<GraphData>();
             int counter;
 
-            messages = messages.Where(m => m.IsFrom(persoon)).ToList();
+            messages = messages.Where(m => m.IsFromPersoon(persoon)).ToList();
 
             foreach (Message m in messages)
             {

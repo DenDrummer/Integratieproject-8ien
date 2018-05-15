@@ -54,13 +54,28 @@ namespace IP_8IEN.BL.Domain.Data
 
         public ICollection<SubjectMessage> SubjectMessages { get; set; }
 
-        public bool IsFrom(Persoon persoon)
+        public bool IsFromPersoon(Persoon persoon)
         {
             foreach (SubjectMessage s in SubjectMessages)
             {
                 if (s.Persoon == persoon)
                 {
                     return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsFromOrganisatie(Organisatie organisatie)
+        {
+            foreach (SubjectMessage s in SubjectMessages)
+            {
+                foreach(Tewerkstelling t in s.Persoon.Tewerkstellingen)
+                {
+                    if (t.Organisatie == organisatie)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;

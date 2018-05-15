@@ -88,6 +88,5 @@ namespace IP_8IEN.BL
         List<GraphData> GetTopStoryCount(int aantal, DateTime start, DateTime stop);
         List<GraphData> GetTopStoryCount(DateTime start, DateTime stop);
         List<GraphData> GetTopStoryByPolitician(Persoon persoon);
-
     }
 }

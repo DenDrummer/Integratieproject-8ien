@@ -11,5 +11,6 @@ namespace IP3_8IEN.BL.Domain.Gebruikers
     public class HogerLager : AlertInstelling
     {
         public Onderwerp Onderwerp2 { get; set; }
+        public bool OneHigherThanTwo { get; set; }
     }
 }
