@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using IP_8IEN.DAL.EF;
 using IP_8IEN.DAL;
-using IP_8IEN.BL.Domain;
+using IP_8IEN.BL.Domain.Gebruikers;
 
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;

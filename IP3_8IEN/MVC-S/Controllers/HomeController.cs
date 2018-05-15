@@ -30,13 +30,13 @@ namespace MVC_S.Controllers
             gMgr = new GebruikerManager();
 
             aMgr = new ApplicationUserManager();
-            //aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
 
             #region initialisatie blok databank
             //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             //dMgr.ApiRequestToJson();
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            //aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
 
             #endregion
 
@@ -103,8 +103,12 @@ namespace MVC_S.Controllers
         //Get: Persoon/1
         public ActionResult Personen(/*int onderwerpId*/)
         {
-            int id = 1;
+            int id = 231;
             Persoon persoon = dMgr.GetPersoon(id);
+            string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
+            string aantalT = "aantal tweets van " + persoon.Naam;
+            ViewBag.TWITTER = twit;
+            ViewBag.AANTALT = aantalT;
             
             return View(persoon);
         }
@@ -146,6 +150,7 @@ namespace MVC_S.Controllers
             return View(wr);
         }
 
+        // GET : Home/Create
         public ActionResult AdminCRUD()
         {
 
@@ -205,8 +210,8 @@ namespace MVC_S.Controllers
         public ActionResult Grafiektest2()
         {
             Persoon persoon = dMgr.GetPersoon(170);
-            //int aantalTweets = dMgr.GetNumber(persoon);
-            int aantalTweets = 69;
+            int aantalTweets = dMgr.GetNumber(persoon);
+           // int aantalTweets = 69;
             ViewBag.NUMMER1 = aantalTweets;
             ViewBag.naam1 = persoon.Naam;
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);

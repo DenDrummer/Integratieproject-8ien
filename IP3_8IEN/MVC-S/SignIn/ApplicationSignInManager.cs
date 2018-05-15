@@ -1,5 +1,5 @@
 ﻿using IP_8IEN.BL;
-using IP_8IEN.BL.Domain;
+using IP_8IEN.BL.Domain.Gebruikers;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Security.Claims;
