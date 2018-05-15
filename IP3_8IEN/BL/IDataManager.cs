@@ -56,7 +56,7 @@ namespace IP_8IEN.BL
         List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
         //Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
         int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
-        //SAm
+        //Sam
         //Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
         List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
 
@@ -69,5 +69,9 @@ namespace IP_8IEN.BL
 
         //8 mai 2018 : Stephane
         IEnumerable<Persoon> GetPersonen();
+
+        //Sam 15 mei
+        string GetImageString(int id);
+        string GetBannerString(int id);
     }
 }
