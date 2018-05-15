@@ -222,11 +222,13 @@ namespace MVC_S.Controllers
             return View();
         }
 
-        public ActionResult GetData(int id)
+        public List<GraphData> GetData(int id)
         {
             Persoon persoon = dMgr.GetPersoon(id);
-            return Json(dMgr.GetTweetsPerDag(persoon,20), JsonRequestBehavior.AllowGet);
-            
+            //return Json(dMgr.GetTweetsPerDag(persoon,20), JsonRequestBehavior.AllowGet);
+            return dMgr.GetTweetsPerDag(persoon, 20);
+
+
         }
         public ActionResult GetRank(int aantal)
         {
