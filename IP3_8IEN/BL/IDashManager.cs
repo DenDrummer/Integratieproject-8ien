@@ -27,5 +27,11 @@ namespace IP_8IEN.BL
         //12 mei 2018 : Stephane
         IEnumerable<Follow> GetFollows(bool admin = false);
         Dashbord UpdateDashboard(Dashbord dashbord);
+
+        //15 mei 2018 : Stephane
+        //IEnumerable<TileZone> GetTileZones(); // <-- nog niet compleet
+        IEnumerable<DashItem> GetDashItems();
+        void AddTileZone(TileZone tile);
+        void InitializeDashbordNewUsers(string userId);
     }
 }

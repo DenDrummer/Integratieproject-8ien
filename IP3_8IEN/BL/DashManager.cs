@@ -13,6 +13,7 @@ namespace IP_8IEN.BL
     public class DashManager : IDashManager
     {
         private DataManager dataMgr;
+        private GebruikerManager gebruikerMgr;
         private UnitOfWorkManager uowManager;
         private DashRepository repo;//= new MessageRepository();
 
@@ -164,6 +165,7 @@ namespace IP_8IEN.BL
 
         public IEnumerable<Follow> GetFollows(bool admin = false)
         {
+            initNonExistingRepo();
             IEnumerable<Follow> follows =  repo.ReadFollows();
 
             if (admin)
@@ -177,6 +179,8 @@ namespace IP_8IEN.BL
 
         public Dashbord UpdateDashboard(Dashbord dashbord)
         {
+            initNonExistingRepo();
+
             DateTime timeNow = DateTime.Now;
             foreach(TileZone tileZone in dashbord.TileZones)
             {
@@ -215,6 +219,53 @@ namespace IP_8IEN.BL
             }
 
             return dashbord;
+        }
+
+        public IEnumerable<DashItem> GetDashItems()
+        {
+            IEnumerable<DashItem> dashItems = repo.ReadDashItems();
+            return dashItems;
+        }
+
+        public void AddTileZone(TileZone tile)
+        {
+            repo.AddTileZone(tile);
+        }
+
+        public void InitializeDashbordNewUsers(string userId)
+        {
+            initNonExistingRepo(true);
+
+            gebruikerMgr = new GebruikerManager();
+            Gebruiker gebruiker = gebruikerMgr.GetGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
+            Dashbord dashbord = AddDashBord(gebruiker);
+
+            gebruiker.Dashboards.Add(dashbord);
+            /////////// Edit ///////////
+
+            //We halen vaste grafieken op (AdminGraphs) en koppelen deze aan de 
+            //nieuw aangemaakte dashboard van de nieuwe gebruiker
+            IEnumerable<DashItem> dashItems = GetDashItems();
+            dashItems = dashItems.Where(d => d.AdminGraph == true);
+
+            ////Deze aan een TileZone toewijzen
+            //foreach (DashItem item in dashItems)
+            //{
+            //    TileZone tile = new TileZone()
+            //    {
+            //        DashItem = item,
+            //        Dashbord = dashbord
+            //    };
+            //    dashMgr.AddTileZone(tile);
+            //}
+
+            ///////////// Edit ///////////
+            //UpdateGebruiker(gebruiker);
+            //uowManager.Save();
+
+            //uowManager.Save();
+            //UoW = true;
+            //repo.setUnitofWork(UoW);
         }
 
 

@@ -297,7 +297,10 @@ namespace IP_8IEN.BL
 
         public void AddGebruiker(string userName, string id, string naam, string voornaam)
         {
-            initNonExistingRepo(true);
+            initNonExistingRepo();
+
+            //bool UoW = false;
+            //repo.setUnitofWork(UoW);
 
             //dashMgr = new DashManager();
 
@@ -310,20 +313,38 @@ namespace IP_8IEN.BL
             };
             repo.AddingGebruiker(gebruiker);
 
-            dashMgr = new DashManager(uowManager);
-            //We laten de transactie eve denken dat we geen 'UoW' gebruiken zodat er niet
-            //van repo gewisseld wordt bij het aanroepen van een nieuwe methode
-            bool UoW = false;
-            repo.setUnitofWork(UoW);
-            Dashbord dashbord = dashMgr.AddDashBord(gebruiker);
+            dashMgr = new DashManager();
+            dashMgr.InitializeDashbordNewUsers(gebruiker.GebruikerId);
 
-            uowManager.Save();
-            //we zetten 'UoW' boolian terug op true
-            UoW = true;
-            repo.setUnitofWork(UoW);
+            //dashMgr = new DashManager(uowManager);
+            //Dashbord dashbord = dashMgr.AddDashBord(gebruiker);
 
-            gebruiker.Dashboards.Add(dashbord);
-            UpdateGebruiker(gebruiker);
+            //gebruiker.Dashboards.Add(dashbord);
+            ///////////// Edit ///////////
+
+            ////We halen vaste grafieken op (AdminGraphs) en koppelen deze aan de 
+            ////nieuw aangemaakte dashboard van de nieuwe gebruiker
+            //IEnumerable<DashItem> dashItems = dashMgr.GetDashItems();
+            //dashItems = dashItems.Where(d => d.AdminGraph == true);
+
+            ////Deze aan een TileZone toewijzen
+            //foreach (DashItem item in dashItems)
+            //{
+            //    TileZone tile = new TileZone()
+            //    {
+            //        DashItem = item,
+            //        Dashbord = dashbord
+            //    };
+            //    dashMgr.AddTileZone(tile);
+            //}
+
+            ///////////// Edit ///////////
+            //UpdateGebruiker(gebruiker);
+            //uowManager.Save();
+
+            //uowManager.Save();
+            //UoW = true;
+            //repo.setUnitofWork(UoW);
         }
 
         public void UpdateGebruiker(Gebruiker gebruiker)

@@ -164,6 +164,7 @@ namespace MVC_S.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                    _gebruikerMgr = new GebruikerManager();
                     _gebruikerMgr.AddGebruiker(user.UserName, user.Id, user.AchterNaam, user.UserName);
                     return RedirectToAction("Index", "Home");
                 }

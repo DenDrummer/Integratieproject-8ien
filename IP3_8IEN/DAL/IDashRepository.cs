@@ -29,5 +29,9 @@ namespace IP_8IEN.DAL
         //12 mei 2018 : Stephane
         IEnumerable<Follow> ReadFollows();
         void UpdateDashboard(Dashbord dashbord);
+
+        //15 mei 2018 : Stephane
+        IEnumerable<TileZone> ReadTileZones(); // <-- nog niet compleet
+        IEnumerable<DashItem> ReadDashItems();
     }
 }

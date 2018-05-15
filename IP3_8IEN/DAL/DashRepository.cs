@@ -97,6 +97,18 @@ namespace IP_8IEN.DAL
             ctx.SaveChanges();
         }
 
+        public IEnumerable<TileZone> ReadTileZones()
+        {
+            IEnumerable<TileZone> tileZones = ctx.TileZones;
+            return tileZones;
+        }
+
+        public IEnumerable<DashItem> ReadDashItems()
+        {
+            IEnumerable<DashItem> dashItems = ctx.DashItems.ToList();
+            return dashItems;
+        }
+
         ////UoW related
         //public DashRepository(UnitOfWork uow)
         //{

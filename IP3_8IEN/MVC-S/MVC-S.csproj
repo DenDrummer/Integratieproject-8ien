@@ -484,6 +484,7 @@
     <Content Include="Views\Admin\CreateGrafiekLine.cshtml" />
     <Content Include="Views\Admin\CreateGrafiekDonut.cshtml" />
     <Content Include="Views\Admin\Grafiek.cshtml" />
+    <Content Include="Views\Home\InitializeAdmins.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

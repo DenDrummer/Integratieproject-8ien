@@ -178,6 +178,7 @@ namespace MVC_S.Controllers
         public ActionResult Grafiek()
         {
             // enkel grafieken aangemaakt in de AdminController opvragen
+            //TODO: implementatie Details, Edit, Delete
             IEnumerable<Follow> follows = _dashManager.GetFollows(true);
 
             return View(follows);
@@ -190,9 +191,11 @@ namespace MVC_S.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateGrafiekLine(Persoon persoon)
+        public ActionResult CreateGrafiekLine(Persoon persoon)
         {
-            ApplicationUser currUser = await _userManager.FindByIdAsync(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            //Zie dat je bent ingelogd
+            //TODO: redirect naar inlog pagina <--
+            ApplicationUser currUser = _userManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             string userName = currUser.UserName;
             Gebruiker user = _gebrManager.FindUser(userName);
 

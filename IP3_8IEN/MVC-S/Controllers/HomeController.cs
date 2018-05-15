@@ -31,6 +31,10 @@ namespace MVC_S.Controllers
             // initialisatie Admins zitten in InitializeAdmins()
             // initialisatie methodes zitten in Initialize()
 
+            dMgr = new DataManager();
+            gMgr = new GebruikerManager();
+            aMgr = new ApplicationUserManager();
+
             //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
             //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
         }
@@ -84,9 +88,9 @@ namespace MVC_S.Controllers
         }
 
         //Get: Persoon/1
-        public ActionResult Personen(/*int onderwerpId*/)
+        public ActionResult Personen(int onderwerpId = 213)
         {
-            int id = 231;
+            int id = onderwerpId;
             Persoon persoon = dMgr.GetPersoon(id);
             string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
             string aantalT = "aantal tweets van " + persoon.Naam;
@@ -133,23 +137,25 @@ namespace MVC_S.Controllers
             return View(wr);
         }
 
-        public async Task<ActionResult> UserDashBoard()
+        public ActionResult UserDashBoard()
         {
             //Dashbord van ingelogde gebruiker ophalen
             try
             {
-                ApplicationUser appUser = await aMgr.FindByIdAsync(User.Identity.GetUserId());
+                ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
                 string userName = appUser.UserName;
                 Gebruiker user = gMgr.FindUser(userName);
 
                 Dashbord dashbord = dashMgr.GetDashboard(user);
                 dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem minstens 12h up-to-date is
 
-                return await Task.Run(() => View(dashbord));
+                //return await Task.Run(() => View(dashbord));
+                return View(dashbord);
             }
             catch
             {
-                return await Task.Run(() => View());
+                //return await Task.Run(() => View());
+                return View();
             }
 
             //Persoon persoon = dMgr.GetPersoon(170);
@@ -186,21 +192,23 @@ namespace MVC_S.Controllers
             return View();
         }
 
-        public async Task<ActionResult> InitializeAdmins()
+        public ActionResult InitializeAdmins()
         {
-            aMgr = new ApplicationUserManager();
-            await aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
+            aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
 
-            return await Task.Run(() => View());
+            return View();
+            //return await Task.Run(() => View());
         }
 
             public ActionResult Initialize()
         {
             // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
             // Let op: telkens de 'Initialize() aangesproken wordt worden er methodes uitgevoerd
-            dMgr = new DataManager();
-            gMgr = new GebruikerManager();
-            
+            //dMgr = new DataManager();
+            //gMgr = new GebruikerManager();
+
+            // InitializeAdmins() hierboven eerst uitvoeren
+
             #region initialisatie blok databank
             dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             dMgr.ApiRequestToJson();
