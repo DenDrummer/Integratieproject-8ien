@@ -205,6 +205,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\creategrafiek.css" />
     <Content Include="DataTables\Buttons-1.5.1\css\buttons.bootstrap.css" />
     <Content Include="DataTables\Buttons-1.5.1\css\buttons.bootstrap.min.css" />
     <Content Include="DataTables\Buttons-1.5.1\css\buttons.bootstrap4.css" />
@@ -370,6 +371,7 @@
     <Content Include="AddApplicationGebruikers.Json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\grafiekaanmaken.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
