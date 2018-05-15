@@ -1303,11 +1303,8 @@ namespace IP_8IEN.BL
 
             foreach (Message m in messages)
             {
-                stories.Add(m.Word1);
-                stories.Add(m.Word2);
-                stories.Add(m.Word3);
-                stories.Add(m.Word4);
-                stories.Add(m.Word5);
+                stories.Add(m.Url1);
+                stories.Add(m.Url2);
             }
 
             stories = stories.Distinct().ToList();
@@ -1342,11 +1339,8 @@ namespace IP_8IEN.BL
 
             foreach (Message m in messages)
             {
-                stories.Add(m.Word1);
-                stories.Add(m.Word2);
-                stories.Add(m.Word3);
-                stories.Add(m.Word4);
-                stories.Add(m.Word5);
+                stories.Add(m.Url1);
+                stories.Add(m.Url2);
             }
 
             stories = stories.Distinct().ToList();
@@ -1381,11 +1375,8 @@ namespace IP_8IEN.BL
 
             foreach (Message m in messages)
             {
-                stories.Add(m.Word1);
-                stories.Add(m.Word2);
-                stories.Add(m.Word3);
-                stories.Add(m.Word4);
-                stories.Add(m.Word5);
+                stories.Add(m.Url1);
+                stories.Add(m.Url2);
             }
 
             stories = stories.Distinct().ToList();
@@ -1420,11 +1411,8 @@ namespace IP_8IEN.BL
 
             foreach (Message m in messages)
             {
-                stories.Add(m.Word1);
-                stories.Add(m.Word2);
-                stories.Add(m.Word3);
-                stories.Add(m.Word4);
-                stories.Add(m.Word5);
+                stories.Add(m.Url1);
+                stories.Add(m.Url2);
             }
 
             stories = stories.Distinct().ToList();
@@ -1459,11 +1447,8 @@ namespace IP_8IEN.BL
 
             foreach (Message m in messages)
             {
-                stories.Add(m.Word1);
-                stories.Add(m.Word2);
-                stories.Add(m.Word3);
-                stories.Add(m.Word4);
-                stories.Add(m.Word5);
+                stories.Add(m.Url1);
+                stories.Add(m.Url2);
             }
 
             stories = stories.Distinct().ToList();
@@ -1498,8 +1483,8 @@ namespace IP_8IEN.BL
 
             foreach (Message m in messages)
             {
-                stories.Add(m.Word1);
-                stories.Add(m.Word2);
+                stories.Add(m.Url1);
+                stories.Add(m.Url2);
                 stories.Add(m.Word3);
                 stories.Add(m.Word4);
                 stories.Add(m.Word5);
@@ -1524,6 +1509,68 @@ namespace IP_8IEN.BL
             data = data.OrderByDescending(d => d.value).ToList();
             return data;
 
+        }
+        public List<GraphData2> GetComparisonPersonNumberOfTweetsOverTime(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<GraphData2> data = new List<GraphData2>();
+
+            DateTime first = messages.OrderBy(m => m.Date).First().Date;
+
+            do
+            {
+                data.Add(new GraphData2(
+                first.ToString(),
+                messages.Where(m => m.IsFromPersoon(p1) && m.Date.Date == first.Date).Count(),
+                messages.Where(m => m.IsFromPersoon(p2) && m.Date.Date == first.Date).Count(),
+                messages.Where(m => m.IsFromPersoon(p3) && m.Date.Date == first.Date).Count(),
+                messages.Where(m => m.IsFromPersoon(p4) && m.Date.Date == first.Date).Count(),
+                messages.Where(m => m.IsFromPersoon(p5) && m.Date.Date == first.Date).Count()));
+
+                first.AddDays(1);
+            } while (first.Date < DateTime.Now.Date);
+
+            return data;
+        }
+
+        public List<GraphData> GetTopMentions(int aantal)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> mentions = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+
+
+            foreach (Message m in messages)
+            {
+                mentions.Add(m.Mention1);
+                mentions.Add(m.Mention2);
+                mentions.Add(m.Mention3);
+                mentions.Add(m.Mention4);
+                mentions.Add(m.Mention5);
+            }
+
+            mentions = mentions.Distinct().ToList();
+
+            foreach (String me in mentions)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Mention1 == me || m.Mention2 == me || m.Mention3 == me || m.Mention4 == me || m.Mention5 == me)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(me, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data.GetRange(0, aantal);
         }
     }
 }

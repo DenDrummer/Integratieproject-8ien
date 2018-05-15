@@ -88,5 +88,7 @@ namespace IP_8IEN.BL
         List<GraphData> GetTopStoryCount(int aantal, DateTime start, DateTime stop);
         List<GraphData> GetTopStoryCount(DateTime start, DateTime stop);
         List<GraphData> GetTopStoryByPolitician(Persoon persoon);
+        List<GraphData2> GetComparisonPersonNumberOfTweetsOverTime(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5);
+        List<GraphData> GetTopMentions(int aantal);
     }
 }
