@@ -4,10 +4,10 @@
 <html>
 <head>
     <script src="~/Scripts/test1.js"></script>
+    <script src="~/Scripts/morris_chart.js"></script>
 </head>
 <body>
-    <p id="cn"> Click on the button to change the light button</p>
-    <button type="button" onclick="changefont()">Click</button>
+    <p id="cn"></p>
+    <button type="button" onclick="areaChart('cn','@Url.Action("GetData","Home",new {id = 231})')">Click</button>
 
-    <script src="external.js"></script>
 </body>

@@ -226,6 +226,7 @@ namespace MVC_S.Controllers
         {
             Persoon persoon = dMgr.GetPersoon(id);
             return Json(dMgr.GetTweetsPerDag(persoon,20), JsonRequestBehavior.AllowGet);
+            
         }
         public ActionResult GetRank(int aantal)
         {
