@@ -8,6 +8,10 @@
 </head>
 <body>
     <p id="cn"></p>
-    <button type="button" onclick="areaChart('cn','@Url.Action("GetData","Home",new {id = 231})')">Click</button>
-
+    <button type="button" onclick="areaChart('cn',@Url.Action("GetData","Home",new {id = 231}))">Click</button>
+    <script>
+        $(document).ready(function () {
+            $.get('@Url.Action("GetData","Home",new {id = 231})', areaChart('cn',result));
+    });
+    </script>
 </body>

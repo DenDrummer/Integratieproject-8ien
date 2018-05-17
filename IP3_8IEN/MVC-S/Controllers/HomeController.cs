@@ -103,7 +103,7 @@ namespace MVC_S.Controllers
         //Get: Persoon/1
         public ActionResult Personen(/*int onderwerpId*/)
         {
-            int id = 1;
+            int id = 170;
             Persoon persoon = dMgr.GetPersoon(id);
             string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
             string aantalT = "aantal tweets van " + persoon.Naam;
@@ -222,11 +222,11 @@ namespace MVC_S.Controllers
             return View();
         }
 
-        public List<GraphData> GetData(int id)
+        public ActionResult GetData(int id)
         {
             Persoon persoon = dMgr.GetPersoon(id);
-            //return Json(dMgr.GetTweetsPerDag(persoon,20), JsonRequestBehavior.AllowGet);
-            return dMgr.GetTweetsPerDag(persoon, 20);
+            return Json(dMgr.GetTweetsPerDag(persoon,20), JsonRequestBehavior.AllowGet);
+            //return dMgr.GetTweetsPerDag(persoon, 20);
 
 
         }
