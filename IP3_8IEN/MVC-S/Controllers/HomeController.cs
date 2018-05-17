@@ -32,11 +32,11 @@ namespace MVC_S.Controllers
             aMgr = new ApplicationUserManager();
 
             #region initialisatie blok databank
-            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
-            dMgr.ApiRequestToJson();
-            gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
-            gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
-            aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
+            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            //dMgr.ApiRequestToJson();
+            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
+            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            //aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
 
             #endregion
 
@@ -103,7 +103,7 @@ namespace MVC_S.Controllers
         //Get: Persoon/1
         public ActionResult Personen(/*int onderwerpId*/)
         {
-            int id = 1;
+            int id = 261;
             Persoon persoon = dMgr.GetPersoon(id);
             string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
             string aantalT = "aantal tweets van " + persoon.Naam;
@@ -194,8 +194,8 @@ namespace MVC_S.Controllers
         {
             // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
-            dMgr = new DataManager();
-            gMgr = new GebruikerManager();
+            // dMgr = new DataManager();
+            // gMgr = new GebruikerManager();
 
             #region initialisatie blok databank
             //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
