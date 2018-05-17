@@ -56,7 +56,7 @@ namespace IP_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "1 Apr 2018 00:01",
+                        since = "29 Apr 2018 00:01",
                         //until weglaten --> last scraping
                         until = "30 Apr 2018 00:01",
                     });
@@ -154,8 +154,8 @@ namespace IP_8IEN.BL
 
                 try
                 {
-                    tweet.SentimentPos = item.sentiment[0];
-                    tweet.SentimentNeg = item.sentiment[1];
+                    tweet.Polarity = item.sentiment[0];
+                    tweet.Objectivity = item.sentiment[1];
                 }
                 catch { }
 
@@ -773,8 +773,8 @@ namespace IP_8IEN.BL
                 List<GraphData> ranking = new List<GraphData>();
                 foreach (Persoon p in personen)
             {
-                int teller = messages.Where(m => m.IsFrom(p)).Count();
-                List<Message> messages2 = messages.Where(m => m.IsFrom(p)).ToList();
+                int teller = messages.Where(m => m.IsFromPersoon(p)).Count();
+                List<Message> messages2 = messages.Where(m => m.IsFromPersoon(p)).ToList();
                 laatstePeriode = messages2.Where(m => lastTweet.AddHours(interval_uren * -1) < m.Date).Count();
                 voorlaatstePeriode = messages2.Where(m => lastTweet.AddHours((interval_uren * 2) * -1) < m.Date && m.Date < lastTweet.AddHours(interval_uren * -1)).Count();
                 if (puntNotatie == true)
@@ -821,11 +821,11 @@ namespace IP_8IEN.BL
 
             if (laatsteAantalUren == 0)
             {
-                aantal = messages.Where(m => m.IsFrom(persoon)).Count();
+                aantal = messages.Where(m => m.IsFromPersoon(persoon)).Count();
             }
             else
             {
-                aantal = messages.Where(m => m.IsFrom(persoon) && m.Date > lastTweet.AddHours(laatsteAantalUren * -1)).Count();
+                aantal = messages.Where(m => m.IsFromPersoon(persoon) && m.Date > lastTweet.AddHours(laatsteAantalUren * -1)).Count();
             }
 
             return aantal;
@@ -868,7 +868,7 @@ namespace IP_8IEN.BL
                 //Sam
                 string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
                 //Sam
-                GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count()));
+                GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon)).Count()));
                 lastTweet = lastTweet.AddDays(-1);
             }
             
@@ -917,7 +917,7 @@ namespace IP_8IEN.BL
                 //Sam
                 string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
                 //Sam
-                GraphDataList.Add(new GraphData2(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon1)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon2)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon3)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon4)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon5)).Count()));
+                GraphDataList.Add(new GraphData2(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon1)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon2)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon3)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon4)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon5)).Count()));
                 lastTweet = lastTweet.AddDays(-1);
             }
 
@@ -1779,5 +1779,4 @@ namespace IP_8IEN.BL
         }
     }
 }
-    }
-}
+    
