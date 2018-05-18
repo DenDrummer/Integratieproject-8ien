@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Javascript -->
-    <script>
+    @*<script>
         $(function () {
             @{List<string> listFromController = (List<string>)ViewData["names"];}
                 var Names = [
@@ -46,7 +46,7 @@
                 source: Names
             });
         });
-    </script>
+    </script>*@
 </head>
 <body>
 
@@ -231,7 +231,7 @@
                     <li class="sidebar-search">
 
 
-                        @using (Html.BeginForm("Personen", "Home"))
+                        @*@using (Html.BeginForm("Personen", "Home"))
                         {
                             <div class="input-group custom-search-form">
                                 <input type="text" name="automplete" class="form-control" placeholder="Search...">
@@ -244,14 +244,14 @@
 
                                 </span>
                             </div>
-                        }
+                        }*@
 
-                        @*<div class="input-group custom-search-form">
+                        <div class="input-group custom-search-form">
                             <input type="text" class="form-control" placeholder="Search...">
                             <span class="input-group-btn">
                                 <button class="btn btn-default glyphicon glyphicon-search" type="button"></button>
                             </span>
-                        </div>*@
+                        </div>
 
                         @*@using (Html.BeginForm("Personen", "Home"))
         {

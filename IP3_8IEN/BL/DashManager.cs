@@ -147,7 +147,7 @@ namespace IP_8IEN.BL
 
         public Dashbord AddDashBord(Gebruiker gebruiker)
         {
-            initNonExistingRepo();
+            initNonExistingRepo(true);
 
             Dashbord dashbord = new Dashbord
             {
@@ -245,8 +245,9 @@ namespace IP_8IEN.BL
 
             //We halen vaste grafieken op (AdminGraphs) en koppelen deze aan de 
             //nieuw aangemaakte dashboard van de nieuwe gebruiker
-            IEnumerable<DashItem> dashItems = GetDashItems();
-            dashItems = dashItems.Where(d => d.AdminGraph == true);
+
+            //IEnumerable<DashItem> dashItems = GetDashItems();
+            //dashItems = dashItems.Where(d => d.AdminGraph == true);
 
             ////Deze aan een TileZone toewijzen
             //foreach (DashItem item in dashItems)

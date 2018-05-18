@@ -313,8 +313,8 @@ namespace IP_8IEN.BL
             };
             repo.AddingGebruiker(gebruiker);
 
-            dashMgr = new DashManager();
-            dashMgr.InitializeDashbordNewUsers(gebruiker.GebruikerId);
+            //dashMgr = new DashManager();
+            //dashMgr.InitializeDashbordNewUsers(gebruiker.GebruikerId);
 
             //dashMgr = new DashManager(uowManager);
             //Dashbord dashbord = dashMgr.AddDashBord(gebruiker);

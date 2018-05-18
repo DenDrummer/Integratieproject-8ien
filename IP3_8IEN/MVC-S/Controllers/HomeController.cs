@@ -62,10 +62,10 @@ namespace MVC_S.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
-            List<string> names = ObjList.Select(p => p.Naam).ToList();
-            int[] test = { 1, 2 };
-            ViewData["names"] = names;
+            //IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
+            //List<string> names = ObjList.Select(p => p.Naam).ToList();
+            //int[] test = { 1, 2 };
+            //ViewData["names"] = names;
             return View();
         }
 
@@ -113,13 +113,13 @@ namespace MVC_S.Controllers
         {
             string naam = automplete;
             Persoon persoon = dMgr.GetPersoon(naam);
-            string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
+            string twit = $"https://twitter.com/{persoon.Twitter}?ref_src=twsrc%5Etfw";
             string aantalT = "aantal tweets van " + persoon.Naam;
             ViewBag.TWITTER = twit;
             ViewBag.AANTALT = aantalT;
 
-            ViewBag.TWITIMAGE = dMgr.GetImageString(id);
-            ViewBag.TWITBANNER = dMgr.GetBannerString(id);
+            ViewBag.TWITIMAGE = dMgr.GetImageString(persoon.OnderwerpId);
+            ViewBag.TWITBANNER = dMgr.GetBannerString(persoon.OnderwerpId);
 
             return View(persoon);
         }
@@ -210,9 +210,13 @@ namespace MVC_S.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult Zoeken()
         {
-
+            IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
+            List<string> names = ObjList.Select(p => p.Naam).ToList();
+            int[] test = { 1, 2 };
+            ViewData["names"] = names;
             return View();
         }
 
@@ -228,8 +232,6 @@ namespace MVC_S.Controllers
         {
             // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
             // Let op: telkens de 'Initialize() aangesproken wordt worden er methodes uitgevoerd
-            //dMgr = new DataManager();
-            //gMgr = new GebruikerManager();
 
             // InitializeAdmins() hierboven eerst uitvoeren
 
