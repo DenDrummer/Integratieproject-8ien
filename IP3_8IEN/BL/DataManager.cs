@@ -931,42 +931,6 @@ namespace IP_8IEN.BL
         }
         public string UseApiTwitter(int id)
         {
-            /*
-            //Oauth Keys (Replace with values that are obtained from registering the application
-            //https://dev.twitter.com/apps/new
-
-            var oauth_consumer_key = "Fj6y59d4rcEHpslGnthlxfv62";
-            var oauth_consumer_secret = "wI1uwbfOeEqdTNfH1cAyCMtRHklOOq9YiYyiOjbptScCbdwujx";
-
-            //Token URL
-            var oauth_url = "https://api.twitter.com/oauth2/token";
-            var headerFormat = "Basic {0}";
-            var authHeader = string.Format(headerFormat,
-                        Convert.ToBase64String(Encoding.UTF8.GetBytes(Uri.EscapeDataString(oauth_consumer_key) + ":" +
-                        Uri.EscapeDataString((oauth_consumer_secret)))
-                        ));
-
-            var postBody = "grant_type=client_credentials";
-
-            ServicePointManager.Expect100Continue = false;
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(oauth_url);
-            request.Headers.Add("Authorization", authHeader);
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded;charset=UTF-8";
-
-            using (Stream stream = request.GetRequestStream())
-            {
-                byte[] content = ASCIIEncoding.ASCII.GetBytes(postBody);
-                stream.Write(content, 0, content.Length);
-            }
-
-            request.Headers.Add("Accept-Encoding", "gzip");
-            WebResponse response = request.GetResponse();
-            
-            //System.Diagnostics.Debug.WriteLine(response.ToString);
-            return null;*/
-            
-
             var oAuthConsumerKey = "Fj6y59d4rcEHpslGnthlxfv62";
             var oAuthConsumerSecret = "wI1uwbfOeEqdTNfH1cAyCMtRHklOOq9YiYyiOjbptScCbdwujx";
             var oAuthUrl = "https://api.twitter.com/oauth2/token";

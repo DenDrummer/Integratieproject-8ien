@@ -7,11 +7,11 @@
     <script src="~/Scripts/morris_chart.js"></script>
 </head>
 <body>
-    <p id="cn"></p>
-    <button type="button" onclick="areaChart('cn',@Url.Action("GetData","Home",new {id = 231}))">Click</button>
-    <script>
+    <div id="cn"></div>
+    <button type="button" onclick="areaChart('cn', [{ label: 5, value: 6 }, { label: 6, value: 8 }])">Click</button>
+    @*<script>
         $(document).ready(function () {
             $.get('@Url.Action("GetData","Home",new {id = 231})', areaChart('cn',result));
     });
-    </script>
+    </script>*@
 </body>

@@ -96,7 +96,7 @@ namespace MVC_S.Controllers
 
         public ActionResult Dashboard()
         {
-            
+
             return View();
         }
 
@@ -163,7 +163,7 @@ namespace MVC_S.Controllers
         public ActionResult AdminOmgeving()
         {
             // stephane : note : deze 'if else' kun je gebruiken voor authorisatie
-            if (User.IsInRole("Admin")){
+            if (User.IsInRole("Admin")) {
 
                 return View();
             } else
@@ -206,7 +206,7 @@ namespace MVC_S.Controllers
             #endregion
 
 
-            
+
 
             return View();
         }
@@ -214,11 +214,13 @@ namespace MVC_S.Controllers
         {
             Persoon persoon = dMgr.GetPersoon(170);
             int aantalTweets = dMgr.GetNumber(persoon);
-           // int aantalTweets = 69;
+            // int aantalTweets = 69;
             ViewBag.NUMMER1 = aantalTweets;
             ViewBag.naam1 = persoon.Naam;
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
-
+            int[] init = {0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
+            //ViewData["init"] = init;
+            ViewBag.INIT = init;
             return View();
         }
 
@@ -243,7 +245,7 @@ namespace MVC_S.Controllers
             Persoon persoon3 = dMgr.GetPersoon(id3);
             Persoon persoon4 = dMgr.GetPersoon(id4);
             Persoon persoon5 = dMgr.GetPersoon(id5);
-            return Json(dMgr.GetTweetsPerDag2(persoon1, persoon2, persoon3, persoon4, persoon5, 20), JsonRequestBehavior.AllowGet);
+            return Json(dMgr.GetComparisonPersonNumberOfTweetsOverTime(persoon1,persoon2,persoon3,persoon4,persoon5), JsonRequestBehavior.AllowGet);
         }
 
 

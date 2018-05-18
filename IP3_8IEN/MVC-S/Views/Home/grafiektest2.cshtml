@@ -64,8 +64,10 @@
     </script>
 
     <script>
-        var initialData = [0, 1, 2, 3, 4, 5, 6, 7, 8], //initial items order (used if there is no saved data
-            localStorageSupport = (('localStorage' in window && window['localStorage'] !== null)),
+        var initialData = @Html.Raw(Json.Encode(ViewBag.INIT));
+            //(int[])ViewData["init"]; 
+                    //[0, 5, 2, 6, 4, 8, 3, 7, 1], //initial items order (used if there is no saved data
+                   var localStorageSupport = (('localStorage' in window && window['localStorage'] !== null)),
             data,
             html;
 
@@ -74,21 +76,21 @@
             data = /*JSON.parse(localStorage.getItem("sortableData")) ||*/ initialData;
         } else {
             alert("your browser does not support local storage");
-            data = initialData;
+                data = initialData;
         }
 
-        html = kendo.render(kendo.template($("#tmp").html()), data); //render the HTML with the data
+            html = kendo.render(kendo.template($("#tmp").html()), data); //render the HTML with the data
         $("#sortable").html(html); //append the HTML to the Sortable container
 
         $("#sortable").kendoSortable({ //initialize the sortable widget
             filter: ".sortable",
             change: function (e) {
-                var item = data.splice(e.oldIndex, 1)[0]; //remove the item that has changed its order
-                data.splice(e.newIndex, 0, item); //add the item back using the newIndex
+                    var item = data.splice(e.oldIndex, 1)[0]; //remove the item that has changed its order
+                    data.splice(e.newIndex, 0, item); //add the item back using the newIndex
 
-                localStorage.setItem("sortableData", kendo.stringify(data)); //set the updated data in the local storage
-            }
-        });
+                    localStorage.setItem("sortableData", kendo.stringify(data)); //set the updated data in the local storage
+                }
+            });
 
     </script>
 
@@ -182,6 +184,28 @@
                 data: result,
                 // The name of the data record attribute that contains x-values.
                 
+                hideHover: 'auto',
+                resize: true
+            });
+        });
+        });
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+       $.get('@Url.Action("GetData2","Home",new {persoon1 = 1, persoon2 = 3, persoon3 = 5, persoon4 = 7, persoon5 = 9})', function (result) {
+
+           Morris.Line({
+                // ID of the element in which to draw the chart.
+                element: 'chart3',
+                // Chart data records -- each entry in this array corresponds to a point on
+                // the chart.
+                data: result,
+                // The name of the data record attribute that contains x-values.
+               xkey: 'label',
+               ykeys: ['value1', 'value2', 'value3', 'value4', 'value5'],
+               labels: ['aantal tweets', 'aantal tweets', 'aantal tweets', 'aantal tweets', 'aantal tweets'],
+               pointSize: 2,
                 hideHover: 'auto',
                 resize: true
             });
