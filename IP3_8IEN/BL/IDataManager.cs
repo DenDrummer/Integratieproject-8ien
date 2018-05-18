@@ -72,9 +72,12 @@ namespace IP_8IEN.BL
         IEnumerable<Persoon> GetPersonen();
         IEnumerable<Organisatie> GetOrganisaties();
 
-        // 10 mei 2018 : Stephane
+        //10 mei 2018 : Stephane
         void ChangeOrganisation(Organisatie organisatie);
         void ChangePersoon(Persoon persoon);
+
+        //18 mei 2018 : Stephane
+        Persoon GetPersoon(string naam);
 
         List<GraphData> GetTweetsPerDag(Persoon persoon, Gebruiker user, int aantalDagenTerug = 0);
     }

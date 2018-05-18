@@ -21,23 +21,20 @@ namespace MVC_S.Controllers
 {
     public class HomeController : Controller
     {
-        private IDataManager dMgr;
-        private IGebruikerManager gMgr;
-        private IDashManager dashMgr;
-        private ApplicationUserManager aMgr;
+        private IDataManager dMgr = new DataManager();
+        private IGebruikerManager gMgr = new GebruikerManager();
+        private IDashManager dashMgr = new DashManager();
+        private ApplicationUserManager aMgr = new ApplicationUserManager();
 
         public HomeController()
         {
             // initialisatie Admins zitten in InitializeAdmins()
             // initialisatie methodes zitten in Initialize()
 
-            dMgr = new DataManager();
-            gMgr = new GebruikerManager();
-            aMgr = new ApplicationUserManager();
-
             //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
             //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
         }
+
         private async Task RetrieveAPIData(IDataManager dMgr)
         {
             while (true)
@@ -62,10 +59,32 @@ namespace MVC_S.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult Index()
         {
+            IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
+            List<string> names = ObjList.Select(p => p.Naam).ToList();
+            int[] test = { 1, 2 };
+            ViewData["names"] = names;
             return View();
         }
+
+        //Searchbar testing
+        //--> Deze werkt ook (direct in de db zoeken) : er gaat enkel nog iets mis in het weergeven
+        //      misschien een verkeerd gebruik van attributen
+        //[HttpPost]
+        //public JsonResult Index(string Prefix)
+        //{
+        //    //Note : you can bind same list from database  
+        //    IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
+            
+        //    //Searching records from list using LINQ query  
+        //    var Names = (from N in ObjList
+        //                 where N.Naam.StartsWith(Prefix)
+        //                 select new { N.Naam });
+        //    return Json(Names, JsonRequestBehavior.AllowGet);
+        //}
+
 
         public ActionResult About()
         {
@@ -87,11 +106,13 @@ namespace MVC_S.Controllers
             return View();
         }
 
+
         //Get: Persoon/1
-        public ActionResult Personen(int onderwerpId = 213)
+        [HttpPost]
+        public ActionResult Personen(string automplete)
         {
-            int id = onderwerpId;
-            Persoon persoon = dMgr.GetPersoon(id);
+            string naam = automplete;
+            Persoon persoon = dMgr.GetPersoon(naam);
             string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
             string aantalT = "aantal tweets van " + persoon.Naam;
             ViewBag.TWITTER = twit;
@@ -147,7 +168,7 @@ namespace MVC_S.Controllers
                 Gebruiker user = gMgr.FindUser(userName);
 
                 Dashbord dashbord = dashMgr.GetDashboard(user);
-                dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem minstens 12h up-to-date is
+                dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem minstens 3h up-to-date is
 
                 //return await Task.Run(() => View(dashbord));
                 return View(dashbord);

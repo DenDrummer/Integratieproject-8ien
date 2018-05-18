@@ -594,6 +594,16 @@ namespace IP_8IEN.BL
             repo.EditPersoon(persoon);
         }
 
+        public Persoon GetPersoon(string naam)
+        {
+            initNonExistingRepo();
+
+            IEnumerable<Persoon> personen = repo.ReadPersonen();
+            Persoon persoon = personen.FirstOrDefault(p => p.Naam == naam);
+
+            return persoon;
+        }
+
         //Unit of Work related
         public void initNonExistingRepo(bool withUnitOfWork = false)
         {

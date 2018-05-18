@@ -35,8 +35,8 @@ namespace MVC_S.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            IEnumerable<ApplicationUser> users = _userManager.GetUsers();
-            return View(users);
+            //IEnumerable<ApplicationUser> users = _userManager.GetUsers();
+            return View(/*users*/);
         }
         
         public ActionResult User()
@@ -45,14 +45,21 @@ namespace MVC_S.Controllers
             return View(users);
         }
 
-        // HTTPGET Controller action to edit user
-        // zoeken op email /username kan conflicten opleveren
-        // niet meteen 'good practice' op deze manier
-        [HttpGet]
-        public async Task<ActionResult> EditUser(string id)
+        //Searchbar testing 2
+        public ActionResult GetPolitici(string term)
         {
-            ApplicationUser user = await _userManager.FindByIdAsync(id);
-            return await Task.Run(() => View(user));
+            List<Persoon> ObjList = _dataManager.GetPersonen().ToList();
+
+            return Json(ObjList.Where(c => c.Naam.StartsWith(term)).Select(a => new { label = a.Naam }),
+                JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult EditUser(string id)
+        {
+            ApplicationUser user = _userManager.FindById(id);
+            return View(user);
+            //return await Task.Run(() => View(user));
         }
 
         // HTTPPOST Controller action to edit user
