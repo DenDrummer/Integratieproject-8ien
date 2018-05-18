@@ -10,6 +10,7 @@ namespace IP_8IEN.DAL
         void AddingGebruiker(Gebruiker gebruiker);
         void AddingAlertInstelling(AlertInstelling alertinstelling);
         Gebruiker FindGebruiker(int userId);
+        void DeleteGebruiker(Gebruiker gebruiker);
         IEnumerable<Gebruiker> ReadGebruikers();
 
         //31 mrt 2018 : Stephane

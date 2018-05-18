@@ -1,6 +1,7 @@
 ﻿using IP_8IEN.BL.Domain.Data;
 using System;
 using System.Collections.Generic;
+using IP3_8IEN.BL.Domain.Dashboard;
 
 namespace IP_8IEN.BL
 {
@@ -51,9 +52,16 @@ namespace IP_8IEN.BL
 
         //27 apr 2018 : Victor
         void SendMail();
-        Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
+        //Sam
+        List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
+        //Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
         int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
-        Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
+        //Sam
+        //Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
+        List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
+
+        List<GraphData2> GetTweetsPerDag2(Persoon persoon1, Persoon persoon2, Persoon persoon3, Persoon persoon4,
+            Persoon persoon5, int aantalDagenTerug = 0);
 
         //3 mei 2018 : Stephane
         Persoon GetPersoon(int persoonId);
@@ -61,5 +69,9 @@ namespace IP_8IEN.BL
 
         //8 mai 2018 : Stephane
         IEnumerable<Persoon> GetPersonen();
+
+        //Sam 15 mei
+        string GetImageString(int id);
+        string GetBannerString(int id);
     }
 }

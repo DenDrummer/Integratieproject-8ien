@@ -9,7 +9,10 @@ using IP_8IEN.BL.Domain.Gebruikers;
 using System.Web.Hosting;
 using System.IO;
 using System.Web;
-using IP_8IEN.BL.Domain;
+using System.Web.Helpers;
+using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Gebruikers;
+using Microsoft.Ajax.Utilities;
 
 namespace MVC_S.Controllers
 {
@@ -27,13 +30,14 @@ namespace MVC_S.Controllers
             gMgr = new GebruikerManager();
 
             aMgr = new ApplicationUserManager();
-            //aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
 
             #region initialisatie blok databank
             //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             //dMgr.ApiRequestToJson();
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            //aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
+
             #endregion
 
             //**** dit zijn test methodes ****//
@@ -99,9 +103,16 @@ namespace MVC_S.Controllers
         //Get: Persoon/1
         public ActionResult Personen(/*int onderwerpId*/)
         {
-            int id = 1;
+            int id = 261;
             Persoon persoon = dMgr.GetPersoon(id);
-            
+            string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
+            string aantalT = "aantal tweets van " + persoon.Naam;
+            ViewBag.TWITTER = twit;
+            ViewBag.AANTALT = aantalT;
+
+            ViewBag.TWITIMAGE = dMgr.GetImageString(id);
+            ViewBag.TWITBANNER = dMgr.GetBannerString(id);
+
             return View(persoon);
         }
 
@@ -183,8 +194,8 @@ namespace MVC_S.Controllers
         {
             // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
-            dMgr = new DataManager();
-            gMgr = new GebruikerManager();
+            // dMgr = new DataManager();
+            // gMgr = new GebruikerManager();
 
             #region initialisatie blok databank
             //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
@@ -194,7 +205,46 @@ namespace MVC_S.Controllers
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
             #endregion
 
+
+            
+
             return View();
         }
+        public ActionResult Grafiektest2()
+        {
+            Persoon persoon = dMgr.GetPersoon(170);
+            int aantalTweets = dMgr.GetNumber(persoon);
+           // int aantalTweets = 69;
+            ViewBag.NUMMER1 = aantalTweets;
+            ViewBag.naam1 = persoon.Naam;
+            //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
+
+            return View();
+        }
+
+        public ActionResult GetData(int id)
+        {
+            Persoon persoon = dMgr.GetPersoon(id);
+            return Json(dMgr.GetTweetsPerDag(persoon,20), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetRank(int aantal)
+        {
+            
+            return Json(dMgr.GetRanking(aantal,100), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetData2(int id1, int id2, int id3, int id4, int id5 )
+        {
+            Persoon persoon1 = dMgr.GetPersoon(id1);
+            Persoon persoon2 = dMgr.GetPersoon(id2);
+            Persoon persoon3 = dMgr.GetPersoon(id3);
+            Persoon persoon4 = dMgr.GetPersoon(id4);
+            Persoon persoon5 = dMgr.GetPersoon(id5);
+            return Json(dMgr.GetTweetsPerDag2(persoon1, persoon2, persoon3, persoon4, persoon5, 20), JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
     }
 }
