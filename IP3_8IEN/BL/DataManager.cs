@@ -21,6 +21,8 @@ namespace IP_8IEN.BL
     {
         private UnitOfWorkManager uowManager;
         private IMessageRepository repo;//= new MessageRepository();
+        private IGebruikerManager gebrMgr;
+        private IDashManager dashMgr;
 
         // Deze constructor gebruiken we voor operaties binnen de package
         public DataManager()
@@ -56,7 +58,7 @@ namespace IP_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "29 Apr 2018 23:55",
+                        since = "29 Apr 2018 00:01",
                         //until weglaten --> last scraping
                         until = "30 Apr 2018 00:01",
                     });
@@ -77,7 +79,7 @@ namespace IP_8IEN.BL
 
         // Hier worden tweets uit een json file naar zijn juiste klasse weggeschreven en gesynchroniseerd
         // Aangesproken klasse zijn : 'Message', 'Onderwerp', 'Persoon' & 'Hashtag' 
-        public void AddMessages(string json)
+        public void AddMessages(string json) //(string sourceUrl) <-- voor json
         {
             initNonExistingRepo();
 
@@ -288,17 +290,17 @@ namespace IP_8IEN.BL
             Organisatie organisatie;
             IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
 
-            bool ifExists = organisaties.Any(x => x.NaamOrganisatie == naamOrganisatie);
+            bool ifExists = organisaties.Any(x => x.Naam == naamOrganisatie);
 
             if (ifExists == true)
             {
-                organisatie = organisaties.FirstOrDefault(x => x.NaamOrganisatie == naamOrganisatie);
+                organisatie = organisaties.FirstOrDefault(x => x.Naam == naamOrganisatie);
             }
             else
             {
                 organisatie = new Organisatie()
                 {
-                    NaamOrganisatie = naamOrganisatie,
+                    Naam = naamOrganisatie,
                     Tewerkstellingen = new Collection<Tewerkstelling>()
                 };
                 repo.AddOnderwerp(organisatie);
@@ -326,7 +328,7 @@ namespace IP_8IEN.BL
 
             //kijken of persoon en organisatie bestaan
             bool ifExistsP = personen.Any(x => x.Naam == naam);
-            bool ifExistsO = organisaties.Any(x => x.NaamOrganisatie == naamOrganisatie);
+            bool ifExistsO = organisaties.Any(x => x.Naam == naamOrganisatie);
 
             //persoon & organisatie initialiseren
             if (ifExistsP)
@@ -339,7 +341,7 @@ namespace IP_8IEN.BL
             }
             if (ifExistsO)
             {
-                organisatie = organisaties.FirstOrDefault(x => x.NaamOrganisatie == naamOrganisatie);
+                organisatie = organisaties.FirstOrDefault(x => x.Naam == naamOrganisatie);
             }
             else
             {
@@ -399,7 +401,7 @@ namespace IP_8IEN.BL
 
             //kijken of persoon en organisatie bestaan
             bool ifExistsP = personen.Any(x => x.Naam == persoon.Naam);
-            bool ifExistsO = organisaties.Any(x => x.NaamOrganisatie == naamOrganisatie);
+            bool ifExistsO = organisaties.Any(x => x.Naam == naamOrganisatie);
 
             //kijken of persoon bestaat 
             if (!ifExistsP)
@@ -409,7 +411,7 @@ namespace IP_8IEN.BL
             //kijken of organisatie bestaat & initialiseren
             if (ifExistsO)
             {
-                organisatie = organisaties.FirstOrDefault(x => x.NaamOrganisatie == naamOrganisatie);
+                organisatie = organisaties.FirstOrDefault(x => x.Naam == naamOrganisatie);
             }
             else
             {
@@ -458,6 +460,8 @@ namespace IP_8IEN.BL
 
         public void AddPersonen(string pathToJson)
         {
+            initNonExistingRepo();
+
             StreamReader r = new StreamReader(pathToJson);
             string json = r.ReadToEnd();
             List<Message> messages = new List<Message>();
@@ -467,8 +471,6 @@ namespace IP_8IEN.BL
 
             foreach (var person in persons)
             {
-                initNonExistingRepo();
-
                 Persoon persoon = new Persoon()
                 {
                     Naam = person.full_name,
@@ -573,6 +575,35 @@ namespace IP_8IEN.BL
             initNonExistingRepo();
             IEnumerable<Persoon> personen = repo.ReadPersonen();
             return personen;
+        }
+
+        public IEnumerable<Organisatie> GetOrganisaties()
+        {
+            initNonExistingRepo();
+            IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
+            return organisaties;
+        }
+
+        public void ChangeOrganisation(Organisatie organisatie)
+        {
+            initNonExistingRepo();
+            repo.EditOrganisation(organisatie);
+        }
+
+        public void ChangePersoon(Persoon persoon)
+        {
+            initNonExistingRepo();
+            repo.EditPersoon(persoon);
+        }
+
+        public Persoon GetPersoon(string naam)
+        {
+            initNonExistingRepo();
+
+            IEnumerable<Persoon> personen = repo.ReadPersonen();
+            Persoon persoon = personen.FirstOrDefault(p => p.Naam == naam);
+
+            return persoon;
         }
 
         //Unit of Work related
@@ -796,7 +827,7 @@ namespace IP_8IEN.BL
                 //System.Diagnostics.Debug.WriteLine(v.Key.Naam + " " + v.Value);
             }
 
-                ranking = ranking.OrderByDescending(r => r.value).ToList();
+                ranking = ranking.OrderByDescending(r => r.value1).ToList();
             return ranking.GetRange(0, aantal);
             }
 
@@ -868,13 +899,15 @@ namespace IP_8IEN.BL
                 //Sam
                 string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
                 //Sam
-                GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count()));
+                GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
+                
+                GraphDataList.Add(graph);
                 lastTweet = lastTweet.AddDays(-1);
             }
             
             foreach (var v in GraphDataList)
             {
-                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value);
+                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value1);
             }
             
 
@@ -927,6 +960,71 @@ namespace IP_8IEN.BL
             }
 
 
+            return GraphDataList;
+        }
+
+
+
+
+
+
+
+        public List<GraphData> GetTweetsPerDag(Persoon persoon, Gebruiker user, int aantalDagenTerug = 0)
+        {
+            initNonExistingRepo(true);
+
+            dashMgr = new DashManager();
+
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            DateTime stop = new DateTime();
+
+            if (aantalDagenTerug == 0)
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().First().Date;
+            }
+            else
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                stop.AddDays(aantalDagenTerug * -1);
+            }
+
+            Dictionary<DateTime, int> tweetsPerDag = new Dictionary<DateTime, int>();
+
+            //======= Edit : 10 mei 2018 : Stephane ======//
+
+            //bool UoW = false;
+            //repo.setUnitofWork(UoW);
+
+            //Domain.Dashboard.DashItem dashItem = dashMgr.AddDashItem(user, persoon);
+            //dashItem.Graphdata = new Collection<GraphData>();
+
+            //=======                              =======//
+
+            //Sam
+            List<GraphData> GraphDataList = new List<GraphData>();
+            for (int i = 0; i < aantalDagenTerug + 1; i++)
+            {
+                //Sam
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                //Sam
+
+                //======= Edit : 10 mei 2018 : Stephane ======//
+                
+                GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
+                dashMgr.AddGraph(graph);
+                //dashItem.Graphdata.Add(graph);
+                //dashMgr.UpdateDashItem(dashItem);
+
+                //UoW = true;
+                //repo.setUnitofWork(UoW);
+
+                //=======                              =======//
+
+                GraphDataList.Add(graph);
+                lastTweet = lastTweet.AddDays(-1);
+            }
+            uowManager.Save();
             return GraphDataList;
         }
         public string UseApiTwitter(int id)

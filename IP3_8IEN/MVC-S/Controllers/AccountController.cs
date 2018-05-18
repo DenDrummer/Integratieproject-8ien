@@ -8,8 +8,6 @@ using Microsoft.Owin.Security;
 using MVC_S.Models;
 using MVC_S.SignIn;
 using IP_8IEN.BL;
-using IP_8IEN.BL.Domain;
-using System.Net;
 using IP_8IEN.BL.Domain.Gebruikers;
 
 namespace MVC_S.Controllers
@@ -19,6 +17,7 @@ namespace MVC_S.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private GebruikerManager _gebruikerMgr;
 
         public AccountController()
         {
@@ -158,13 +157,15 @@ namespace MVC_S.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                    _gebruikerMgr = new GebruikerManager();
+                    _gebruikerMgr.AddGebruiker(user.UserName, user.Id, user.AchterNaam, user.UserName);
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
