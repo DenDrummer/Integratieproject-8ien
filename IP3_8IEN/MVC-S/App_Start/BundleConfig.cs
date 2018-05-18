@@ -29,6 +29,7 @@ namespace MVC_S
                       "~/Content/sb-admin-2.css",
                       "~/DataTables/datatables.css",
                       "~/Content/sortable.css",
+                      "~/Content/font-awesome.css",
                       "~/Content/morris.css"));
             
             //Sam 24/4
