@@ -33,9 +33,9 @@ namespace IP_8IEN.BL
         void GetAlertPositiefNegatiefs();
 
         //18 mei 2018 : Victor
-        List<HogerLager> GetHogerLagersByUser(Gebruiker gebruiker);
-        List<PositiefNegatief> GetPositiefNegatiefsByUser(Gebruiker gebruiker);
-        List<ValueFluctuation> GetValueFluctuationsByUser(Gebruiker gebruiker);
+        List<HogerLager> GetHogerLagersByUser();
+        List<PositiefNegatief> GetPositiefNegatiefsByUser();
+        List<ValueFluctuation> GetValueFluctuationsByUser();
         List<Alert> GetAlertsByUser(Gebruiker gebruiker);
     }
 }

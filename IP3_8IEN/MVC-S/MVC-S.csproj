@@ -464,10 +464,12 @@
     <Content Include="Views\Alert\NotFound.cshtml" />
     <Content Include="Views\Alert\BadRequest.cshtml" />
     <Content Include="Views\Shared\_ShortDateView.cshtml" />
+    <Content Include="Views\Alert\ListPositiefNegatief.cshtml" />
+    <Content Include="Views\Alert\LijstHogerLager.cshtml" />
+    <Content Include="Views\Alert\ListValueFluctuations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Alert\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

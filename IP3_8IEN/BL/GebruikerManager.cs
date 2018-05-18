@@ -637,32 +637,32 @@ namespace IP_8IEN.BL
             }
          }
 
-        public List<HogerLager> GetHogerLagersByUser(Gebruiker gebruiker)
+        public List<HogerLager> GetHogerLagersByUser()
         {
             initNonExistingRepo();
 
             List<HogerLager> hogerLagers = repo.ReadHogerLagers().ToList();
-            hogerLagers = hogerLagers.Where(hl => hl.Gebruiker == gebruiker).ToList();
+            //hogerLagers = hogerLagers.Where(hl => hl.Gebruiker == gebruiker).ToList();
 
             return hogerLagers;
         }
 
-        public List<ValueFluctuation> GetValueFluctuationsByUser(Gebruiker gebruiker)
+        public List<ValueFluctuation> GetValueFluctuationsByUser()
         {
             initNonExistingRepo();
 
             List<ValueFluctuation> valueFluctuations = repo.ReadValueFluctuations().ToList();
-            valueFluctuations = valueFluctuations.Where(vf => vf.Gebruiker == gebruiker).ToList();
+            //valueFluctuations = valueFluctuations.Where(vf => vf.Gebruiker == gebruiker).ToList();
 
             return valueFluctuations;
         }
 
-        public List<PositiefNegatief> GetPositiefNegatiefsByUser(Gebruiker gebruiker)
+        public List<PositiefNegatief> GetPositiefNegatiefsByUser()
         {
             initNonExistingRepo();
 
             List<PositiefNegatief> positiefNegatiefs = repo.ReadPositiefNegatiefs().ToList();
-            positiefNegatiefs = positiefNegatiefs.Where(pn => pn.Gebruiker == gebruiker).ToList();
+            //positiefNegatiefs = positiefNegatiefs.Where(pn => pn.Gebruiker == gebruiker).ToList();
 
             return positiefNegatiefs;
         }
