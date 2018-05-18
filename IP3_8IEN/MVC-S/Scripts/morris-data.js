@@ -129,6 +129,7 @@
 
     loadCanvas('chart5');
     loadCanvas('chart6');
+    
     var options = {
         userId: 'JordenL',
         projectId: 'test',
@@ -164,7 +165,11 @@
         document.getElementById("chart7").innerHTML = number;
     }
 
-
+    var icon = document.createElement("i");
+    icon.className = "fa fa-area-chart";
+    icon.style = "font-size:200px;color:green;"
+    $("#chart0").append(icon);
+  
 
 
 

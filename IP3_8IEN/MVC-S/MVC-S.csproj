@@ -207,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\AutoComplete_UI.css" />
+    <Content Include="Content\creategrafiek.css" />
     <Content Include="DataTables\Buttons-1.5.1\css\buttons.bootstrap.css" />
     <Content Include="DataTables\Buttons-1.5.1\css\buttons.bootstrap.min.css" />
     <Content Include="DataTables\Buttons-1.5.1\css\buttons.bootstrap4.css" />
@@ -325,6 +326,7 @@
     <Content Include="DataTables\Scroller-1.4.4\css\scroller.semanticui.min.css" />
     <Content Include="DataTables\Scroller-1.4.4\js\dataTables.scroller.js" />
     <Content Include="DataTables\Scroller-1.4.4\js\dataTables.scroller.min.js" />
+    <Content Include="Fotos\banner.png" />
     <Content Include="Fotos\bartdewever.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -334,6 +336,9 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Fotos\hashtag.svg" />
+    <Content Include="Fotos\hslogo.png" />
+    <Content Include="Fotos\noti.png" />
     <Content Include="Fotos\NVA.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -374,6 +379,7 @@
     <None Include="Properties\PublishProfiles\file_deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\grafiekaanmaken.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />

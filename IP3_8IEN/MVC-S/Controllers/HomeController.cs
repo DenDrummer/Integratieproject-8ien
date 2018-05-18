@@ -117,7 +117,10 @@ namespace MVC_S.Controllers
             string aantalT = "aantal tweets van " + persoon.Naam;
             ViewBag.TWITTER = twit;
             ViewBag.AANTALT = aantalT;
-            
+
+            ViewBag.TWITIMAGE = dMgr.GetImageString(id);
+            ViewBag.TWITBANNER = dMgr.GetBannerString(id);
+
             return View(persoon);
         }
 

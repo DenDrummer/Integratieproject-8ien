@@ -12,6 +12,8 @@ using System.Web.Script.Serialization;
 using System.Net.Mail;
 using IP3_8IEN.BL.Domain.Dashboard;
 using IP_8IEN.BL.Domain.Gebruikers;
+using System.Text;
+using IP3_8IEN.BL.Domain.Data;
 
 namespace IP_8IEN.BL
 {
@@ -1025,5 +1027,126 @@ namespace IP_8IEN.BL
             uowManager.Save();
             return GraphDataList;
         }
+        public string UseApiTwitter(int id)
+        {
+            /*
+            //Oauth Keys (Replace with values that are obtained from registering the application
+            //https://dev.twitter.com/apps/new
+
+            var oauth_consumer_key = "Fj6y59d4rcEHpslGnthlxfv62";
+            var oauth_consumer_secret = "wI1uwbfOeEqdTNfH1cAyCMtRHklOOq9YiYyiOjbptScCbdwujx";
+
+            //Token URL
+            var oauth_url = "https://api.twitter.com/oauth2/token";
+            var headerFormat = "Basic {0}";
+            var authHeader = string.Format(headerFormat,
+                        Convert.ToBase64String(Encoding.UTF8.GetBytes(Uri.EscapeDataString(oauth_consumer_key) + ":" +
+                        Uri.EscapeDataString((oauth_consumer_secret)))
+                        ));
+
+            var postBody = "grant_type=client_credentials";
+
+            ServicePointManager.Expect100Continue = false;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(oauth_url);
+            request.Headers.Add("Authorization", authHeader);
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded;charset=UTF-8";
+
+            using (Stream stream = request.GetRequestStream())
+            {
+                byte[] content = ASCIIEncoding.ASCII.GetBytes(postBody);
+                stream.Write(content, 0, content.Length);
+            }
+
+            request.Headers.Add("Accept-Encoding", "gzip");
+            WebResponse response = request.GetResponse();
+            
+            //System.Diagnostics.Debug.WriteLine(response.ToString);
+            return null;*/
+            
+
+            var oAuthConsumerKey = "Fj6y59d4rcEHpslGnthlxfv62";
+            var oAuthConsumerSecret = "wI1uwbfOeEqdTNfH1cAyCMtRHklOOq9YiYyiOjbptScCbdwujx";
+            var oAuthUrl = "https://api.twitter.com/oauth2/token";
+            var screenname = GetPersoon(id).Twitter;
+
+            // Do the Authenticate
+            var authHeaderFormat = "Basic {0}";
+
+            var authHeader = string.Format(authHeaderFormat,
+                 Convert.ToBase64String(Encoding.UTF8.GetBytes(Uri.EscapeDataString(oAuthConsumerKey) + ":" +
+                        Uri.EscapeDataString((oAuthConsumerSecret)))
+                        ));
+
+            var postBody = "grant_type=client_credentials";
+
+            HttpWebRequest authRequest = (HttpWebRequest)WebRequest.Create(oAuthUrl);
+            authRequest.Headers.Add("Authorization", authHeader);
+            authRequest.Method = "POST";
+            authRequest.ContentType = "application/x-www-form-urlencoded;charset=UTF-8";
+            authRequest.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+
+            using (Stream stream = authRequest.GetRequestStream())
+            {
+                byte[] content = ASCIIEncoding.ASCII.GetBytes(postBody);
+                stream.Write(content, 0, content.Length);
+            }
+
+            authRequest.Headers.Add("Accept-Encoding", "gzip");
+
+            WebResponse authResponse = authRequest.GetResponse();
+            //deserialize into an object
+           TwitAuthenticateResponse twitAuthResponse;
+            using (authResponse)
+            {
+                using (var reader = new StreamReader(authResponse.GetResponseStream()))
+                {
+                    JavaScriptSerializer js = new JavaScriptSerializer();
+                    var objectText = reader.ReadToEnd();
+                    twitAuthResponse = JsonConvert.DeserializeObject<TwitAuthenticateResponse>(objectText);
+                }
+            }
+
+            // Do the avatar
+            var avatarFormat =
+                "https://api.twitter.com/1.1/users/show.json?screen_name={0}";
+            var avatarUrl = string.Format(avatarFormat, screenname);
+            HttpWebRequest avatarRequest = (HttpWebRequest)WebRequest.Create(avatarUrl);
+            var timelineHeaderFormat = "{0} {1}";
+            avatarRequest.Headers.Add("Authorization",
+                                        string.Format(timelineHeaderFormat, twitAuthResponse.token_type,
+                                                      twitAuthResponse.access_token));
+            avatarRequest.Method = "Get";
+            WebResponse timeLineResponse = avatarRequest.GetResponse();
+
+            var avatarJson = string.Empty;
+            using (authResponse)
+            {
+                using (var reader = new StreamReader(timeLineResponse.GetResponseStream()))
+                {
+                    avatarJson = reader.ReadToEnd();
+                }
+            }
+            return avatarJson;
+        }
+
+        public string GetImageString(int id)
+        {
+            string avatarJson = UseApiTwitter(id);
+            dynamic items = JsonConvert.DeserializeObject(avatarJson);
+            string image = items.profile_image_url_https;
+            string imageBig = image.Replace("_normal", "");
+            //System.Diagnostics.Debug.WriteLine("de avatar string: " + imageBig);
+            return imageBig;
+        }
+        public string GetBannerString(int id)
+        {
+            string avatarJson = UseApiTwitter(id);
+            dynamic items = JsonConvert.DeserializeObject(avatarJson);
+            string banner = items.profile_banner_url;
+            //System.Diagnostics.Debug.WriteLine("de banner string: " + banner);
+            return banner;
+        }
+
     }
 }
