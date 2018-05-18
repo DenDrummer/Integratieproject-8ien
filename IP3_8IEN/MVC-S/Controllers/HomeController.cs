@@ -75,10 +75,7 @@ namespace MVC_S.Controllers
             }
         }
 
-        public ActionResult Index()
-        {
-            return View();
-        }
+        public ActionResult Index() => View();
 
         public ActionResult About()
         {
@@ -94,11 +91,7 @@ namespace MVC_S.Controllers
             return View();
         }
 
-        public ActionResult Dashboard()
-        {
-            
-            return View();
-        }
+        public ActionResult Dashboard() => View();
 
         //Get: Persoon/1
         public ActionResult Personen(/*int onderwerpId*/)
@@ -154,11 +147,7 @@ namespace MVC_S.Controllers
         }
 
         // GET : Home/Create
-        public ActionResult AdminCRUD()
-        {
-
-            return View();
-        }
+        public ActionResult AdminCRUD() => View();
 
         public ActionResult AdminOmgeving()
         {
@@ -172,23 +161,11 @@ namespace MVC_S.Controllers
             }
         }
 
-        public ActionResult Superadmin()
-        {
+        public ActionResult Superadmin() => View();
 
-            return View();
-        }
+        public ActionResult Instellingen() => View();
 
-        public ActionResult Instellingen()
-        {
-
-            return View();
-        }
-
-        public ActionResult Zoeken()
-        {
-
-            return View();
-        }
+        public ActionResult Zoeken() => View();
 
         public ActionResult Initialize()
         {
@@ -204,9 +181,6 @@ namespace MVC_S.Controllers
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
             #endregion
-
-
-            
 
             return View();
         }
@@ -227,11 +201,7 @@ namespace MVC_S.Controllers
             Persoon persoon = dMgr.GetPersoon(id);
             return Json(dMgr.GetTweetsPerDag(persoon,20), JsonRequestBehavior.AllowGet);
         }
-        public ActionResult GetRank(int aantal)
-        {
-            
-            return Json(dMgr.GetRanking(aantal,100), JsonRequestBehavior.AllowGet);
-        }
+        public ActionResult GetRank(int aantal) => Json(dMgr.GetRanking(aantal,100), JsonRequestBehavior.AllowGet);
 
         public ActionResult GetData2(int id1, int id2, int id3, int id4, int id5 )
         {
@@ -242,9 +212,5 @@ namespace MVC_S.Controllers
             Persoon persoon5 = dMgr.GetPersoon(id5);
             return Json(dMgr.GetTweetsPerDag2(persoon1, persoon2, persoon3, persoon4, persoon5, 20), JsonRequestBehavior.AllowGet);
         }
-
-
-
-
     }
 }

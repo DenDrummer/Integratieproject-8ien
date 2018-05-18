@@ -16,9 +16,6 @@ namespace IP_8IEN.BL
             }
         }
 
-        public void Save()
-        {
-            UnitOfWork.CommitChanges();
-        }
+        public void Save() => UnitOfWork.CommitChanges();
     }
 }
