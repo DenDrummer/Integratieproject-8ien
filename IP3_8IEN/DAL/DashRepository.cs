@@ -15,23 +15,14 @@ namespace IP_8IEN.DAL
         }
 
         //UoW related
-        public DashRepository(UnitOfWork uow)
-        {
-            ctx = uow.Context;
-        }        
-        public bool isUnitofWork()
-        {
-            return isUoW;
-        }
-        public void setUnitofWork(bool UoW)
-        {
-            isUoW = UoW;
-        }
+        public DashRepository(UnitOfWork uow) => ctx = uow.Context;
+
+        public bool isUnitofWork() => isUoW;
+
+
+        public void setUnitofWork(bool UoW) => isUoW = UoW;
 
         //gebruik deze methode voor het type: 'Vergelijking','Kruising' en 'Cijfer'
-        public void AddDashItem(DashItem dashItem)
-        {
-            ctx.DashItems.Add(dashItem);
-        }
+        public void AddDashItem(DashItem dashItem) => ctx.DashItems.Add(dashItem);
     }
 }

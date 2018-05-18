@@ -13,9 +13,6 @@ namespace IP_8IEN.BL.Domain.Gebruikers
         public AlertInstelling AlertInstelling;
 
 
-        public override string ToString()
-        {
-            return AlertContent;
-        }
+        public override string ToString() => AlertContent;
     }
 }

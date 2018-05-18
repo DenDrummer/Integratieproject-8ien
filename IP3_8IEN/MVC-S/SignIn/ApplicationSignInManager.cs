@@ -18,8 +18,6 @@ namespace MVC_S.SignIn
         }
 
         public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
-        {
-            return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
-        }
+            => user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
     }
 }

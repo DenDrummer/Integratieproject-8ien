@@ -19,9 +19,6 @@ namespace IP_8IEN.DAL
         /// Deze methode zorgt ervoor dat alle tot hier toe aangepaste domein objecten
         /// worden gepersisteert naar de databank
         /// </summary>
-        public void CommitChanges()
-        {
-            ctx.CommitChanges();
-        }
+        public void CommitChanges() => ctx.CommitChanges();
     }
 }
