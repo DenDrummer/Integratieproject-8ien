@@ -465,7 +465,7 @@
     <Content Include="Views\Alert\BadRequest.cshtml" />
     <Content Include="Views\Shared\_ShortDateView.cshtml" />
     <Content Include="Views\Alert\ListPositiefNegatief.cshtml" />
-    <Content Include="Views\Alert\LijstHogerLager.cshtml" />
+    <Content Include="Views\Alert\ListHogerLager.cshtml" />
     <Content Include="Views\Alert\ListValueFluctuations.cshtml" />
   </ItemGroup>
   <ItemGroup>

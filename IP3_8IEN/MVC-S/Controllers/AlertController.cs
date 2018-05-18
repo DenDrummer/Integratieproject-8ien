@@ -98,7 +98,7 @@ namespace MVC_S.Controllers
         }
 
         //Lijst met HogerLagers alertinstellingen
-        public ActionResult LijstHogerLager()
+        public ActionResult ListHogerLager()
         {
             List<HogerLager> hls = mgr.GetHogerLagersByUser();
             return View(hls);

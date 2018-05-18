@@ -36,7 +36,7 @@ namespace IP_8IEN.BL
         public void ApiRequestToJson()
         {
             {
-                string url = "http://kdg.textgain.com/query";
+                string url = "https://kdg.textgain.com/query";
 
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                 httpWebRequest.Headers.Add("X-API-Key", "aEN3K6VJPEoh3sMp9ZVA73kkr");
@@ -53,7 +53,7 @@ namespace IP_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "28 Apr 2018 0:01",
+                        since = "18 May 2018 0:01",
                         //until weglaten --> last scraping
                         //until = "26 Apr 2018 23:59",
                     });
