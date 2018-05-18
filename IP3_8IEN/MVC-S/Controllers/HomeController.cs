@@ -23,7 +23,7 @@ namespace MVC_S.Controllers
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
-            
+
             #region initialisatie blok databank
             /*dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             dMgr.ApiRequestToJson();
@@ -39,9 +39,12 @@ namespace MVC_S.Controllers
             //dMgr.GetAlerts();
             //**** dit zijn test methodes ****//
 
-            HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
+            //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
             //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
             gMgr.GetAlertHogerLagers();
+            gMgr.GetAlertPositiefNegatiefs();
+            gMgr.GetAlertValueFluctuations();
+            
         }
         private async Task RetrieveAPIData(IDataManager dMgr)
         {
