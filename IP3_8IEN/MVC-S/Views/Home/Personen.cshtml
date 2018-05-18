@@ -71,12 +71,14 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-lg-5">
-                        <form role="form">
-                            <a class="twitter-timeline" data-height="500" data-theme="light" data-link-color="#00295C" href="@ViewBag.TWITTER">Tweets by Bart_DeWever</a>
-                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                        </form>
+                        @if (Model.Twitter != null)
+                        {
+                            <form role="form">
+                                <a class="twitter-timeline" data-height="500" data-theme="light" data-link-color="#00295C" href="@($"https://twitter.com/{Model.Twitter}?ref_src=twsrc%5Etfw")">Tweets by @Model.Twitter</a>
+                                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                            </form>
+                        }
                     </div>
                 </div>
             </div>
@@ -110,7 +112,7 @@
                 // The name of the data record attribute that contains x-values.
                 xkey: 'label',
                 ykeys: ['value'],
-                labels: [@Html.Raw(Json.Encode(ViewBag.AANTALT))],
+                labels: [@Html.Raw(Json.Encode($"aantal tweets van {Model.Naam}"))],
                 pointSize: 2,
                 hideHover: 'auto',
                 resize: true

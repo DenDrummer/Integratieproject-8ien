@@ -94,19 +94,12 @@ namespace MVC_S.Controllers
         public ActionResult Dashboard() => View();
 
         //Get: Persoon/1
-        public ActionResult Personen(/*int onderwerpId*/)
+        public ActionResult Personen(int onderwerpId = 261)
         {
-            int id = 261;
-            Persoon persoon = dMgr.GetPersoon(id);
-            string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
-            string aantalT = "aantal tweets van " + persoon.Naam;
-            ViewBag.TWITTER = twit;
-            ViewBag.AANTALT = aantalT;
+            ViewBag.TWITIMAGE = dMgr.GetImageString(onderwerpId);
+            ViewBag.TWITBANNER = dMgr.GetBannerString(onderwerpId);
 
-            ViewBag.TWITIMAGE = dMgr.GetImageString(id);
-            ViewBag.TWITBANNER = dMgr.GetBannerString(id);
-
-            return View(persoon);
+            return View(dMgr.GetPersoon(onderwerpId));
         }
 
         public ActionResult Themas(/*int onderwerpId*/)
@@ -124,25 +117,17 @@ namespace MVC_S.Controllers
             return View(thema);
         }
 
-        public ActionResult Organisatie(/*int onderwerpId*/)
-        {
-            int id = 2;
-            Organisatie organisatie = dMgr.GetOrganisatie(id);
+        public ActionResult Organisatie(int onderwerpId = 2) => View(dMgr.GetOrganisatie(onderwerpId));
 
-            return View(organisatie);
-        }
+        public ActionResult Alerts(int alertId = 1) => View(gMgr.GetAlert(alertId));
 
-        public ActionResult Alerts(/*int alertId*/)
-        {
-            int id = 1;
-            Alert alert = gMgr.GetAlert(id);
-            return View(alert);
-        }
-
-        public ActionResult WeeklyReview(int weeklyReviewId)
+        public ActionResult WeeklyReview(int weeklyReviewId = 0)
         {
             //WeeklyReview wr = xMgr.GetWeeklyReview(weeklyReviewId);
-            WeeklyReview wr = new WeeklyReview();
+            WeeklyReview wr = new WeeklyReview()
+            {
+                WeeklyReviewId = weeklyReviewId
+            };
             return View(wr);
         }
 
@@ -175,11 +160,11 @@ namespace MVC_S.Controllers
             // gMgr = new GebruikerManager();
 
             #region initialisatie blok databank
-            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
-            //dMgr.ApiRequestToJson();
+            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            dMgr.ApiRequestToJson();
             gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
-            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
-            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
+            gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
             #endregion
 
             return View();
