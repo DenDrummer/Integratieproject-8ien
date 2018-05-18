@@ -8,9 +8,9 @@ namespace IP_8IEN.DAL.EF
     {
         public OurDbConfiguration()
         {
-            this.SetDefaultConnectionFactory(new SqlConnectionFactory());
-            this.SetProviderServices("System.Data.SqlClient", SqlProviderServices.Instance);
-            this.SetDatabaseInitializer<OurDbContext>(new OurDbInitializer());
+            SetDefaultConnectionFactory(new SqlConnectionFactory());
+            SetProviderServices("System.Data.SqlClient", SqlProviderServices.Instance);
+            SetDatabaseInitializer(new OurDbInitializer());
         }
     }
 }
