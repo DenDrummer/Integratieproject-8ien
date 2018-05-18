@@ -1,4 +1,5 @@
 ﻿using IP_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
 
 namespace IP_8IEN.BL
@@ -30,5 +31,11 @@ namespace IP_8IEN.BL
         //15 mei 2018 : Victor
         void GetAlertValueFluctuations();
         void GetAlertPositiefNegatiefs();
+
+        //18 mei 2018 : Victor
+        List<HogerLager> GetHogerLagersByUser(Gebruiker gebruiker);
+        List<PositiefNegatief> GetPositiefNegatiefsByUser(Gebruiker gebruiker);
+        List<ValueFluctuation> GetValueFluctuationsByUser(Gebruiker gebruiker);
+        List<Alert> GetAlertsByUser(Gebruiker gebruiker);
     }
 }

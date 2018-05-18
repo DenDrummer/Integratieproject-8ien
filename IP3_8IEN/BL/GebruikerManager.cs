@@ -636,6 +636,47 @@ namespace IP_8IEN.BL
                 SendMail(dezeWeek, g.Email, sb.ToString());
             }
          }
+
+        public List<HogerLager> GetHogerLagersByUser(Gebruiker gebruiker)
+        {
+            initNonExistingRepo();
+
+            List<HogerLager> hogerLagers = repo.ReadHogerLagers().ToList();
+            hogerLagers = hogerLagers.Where(hl => hl.Gebruiker == gebruiker).ToList();
+
+            return hogerLagers;
+        }
+
+        public List<ValueFluctuation> GetValueFluctuationsByUser(Gebruiker gebruiker)
+        {
+            initNonExistingRepo();
+
+            List<ValueFluctuation> valueFluctuations = repo.ReadValueFluctuations().ToList();
+            valueFluctuations = valueFluctuations.Where(vf => vf.Gebruiker == gebruiker).ToList();
+
+            return valueFluctuations;
+        }
+
+        public List<PositiefNegatief> GetPositiefNegatiefsByUser(Gebruiker gebruiker)
+        {
+            initNonExistingRepo();
+
+            List<PositiefNegatief> positiefNegatiefs = repo.ReadPositiefNegatiefs().ToList();
+            positiefNegatiefs = positiefNegatiefs.Where(pn => pn.Gebruiker == gebruiker).ToList();
+
+            return positiefNegatiefs;
+        }
+
+        public List<Alert> GetAlertsByUser(Gebruiker gebruiker)
+        {
+            initNonExistingRepo();
+
+            List<Alert> alerts = repo.ReadAlerts().ToList();
+            alerts = alerts.Where(a => a.AlertInstelling.Gebruiker == gebruiker).ToList();
+
+            return alerts;
+        }
+
         bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
         {
             var cal = System.Globalization.DateTimeFormatInfo.CurrentInfo.Calendar;
