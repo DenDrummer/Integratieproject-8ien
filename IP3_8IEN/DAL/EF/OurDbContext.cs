@@ -4,7 +4,6 @@ using IP_8IEN.BL.Domain.Gebruikers;
 using System;
 using IP_8IEN.BL.Domain.Dashboard;
 using IP3_8IEN.BL.Domain.Gebruikers;
-using IP3_8IEN.BL.Domain.Dashboard;
 
 namespace IP_8IEN.DAL.EF
 {
@@ -47,16 +46,9 @@ namespace IP_8IEN.DAL.EF
         public DbSet<PositiefNegatief> PositiefNegatiefs { get; set; }
         public DbSet<HogerLager> HogerLagers { get; set; }
 
-        //10 mei 2018 : Stephane
-        public DbSet<Dashbord> Dashbords { get; set; }
-        public DbSet<TileZone> TileZones { get; set; }
-        public DbSet<Follow> Follows { get; set; }
-        public DbSet<GraphData> Graphs { get; set; }
-        public DbSet<GraphData2> Graphs2 { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
             //hier komt 'Fluent api' als je dat nodig zou hebben
         }
 

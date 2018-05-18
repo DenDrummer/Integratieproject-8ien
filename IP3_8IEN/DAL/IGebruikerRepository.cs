@@ -33,8 +33,5 @@ namespace IP_8IEN.DAL
         IEnumerable<ValueFluctuation> ReadValueFluctuations();
         IEnumerable<PositiefNegatief> ReadPositiefNegatiefs();
         IEnumerable<HogerLager> ReadHogerLagers();
-
-        //10 mei 2018 : Stephane
-        void UpdateGebruiker(Gebruiker gebruiker);
     }
 }

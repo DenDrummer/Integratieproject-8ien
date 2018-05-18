@@ -26,8 +26,8 @@ namespace IP_8IEN.BL.Domain.Gebruikers
         public string VoorNaam { get; set; }
         public string AchterNaam { get; set; }
 
-        //public ICollection<WeeklyReview> WeeklyReviews { get; set; }
-        //public ICollection<Dashbord> Dashboards { get; set; }
-        //public ICollection<AlertInstelling> AlertInstellingen { get; set; }
+        public ICollection<WeeklyReview> WeeklyReviews { get; set; }
+        public ICollection<Dashbord> Dashboards { get; set; }
+        public ICollection<AlertInstelling> AlertInstellingen { get; set; }
     }
 }

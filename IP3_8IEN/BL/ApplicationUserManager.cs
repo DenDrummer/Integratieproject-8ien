@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using IP_8IEN.DAL.EF;
 using IP_8IEN.DAL;
 using IP_8IEN.BL.Domain.Gebruikers;
 
@@ -15,7 +16,6 @@ namespace IP_8IEN.BL
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         //IdentityRepository repo =  new IdentityRepository();
-        private IGebruikerManager _gebruikerMgr;
 
         public ApplicationUserManager()
             : base(new IdentityRepository())
@@ -43,11 +43,11 @@ namespace IP_8IEN.BL
             MaxFailedAccessAttemptsBeforeLockout = 5;
 
             // Role bij een gebruiker toevoegen
-            CreateRolesandUsers(); // CreateRolesandUsers();
+            CreateRolesandUsers();
         }
 
         // Roles in ASP.Identity
-        private void CreateRolesandUsers()
+        private async Task CreateRolesandUsers()
         {
             // Context moet opgehaald worden uit de repository!
             // ApplicationDbContext repo = (ApplicationDbContext)(((IdentityRepository)Store).Context);
@@ -56,13 +56,14 @@ namespace IP_8IEN.BL
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(repo.GetContext()));
 
             // Bij initialisatie van het systeem wordt Admin aangemaakt
-            if (!roleManager.RoleExists("Admin"))
+            bool x = await roleManager.RoleExistsAsync("Admin");
+            if (!x)
             {
 
                 // Aanmaken van de Admin role
                 var role = new IdentityRole();
                 role.Name = "Admin";
-                roleManager.Create(role);
+                await roleManager.CreateAsync(role);
 
                 // Administrator aanmaken
 
@@ -82,19 +83,22 @@ namespace IP_8IEN.BL
             }
 
             // Manager role aanmaken    
-            if (!roleManager.RoleExists("Manager"))
+            x = await roleManager.RoleExistsAsync("Manager");
+            if (!x)
             {
                 var role = new IdentityRole();
                 role.Name = "Manager";
-                roleManager.Create(role);
+                await roleManager.CreateAsync(role);
+
             }
 
             // Emloyee role aanmaken    
-            if (!roleManager.RoleExists("Employee"))
+            x = await roleManager.RoleExistsAsync("Employee");
+            if (!x)
             {
                 var role = new IdentityRole();
                 role.Name = "Employee";
-                roleManager.Create(role);
+                await roleManager.CreateAsync(role);
 
             }
         }
@@ -135,8 +139,6 @@ namespace IP_8IEN.BL
         ////inladen vanuit json formaat
         public void AddApplicationGebruikers(string filePath)
         {
-            _gebruikerMgr = new GebruikerManager();
-
             //sourceUrl /relatief path
             StreamReader r = new StreamReader(filePath);
             string json = r.ReadToEnd();
@@ -154,10 +156,7 @@ namespace IP_8IEN.BL
                     Geboortedatum = item.Geboortedatum
                 };
                 string passw = item.Password;
-                CreateUserWithRoleAsync(gebruiker, passw, "Admin");
-
-                // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken : Identity doet moeilijk
-                _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName);
+                this.CreateUserWithRoleAsync(gebruiker, passw, "Admin");
             }
         }
     }

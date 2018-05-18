@@ -5,10 +5,10 @@ namespace IP_8IEN.BL.Domain.Data
 {
     public class Organisatie : Onderwerp
     {
-        //public string NaamOrganisatie { get; set; }
+        public string NaamOrganisatie { get; set; }
         public string Afkorting { get; set; }
-        //public string Twitter { get; set; }
-        //public string Facebook { get; set; }
+        public string Twitter { get; set; }
+        public string Facebook { get; set; }
         public DateTime? Oprichtingsdatum { get; set; }
         public Persoon Oprichter { get; set; }
         public Persoon Leider { get; set; }
