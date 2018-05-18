@@ -74,14 +74,11 @@
                                                 <tr>
                                                     <td>
                                                         <ul style="overflow: scroll; height: 200px; overflow-x: hidden; width:300px">
+
                                                             @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
                                                             {
-                                                                if (i != 0)
-                                                                {
-
-                                                                }
-                                                                <li> @Html.DisplayFor(model => model.Tewerkstellingen.ElementAt(i).Persoon.Naam)</li>
-
+                                                                var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
+                                                                <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
                                                             }
                                                         </ul>
                                                     </td>
