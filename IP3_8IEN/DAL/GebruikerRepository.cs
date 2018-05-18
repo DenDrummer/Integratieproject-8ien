@@ -91,19 +91,19 @@ namespace IP_8IEN.DAL
         }
         public IEnumerable<ValueFluctuation> ReadValueFluctuations()
         {
-            IEnumerable<ValueFluctuation> valueFluctuations = ctx.Fluctuations.Include("Alerts");
+            IEnumerable<ValueFluctuation> valueFluctuations = ctx.Fluctuations.Include("Alerts").Include("Gebruiker").Include("Onderwerp");
             return valueFluctuations;
         }
 
         public IEnumerable<HogerLager> ReadHogerLagers()
         {
-            IEnumerable<HogerLager> hogerLagers = ctx.HogerLagers.Include("Onderwerp").Include("Onderwerp2");
+            IEnumerable<HogerLager> hogerLagers = ctx.HogerLagers.Include("Onderwerp").Include("Onderwerp2").Include("Gebruiker").Include("Onderwerp");
             return hogerLagers;
         }
 
         public IEnumerable<PositiefNegatief> ReadPositiefNegatiefs()
         {
-            IEnumerable<PositiefNegatief> positiefNegatiefs = ctx.PositiefNegatiefs.Include("Alerts");
+            IEnumerable<PositiefNegatief> positiefNegatiefs = ctx.PositiefNegatiefs.Include("Alerts").Include("Gebruiker").Include("Onderwerp");
             return positiefNegatiefs;
         }
     }
