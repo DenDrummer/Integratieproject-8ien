@@ -59,7 +59,7 @@ namespace MVC_S.Controllers
         }
 
         // GET: Alert/Delete/5
-        public ActionResult Delete(int id) => View();-
+        public ActionResult Delete(int id) => View();
 
         // POST: Alert/Delete/5
         [HttpPost]
