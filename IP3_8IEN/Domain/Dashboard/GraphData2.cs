@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace IP3_8IEN.BL.Domain.Dashboard
 {
-    public class GraphData2 : GraphData
+    public class GraphData2
     {
-        //public string label { get; set; }
-        //public int value1 { get; set; }
+        public string label { get; set; }
+        public int value1 { get; set; }
         public int value2 { get; set; }
         public int value3 { get; set; }
         public int value4 { get; set; }

@@ -121,18 +121,5 @@ namespace IP_8IEN.DAL
             IEnumerable<Organisatie> organisaties = ctx.Organisaties.Include("Tewerkstellingen").Include("Tewerkstellingen.Persoon");
             return organisaties.FirstOrDefault(o => o.OnderwerpId == organisatieId);
         }
-
-        public void EditOrganisation(Organisatie organisatie)
-        {
-            ctx.Entry(organisatie).State = EntityState.Modified;
-            ctx.SaveChanges();
-        }
-
-        public void EditPersoon(Persoon persoon)
-        {
-            ctx.Entry(persoon).State = EntityState.Modified;
-            ctx.SaveChanges();
-        }
-
     }
 }
