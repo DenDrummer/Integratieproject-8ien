@@ -10,10 +10,7 @@ namespace MVC_S.Controllers
     [NoDirectAccess] // Kijk naar FilterConfig.cs
     public class ErrorController : Controller
     {
-        public ViewResult Index()
-        {
-            return View("Error");
-        }
+        public ViewResult Index() => View("Error");
         
         public ViewResult BadRequest()
         {

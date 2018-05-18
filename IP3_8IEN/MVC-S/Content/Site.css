@@ -179,3 +179,7 @@ label {
 tr.instellingRow>td{
     padding-bottom:30px;
 }
+
+#divtest{
+    border:5px solid red;
+}

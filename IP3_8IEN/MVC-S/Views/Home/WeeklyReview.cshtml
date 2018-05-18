@@ -119,7 +119,8 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                        Instellingen                </div>
+                    Instellingen
+                </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
@@ -127,9 +128,9 @@
                                 <div class="form-group" style="border-right: 1px solid;">
                                     <label>Welke informatie wilt u ontvangen over de onderwerpen die u volgt?</label>
                                     <input type="checkbox" name="checkTotaalBerichten" value="Totaal"> Totaal Aantal Berichten<br>
-                                    <input type="checkbox" name="checkTrends" value="Trends" > Trends<br>
+                                    <input type="checkbox" name="checkTrends" value="Trends"> Trends<br>
                                     <input type="checkbox" name="checkVerhalen" value="Verhalen"> Verhalen<br>
-                                    <input type="checkbox" name="checkTermen" value="Termen" > Termen<br>
+                                    <input type="checkbox" name="checkTermen" value="Termen"> Termen<br>
 
                                 </div>
                             </form>
@@ -148,19 +149,16 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
 
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+@section scripts{
 
-        @section scripts{
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
 
-            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
-
-            <script>
-                $(document).ready(function () {
-                    $('#weeklyreviewTable').DataTable();
-                });</script>
-
-        }
-
-
-
+    <script>
+        $(document).ready(function () {
+            $('#weeklyreviewTable').DataTable();
+        });</script>
+}

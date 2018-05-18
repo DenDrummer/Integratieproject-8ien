@@ -11,7 +11,6 @@ using System.Net;
 using System.Web.Script.Serialization;
 using System.Net.Mail;
 using IP3_8IEN.BL.Domain.Dashboard;
-using IP_8IEN.BL.Domain.Gebruikers;
 using System.Text;
 using IP3_8IEN.BL.Domain.Data;
 
@@ -624,10 +623,7 @@ namespace IP_8IEN.BL
                 this.politician = politician;
                 this.score = score;
             }
-            public override string ToString()
-            {
-                return "Politieker " + politician + "\n \t score: " + score;
-            }
+            public override string ToString() => $"Politieker {politician}\n \t score: {score}";
         }
 
 

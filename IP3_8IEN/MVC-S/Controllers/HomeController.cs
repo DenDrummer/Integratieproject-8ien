@@ -75,10 +75,7 @@ namespace MVC_S.Controllers
             }
         }
 
-        public ActionResult Index()
-        {
-            return View();
-        }
+        public ActionResult Index() => View();
 
         public ActionResult About()
         {
@@ -94,16 +91,12 @@ namespace MVC_S.Controllers
             return View();
         }
 
-        public ActionResult Dashboard()
-        {
-
-            return View();
-        }
+        public ActionResult Dashboard() => View();
 
         //Get: Persoon/1
         public ActionResult Personen(/*int onderwerpId*/)
         {
-            int id = 170;
+            int id = 261;
             Persoon persoon = dMgr.GetPersoon(id);
             string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
             string aantalT = "aantal tweets van " + persoon.Naam;
@@ -154,11 +147,7 @@ namespace MVC_S.Controllers
         }
 
         // GET : Home/Create
-        public ActionResult AdminCRUD()
-        {
-
-            return View();
-        }
+        public ActionResult AdminCRUD() => View();
 
         public ActionResult AdminOmgeving()
         {
@@ -172,30 +161,18 @@ namespace MVC_S.Controllers
             }
         }
 
-        public ActionResult Superadmin()
-        {
+        public ActionResult Superadmin() => View();
 
-            return View();
-        }
+        public ActionResult Instellingen() => View();
 
-        public ActionResult Instellingen()
-        {
-
-            return View();
-        }
-
-        public ActionResult Zoeken()
-        {
-
-            return View();
-        }
+        public ActionResult Zoeken() => View();
 
         public ActionResult Initialize()
         {
             // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
-            dMgr = new DataManager();
-            gMgr = new GebruikerManager();
+            // dMgr = new DataManager();
+            // gMgr = new GebruikerManager();
 
             #region initialisatie blok databank
             //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
@@ -232,11 +209,7 @@ namespace MVC_S.Controllers
 
 
         }
-        public ActionResult GetRank(int aantal)
-        {
-            
-            return Json(dMgr.GetRanking(aantal,100), JsonRequestBehavior.AllowGet);
-        }
+        public ActionResult GetRank(int aantal) => Json(dMgr.GetRanking(aantal,100), JsonRequestBehavior.AllowGet);
 
         public ActionResult GetData2(int id1, int id2, int id3, int id4, int id5 )
         {
@@ -247,9 +220,5 @@ namespace MVC_S.Controllers
             Persoon persoon5 = dMgr.GetPersoon(id5);
             return Json(dMgr.GetComparisonPersonNumberOfTweetsOverTime(persoon1,persoon2,persoon3,persoon4,persoon5), JsonRequestBehavior.AllowGet);
         }
-
-
-
-
     }
 }
