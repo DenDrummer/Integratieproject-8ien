@@ -100,28 +100,16 @@ namespace IP_8IEN.BL
         }
 
         // Een lijst van beschikbare roles ophalen
-        public IList<IdentityRole> GetRoles()
-        {
-            return ((IdentityRepository)Store).ReadRoles();
-        }
+        public IList<IdentityRole> GetRoles() => ((IdentityRepository)Store).ReadRoles();
 
         // Alle users ophalen
-        public IEnumerable<ApplicationUser> GetUsers()
-        {
-            return ((IdentityRepository)Store).ReadUsers();
-        }
+        public IEnumerable<ApplicationUser> GetUsers() => ((IdentityRepository)Store).ReadUsers();
 
         // Een specifieke user ophalen
-        public ApplicationUser GetUser(string id)
-        {
-            return ((IdentityRepository)Store).ReadUser(id);
-        }
+        public ApplicationUser GetUser(string id) => ((IdentityRepository)Store).ReadUser(id);
 
         // Een user verwijderen obv. de id
-        public void RemoveUser(string id)
-        {
-            ((IdentityRepository)Store).DeleteUser(id);
-        }
+        public void RemoveUser(string id) => ((IdentityRepository)Store).DeleteUser(id);
 
         // Nieuwe gebruikers aanmaken MET hun role
         public async Task<IdentityResult> CreateUserWithRoleAsync(ApplicationUser user,

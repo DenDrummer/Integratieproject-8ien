@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System;
-using IP_8IEN.BL;
 using System.Net.Mail;
 using System.Text;
 using IP3_8IEN.BL.Domain.Gebruikers;

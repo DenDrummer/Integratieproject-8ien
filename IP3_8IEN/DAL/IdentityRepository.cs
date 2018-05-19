@@ -24,10 +24,7 @@ namespace IP_8IEN.DAL
         }
 
         // Er mogen geen nieuwe Admin's aangemaakt worden -> niet beschikbaar!
-        public IList<IdentityRole> ReadRoles()
-        {
-            return ctx.Roles.Where(u => !u.Name.Contains("Admin")).ToList();
-        }
+        public IList<IdentityRole> ReadRoles() => ctx.Roles.Where(u => !u.Name.Contains("Admin")).ToList();
 
         // Alle gebruikers behalve de administrator ophalen
         public IEnumerable<ApplicationUser> ReadUsers()
@@ -40,10 +37,7 @@ namespace IP_8IEN.DAL
         }
 
         // Specifieke gebruiker ophalen obv. id
-        public ApplicationUser ReadUser(string id)
-        {
-            return ctx.Users.SingleOrDefault(u => u.Id == id);
-        }
+        public ApplicationUser ReadUser(string id) => ctx.Users.SingleOrDefault(u => u.Id == id);
 
         // Gebruiker verwijderen obv. id
         public void DeleteUser(string id)
@@ -57,11 +51,6 @@ namespace IP_8IEN.DAL
         }
 
         // DbContext beschikbaar maken voor BL klasses
-        public ApplicationDbContext GetContext()
-        {
-            return ctx;
-        }
-
-
+        public ApplicationDbContext GetContext() => ctx;
     }
 }

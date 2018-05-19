@@ -1,83 +1,84 @@
-$(function() {
+﻿$(function () {
 
-    Morris.Area({
-        element: 'morris-area-chart',
-        data: [{
-            period: '2010 Q1',
-            iphone: 2666,
-            ipad: null,
-            itouch: 2647
-        }, {
-            period: '2010 Q2',
-            iphone: 2778,
-            ipad: 2294,
-            itouch: 2441
-        }, {
-            period: '2010 Q3',
-            iphone: 4912,
-            ipad: 1969,
-            itouch: 2501
-        }, {
-            period: '2010 Q4',
-            iphone: 3767,
-            ipad: 3597,
-            itouch: 5689
-        }, {
-            period: '2011 Q1',
-            iphone: 6810,
-            ipad: 1914,
-            itouch: 2293
-        }, {
-            period: '2011 Q2',
-            iphone: 5670,
-            ipad: 4293,
-            itouch: 1881
-        }, {
-            period: '2011 Q3',
-            iphone: 4820,
-            ipad: 3795,
-            itouch: 1588
-        }, {
-            period: '2011 Q4',
-            iphone: 15073,
-            ipad: 5967,
-            itouch: 5175
-        }, {
-            period: '2012 Q1',
-            iphone: 10687,
-            ipad: 4460,
-            itouch: 2028
-        }, {
-            period: '2012 Q2',
-            iphone: 8432,
-            ipad: 5713,
-            itouch: 1791
-        }],
-        xkey: 'period',
-        ykeys: ['iphone', 'ipad', 'itouch'],
-        labels: ['iPhone', 'iPad', 'iPod Touch'],
-        pointSize: 2,
-        hideHover: 'auto',
-        resize: true
-    });
+   
+    //Morris.Area({
+    //    element: 'chart1',
+    //    data: [{
+    //        period: '2010 Q1',
+    //        Bartje: 2666,
+    //        Anouk: null,
+    //        Ivo: 2647
+    //    }, {
+    //        period: '2010 Q2',
+    //        Bartje: 2778,
+    //        Anouk: 2294,
+    //        Ivo: 2441
+    //    }, {
+    //        period: '2010 Q3',
+    //        Bartje: 4912,
+    //            Anouk: 1969,
+    //        Ivo: 2501
+    //    }, {
+    //        period: '2010 Q4',
+    //        Bartje: 3767,
+    //        Anouk: 3597,
+    //        Ivo: 5689
+    //    }, {
+    //        period: '2011 Q1',
+    //        Bartje: 6810,
+    //        Anouk: 1914,
+    //        Ivo: 2293
+    //    }, {
+    //        period: '2011 Q2',
+    //        Bartje: 5670,
+    //        Anouk: 4293,
+    //        Ivo: 1881
+    //    }, {
+    //        period: '2011 Q3',
+    //        Bartje: 4820,
+    //        Anouk: 3795,
+    //        Ivo: 1588
+    //    }, {
+    //        period: '2011 Q4',
+    //        Bartje: 15073,
+    //        Anouk: 5967,
+    //        Ivo: 5175
+    //    }, {
+    //        period: '2012 Q1',
+    //        Bartje: 10687,
+    //        Anouk: 4460,
+    //        Ivo: 2028
+    //    }, {
+    //        period: '2012 Q2',
+    //        Bartje: 8432,
+    //        Anouk: 5713,
+    //        Ivo: 1791
+    //    }],
+    //    xkey: 'period',
+    //    ykeys: ['Bartje', 'Anouk', 'Ivo'],
+    //    labels: ['Bartje', 'Anouk', 'Ivaylo'],
+    //    pointSize: 2,
+    //    hideHover: 'auto',
+    //    resize: true
+    //});
 
-    Morris.Donut({
-        element: 'morris-donut-chart',
-        data: [{
-            label: "Download Sales",
-            value: 12
-        }, {
-            label: "In-Store Sales",
-            value: 30
-        }, {
-            label: "Mail-Order Sales",
-            value: 20
-        }],
-        resize: true
-    });
+    //Morris.Donut({
+    //    element: 'chart2',
+    //    data: [{
+    //        label: "Download Sales",
+    //        value: 12
+    //    }, {
+    //        label: "In-Store Sales",
+    //        value: 30
+    //    }, {
+    //        label: "Mail-Order Sales",
+    //        value: 20
+    //    }],
+    //    resize: true
+    //});
 
     Morris.Bar({
-        element: 'morris-bar-chart',
+        element: 'chart3',
         data: [{
             y: '2006',
             a: 100,
@@ -113,5 +114,63 @@ $(function() {
         hideHover: 'auto',
         resize: true
     });
+
+    function loadCanvas(id) {
+        var canvas = document.createElement('canvas'),
+        div = document.getElementById(id);
+        canvas.id = "canvas-"+id;
+        canvas.width = 500;
+        canvas.height = 500;
+        
+        
+        
+        div.appendChild(canvas);
+    }
+
+    loadCanvas('chart5');
+    loadCanvas('chart6');
+    
+    var options = {
+        userId: 'JordenL',
+        projectId: 'test',
+        functionId: 'test3',
+        canvasId: 'canvas-chart5',
+        autoplay: true
+    };
+    var options2 = {
+        userId: '18ien',
+        projectId: 'barometerV1',
+        functionId: 'main',
+        canvasId: 'canvas-chart6',
+        autoplay: true
+    };
+
+    // Initialize the NodeBox player object
+    ndbx.embed(options, function(err, player) {
+        if (err) {
+            throw new Error(err);
+        } else {
+            window.player = player;
+        }
+    });
+    ndbx.embed(options2, function (err, player) {
+        if (err) {
+            throw new Error(err);
+        } else {
+            window.player = player;
+        }
+    });
+
+    function newNumber(number) {
+        document.getElementById("chart7").innerHTML = number;
+    }
+
+    var icon = document.createElement("i");
+    icon.className = "fa fa-area-chart";
+    icon.style = "font-size:200px;color:green;"
+    $("#chart0").append(icon);
+  
+
+
 
 });

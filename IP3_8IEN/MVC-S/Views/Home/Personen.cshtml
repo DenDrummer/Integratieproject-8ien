@@ -9,64 +9,76 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                @ViewBag.Title
+                Informatie
             </div>
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-2">
-                        <form role="form">
-                            <div class="form-group">
-                                <img src="../Fotos/bartdewever.jpg" alt="Bart De Wever" style="max-height:100%; max-width:100%">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-lg-5">
-                        <table>
-                            <tr>
-                                <td valign="top"><b>@Html.DisplayNameFor(model => model.Naam): </b></td>
-                                <td>@Html.DisplayFor(model => model.Naam)</td>
-                            </tr>
-                            <tr>
-                                <td valign="top"><b>@Html.DisplayNameFor(model => model.Twitter):</b> </td>
-                                <td>@Html.DisplayFor(model => model.Twitter)</td>
-                            </tr>
-                            <tr>
-                                <td valign="top"><b>@Html.DisplayNameFor(model => model.Facebook):</b> </td>
-                                <td>@Html.DisplayFor(model => model.Facebook)</td>
-                            </tr>
-                            <tr>
-                                <td valign="top"><b>@Html.DisplayNameFor(model => model.Geboortedatum):</b> </td>
-                                <td>@Html.DisplayFor(model => model.Geboortedatum, "_ShortDateView")</td>
-                            </tr>
-                            <tr>
-                                <td valign="top"><b>Kieskring:</b> </td>
-                                <td>@Html.DisplayFor(model => model.District)</td>
-                            </tr>
-                            <tr>
-                                <td valign="top"><b>@Html.DisplayNameFor(model => model.Tewerkstellingen):</b> </td>
-                                <td>
-                                    @for (int i = 0; i < Model.Tewerkstellingen.Count; i++)
-                                    {
-                                        if (i != 0)
-                                        {
-                                            @Html.Raw(", ")
-                                        }
-                                        @Html.DisplayFor(model => model.Tewerkstellingen.ElementAt(i).Organisatie.Naam)
-                                    }
-                                </td>
-                            </tr>
-                            <tr>
-                                <td valign="top"><b>@Html.DisplayNameFor(model => model.Beschrijving):</b> </td>
-                                <td>@Html.DisplayFor(model => model.Beschrijving)</td>
-                            </tr>
-                        </table>
+                <div class="row" style="padding-left:5px;">
+                    <div class="col-lg-7" style="background-color:#f8f8f8; padding-left:1px; padding-right: 1px;">
 
+                        <div style="position: relative; left: 0; top: 0;">
+                            <img src="@ViewBag.TWITBANNER" alt="" style="height: 50%; width: 100%; display:inline-block; position: relative; top: 0; left: 0;" />
+                            <img src="@ViewBag.TWITIMAGE" alt="" style="height: 150px; width: 150px; border-radius:50%; border:2px solid white; position: absolute;top: 70%; left: 40%;" />
+
+                        </div>
+
+
+                        <div class="row" style="padding-top:80px; padding-left:5px; padding-right:5px;">
+                            <div class="col-lg-6">
+                                <table>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>@Html.DisplayNameFor(model => model.Naam): </b></td>
+                                        <td>@Html.DisplayFor(model => model.Naam)</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>@Html.DisplayNameFor(model => model.Twitter):</b> </td>
+                                        <td>@Html.DisplayFor(model => model.Twitter)</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>@Html.DisplayNameFor(model => model.Facebook):</b> </td>
+                                        <td>@Html.DisplayFor(model => model.Facebook)</td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <div class="col-lg-6">
+                                <table>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>@Html.DisplayNameFor(model => model.Geboortedatum):</b> </td>
+                                        <td>@Html.DisplayFor(model => model.Geboortedatum, "_ShortDateView")</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>Kieskring:</b> </td>
+                                        <td>@Html.DisplayFor(model => model.District)</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>@Html.DisplayNameFor(model => model.Tewerkstellingen):</b> </td>
+                                        <td>
+                                            @for (int i = 0; i < Model.Tewerkstellingen.Count; i++)
+                                            {
+                                                if (i != 0)
+                                                {
+                                                    @Html.Raw(", ")
+                                                }
+                                                @Html.DisplayFor(model => model.Tewerkstellingen.ElementAt(i).Organisatie.NaamOrganisatie)
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>@Html.DisplayNameFor(model => model.Beschrijving):</b> </td>
+                                        <td>@Html.DisplayFor(model => model.Beschrijving)</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-5">
-                        <form role="form">
-                            <a class="twitter-timeline" data-height="500" data-theme="light" href="@ViewBag.TWITTER">Tweets by Bart_DeWever</a>
-                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                        </form>
+                        @if (Model.Twitter != null)
+                        {
+                            <form role="form">
+                                <a class="twitter-timeline" data-height="500" data-theme="light" data-link-color="#00295C" href="@($"https://twitter.com/{Model.Twitter}?ref_src=twsrc%5Etfw")">Tweets by @Model.Twitter</a>
+                                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                            </form>
+                        }
                     </div>
                 </div>
             </div>
@@ -82,7 +94,6 @@
             </div>
             <div class="panel-body">
                 <div class="col-lg-6" style="height: 200px" id="persoon-chart1">
-
                 </div>
             </div>
         </div>
@@ -91,9 +102,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-
         $.get('@Url.Action("GetData","Home",new {id = 170})', function (result) {
-
             Morris.Line({
                 // ID of the element in which to draw the chart.
                 element: 'persoon-chart1',
@@ -103,7 +112,7 @@
                 // The name of the data record attribute that contains x-values.
                 xkey: 'label',
                 ykeys: ['value'],
-                labels: [@Html.Raw(Json.Encode(ViewBag.AANTALT))],
+                labels: [@Html.Raw(Json.Encode($"aantal tweets van {Model.Naam}"))],
                 pointSize: 2,
                 hideHover: 'auto',
                 resize: true

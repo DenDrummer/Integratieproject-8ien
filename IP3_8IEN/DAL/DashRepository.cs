@@ -122,5 +122,6 @@ namespace IP_8IEN.DAL
         {
             isUoW = UoW;
         }
+        public void AddDashItem(DashItem dashItem) => ctx.DashItems.Add(dashItem);
     }
 }

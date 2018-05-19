@@ -60,13 +60,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dashboard\GraphData.cs" />
     <Compile Include="Dashboard\GraphData2.cs" />
+    <Compile Include="Data\TwitAuthenticateResponse.cs" />
     <Compile Include="Gebruikers\ApplicationUser.cs" />
     <Compile Include="Dashboard\Cijfer.cs" />
     <Compile Include="Dashboard\Dashbord.cs" />
     <Compile Include="Dashboard\DashItem.cs" />
     <Compile Include="Dashboard\Deelplatform.cs" />
+    <Compile Include="Dashboard\GraphData.cs" />
     <Compile Include="Dashboard\Kruising.cs" />
     <Compile Include="Dashboard\TileZone.cs" />
     <Compile Include="Dashboard\Vergelijking.cs" />
