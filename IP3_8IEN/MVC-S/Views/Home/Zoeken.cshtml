@@ -10,9 +10,6 @@
     <!-- Javascript -->
     <script>
         $(document).ready(function () {
-
-            $("div").css("border", "3px solid red");
-
             @{List<string> listFromController = (List<string>)ViewData["names"];}
                 var Names = [
                         @for (int i = 0; i < listFromController.Count; i++)
