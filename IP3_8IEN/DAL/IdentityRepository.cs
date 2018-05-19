@@ -1,4 +1,5 @@
 ﻿using IP_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.BL.Domain.Gebruikers.IP_8IEN.BL.Domain.Gebruikers;
 using IP_8IEN.DAL.EF;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;

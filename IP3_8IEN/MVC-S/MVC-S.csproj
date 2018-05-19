@@ -474,6 +474,15 @@
     <Content Include="Views\Admin\User.cshtml" />
     <Content Include="Views\Admin\Persoon.cshtml" />
     <Content Include="Views\Admin\DetailsPersoon.cshtml" />
+    <Content Include="Views\Admin\EditPersoon.cshtml" />
+    <Content Include="Views\Admin\Organisatie.cshtml" />
+    <Content Include="Views\Admin\DetailsOrganisatie.cshtml" />
+    <Content Include="Views\Admin\EditOrganisatie.cshtml" />
+    <Content Include="Views\Admin\Grafiek.cshtml" />
+    <Content Include="Views\Admin\CreateGrafiekLine.cshtml" />
+    <Content Include="Views\Admin\CreateGrafiekDonut.cshtml" />
+    <Content Include="Views\Home\InitializeAdmins.cshtml" />
+    <Content Include="Views\Home\UserDashBoard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

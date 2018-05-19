@@ -106,11 +106,7 @@
     <Compile Include="UnitOfWorkManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AddAlertInstelling.json" />
-    <None Include="AddAlerts.json" />
-    <None Include="AddGebruikersInit.Json" />
     <None Include="App.config" />
-    <None Include="JsonFiles\apiRequest.json" />
     <None Include="packages.config" />
     <None Include="textgaindump.json" />
   </ItemGroup>

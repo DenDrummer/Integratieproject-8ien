@@ -71,7 +71,7 @@ namespace IP_8IEN.DAL
         }
 
         public IEnumerable<Organisatie> ReadOrganisaties()
-        {            
+        {
             return ctx.Organisaties.ToList<Organisatie>();
         }
 
@@ -107,11 +107,12 @@ namespace IP_8IEN.DAL
         }
         public IEnumerable<Message> ReadMessages(bool subjM)
         {
-            if(subjM)
+            if (subjM)
             {
                 IEnumerable<Message> messages = ctx.Messages.Include("SubjectMessages").Include("SubjectMessages.Persoon");
                 return messages;
-            } else
+            }
+            else
             {
                 return ReadMessages();
             }
@@ -121,5 +122,18 @@ namespace IP_8IEN.DAL
             IEnumerable<Organisatie> organisaties = ctx.Organisaties.Include("Tewerkstellingen").Include("Tewerkstellingen.Persoon");
             return organisaties.FirstOrDefault(o => o.OnderwerpId == organisatieId);
         }
+
+        public void EditOrganisation(Organisatie organisatie)
+        {
+            ctx.Entry(organisatie).State = EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
+        public void EditPersoon(Persoon persoon)
+        {
+            ctx.Entry(persoon).State = EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
     }
 }

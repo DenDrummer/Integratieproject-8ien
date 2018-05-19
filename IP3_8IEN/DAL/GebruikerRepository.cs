@@ -52,6 +52,15 @@ namespace IP_8IEN.DAL
             return user;
         }
 
+        public void DeleteGebruiker(Gebruiker gebruiker)
+        {
+            if (gebruiker != null)
+            {
+                ctx.Gebruikers.Remove(gebruiker);
+                ctx.SaveChanges();
+            }
+        }
+
         public IEnumerable<Gebruiker> ReadGebruikers()
         {
             IEnumerable<Gebruiker> gebruikers = ctx.Gebruikers.ToList<Gebruiker>();
@@ -105,6 +114,12 @@ namespace IP_8IEN.DAL
         {
             IEnumerable<PositiefNegatief> positiefNegatiefs = ctx.PositiefNegatiefs.Include("Alerts");
             return positiefNegatiefs;
+        }
+
+        public void UpdateGebruiker(Gebruiker gebruiker)
+        {
+            ctx.Entry(gebruiker).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
         }
     }
 }

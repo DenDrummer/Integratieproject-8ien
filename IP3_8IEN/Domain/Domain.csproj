@@ -60,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dashboard\GraphData.cs" />
+    <Compile Include="Dashboard\GraphData2.cs" />
     <Compile Include="Gebruikers\ApplicationUser.cs" />
     <Compile Include="Dashboard\Cijfer.cs" />
     <Compile Include="Dashboard\Dashbord.cs" />

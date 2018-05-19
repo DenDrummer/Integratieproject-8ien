@@ -1,6 +1,5 @@
 ﻿using IP_8IEN.BL.Domain.Gebruikers;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.VisualBasic.ApplicationServices;
 using System.Data.Entity;
 
 namespace IP_8IEN.DAL.EF

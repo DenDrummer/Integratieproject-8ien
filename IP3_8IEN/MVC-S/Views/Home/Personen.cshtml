@@ -51,7 +51,7 @@
                                         {
                                             @Html.Raw(", ")
                                         }
-                                        @Html.DisplayFor(model => model.Tewerkstellingen.ElementAt(i).Organisatie.Afkorting)
+                                        @Html.DisplayFor(model => model.Tewerkstellingen.ElementAt(i).Organisatie.Naam)
                                     }
                                 </td>
                             </tr>
@@ -60,10 +60,11 @@
                                 <td>@Html.DisplayFor(model => model.Beschrijving)</td>
                             </tr>
                         </table>
+
                     </div>
                     <div class="col-lg-5">
                         <form role="form">
-                            <a class="twitter-timeline" data-height="500" data-theme="light" href="https://twitter.com/Bart_DeWever?ref_src=twsrc%5Etfw">Tweets by Bart_DeWever</a>
+                            <a class="twitter-timeline" data-height="500" data-theme="light" href="@ViewBag.TWITTER">Tweets by Bart_DeWever</a>
                             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                         </form>
                     </div>
@@ -72,3 +73,43 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Chart
+            </div>
+            <div class="panel-body">
+                <div class="col-lg-6" style="height: 200px" id="persoon-chart1">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $.get('@Url.Action("GetData","Home",new {id = 170})', function (result) {
+
+            Morris.Line({
+                // ID of the element in which to draw the chart.
+                element: 'persoon-chart1',
+                // Chart data records -- each entry in this array corresponds to a point on
+                // the chart.
+                data: result,
+                // The name of the data record attribute that contains x-values.
+                xkey: 'label',
+                ykeys: ['value'],
+                labels: [@Html.Raw(Json.Encode(ViewBag.AANTALT))],
+                pointSize: 2,
+                hideHover: 'auto',
+                resize: true
+            });
+        });
+    });
+    var per = @Html.Raw(Json.Encode(ViewBag.PER));
+    console.log(per);
+</script>

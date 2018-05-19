@@ -11,7 +11,7 @@ namespace IP_8IEN.DAL.EF
         protected override void Seed(OurDbContext context)
         {
             base.Seed(context);
-            
+
 
         }
     }

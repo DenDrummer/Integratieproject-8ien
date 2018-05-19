@@ -78,7 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="EF\textgaindump.json" />
     <None Include="packages.config" />
     <None Include="textgaindump.json" />
   </ItemGroup>
