@@ -12,6 +12,7 @@ using IP_8IEN.BL;
 using System.Net.Mail;
 using System.Text;
 using IP3_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.BL.Domain.Dashboard;
 
 namespace IP_8IEN.BL
 {
@@ -20,8 +21,7 @@ namespace IP_8IEN.BL
         private UnitOfWorkManager uowManager;
         private IGebruikerRepository repo;
         private IDataManager dataMgr;
-
-        private ApplicationUserManager appUserMgr;
+        private IDashManager dashMgr;
 
         // Deze constructor gebruiken we voor operaties binnen de package
         public GebruikerManager()
@@ -66,29 +66,29 @@ namespace IP_8IEN.BL
         //}
 
         //inladen vanuit json formaat
-        public void AddGebruikers(string filePath)
-        {
-            initNonExistingRepo();
+        //public void AddGebruikers(string filePath)
+        //{
+        //    initNonExistingRepo();
 
-            //sourceUrl /relatief path
-            StreamReader r = new StreamReader(filePath);
-            string json = r.ReadToEnd();
+        //    //sourceUrl /relatief path
+        //    StreamReader r = new StreamReader(filePath);
+        //    string json = r.ReadToEnd();
 
-            dynamic users = JsonConvert.DeserializeObject(json);
+        //    dynamic users = JsonConvert.DeserializeObject(json);
 
-            foreach (var item in users.records)
-            {
-                Gebruiker gebruiker = new Gebruiker()
-                {
-                    Username = item.Username,
-                    Voornaam = item.Voornaam,
-                    Naam = item.Achternaam,
-                    Email = item.email,
-                    Geboortedatum = item.Geboortedatum
-                };
-                repo.AddingGebruiker(gebruiker);
-            }
-        }
+        //    foreach (var item in users.records)
+        //    {
+        //        Gebruiker gebruiker = new Gebruiker()
+        //        {
+        //            Username = item.Username,
+        //            Voornaam = item.Voornaam,
+        //            Naam = item.Achternaam,
+        //            Email = item.email,
+        //            Geboortedatum = item.Geboortedatum
+        //        };
+        //        repo.AddingGebruiker(gebruiker);
+        //    }
+        //}
 
         // We zoeken een gebruiker op basis van 'Username'
         public Gebruiker FindUser(string username)
@@ -99,13 +99,27 @@ namespace IP_8IEN.BL
             Gebruiker user = users.FirstOrDefault(x => x.Username == username);
             return user;
         }
+        public void DeleteGebruiker(string username)
+        {
+            initNonExistingRepo();
+            IEnumerable<Gebruiker> users = repo.ReadGebruikers();
+            Gebruiker user = users.FirstOrDefault(x => x.Username == username);
+            repo.DeleteGebruiker(user);
+
+        }
+
+        public IEnumerable<Gebruiker> GetGebruikers()
+        {
+            initNonExistingRepo();
+            return repo.ReadGebruikers();
+        }
 
         // Hier werken we met 'Unit of Work'
         // omdat we informatie uit de data package nodig hebben
         public void AddAlertInstelling(string filePath)
         {
             initNonExistingRepo(true);
-            
+
             //sourceUrl /relatief path
             StreamReader r = new StreamReader(filePath);
             string json = r.ReadToEnd();
@@ -151,9 +165,9 @@ namespace IP_8IEN.BL
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine("nah"+ ex);
+                    System.Diagnostics.Debug.WriteLine("nah" + ex);
                 }
-                
+
 
                 try
                 {
@@ -194,8 +208,8 @@ namespace IP_8IEN.BL
                 {
                     System.Diagnostics.Debug.WriteLine("nah" + ex);
                 }
-                
-                
+
+
                 uowManager.Save();
             }
             //we zetten 'UoW' boolian terug op true
@@ -242,7 +256,7 @@ namespace IP_8IEN.BL
             //dan de AlertInstelling updaten met de nieuwe 'Alert'
             repo.UpdateAlertInstelling(ai);
         }
-        
+
 
         // Alerts inlezen via json bestand
         public void AddAlerts(string filePath)
@@ -262,7 +276,7 @@ namespace IP_8IEN.BL
             {
                 alertContent = item.AlertContent;
                 alertInstellingId = item.AlertInstellingId;
-                
+
                 AddAlert(alertContent, alertInstellingId);
             };
         }
@@ -279,6 +293,63 @@ namespace IP_8IEN.BL
 
             Alert alert = repo.ReadAlert(alertId);
             return alert;
+        }
+
+        public void AddGebruiker(string userName, string id, string naam, string voornaam)
+        {
+            initNonExistingRepo();
+
+            //bool UoW = false;
+            //repo.setUnitofWork(UoW);
+
+            //dashMgr = new DashManager();
+
+            Gebruiker gebruiker = new Gebruiker
+            {
+                GebruikerId = id,
+                Username = userName,
+                Voornaam = voornaam,
+                Naam = naam
+            };
+            repo.AddingGebruiker(gebruiker);
+
+            dashMgr = new DashManager();
+            dashMgr.InitializeDashbordNewUsers(gebruiker.GebruikerId);
+
+            //dashMgr = new DashManager(uowManager);
+            //Dashbord dashbord = dashMgr.AddDashBord(gebruiker);
+
+            //gebruiker.Dashboards.Add(dashbord);
+            ///////////// Edit ///////////
+
+            ////We halen vaste grafieken op (AdminGraphs) en koppelen deze aan de 
+            ////nieuw aangemaakte dashboard van de nieuwe gebruiker
+            //IEnumerable<DashItem> dashItems = dashMgr.GetDashItems();
+            //dashItems = dashItems.Where(d => d.AdminGraph == true);
+
+            ////Deze aan een TileZone toewijzen
+            //foreach (DashItem item in dashItems)
+            //{
+            //    TileZone tile = new TileZone()
+            //    {
+            //        DashItem = item,
+            //        Dashbord = dashbord
+            //    };
+            //    dashMgr.AddTileZone(tile);
+            //}
+
+            ///////////// Edit ///////////
+            //UpdateGebruiker(gebruiker);
+            //uowManager.Save();
+
+            //uowManager.Save();
+            //UoW = true;
+            //repo.setUnitofWork(UoW);
+        }
+
+        public void UpdateGebruiker(Gebruiker gebruiker)
+        {
+            repo.UpdateGebruiker(gebruiker);
         }
 
         //Unit of Work related
@@ -331,31 +402,35 @@ namespace IP_8IEN.BL
                 sb.Clear();
                 sb.Append(@"<div id=""wrapper"" style=""width:600px;margin:0 auto; border:1px solid black; 
                             overflow:hidden; padding: 10px 10px 10px 10px;"" ><p><i>");
-                sb.Append(g.Voornaam + " " + g.Naam);
+                // Voor- en Achternaam kunnen voorlopig leeg zijn
+                //sb.Append(g.Voornaam + " " + g.Naam);
+                sb.Append(g.Username);
                 sb.Append(@", </i></p>
                             <p>Via de Weekly Review wordt u op de hoogte gehouden van alle trending Onderwerpen die </br>
                             u volgt. Indien u op de hoogte gehouden wilt worden van nog meer onderwerpen, kan u 
                             </br> steeds extra onderwerpen volgen op <a href=""www.8ien.be""> Weekly Reviews </a>. </p>
                             <h3>Personen</h3> <div style=""margin: 0px;""> <p>Naam : BARTJE </p> <ul>");
-                if (g.AlertInstellingen != null) {
-                foreach (AlertInstelling al in g.AlertInstellingen)
+                if (g.AlertInstellingen != null)
                 {
-                    if (al.Alerts != null) {
-                    foreach (Alert a in al.Alerts)
+                    foreach (AlertInstelling al in g.AlertInstellingen)
                     {
-                        if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
+                        if (al.Alerts != null)
                         {
-                            dezeWeek.Add(a);
-                                    sb.Append("<li>" +  a.ToString() + "</li>");
+                            foreach (Alert a in al.Alerts)
+                            {
+                                if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
+                                {
+                                    dezeWeek.Add(a);
+                                    sb.Append("<li>" + a.ToString() + "</li>");
+                                }
+                            }
                         }
                     }
-                    }
-                }
                 }
                 sb.Append(@"</ul></div></div>");
                 //SendMail(dezeWeek, g.Email, sb.ToString());
             }
-         }
+        }
         private bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
         {
             var cal = System.Globalization.DateTimeFormatInfo.CurrentInfo.Calendar;
@@ -379,7 +454,7 @@ namespace IP_8IEN.BL
 
                 SmtpServer.Port = 587;
                 SmtpServer.Credentials = new System.Net.NetworkCredential("integratieproject.8ien@gmail.com", "integratieproject");
-                SmtpServer.EnableSsl = true; 
+                SmtpServer.EnableSsl = true;
 
                 SmtpServer.Send(mail);
             }
@@ -388,5 +463,6 @@ namespace IP_8IEN.BL
                 System.Diagnostics.Debug.WriteLine("Mail says no");
             }
         }
+
     }
 }

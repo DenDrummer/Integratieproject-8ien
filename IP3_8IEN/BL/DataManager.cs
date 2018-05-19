@@ -10,6 +10,7 @@ using System;
 using System.Net;
 using System.Web.Script.Serialization;
 using System.Net.Mail;
+using IP3_8IEN.BL.Domain.Dashboard;
 using IP_8IEN.BL.Domain.Gebruikers;
 
 namespace IP_8IEN.BL
@@ -18,6 +19,8 @@ namespace IP_8IEN.BL
     {
         private UnitOfWorkManager uowManager;
         private IMessageRepository repo;//= new MessageRepository();
+        private IGebruikerManager gebrMgr;
+        private IDashManager dashMgr;
 
         // Deze constructor gebruiken we voor operaties binnen de package
         public DataManager()
@@ -36,7 +39,7 @@ namespace IP_8IEN.BL
         public void ApiRequestToJson()
         {
             {
-                string url = "http://kdg.textgain.com/query";
+                string url = "https://kdg.textgain.com/query";
 
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                 httpWebRequest.Headers.Add("X-API-Key", "aEN3K6VJPEoh3sMp9ZVA73kkr");
@@ -53,9 +56,9 @@ namespace IP_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "26 Apr 2018 00:01",
+                        since = "29 Apr 2018 00:01",
                         //until weglaten --> last scraping
-                        until = "26 Apr 2018 23:59",
+                        until = "30 Apr 2018 00:01",
                     });
 
                     streamWriter.Write(json);
@@ -74,7 +77,7 @@ namespace IP_8IEN.BL
 
         // Hier worden tweets uit een json file naar zijn juiste klasse weggeschreven en gesynchroniseerd
         // Aangesproken klasse zijn : 'Message', 'Onderwerp', 'Persoon' & 'Hashtag' 
-        public void AddMessages(string json)
+        public void AddMessages(string json) //(string sourceUrl) <-- voor json
         {
             initNonExistingRepo();
 
@@ -201,7 +204,7 @@ namespace IP_8IEN.BL
             {
                 persoon = new Persoon()
                 {
-                    
+
                     Naam = naam,
                     // DateTime kan niet null zijn --> voorlopig tijd van creatie meegeven
                     Geboortedatum = DateTime.Now,
@@ -285,17 +288,17 @@ namespace IP_8IEN.BL
             Organisatie organisatie;
             IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
 
-            bool ifExists = organisaties.Any(x => x.NaamOrganisatie == naamOrganisatie);
+            bool ifExists = organisaties.Any(x => x.Naam == naamOrganisatie);
 
             if (ifExists == true)
             {
-                organisatie = organisaties.FirstOrDefault(x => x.NaamOrganisatie == naamOrganisatie);
+                organisatie = organisaties.FirstOrDefault(x => x.Naam == naamOrganisatie);
             }
             else
             {
                 organisatie = new Organisatie()
                 {
-                    NaamOrganisatie = naamOrganisatie,
+                    Naam = naamOrganisatie,
                     Tewerkstellingen = new Collection<Tewerkstelling>()
                 };
                 repo.AddOnderwerp(organisatie);
@@ -323,7 +326,7 @@ namespace IP_8IEN.BL
 
             //kijken of persoon en organisatie bestaan
             bool ifExistsP = personen.Any(x => x.Naam == naam);
-            bool ifExistsO = organisaties.Any(x => x.NaamOrganisatie == naamOrganisatie);
+            bool ifExistsO = organisaties.Any(x => x.Naam == naamOrganisatie);
 
             //persoon & organisatie initialiseren
             if (ifExistsP)
@@ -336,7 +339,7 @@ namespace IP_8IEN.BL
             }
             if (ifExistsO)
             {
-                organisatie = organisaties.FirstOrDefault(x => x.NaamOrganisatie == naamOrganisatie);
+                organisatie = organisaties.FirstOrDefault(x => x.Naam == naamOrganisatie);
             }
             else
             {
@@ -396,7 +399,7 @@ namespace IP_8IEN.BL
 
             //kijken of persoon en organisatie bestaan
             bool ifExistsP = personen.Any(x => x.Naam == persoon.Naam);
-            bool ifExistsO = organisaties.Any(x => x.NaamOrganisatie == naamOrganisatie);
+            bool ifExistsO = organisaties.Any(x => x.Naam == naamOrganisatie);
 
             //kijken of persoon bestaat 
             if (!ifExistsP)
@@ -406,7 +409,7 @@ namespace IP_8IEN.BL
             //kijken of organisatie bestaat & initialiseren
             if (ifExistsO)
             {
-                organisatie = organisaties.FirstOrDefault(x => x.NaamOrganisatie == naamOrganisatie);
+                organisatie = organisaties.FirstOrDefault(x => x.Naam == naamOrganisatie);
             }
             else
             {
@@ -455,6 +458,8 @@ namespace IP_8IEN.BL
 
         public void AddPersonen(string pathToJson)
         {
+            initNonExistingRepo();
+
             StreamReader r = new StreamReader(pathToJson);
             string json = r.ReadToEnd();
             List<Message> messages = new List<Message>();
@@ -464,8 +469,6 @@ namespace IP_8IEN.BL
 
             foreach (var person in persons)
             {
-                initNonExistingRepo();
-
                 Persoon persoon = new Persoon()
                 {
                     Naam = person.full_name,
@@ -485,7 +488,8 @@ namespace IP_8IEN.BL
                 {
                     //DateTime kan niet 'null' zijn
                     persoon.Geboortedatum = person.dateOfBirth;
-                } catch
+                }
+                catch
                 {
                     persoon.Geboortedatum = DateTime.Now;
                 }
@@ -539,7 +543,7 @@ namespace IP_8IEN.BL
 
             return countedTweets;
         }
-        
+
         public IEnumerable<Message> ReadMessagesWithSubjMsgs()
         {
             initNonExistingRepo();
@@ -570,6 +574,35 @@ namespace IP_8IEN.BL
             initNonExistingRepo();
             IEnumerable<Persoon> personen = repo.ReadPersonen();
             return personen;
+        }
+
+        public IEnumerable<Organisatie> GetOrganisaties()
+        {
+            initNonExistingRepo();
+            IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
+            return organisaties;
+        }
+
+        public void ChangeOrganisation(Organisatie organisatie)
+        {
+            initNonExistingRepo();
+            repo.EditOrganisation(organisatie);
+        }
+
+        public void ChangePersoon(Persoon persoon)
+        {
+            initNonExistingRepo();
+            repo.EditPersoon(persoon);
+        }
+
+        public Persoon GetPersoon(string naam)
+        {
+            initNonExistingRepo();
+
+            IEnumerable<Persoon> personen = repo.ReadPersonen();
+            Persoon persoon = personen.FirstOrDefault(p => p.Naam == naam);
+
+            return persoon;
         }
 
         //Unit of Work related
@@ -609,7 +642,7 @@ namespace IP_8IEN.BL
             }
         }
 
-        
+
 
         public class zscore
         {
@@ -755,7 +788,9 @@ namespace IP_8IEN.BL
             }
         }
 
-        public Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true)
+        //public Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true)
+        public List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = false)
+
         {
             initNonExistingRepo();
             List<Persoon> personen = repo.ReadPersonen().ToList();
@@ -763,9 +798,9 @@ namespace IP_8IEN.BL
             DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
             int laatstePeriode;
             int voorlaatstePeriode;
-
-            Dictionary<Persoon, double> ranking = new Dictionary<Persoon, double>();
-
+            //Sam
+            //Dictionary<Persoon, double> ranking = new Dictionary<Persoon, double>();
+            List<GraphData> ranking = new List<GraphData>();
             foreach (Persoon p in personen)
             {
                 int teller = messages.Where(m => m.IsFrom(p)).Count();
@@ -774,11 +809,11 @@ namespace IP_8IEN.BL
                 voorlaatstePeriode = messages2.Where(m => lastTweet.AddHours((interval_uren * 2) * -1) < m.Date && m.Date < lastTweet.AddHours(interval_uren * -1)).Count();
                 if (puntNotatie == true)
                 {
-                    ranking.Add(p, CalculateChange(voorlaatstePeriode, laatstePeriode));
+                    ranking.Add(new GraphData(p.Naam, (int)CalculateChange(voorlaatstePeriode, laatstePeriode)));
                 }
                 else
                 {
-                    ranking.Add(p, CalculateChange(voorlaatstePeriode, laatstePeriode) * 100);
+                    ranking.Add(new GraphData(p.Naam, (int)CalculateChange(voorlaatstePeriode, laatstePeriode) * 100));
                 }
                 /*if (laatstePeriode != 0 && voorlaatstePeriode != 0)
                 {
@@ -788,10 +823,11 @@ namespace IP_8IEN.BL
 
             foreach (var v in ranking)
             {
-                System.Diagnostics.Debug.WriteLine(v.Key.Naam + " " + v.Value);
+                //System.Diagnostics.Debug.WriteLine(v.Key.Naam + " " + v.Value);
             }
 
-            return ranking;
+            ranking = ranking.OrderByDescending(r => r.value1).ToList();
+            return ranking.GetRange(0, aantal);
         }
 
         public double CalculateChange(long previous, long current)
@@ -809,7 +845,7 @@ namespace IP_8IEN.BL
         public int GetNumber(Persoon persoon, int laatsteAantalUren = 0)
         {
             initNonExistingRepo();
-            List<Message> messages = repo.ReadMessages().ToList();
+            List<Message> messages = repo.ReadMessages(true).ToList();
             DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
             int aantal;
 
@@ -824,8 +860,9 @@ namespace IP_8IEN.BL
 
             return aantal;
         }
-
-        public Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0)
+        //Sam
+        //public Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0)
+        public List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0)
         {
             initNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
@@ -843,18 +880,149 @@ namespace IP_8IEN.BL
             }
 
             Dictionary<DateTime, int> tweetsPerDag = new Dictionary<DateTime, int>();
-
+            //Sam
+            List<GraphData> GraphDataList = new List<GraphData>();
+            /*
             do
             {
+                //Sam
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                //Sam
+                GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count()));
                 tweetsPerDag.Add(lastTweet.Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
                 lastTweet = lastTweet.AddDays(-1);
-            } while (lastTweet >= stop);
-
-            foreach (var v in tweetsPerDag)
+            } while (lastTweet >= stop);*/
+            for (int i = 0; i < aantalDagenTerug + 1; i++)
             {
-                System.Diagnostics.Debug.WriteLine(v.Key + " " + v.Value);
+                //Sam
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                //Sam
+                GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
+
+                GraphDataList.Add(graph);
+                lastTweet = lastTweet.AddDays(-1);
             }
-            return tweetsPerDag;
+
+            foreach (var v in GraphDataList)
+            {
+                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value1);
+            }
+
+
+            return GraphDataList;
+        }
+
+        public List<GraphData2> GetTweetsPerDag2(Persoon persoon1, Persoon persoon2, Persoon persoon3, Persoon persoon4, Persoon persoon5, int aantalDagenTerug = 0)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            DateTime stop = new DateTime();
+
+            if (aantalDagenTerug == 0)
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().First().Date;
+            }
+            else
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                stop.AddDays(aantalDagenTerug * -1);
+            }
+
+            Dictionary<DateTime, int> tweetsPerDag = new Dictionary<DateTime, int>();
+            //Sam
+            List<GraphData2> GraphDataList = new List<GraphData2>();
+            /*
+            do
+            {
+                //Sam
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                //Sam
+                GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count()));
+                tweetsPerDag.Add(lastTweet.Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
+                lastTweet = lastTweet.AddDays(-1);
+            } while (lastTweet >= stop);*/
+            for (int i = 0; i < aantalDagenTerug + 1; i++)
+            {
+                //Sam
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                //Sam
+                GraphDataList.Add(new GraphData2(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon1)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon2)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon3)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon4)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon5)).Count()));
+                lastTweet = lastTweet.AddDays(-1);
+            }
+
+            foreach (var v in GraphDataList)
+            {
+                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value1);
+            }
+
+
+            return GraphDataList;
+        }
+
+
+
+
+
+
+
+        public List<GraphData> GetTweetsPerDag(Persoon persoon, Gebruiker user, int aantalDagenTerug = 0)
+        {
+            initNonExistingRepo(true);
+
+            dashMgr = new DashManager();
+
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            DateTime stop = new DateTime();
+
+            if (aantalDagenTerug == 0)
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().First().Date;
+            }
+            else
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                stop.AddDays(aantalDagenTerug * -1);
+            }
+
+            Dictionary<DateTime, int> tweetsPerDag = new Dictionary<DateTime, int>();
+
+            //======= Edit : 10 mei 2018 : Stephane ======//
+
+            //bool UoW = false;
+            //repo.setUnitofWork(UoW);
+
+            //Domain.Dashboard.DashItem dashItem = dashMgr.AddDashItem(user, persoon);
+            //dashItem.Graphdata = new Collection<GraphData>();
+
+            //=======                              =======//
+
+            //Sam
+            List<GraphData> GraphDataList = new List<GraphData>();
+            for (int i = 0; i < aantalDagenTerug + 1; i++)
+            {
+                //Sam
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                //Sam
+
+                //======= Edit : 10 mei 2018 : Stephane ======//
+
+                GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
+                dashMgr.AddGraph(graph);
+                //dashItem.Graphdata.Add(graph);
+                //dashMgr.UpdateDashItem(dashItem);
+
+                //UoW = true;
+                //repo.setUnitofWork(UoW);
+
+                //=======                              =======//
+
+                GraphDataList.Add(graph);
+                lastTweet = lastTweet.AddDays(-1);
+            }
+            uowManager.Save();
+            return GraphDataList;
         }
     }
 }
