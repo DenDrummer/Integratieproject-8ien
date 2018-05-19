@@ -105,11 +105,10 @@ namespace MVC_S.Controllers
             ViewBag.TWITTER = twit;
             ViewBag.AANTALT = aantalT;
 
-            return View(persoon);
-            ViewBag.TWITIMAGE = dMgr.GetImageString(onderwerpId);
-            ViewBag.TWITBANNER = dMgr.GetBannerString(onderwerpId);
+            ViewBag.TWITIMAGE = dMgr.GetImageString(persoon.OnderwerpId);
+            ViewBag.TWITBANNER = dMgr.GetBannerString(persoon.OnderwerpId);
 
-            return View(dMgr.GetPersoon(onderwerpId));
+            return View(persoon);
         }
 
         public ActionResult Themas(/*int onderwerpId*/)
@@ -144,6 +143,7 @@ namespace MVC_S.Controllers
         public ActionResult UserDashBoard()
         {
             //Dashbord van ingelogde gebruiker ophalen
+            //Nog niet getest
             try
             {
                 ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
@@ -168,8 +168,6 @@ namespace MVC_S.Controllers
             //ViewBag.NUMMER1 = aantalTweets;
             //ViewBag.naam1 = persoon.Naam;
             ////System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
-
-            return View();
         }
 
         public ActionResult AdminOmgeving()
@@ -192,23 +190,39 @@ namespace MVC_S.Controllers
 
         public ActionResult Zoeken() => View();
 
+        public ActionResult InitializeAdmins()
+        {
+            aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
+
+            return View();
+        }
+
         public ActionResult Initialize()
         {
-            // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
-            // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
-            // dMgr = new DataManager();
-            // gMgr = new GebruikerManager();
+            // Initializatie systeem //
+            // >>>>>>>>> InitializeAdmins() hierboven eerst uitvoeren <<<<<<<<< //
 
             #region initialisatie blok databank
             dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             dMgr.ApiRequestToJson();
-            gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
-            gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
-            gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
+            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
             #endregion
+
+            //**** dit zijn test methodes ****//
+            //dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.Json"));
+            //dMgr.CountSubjMsgsPersoon();
+            //dMgr.ReadOnderwerpenWithSubjMsgs();
+            //dMgr.GetAlerts();
+            //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
+            //**** dit zijn test methodes ****//
+
+            //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
+            //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
 
             return View();
         }
+
         public ActionResult Grafiektest2()
         {
             Persoon persoon = dMgr.GetPersoon(170);
@@ -229,27 +243,6 @@ namespace MVC_S.Controllers
         public ActionResult GetRank(int aantal) => Json(dMgr.GetRanking(aantal,100), JsonRequestBehavior.AllowGet);
 
         public ActionResult GetData2(int id1, int id2, int id3, int id4, int id5 )
-        {
-            Persoon persoon1 = dMgr.GetPersoon(id1);
-            Persoon persoon2 = dMgr.GetPersoon(id2);
-            Persoon persoon3 = dMgr.GetPersoon(id3);
-            Persoon persoon4 = dMgr.GetPersoon(id4);
-            Persoon persoon5 = dMgr.GetPersoon(id5);
-            return Json(dMgr.GetTweetsPerDag2(persoon1, persoon2, persoon3, persoon4, persoon5, 20), JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult GetData(int id)
-        {
-            Persoon persoon = dMgr.GetPersoon(id);
-            return Json(dMgr.GetTweetsPerDag(persoon, 20), JsonRequestBehavior.AllowGet);
-        }
-        public ActionResult GetRank(int aantal)
-        {
-
-            return Json(dMgr.GetRanking(aantal, 100), JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult GetData2(int id1, int id2, int id3, int id4, int id5)
         {
             Persoon persoon1 = dMgr.GetPersoon(id1);
             Persoon persoon2 = dMgr.GetPersoon(id2);
