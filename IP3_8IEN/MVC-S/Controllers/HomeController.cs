@@ -4,15 +4,9 @@ using IP_8IEN.BL.Domain.Data;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using System;
 using IP_8IEN.BL.Domain.Gebruikers;
-using System.Web.Hosting;
 using System.IO;
 using System.Web;
-using System.Web.Helpers;
-using IP3_8IEN.BL.Domain.Dashboard;
-using IP_8IEN.BL.Domain.Gebruikers;
-using Microsoft.Ajax.Utilities;
 using IP_8IEN.BL.Domain.Dashboard;
 using Microsoft.AspNet.Identity;
 using System.Linq;
@@ -153,21 +147,12 @@ namespace MVC_S.Controllers
                 Dashbord dashbord = dashMgr.GetDashboard(user);
                 dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem minstens 3h up-to-date is
 
-                //return await Task.Run(() => View(dashbord));
                 return View(dashbord);
             }
             catch
             {
-                //return await Task.Run(() => View());
                 return View();
             }
-
-            //Persoon persoon = dMgr.GetPersoon(170);
-            //int aantalTweets = dMgr.GetNumber(persoon);
-            //// int aantalTweets = 69;
-            //ViewBag.NUMMER1 = aantalTweets;
-            //ViewBag.naam1 = persoon.Naam;
-            ////System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
         }
 
         public ActionResult AdminOmgeving()
@@ -188,12 +173,18 @@ namespace MVC_S.Controllers
 
         public ActionResult Instellingen() => View();
 
-        public ActionResult Zoeken() => View();
+        [HttpGet]
+        public ActionResult Zoeken()
+        {
+            IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
+            List<string> names = ObjList.Select(p => p.Naam).ToList();
+            ViewData["names"] = names;
+            return View();
+        }
 
         public ActionResult InitializeAdmins()
         {
             aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
-
             return View();
         }
 
@@ -208,18 +199,13 @@ namespace MVC_S.Controllers
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
             #endregion
-
-            //**** dit zijn test methodes ****//
+            #region test methodes
             //dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.Json"));
             //dMgr.CountSubjMsgsPersoon();
             //dMgr.ReadOnderwerpenWithSubjMsgs();
             //dMgr.GetAlerts();
             //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
-            //**** dit zijn test methodes ****//
-
-            //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
-            //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
-
+            #endregion
             return View();
         }
 

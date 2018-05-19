@@ -42,15 +42,7 @@ namespace IP_8IEN.DAL
 
         public Gebruiker FindGebruiker(int userId) => ctx.Gebruikers.Find(userId);
 
-        public void DeleteGebruiker(Gebruiker gebruiker)
-        {
-            if (gebruiker != null)
-            {
-                ctx.Gebruikers.Remove(gebruiker);
-                ctx.SaveChanges();
-            }
-        }
-
+        //Deze moet nog ge-update worden
         public void DeleteGebruiker(Gebruiker gebruiker)
         {
             if (gebruiker != null)
@@ -65,7 +57,6 @@ namespace IP_8IEN.DAL
             IEnumerable<Gebruiker> gebruikers = ctx.Gebruikers.ToList<Gebruiker>();
             return gebruikers;
         }
-        public IEnumerable<Gebruiker> ReadGebruikers() => ctx.Gebruikers.ToList();
 
         public AlertInstelling ReadAlertInstelling(int alertInstellingId) => ctx.AlertInstellingen.Find(alertInstellingId);
 

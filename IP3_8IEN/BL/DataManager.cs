@@ -12,6 +12,8 @@ using System.Web.Script.Serialization;
 using System.Net.Mail;
 using IP3_8IEN.BL.Domain.Dashboard;
 using IP_8IEN.BL.Domain.Gebruikers;
+using System.Text;
+using IP3_8IEN.BL.Domain.Data;
 
 namespace IP_8IEN.BL
 {
@@ -823,9 +825,9 @@ namespace IP_8IEN.BL
                 //System.Diagnostics.Debug.WriteLine(v.Key.Naam + " " + v.Value);
             }
 
-                ranking = ranking.OrderByDescending(r => r.value).ToList();
+                ranking = ranking.OrderByDescending(r => r.value1).ToList();
             return ranking.GetRange(0, aantal);
-            }
+         }
 
         public double CalculateChange(long previous, long current)
         {
@@ -901,7 +903,7 @@ namespace IP_8IEN.BL
             
             foreach (var v in GraphDataList)
             {
-                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value);
+                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value1);
             }
             
 
@@ -1058,31 +1060,25 @@ namespace IP_8IEN.BL
             }
             return avatarJson;
         }
-            } while (lastTweet >= stop);*/
-            for (int i = 0; i < aantalDagenTerug + 1; i++)
-            {
-                //Sam
-                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
-                //Sam
-                GraphDataList.Add(new GraphData2(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon1)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon2)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon3)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon4)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon5)).Count()));
-                lastTweet = lastTweet.AddDays(-1);
-            }
 
-            foreach (var v in GraphDataList)
-            {
-                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value1);
-            }
-
-
-            return GraphDataList;
+        public string GetImageString(int id)
+        {
+            string avatarJson = UseApiTwitter(id);
+            dynamic items = JsonConvert.DeserializeObject(avatarJson);
+            string image = items.profile_image_url_https;
+            string imageBig = image.Replace("_normal", "");
+            //System.Diagnostics.Debug.WriteLine("de avatar string: " + imageBig);
+            return imageBig;
         }
-
-
-
-
-
-
-
+        public string GetBannerString(int id)
+        {
+            string avatarJson = UseApiTwitter(id);
+            dynamic items = JsonConvert.DeserializeObject(avatarJson);
+            string banner = items.profile_banner_url;
+            //System.Diagnostics.Debug.WriteLine("de banner string: " + banner);
+            return banner;
+        }
+        
         public List<GraphData> GetTweetsPerDag(Persoon persoon, Gebruiker user, int aantalDagenTerug = 0)
         {
             initNonExistingRepo(true);
@@ -1140,23 +1136,6 @@ namespace IP_8IEN.BL
             }
             uowManager.Save();
             return GraphDataList;
-        public string GetImageString(int id)
-        {
-            string avatarJson = UseApiTwitter(id);
-            dynamic items = JsonConvert.DeserializeObject(avatarJson);
-            string image = items.profile_image_url_https;
-            string imageBig = image.Replace("_normal", "");
-            //System.Diagnostics.Debug.WriteLine("de avatar string: " + imageBig);
-            return imageBig;
         }
-        public string GetBannerString(int id)
-        {
-            string avatarJson = UseApiTwitter(id);
-            dynamic items = JsonConvert.DeserializeObject(avatarJson);
-            string banner = items.profile_banner_url;
-            //System.Diagnostics.Debug.WriteLine("de banner string: " + banner);
-            return banner;
-        }
-
     }
 }
