@@ -42,6 +42,7 @@ namespace IP_8IEN.DAL
 
         public Gebruiker FindGebruiker(int userId) => ctx.Gebruikers.Find(userId);
 
+        //Deze moet nog ge-update worden
         public void DeleteGebruiker(Gebruiker gebruiker)
         {
             if (gebruiker != null)
@@ -51,7 +52,11 @@ namespace IP_8IEN.DAL
             }
         }
 
-        public IEnumerable<Gebruiker> ReadGebruikers() => ctx.Gebruikers.ToList();
+        public IEnumerable<Gebruiker> ReadGebruikers()
+        {
+            IEnumerable<Gebruiker> gebruikers = ctx.Gebruikers.ToList<Gebruiker>();
+            return gebruikers;
+        }
 
         public AlertInstelling ReadAlertInstelling(int alertInstellingId) => ctx.AlertInstellingen.Find(alertInstellingId);
 
@@ -73,6 +78,16 @@ namespace IP_8IEN.DAL
 
         public IEnumerable<HogerLager> ReadHogerLagers() => ctx.HogerLagers.Include("Alerts");
 
-        public IEnumerable<PositiefNegatief> ReadPositiefNegatiefs() => ctx.PositiefNegatiefs.Include("Alerts");
+        public IEnumerable<PositiefNegatief> ReadPositiefNegatiefs()
+        {
+            IEnumerable<PositiefNegatief> positiefNegatiefs = ctx.PositiefNegatiefs.Include("Alerts");
+            return positiefNegatiefs;
+        }
+
+        public void UpdateGebruiker(Gebruiker gebruiker)
+        {
+            ctx.Entry(gebruiker).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
+        }
     }
 }
