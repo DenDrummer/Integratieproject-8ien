@@ -8,7 +8,7 @@ namespace IP_8IEN.BL.Domain.Dashboard
         [Key]
         public int FollowId { get; set; }
 
-        public DashItem DashItems { get; set; }
-        public Onderwerp Onderwerpen { get; set; }
+        public DashItem DashItem { get; set; }
+        public Onderwerp Onderwerp { get; set; }
     }
 }

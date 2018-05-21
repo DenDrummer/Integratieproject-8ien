@@ -6,7 +6,7 @@ namespace IP_8IEN.BL
     public interface IGebruikerManager
     {
         //30 mrt 2018 : stephane
-        void AddGebruikers(string filePath);
+        //void AddGebruikers(string filePath);
         void AddAlertInstelling(string filePath);
         Gebruiker FindUser(string username);
 
@@ -25,6 +25,10 @@ namespace IP_8IEN.BL
         Alert GetAlert(int alertId);
 
         //6 mei 2018 : Stephane
-        //void AddApplicationGebruikers(string filePath);
+        //void AddApplicationGebruikers(string filePath); <-- verhuist naar ApplicationUserManager()
+
+        //10 mei 2018 : Stephane
+        void AddGebruiker(string userName, string id, string naam, string voornaam);
+        void UpdateGebruiker(Gebruiker gebruiker);
     }
 }

@@ -5,10 +5,6 @@ namespace IP_8IEN.BL.Domain.Data
 {
     public class Persoon : Onderwerp
     {
-        //Naam bevat voor- en achternaam
-        public string Naam { get; set; }
-        public string Twitter { get; set; }
-        public string Facebook { get; set; }
         public DateTime Geboortedatum { get; set; }
         public string District { get; set; }
 
