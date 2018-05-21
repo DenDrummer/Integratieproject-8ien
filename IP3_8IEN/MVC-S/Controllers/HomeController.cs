@@ -173,6 +173,12 @@ namespace MVC_S.Controllers
 
         public ActionResult Instellingen() => View();
 
+        public ActionResult LijstPersonen() => View();
+
+        public ActionResult LijstThemas() => View();
+
+        public ActionResult LijstOrganisaties() => View();
+
         [HttpGet]
         public ActionResult Zoeken()
         {
