@@ -127,7 +127,7 @@ namespace MVC_S.Controllers
              *      en vervang de xMgr met de correcte mgr*/
             Thema thema = new Thema()
             {
-                ThemaString = "thema",
+                Naam = "thema",
                 Beschrijving = "beschrijving over het thema"
             };
             return View(thema);
@@ -193,7 +193,7 @@ namespace MVC_S.Controllers
                 new Thema()
                 {
                     OnderwerpId = 285,
-                    ThemaString = "ukip",
+                    Naam = "ukip",
                     Hashtags = new List<string>()
                     {
                         "ukip"
