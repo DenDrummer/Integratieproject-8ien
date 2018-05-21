@@ -71,8 +71,8 @@ namespace IP_8IEN.BL
         IEnumerable<Persoon> GetPersonen();
 
         //Sam 15 mei
-        string GetImageString(int id);
-        string GetBannerString(int id);
+        string GetImageString(string screenname);
+        string GetBannerString(string screenname);
 
         //VIC
         double GetPolarityByPerson(Persoon persoon);

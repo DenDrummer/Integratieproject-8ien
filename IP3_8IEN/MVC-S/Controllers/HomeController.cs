@@ -11,7 +11,6 @@ using System.IO;
 using System.Web;
 using System.Web.Helpers;
 using IP3_8IEN.BL.Domain.Dashboard;
-using IP_8IEN.BL.Domain.Gebruikers;
 using Microsoft.Ajax.Utilities;
 
 namespace MVC_S.Controllers
@@ -94,10 +93,11 @@ namespace MVC_S.Controllers
         public ActionResult Dashboard() => View();
 
         //Get: Persoon/1
-        public ActionResult Personen(int onderwerpId = 261)
+        public ActionResult Personen(int onderwerpId = 170)
         {
-            ViewBag.TWITIMAGE = dMgr.GetImageString(onderwerpId);
-            ViewBag.TWITBANNER = dMgr.GetBannerString(onderwerpId);
+            string screenname = dMgr.GetPersoon(onderwerpId).Twitter;
+            ViewBag.TWITIMAGE = dMgr.GetImageString(screenname);
+            ViewBag.TWITBANNER = dMgr.GetBannerString(screenname);
 
             return View(dMgr.GetPersoon(onderwerpId));
         }
@@ -117,7 +117,14 @@ namespace MVC_S.Controllers
             return View(thema);
         }
 
-        public ActionResult Organisatie(int onderwerpId = 2) => View(dMgr.GetOrganisatie(onderwerpId));
+        public ActionResult Organisatie(int onderwerpId = 22) {
+            string screenname = dMgr.GetOrganisatie(onderwerpId).Twitter;
+            System.Diagnostics.Debug.WriteLine("Screenname: " + screenname);
+            ViewBag.TWITIMAGE = dMgr.GetImageString(screenname);
+            ViewBag.TWITBANNER = dMgr.GetBannerString(screenname);
+            return View(dMgr.GetOrganisatie(onderwerpId));
+        }
+
 
         public ActionResult Alerts(int alertId = 1) => View(gMgr.GetAlert(alertId));
 

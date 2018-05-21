@@ -925,12 +925,12 @@ namespace IP_8IEN.BL
 
             return GraphDataList;
         }
-        public string UseApiTwitter(int id)
+        public string UseApiTwitter(string screenname)
         {
             var oAuthConsumerKey = "Fj6y59d4rcEHpslGnthlxfv62";
             var oAuthConsumerSecret = "wI1uwbfOeEqdTNfH1cAyCMtRHklOOq9YiYyiOjbptScCbdwujx";
             var oAuthUrl = "https://api.twitter.com/oauth2/token";
-            var screenname = GetPersoon(id).Twitter;
+            
 
             // Do the Authenticate
             var authHeaderFormat = "Basic {0}";
@@ -992,18 +992,18 @@ namespace IP_8IEN.BL
             return avatarJson;
         }
 
-        public string GetImageString(int id)
+        public string GetImageString(string screenname)
         {
-            string avatarJson = UseApiTwitter(id);
+            string avatarJson = UseApiTwitter(screenname);
             dynamic items = JsonConvert.DeserializeObject(avatarJson);
             string image = items.profile_image_url_https;
             string imageBig = image.Replace("_normal", "");
             //System.Diagnostics.Debug.WriteLine("de avatar string: " + imageBig);
             return imageBig;
         }
-        public string GetBannerString(int id)
+        public string GetBannerString(string screenname)
         {
-            string avatarJson = UseApiTwitter(id);
+            string avatarJson = UseApiTwitter(screenname);
             dynamic items = JsonConvert.DeserializeObject(avatarJson);
             string banner = items.profile_banner_url;
             //System.Diagnostics.Debug.WriteLine("de banner string: " + banner);
