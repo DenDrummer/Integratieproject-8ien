@@ -1,8 +1,8 @@
-﻿using IP_8IEN.BL.Domain.Data;
+﻿using IP3_8IEN.BL.Domain.Data;
 using Newtonsoft.Json;
 using System.IO;
 
-using IP_8IEN.DAL;
+using IP3_8IEN.DAL;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,11 +11,10 @@ using System.Net;
 using System.Web.Script.Serialization;
 using System.Net.Mail;
 using IP3_8IEN.BL.Domain.Dashboard;
-using IP_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Text;
-using IP3_8IEN.BL.Domain.Data;
 
-namespace IP_8IEN.BL
+namespace IP3_8IEN.BL
 {
     public class DataManager : IDataManager
     {
