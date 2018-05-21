@@ -84,6 +84,10 @@ namespace MVC_S.Controllers
                 ApplicationUser user = _userManager.FindById(id);
                 _userManager.Delete(user);
 
+                // We gaan de gebruiker (gelinkt met objecten in de Db)
+                //  niet echt deleten maar overschrijven met anonieme data
+                _gebrManager.DeleteUser(id);
+
                 return RedirectToAction("Index");
             }
             catch

@@ -33,5 +33,7 @@ namespace IP_8IEN.BL
         IEnumerable<DashItem> GetDashItems();
         void AddTileZone(TileZone tile);
         void InitializeDashbordNewUsers(string userId);
+
+        
     }
 }

@@ -351,6 +351,21 @@ namespace IP_8IEN.BL
             repo.UpdateGebruiker(gebruiker);
         }
 
+        public void DeleteUser(string userId)
+        {
+            initNonExistingRepo();
+
+            Gebruiker user = repo.ReadGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
+
+            user.Username = "Deleted";
+            user.Naam = "Deleted";
+            user.Voornaam = "Deleted";
+            user.Email = "Deleted";
+            user.Geboortedatum = DateTime.Now;
+
+            UpdateGebruiker(user);
+        }
+
         //Unit of Work related
         public void initNonExistingRepo(bool withUnitOfWork = false)
         {
