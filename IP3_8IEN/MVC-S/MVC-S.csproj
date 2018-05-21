@@ -531,6 +531,9 @@
     <Content Include="Views\Home\UserDashBoard.cshtml" />
     <Content Include="Views\Home\Grafiektest2.cshtml" />
     <Content Include="Views\Home\ListHogerLager.cshtml" />
+    <Content Include="Views\Home\LijstThemas.cshtml" />
+    <Content Include="Views\Home\LijstOrganisaties.cshtml" />
+    <Content Include="Views\Home\LijstPersonen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
