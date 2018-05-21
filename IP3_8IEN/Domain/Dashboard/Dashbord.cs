@@ -11,7 +11,7 @@ namespace IP_8IEN.BL.Domain.Dashboard
         public int DashbordId { get; set; }
 
         public Deelplatform Deelplatform { get; set; }
-        public Gebruiker Gebruiker { get; set; }
+        public Gebruiker User { get; set; }
         public ICollection<TileZone> TileZones { get; set; }
     }
 }

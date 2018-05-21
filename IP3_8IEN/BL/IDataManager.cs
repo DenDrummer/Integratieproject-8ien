@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Gebruikers;
 
 namespace IP_8IEN.BL
 {
@@ -67,8 +68,18 @@ namespace IP_8IEN.BL
         Persoon GetPersoon(int persoonId);
         Organisatie GetOrganisatie(int organisatieId);
 
-        //8 mai 2018 : Stephane
+        //8 mei 2018 : Stephane
         IEnumerable<Persoon> GetPersonen();
+        IEnumerable<Organisatie> GetOrganisaties();
+
+        //10 mei 2018 : Stephane
+        void ChangeOrganisation(Organisatie organisatie);
+        void ChangePersoon(Persoon persoon);
+
+        //18 mei 2018 : Stephane
+        Persoon GetPersoon(string naam);
+
+        List<GraphData> GetTweetsPerDag(Persoon persoon, Gebruiker user, int aantalDagenTerug = 0);
 
         //Sam 15 mei
         string GetImageString(string screenname);
