@@ -1,4 +1,4 @@
-﻿@model IP3_8IEN.BL.Domain.Data.Organisatie
+﻿@model IEnumerable<IP3_8IEN.BL.Domain.Data.Organisatie>
 @{
     ViewBag.Title = "LijstOrganisaties";
 }
@@ -22,24 +22,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="odd gradeX">
-                            <td>Persoon</td>
-                            <td>Bart De Wever</td>
-                            <td>Bart_DeWever</td>
-                            <td>Y</td>
-                        </tr>
-                        <tr class="odd gradeX">
-                            <td>Persoon</td>
-                            <td>Bart De Wever</td>
-                            <td>Bart_DeWever</td>
-                            <td>Y</td>
-                        </tr>
-                        <tr class="odd gradeX">
-                            <td>Persoon</td>
-                            <td>Bart De Wever</td>
-                            <td>Bart_DeWever</td>
-                            <td>Y</td>
-                        </tr>
+                        @foreach (var o in Model)
+                        {
+                            <tr class="odd gradeX">
+                                <td>@Html.ActionLink(o.Naam, "Organisatie", "Home", new { onderwerpId = o.OnderwerpId })</td>
+                                <td>@Html.DisplayFor(m => o.Afkorting)</td>
+                                <td><a href="@($"https://twitter.com/{o.Twitter}")">@Html.DisplayFor(m => o.Twitter)</a></td>
+                                <td>@if (o.Leider != null) {@Html.ActionLink(o.Leider.Naam, "DetailsPersoon", "Admin", new { id = o.Leider.OnderwerpId }, null)}</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>

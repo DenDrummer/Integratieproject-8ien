@@ -21,10 +21,10 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Naam)
+                @Html.ActionLink(item.Naam, "DetailsPersoon", new { id = item.OnderwerpId })
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Twitter)
+                <a href="@($"https://twitter.com/{item.Twitter}")">@Html.DisplayFor(modelItem => item.Twitter)</a>
             </td>
             <td>
                 @Html.ActionLink("Edit", "EditPersoon", new { id = item.OnderwerpId }) |
