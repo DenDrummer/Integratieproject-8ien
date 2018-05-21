@@ -1,11 +1,11 @@
-﻿using IP_8IEN.BL;
-using IP_8IEN.BL.Domain.Data;
-using IP_8IEN.BL.Domain.Gebruikers;
+﻿using IP3_8IEN.BL;
+using IP3_8IEN.BL.Domain.Data;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using IP_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Dashboard;
 
 namespace MVC_S.Controllers
 {
@@ -199,9 +199,9 @@ namespace MVC_S.Controllers
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
             List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, user, nDagen);
-            IP_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true);
-            IP_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
-            IP_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(/*newDashItem, */user, follow);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true);
+            IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(/*newDashItem, */user, follow);
             _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
             // ================================================================================ //
 
