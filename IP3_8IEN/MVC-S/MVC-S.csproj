@@ -366,7 +366,6 @@
     <Content Include="DataTables\Scroller-1.4.4\js\dataTables.scroller.js" />
     <Content Include="DataTables\Scroller-1.4.4\js\dataTables.scroller.min.js" />
     <Content Include="Fotos\banner.png" />
-    <Content Include="Fotos\bartdewever.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
