@@ -825,7 +825,7 @@ namespace IP_8IEN.BL
                 //System.Diagnostics.Debug.WriteLine(v.Key.Naam + " " + v.Value);
             }
 
-                ranking = ranking.OrderByDescending(r => r.value1).ToList();
+                ranking = ranking.OrderByDescending(r => r.value).ToList();
             return ranking.GetRange(0, aantal);
          }
 
@@ -892,6 +892,7 @@ namespace IP_8IEN.BL
                 tweetsPerDag.Add(lastTweet.Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
                 lastTweet = lastTweet.AddDays(-1);
             } while (lastTweet >= stop);*/
+            
             for (int i = 0; i < aantalDagenTerug+1; i++)
             {
                 //Sam
@@ -903,7 +904,7 @@ namespace IP_8IEN.BL
             
             foreach (var v in GraphDataList)
             {
-                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value1);
+                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value);
             }
             
 
@@ -941,6 +942,7 @@ namespace IP_8IEN.BL
                 tweetsPerDag.Add(lastTweet.Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
                 lastTweet = lastTweet.AddDays(-1);
             } while (lastTweet >= stop);*/
+            
             for (int i = 0; i < aantalDagenTerug + 1; i++)
             {
                 //Sam
@@ -952,12 +954,13 @@ namespace IP_8IEN.BL
 
             foreach (var v in GraphDataList)
             {
-                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value1);
+                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value);
             }
 
 
             return GraphDataList;
         }
+        
         public string UseApiTwitter(string screenname)
         {
             var oAuthConsumerKey = "Fj6y59d4rcEHpslGnthlxfv62";
@@ -1477,7 +1480,7 @@ namespace IP_8IEN.BL
 
                 //======= Edit : 10 mei 2018 : Stephane ======//
 
-                GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
+                GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon)).Count());
                 dashMgr.AddGraph(graph);
                 //dashItem.Graphdata.Add(graph);
                 //dashMgr.UpdateDashItem(dashItem);
@@ -1493,8 +1496,6 @@ namespace IP_8IEN.BL
             uowManager.Save();
             return GraphDataList;
         }
-    }
-}
         public List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2)
         {
             initNonExistingRepo();
@@ -1832,4 +1833,3 @@ namespace IP_8IEN.BL
         }
     }
 }
-    
