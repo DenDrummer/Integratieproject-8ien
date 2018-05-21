@@ -107,7 +107,7 @@ namespace MVC_S.Controllers
         }
 
         [HttpGet]
-        public ActionResult DetailsPersoon(int id)
+        public ActionResult DetailsPersoon(int id = 1)
         {
             Persoon persoon = _dataManager.GetPersoon(id);
             return View(persoon);

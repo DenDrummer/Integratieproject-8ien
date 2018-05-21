@@ -25,10 +25,10 @@
         {
                         <tr>
                             <td style="width:30%;">
-                                @Html.DisplayFor(modelItem => item.Naam)
+                                @Html.ActionLink(item.Naam, "DetailsPersoon", new { id = item.OnderwerpId })
                             </td>
                             <td style="width:30%;">
-                                @Html.DisplayFor(modelItem => item.Twitter)
+                                <a href="@($" https://twitter.com/{item.Twitter}")">@Html.DisplayFor(modelItem => item.Twitter)</a>
                             </td>
                             <td style="width:20%;">
                                 @Html.DisplayFor(modelItem => item.Town)

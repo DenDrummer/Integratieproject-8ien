@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<IP3_8IEN.BL.Domain.Data.Thema>
 @{
     ViewBag.Title = "LijstThemas";
 }
@@ -21,21 +21,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="odd gradeX">
-                            <td>Persoon</td>
-                            <td>Bart De Wever</td>
-                            <td>Bart_DeWever</td>
-                        </tr>
-                        <tr class="odd gradeX">
-                            <td>Persoon</td>
-                            <td>Bart De Wever</td>
-                            <td>Bart_DeWever</td>
-                        </tr>
-                        <tr class="odd gradeX">
-                            <td>Persoon</td>
-                            <td>Bart De Wever</td>
-                            <td>Bart_DeWever</td>
-                        </tr>
+                        @foreach (var t in Model)
+                        {
+                            <tr class="odd gradeX">
+                                <td>@Html.ActionLink(t.ThemaString,"Themas","Home", new { }, null)</td>
+                                <td>Bart De Wever</td>
+                                <td>Bart_DeWever</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>

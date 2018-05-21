@@ -104,6 +104,19 @@ namespace MVC_S.Controllers
 
             return View(persoon);
         }
+        public ActionResult Personen(int onderwerpId = 1)
+        {
+            Persoon persoon = dMgr.GetPersoon(onderwerpId);
+            string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
+            string aantalT = "aantal tweets van " + persoon.Naam;
+            ViewBag.TWITTER = twit;
+            ViewBag.AANTALT = aantalT;
+
+            ViewBag.TWITIMAGE = dMgr.GetImageString(persoon.OnderwerpId);
+            ViewBag.TWITBANNER = dMgr.GetBannerString(persoon.OnderwerpId);
+
+            return View(persoon);
+        }
 
         public ActionResult Themas(/*int onderwerpId*/)
         {
@@ -114,7 +127,7 @@ namespace MVC_S.Controllers
              *      en vervang de xMgr met de correcte mgr*/
             Thema thema = new Thema()
             {
-                ThemaString = "thema",
+                Naam = "thema",
                 Beschrijving = "beschrijving over het thema"
             };
             return View(thema);
@@ -173,11 +186,22 @@ namespace MVC_S.Controllers
 
         public ActionResult Instellingen() => View();
 
-        public ActionResult LijstPersonen() => View();
+        public ActionResult LijstPersonen() => View(dMgr.GetPersonen());
 
-        public ActionResult LijstThemas() => View();
+        public ActionResult LijstThemas() => View(new List<Thema>()
+            {
+                new Thema()
+                {
+                    OnderwerpId = 285,
+                    Naam = "ukip",
+                    Hashtags = new List<string>()
+                    {
+                        "ukip"
+                    }
+                }
+            });
 
-        public ActionResult LijstOrganisaties() => View();
+        public ActionResult LijstOrganisaties() => View(dMgr.GetOrganisaties());
 
         [HttpGet]
         public ActionResult Zoeken()
@@ -219,7 +243,7 @@ namespace MVC_S.Controllers
         {
             Persoon persoon = dMgr.GetPersoon(170);
             int aantalTweets = dMgr.GetNumber(persoon);
-           // int aantalTweets = 69;
+            // int aantalTweets = 69;
             ViewBag.NUMMER1 = aantalTweets;
             ViewBag.naam1 = persoon.Naam;
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
@@ -230,11 +254,11 @@ namespace MVC_S.Controllers
         public ActionResult GetData(int id)
         {
             Persoon persoon = dMgr.GetPersoon(id);
-            return Json(dMgr.GetTweetsPerDag(persoon,20), JsonRequestBehavior.AllowGet);
+            return Json(dMgr.GetTweetsPerDag(persoon, 20), JsonRequestBehavior.AllowGet);
         }
-        public ActionResult GetRank(int aantal) => Json(dMgr.GetRanking(aantal,100), JsonRequestBehavior.AllowGet);
+        public ActionResult GetRank(int aantal) => Json(dMgr.GetRanking(aantal, 100), JsonRequestBehavior.AllowGet);
 
-        public ActionResult GetData2(int id1, int id2, int id3, int id4, int id5 )
+        public ActionResult GetData2(int id1, int id2, int id3, int id4, int id5)
         {
             Persoon persoon1 = dMgr.GetPersoon(id1);
             Persoon persoon2 = dMgr.GetPersoon(id2);
