@@ -92,12 +92,12 @@ namespace MVC_S.Controllers
         [HttpPost]
         public ActionResult Personen(string automplete)
         {
-            string naam = automplete;
-            Persoon persoon = dMgr.GetPersoon(naam);
-            string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
-            string aantalT = "aantal tweets van " + persoon.Naam;
-            ViewBag.TWITTER = twit;
-            ViewBag.AANTALT = aantalT;
+            //string naam = id;
+            Persoon persoon = dMgr.GetPersoon(automplete);
+            //string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
+            //string aantalT = "aantal tweets van " + persoon.Naam;
+            //ViewBag.TWITTER = twit;
+            //ViewBag.AANTALT = aantalT;
 
             ViewBag.TWITIMAGE = dMgr.GetImageString(persoon.OnderwerpId);
             ViewBag.TWITBANNER = dMgr.GetBannerString(persoon.OnderwerpId);
@@ -107,10 +107,10 @@ namespace MVC_S.Controllers
         public ActionResult Personen(int onderwerpId = 1)
         {
             Persoon persoon = dMgr.GetPersoon(onderwerpId);
-            string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
-            string aantalT = "aantal tweets van " + persoon.Naam;
-            ViewBag.TWITTER = twit;
-            ViewBag.AANTALT = aantalT;
+            //string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
+            //string aantalT = "aantal tweets van " + persoon.Naam;
+            //ViewBag.TWITTER = twit;
+            //ViewBag.AANTALT = aantalT;
 
             ViewBag.TWITIMAGE = dMgr.GetImageString(persoon.OnderwerpId);
             ViewBag.TWITBANNER = dMgr.GetBannerString(persoon.OnderwerpId);
