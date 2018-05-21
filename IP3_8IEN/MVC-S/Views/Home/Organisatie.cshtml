@@ -21,8 +21,8 @@
                             <div class="col-lg-6">
                                 <table>
                                     <tr>
-                                        <td valign="top"><b>@Html.DisplayNameFor(model => model.NaamOrganisatie): </b></td>
-                                        <td>@Html.DisplayFor(model => model.NaamOrganisatie)</td>
+                                        <td valign="top"><b>@Html.DisplayNameFor(model => model.Naam): </b></td>
+                                        <td>@Html.DisplayFor(model => model.Naam)</td>
                                     </tr>
                                     <tr>
                                         <td valign="top"><b>@Html.DisplayNameFor(model => model.Afkorting): </b></td>
@@ -87,7 +87,7 @@
                     </div>
                     <div class="col-lg-5">
                         <form role="form">
-                            <a class="twitter-timeline" data-lang="nl" data-height="500" data-theme="light" data-link-color="#00295C" href="https://twitter.com/de_NVA?ref_src=twsrc%5Etfw">Tweets by de_NVA</a>
+                            <a class="twitter-timeline" data-lang="nl" data-height="500" data-theme="light" data-link-color="#00295C" href="@($"https://twitter.com/{Model.Twitter}?ref_src=twsrc%5Etfw")">Tweets by de_NVA</a>
                             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                         </form>
                     </div>
