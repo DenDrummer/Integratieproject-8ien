@@ -121,14 +121,33 @@
         canvas.id = "canvas-"+id;
         canvas.width = 500;
         canvas.height = 500;
-        
-        
-        
+
+       
         div.appendChild(canvas);
     }
 
+    //function loadCanvas2(id) {
+    //    var div = document.getElementById(id);
+    //    var html = '<canvas id="' + id + '" width="500" height="1000"></canvas>';
+
+    //    div.appendChild(html);
+    //}
+
+    
+
+    //function addElement(id) {
+    //    var html = '<input type="range"  name="width' + counter + '" min="40" max="200" value="40" oninput="this.form.widthPlus' + counter + '.value=this.value" />' +
+    //        '<input type="number" name="widthPlus' + counter + '" min="40" max="200" value="40" oninput="this.form.width' + counter + '.value=this.value" />';
+    //    $("#id").append(html);
+        
+    //}
+
     loadCanvas('chart5');
     loadCanvas('chart6');
+
+    function doeiets(e) {
+        console.log("iets gedaan" + e.value);
+    }
     
     var options = {
         userId: 'JordenL',
@@ -160,6 +179,13 @@
             window.player = player;
         }
     });
+
+    document.getElementById("button").onclick = loadPerson()
+
+    function loadPersn() {
+        window.player.setValue('number1', 'v', e.value);
+    }
+        
 
     function newNumber(number) {
         document.getElementById("chart7").innerHTML = number;
