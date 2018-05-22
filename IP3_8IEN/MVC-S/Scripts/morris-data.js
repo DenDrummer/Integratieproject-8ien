@@ -77,43 +77,43 @@
     //    resize: true
     //});
 
-    Morris.Bar({
-        element: 'chart3',
-        data: [{
-            y: '2006',
-            a: 100,
-            b: 90
-        }, {
-            y: '2007',
-            a: 75,
-            b: 65
-        }, {
-            y: '2008',
-            a: 50,
-            b: 40
-        }, {
-            y: '2009',
-            a: 75,
-            b: 65
-        }, {
-            y: '2010',
-            a: 50,
-            b: 40
-        }, {
-            y: '2011',
-            a: 75,
-            b: 65
-        }, {
-            y: '2012',
-            a: 100,
-            b: 90
-        }],
-        xkey: 'y',
-        ykeys: ['a', 'b'],
-        labels: ['Series A', 'Series B'],
-        hideHover: 'auto',
-        resize: true
-    });
+    //Morris.Bar({
+    //    element: 'chart3',
+    //    data: [{
+    //        y: '2006',
+    //        a: 100,
+    //        b: 90
+    //    }, {
+    //        y: '2007',
+    //        a: 75,
+    //        b: 65
+    //    }, {
+    //        y: '2008',
+    //        a: 50,
+    //        b: 40
+    //    }, {
+    //        y: '2009',
+    //        a: 75,
+    //        b: 65
+    //    }, {
+    //        y: '2010',
+    //        a: 50,
+    //        b: 40
+    //    }, {
+    //        y: '2011',
+    //        a: 75,
+    //        b: 65
+    //    }, {
+    //        y: '2012',
+    //        a: 100,
+    //        b: 90
+    //    }],
+    //    xkey: 'y',
+    //    ykeys: ['a', 'b'],
+    //    labels: ['Series A', 'Series B'],
+    //    hideHover: 'auto',
+    //    resize: true
+    //});
 
     function loadCanvas(id) {
         var canvas = document.createElement('canvas'),
@@ -121,14 +121,33 @@
         canvas.id = "canvas-"+id;
         canvas.width = 500;
         canvas.height = 500;
-        
-        
-        
+
+       
         div.appendChild(canvas);
     }
 
+    //function loadCanvas2(id) {
+    //    var div = document.getElementById(id);
+    //    var html = '<canvas id="' + id + '" width="500" height="1000"></canvas>';
+
+    //    div.appendChild(html);
+    //}
+
+    
+
+    //function addElement(id) {
+    //    var html = '<input type="range"  name="width' + counter + '" min="40" max="200" value="40" oninput="this.form.widthPlus' + counter + '.value=this.value" />' +
+    //        '<input type="number" name="widthPlus' + counter + '" min="40" max="200" value="40" oninput="this.form.width' + counter + '.value=this.value" />';
+    //    $("#id").append(html);
+        
+    //}
+
     loadCanvas('chart5');
     loadCanvas('chart6');
+
+    function doeiets(e) {
+        console.log("iets gedaan" + e.value);
+    }
     
     var options = {
         userId: 'JordenL',
@@ -160,6 +179,13 @@
             window.player = player;
         }
     });
+
+    document.getElementById("button").onclick = loadPerson()
+
+    function loadPersn() {
+        window.player.setValue('number1', 'v', e.value);
+    }
+        
 
     function newNumber(number) {
         document.getElementById("chart7").innerHTML = number;
