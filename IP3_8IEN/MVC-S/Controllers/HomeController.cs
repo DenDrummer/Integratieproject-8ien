@@ -84,12 +84,20 @@ namespace MVC_S.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+              return View();
         }
 
         public ActionResult Dashboard() => View();
+
+        public ActionResult Faq()
+        {
+            return View();
+        }
+
+        public ActionResult Privacy()
+        {
+            return View();
+        }
 
         //Get: Persoon/1
         [HttpPost]
