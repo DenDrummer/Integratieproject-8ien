@@ -1,7 +1,7 @@
 ﻿@model IP3_8IEN.BL.Domain.Data.Persoon
 
 @{
-    ViewBag.Title = "Personen";
+    ViewBag.Title = Model.Naam;
 }
 
 <br />
@@ -31,11 +31,11 @@
                                     </tr>
                                     <tr>
                                         <td valign="top" style="color:#00295C"><b>@Html.DisplayNameFor(model => model.Twitter):</b> </td>
-                                        <td>@Html.DisplayFor(model => model.Twitter)</td>
+                                        <td><a href="@($"https://twitter.com/{Model.Twitter}")">@Html.DisplayFor(model => model.Twitter)</a></td>
                                     </tr>
                                     <tr>
                                         <td valign="top" style="color:#00295C"><b>@Html.DisplayNameFor(model => model.Facebook):</b> </td>
-                                        <td>@Html.DisplayFor(model => model.Facebook)</td>
+                                        <td><a href="@Model.Facebook">@Html.DisplayFor(model => Model.Facebook)</a></td>
                                     </tr>
 
                                 </table>
@@ -76,6 +76,13 @@
                         {
                             <form role="form">
                                 <a class="twitter-timeline" data-height="500" data-theme="light" data-link-color="#00295C" href="@($"https://twitter.com/{Model.Twitter}?ref_src=twsrc%5Etfw")">Tweets by @Model.Twitter</a>
+                                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                            </form>
+                        }
+                        else
+                        {
+                            <form role="form">
+                                <a class="twitter-timeline" data-height="500" data-theme="light" data-link-color="#00295C" href="@($"https://twitter.com/Twitter?ref_src=twsrc%5Etfw")">Tweets by Twitter</a>
                                 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                             </form>
                         }

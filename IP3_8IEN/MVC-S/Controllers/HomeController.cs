@@ -10,6 +10,7 @@ using System.Web;
 using IP3_8IEN.BL.Domain.Dashboard;
 using Microsoft.AspNet.Identity;
 using System.Linq;
+using System.Text;
 
 namespace MVC_S.Controllers
 {
@@ -118,18 +119,39 @@ namespace MVC_S.Controllers
             return View(persoon);
         }
 
-        public ActionResult Themas(/*int onderwerpId*/)
+        public ActionResult Themas(int onderwerpId = 500)
         {
             //Thema thema = xMgr.GetThema(onderwerpId);
-            /*  verwijder alle onderstaande code buiten de return
+            /*  verwijder onderstaande region
              *      zodra er via bovenstaande methode
              *      een thema kan binnengehaald worden
              *      en vervang de xMgr met de correcte mgr*/
+            #region create default thema
             Thema thema = new Thema()
             {
-                Naam = "thema",
-                Beschrijving = "beschrijving over het thema"
+                OnderwerpId = onderwerpId,
+                Naam = "het nieuws",
+                Beschrijving = "wat er in het nieuws over wordt gesproken",
+                Hashtags = new List<string>()
+                {
+                    "vtmnieuws",
+                    "vrtjournaal"
+                }
             };
+            #endregion
+            #region create searchstring
+            StringBuilder searchString = new StringBuilder();
+            searchString.Append("https://twitter.com/search?q=");
+            for (int i = 0; i < thema.Hashtags.Count; i++)
+            {
+                if (i > 0)
+                {
+                    searchString.Append(" OR ");
+                }
+                searchString.Append($"%23{thema.Hashtags.ElementAt(i)}");
+            }
+            ViewBag.SearchString = searchString.ToString();
+            #endregion
             return View(thema);
         }
 
