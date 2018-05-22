@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <div class="col-lg-5">
-                        @if (Model.Twitter != null)
+                        @if (Model.Twitter != null && Model.Twitter != "")
                         {
                             <form role="form">
                                 <a class="twitter-timeline" data-lang="nl" data-height="500" data-theme="light" data-link-color="#00295C" href="@($"https://twitter.com/{Model.Twitter}?ref_src=twsrc%5Etfw")">Tweets by de_NVA</a>
