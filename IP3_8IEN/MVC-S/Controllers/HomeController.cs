@@ -116,8 +116,8 @@ namespace MVC_S.Controllers
             ViewBag.TWITTER = twit;
             ViewBag.AANTALT = aantalT;
 
-            ViewBag.TWITIMAGE = dMgr.GetImageString(persoon.OnderwerpId);
-            ViewBag.TWITBANNER = dMgr.GetBannerString(persoon.OnderwerpId);
+            ViewBag.TWITIMAGE = dMgr.GetImageString(persoon.Twitter);
+            ViewBag.TWITBANNER = dMgr.GetBannerString(persoon.Twitter);
 
             return View(persoon);
         }
