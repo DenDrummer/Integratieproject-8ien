@@ -152,6 +152,7 @@ namespace IP3_8IEN.BL
             Dashbord dashbord = new Dashbord
             {
                 User = gebruiker,
+                ZonesOrder = "[0,1,2,3,4,5,6,7,8,9]",
                 TileZones = new Collection<TileZone>()
             };
             repo.AddDashBord(dashbord);
