@@ -533,6 +533,8 @@
     <Content Include="Views\Home\LijstThemas.cshtml" />
     <Content Include="Views\Home\LijstOrganisaties.cshtml" />
     <Content Include="Views\Home\LijstPersonen.cshtml" />
+    <Content Include="Views\Home\Faq.cshtml" />
+    <Content Include="Views\Home\Privacy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
