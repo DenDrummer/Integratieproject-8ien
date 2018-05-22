@@ -14,14 +14,14 @@ namespace IP_8IEN.DAL
         public GebruikerRepository()
         {
             ctx = new OurDbContext();
-            isUoW = false;
+            //isUoW = false;
             ctx.Database.Initialize(false);
         }
 
         public GebruikerRepository(UnitOfWork uow)
         {
             ctx = uow.Context;
-            isUoW = true;
+            //isUoW = true;
         }
 
         public bool isUnitofWork() => isUoW;

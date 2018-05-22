@@ -37,6 +37,6 @@ namespace IP_8IEN.BL
         //21 mei 2018 : Stephane
         //void AddDashItems(Dashbord dashbord);
         Dashbord GetDashboard(int dashId);
-        Dashbord DashbordInitGraphs();
+        Dashbord DashbordInitGraphs(int dashId);
     }
 }

@@ -308,32 +308,9 @@ namespace IP_8IEN.BL
             repo.AddingGebruiker(gebruiker);
 
             dashMgr = new DashManager();
-            //dashMgr.InitializeDashbordNewUsers(gebruiker.GebruikerId);
 
-            //uowManager.Save();
-            //dashMgr = new DashManager(uowManager);
-            LinkUserToDash(dashMgr.DashbordInitGraphs().DashbordId, userId);
-
-            repo.ReadGebruiker(userId);
-            bool test = true;
-
-            //dashMgr = new DashManager(uowManager);
-            //repo.setUnitofWork(false);
-            //Dashbord dashbord = dashMgr.GetDashboard(dashId);
-
-            //if (gebruiker.Dashboards == null)
-            //{
-            //    repo.ReadGebruiker(userId).Dashboards = new Collection<Dashbord>();
-            //    repo.ReadGebruiker(userId).Dashboards.Add(dashMgr.GetDashboard(dashMgr.DashbordInitGraphs().DashbordId));
-            //}
-            //else
-            //{
-                //repo.ReadGebruiker(userId).Dashboards.Add(dashMgr.GetDashboard(dashMgr.DashbordInitGraphs().DashbordId));
-            //}
-
-            //repo.UpdateGebruiker(gebruiker);
-            //uowManager.Save();
-            //repo.setUnitofWork(true);
+            //Dashboard initialiseren voor nieuwe gebruiker en opvullen met vaste grafieken
+            dashMgr.InitializeDashbordNewUsers(gebruiker.GebruikerId);
         }
 
         public void UpdateGebruiker(Gebruiker gebruiker)

@@ -25,6 +25,9 @@ namespace MVC_S.Controllers
             // initialisatie Admins zitten in InitializeAdmins()
             // initialisatie methodes zitten in Initialize()
 
+            //string id = System.DateTime.Now.ToString();
+            //gMgr.AddGebruiker("testuser", id, "dummy", "plug");
+
             //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
             //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
         }

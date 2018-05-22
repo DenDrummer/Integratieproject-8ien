@@ -15,14 +15,14 @@ namespace IP_8IEN.DAL
         public DashRepository()
         {
             ctx = new OurDbContext();
-            isUoW = false;
+            //isUoW = false;
             ctx.Database.Initialize(false);
         }
 
         public DashRepository(UnitOfWork uow)
         {
             ctx = uow.Context;
-            isUoW = true;
+            //isUoW = true;
         }
 
         public Dashbord ReadDashbord(Gebruiker user)
