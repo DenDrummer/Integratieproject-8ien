@@ -25,8 +25,6 @@
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.1.221/styles/kendo.silver.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.1.221/styles/kendo.mobile.all.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
-
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -44,7 +42,7 @@
             </button>
             @*@Html.ActionLink(" ", "grafiektest2", "Home", null, new { style = $"background:url('{Url.Content("~/favicon.ico")}') no-repeat contain;", @class = "navbar-brand", height = "32px", width = "20px" })*@
             <a class="navbar-brand" href="@Url.Action("grafiektest2", "Home")">
-                <img src="~/favicon.ico" height="18px" /> IEN.
+                <img src="~/favicon.ico" style="height:18px" /> IEN.
             </a>
         </div>
 
@@ -52,7 +50,7 @@
             <!-- /.dropdown -->
             <li class="dropdown">
                 <a class="dropdown-toggle" href="" data-toggle="dropdown">
-                    <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-bell fa-fw" style="color:#00295C;"></i> <i class="fa fa-caret-down" style="color:#00295C;"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
                     <li>
@@ -86,29 +84,11 @@
                             </div>
                         </a>
                     </li>
+
                     <li class="divider"></li>
                     <li>
-                        <a href="">
-                            <div>
-                                <i class="fa fa-tasks fa-fw"></i> New Task
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="">
-                            <div>
-                                <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a class="text-center" href="">
-                            <strong>See All Alerts</strong>
-                            <i class="fa fa-angle-right"></i>
+                        <a class="text-center" href="" style="margin-left: auto; margin-right: auto;">
+                            <strong>@Html.ActionLink("Bekijk alle alerts", "Alerts", "Home")</strong>
                         </a>
                     </li>
                 </ul>
@@ -118,14 +98,14 @@
             <!-- /.dropdown -->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                    <i class="fas fa-users-cog"></i> <i class="fa fa-caret-down"></i>
+                    <i class="fas fa-users-cog" style="color:#00295C;"></i> <i class="fa fa-caret-down" style="color:#00295C;"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li>
-                        <a href=""><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <a href="">@Html.ActionLink("Gebruikersprofiel", "Instellingen", "Home")</a>
                     </li>
                     <li>
-                        <a href=""><i class="fa fa-gear fa-fw"></i> @Html.ActionLink("Instellingen", "Instellingen", "Home")</a>
+                        <a href=""> @Html.ActionLink("Instellingen", "Instellingen", "Home")</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
@@ -133,7 +113,7 @@
             <!-- /.dropdown -->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                    <i class="fas fa-sign-out-alt"></i> <i class="fa fa-caret-down"></i>
+                    <i class="fas fa-sign-out-alt" style="color:#00295C;"></i> <i class="fa fa-caret-down" style="color:#00295C;"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     @using Microsoft.AspNet.Identity
@@ -185,87 +165,87 @@
                         <!-- /input-group -->
                     <li>
                         <a href="@Url.Action("Dashboard", "Home")">
-                            <i class="fas fa-chart-bar"></i>
+                            <i class="fas fa-chart-bar" style="color:#00295C;"></i>
                             Dashboard
                         </a>
                     </li>
 
                     <li>
                         <a href="@Url.Action("Personen", "Home")">
-                            <i class="fas fa-user-alt"></i>
+                            <i class="fas fa-user-alt" style="color:#00295C;"></i>
                             Personen
                         </a>
                     </li>
 
                     <li>
                         <a href="@Url.Action("Themas", "Home")">
-                            <i class="fas fa-street-view"></i>
+                            <i class="fas fa-street-view" style="color:#00295C;"></i>
                             Themas
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("Organisatie", "Home")">
-                            <i class="fas fa-handshake"></i>
+                            <i class="fas fa-handshake" style="color:#00295C;"></i>
                             Organisaties
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("Alerts", "Home")">
-                            <i class="fas fa-bell"></i>
+                            <i class="fas fa-bell" style="color:#00295C;"></i>
                             Alerts
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("LijstPersonen", "Home")">
-                            <i class="fas fa-bell"></i>
+                            <i class="fas fa-bell" style="color:#00295C;"></i>
                             Personen Lijst
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("LijstOrganisaties", "Home")">
-                            <i class="fas fa-bell"></i>
+                            <i class="fas fa-bell" style="color:#00295C;"></i>
                             Organisaties Lijst
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("LijstThemas", "Home")">
-                            <i class="fas fa-bell"></i>
+                            <i class="fas fa-bell" style="color:#00295C;"></i>
                             Themas Lijst
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("WeeklyReview", "Home")">
-                            <i class="fas fa-calendar-alt"></i>
+                            <i class="fas fa-calendar-alt" style="color:#00295C;"></i>
                             WeeklyReview
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("Instellingen", "Home")">
-                            <i class="fas fa-cogs"></i>
+                            <i class="fas fa-cogs" style="color:#00295C;"></i>
                             Instellingen
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("Zoeken", "Home")">
-                            <i class="fas fa-search"></i>
+                            <i class="fas fa-search" style="color:#00295C;"></i>
                             Zoeken
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("AdminOmgeving", "Home")">
-                            <i class="fas fa-user-circle"></i>
+                            <i class="fas fa-user-circle" style="color:#00295C;"></i>
                             Admin Omgeving
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("AdminCRUD", "Home")">
-                            <i class="fas fa-minus-square"></i>
+                            <i class="fas fa-minus-square" style="color:#00295C;"></i>
                             AdminCRUD
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("Superadmin", "Home")">
-                            <i class="fab fa-superpowers"></i>
+                            <i class="fab fa-superpowers" style="color:#00295C;"></i>
                             Superadmin
                         </a>
                     </li>
