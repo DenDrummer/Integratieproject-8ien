@@ -1,0 +1,67 @@
+﻿@model IEnumerable<IP3_8IEN.BL.Domain.Data.Persoon>
+@{
+    ViewBag.Title = "LijstPersonen";
+}
+
+<h2>LijstPersonen</h2>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Hieronder ziet u een overzicht van alle Personen in onze databank.
+            </div>
+            <div class="panel-body">
+                <table width="100%" class="table table-striped table-bordered table-hover" id="personenTable">
+                    <thead>
+                        <tr class="odd gradeX">
+                            <th>Naam</th>
+                            <th>Twitter</th>
+                            <th>Gemeente</th>
+                            <th>Geslacht</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in Model)
+                        {
+                            <tr class="odd gradeX">
+                                <td>
+                                    @Html.ActionLink(p.Naam, "DetailsPersoon", "Admin", new { id = p.OnderwerpId }, null)
+                                </td>
+                                <td><a href="@($"https://twitter.com/{p.Twitter}")">@Html.DisplayFor(m => p.Twitter)</a></td>
+                                <td>@Html.DisplayFor(m => p.Town)</td>
+                                <td>
+                                    @if (p.Gender.Equals("M"))
+                                    {
+                                        @Html.Raw("♂")
+                                    }
+                                    else if (p.Gender.Equals("V"))
+                                    {
+                                        @Html.Raw("♀")
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(m => p.Gender)
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+
+@section scripts{
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#personenTable').DataTable();
+        });</script>
+}
+

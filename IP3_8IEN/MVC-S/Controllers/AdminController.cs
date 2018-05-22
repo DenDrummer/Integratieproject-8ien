@@ -1,6 +1,6 @@
-﻿using IP_8IEN.BL;
-using IP_8IEN.BL.Domain.Data;
-using IP_8IEN.BL.Domain.Gebruikers;
+﻿using IP3_8IEN.BL;
+using IP3_8IEN.BL.Domain.Data;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -111,7 +111,7 @@ namespace MVC_S.Controllers
         }
 
         [HttpGet]
-        public ActionResult DetailsPersoon(int id)
+        public ActionResult DetailsPersoon(int id = 1)
         {
             Persoon persoon = _dataManager.GetPersoon(id);
             return View(persoon);

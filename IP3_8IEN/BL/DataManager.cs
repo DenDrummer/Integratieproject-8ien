@@ -1,8 +1,8 @@
-﻿using IP_8IEN.BL.Domain.Data;
+﻿using IP3_8IEN.BL.Domain.Data;
 using Newtonsoft.Json;
 using System.IO;
 
-using IP_8IEN.DAL;
+using IP3_8IEN.DAL;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,11 +11,10 @@ using System.Net;
 using System.Web.Script.Serialization;
 using System.Net.Mail;
 using IP3_8IEN.BL.Domain.Dashboard;
-using IP_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Text;
-using IP3_8IEN.BL.Domain.Data;
 
-namespace IP_8IEN.BL
+namespace IP3_8IEN.BL
 {
     public class DataManager : IDataManager
     {
@@ -156,8 +155,8 @@ namespace IP_8IEN.BL
 
                 try
                 {
-                    tweet.SentimentPos = item.sentiment[0];
-                    tweet.SentimentNeg = item.sentiment[1];
+                    tweet.Polarity = item.sentiment[0];
+                    tweet.Objectivity = item.sentiment[1];
                 }
                 catch { }
 
@@ -802,8 +801,8 @@ namespace IP_8IEN.BL
                 List<GraphData> ranking = new List<GraphData>();
                 foreach (Persoon p in personen)
             {
-                int teller = messages.Where(m => m.IsFrom(p)).Count();
-                List<Message> messages2 = messages.Where(m => m.IsFrom(p)).ToList();
+                int teller = messages.Where(m => m.IsFromPersoon(p)).Count();
+                List<Message> messages2 = messages.Where(m => m.IsFromPersoon(p)).ToList();
                 laatstePeriode = messages2.Where(m => lastTweet.AddHours(interval_uren * -1) < m.Date).Count();
                 voorlaatstePeriode = messages2.Where(m => lastTweet.AddHours((interval_uren * 2) * -1) < m.Date && m.Date < lastTweet.AddHours(interval_uren * -1)).Count();
                 if (puntNotatie == true)
@@ -825,7 +824,7 @@ namespace IP_8IEN.BL
                 //System.Diagnostics.Debug.WriteLine(v.Key.Naam + " " + v.Value);
             }
 
-                ranking = ranking.OrderByDescending(r => r.value1).ToList();
+                ranking = ranking.OrderByDescending(r => r.value).ToList();
             return ranking.GetRange(0, aantal);
          }
 
@@ -850,11 +849,11 @@ namespace IP_8IEN.BL
 
             if (laatsteAantalUren == 0)
             {
-                aantal = messages.Where(m => m.IsFrom(persoon)).Count();
+                aantal = messages.Where(m => m.IsFromPersoon(persoon)).Count();
             }
             else
             {
-                aantal = messages.Where(m => m.IsFrom(persoon) && m.Date > lastTweet.AddHours(laatsteAantalUren * -1)).Count();
+                aantal = messages.Where(m => m.IsFromPersoon(persoon) && m.Date > lastTweet.AddHours(laatsteAantalUren * -1)).Count();
             }
 
             return aantal;
@@ -892,18 +891,19 @@ namespace IP_8IEN.BL
                 tweetsPerDag.Add(lastTweet.Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
                 lastTweet = lastTweet.AddDays(-1);
             } while (lastTweet >= stop);*/
+            
             for (int i = 0; i < aantalDagenTerug+1; i++)
             {
                 //Sam
                 string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
                 //Sam
-                GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count()));
+                GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon)).Count()));
                 lastTweet = lastTweet.AddDays(-1);
             }
             
             foreach (var v in GraphDataList)
             {
-                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value1);
+                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value);
             }
             
 
@@ -941,65 +941,31 @@ namespace IP_8IEN.BL
                 tweetsPerDag.Add(lastTweet.Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
                 lastTweet = lastTweet.AddDays(-1);
             } while (lastTweet >= stop);*/
+            
             for (int i = 0; i < aantalDagenTerug + 1; i++)
             {
                 //Sam
                 string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
                 //Sam
-                GraphDataList.Add(new GraphData2(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon1)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon2)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon3)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon4)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon5)).Count()));
+                GraphDataList.Add(new GraphData2(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon1)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon2)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon3)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon4)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon5)).Count()));
                 lastTweet = lastTweet.AddDays(-1);
             }
 
             foreach (var v in GraphDataList)
             {
-                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value1);
+                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value);
             }
 
 
             return GraphDataList;
         }
-        public string UseApiTwitter(int id)
+        
+        public string UseApiTwitter(string screenname)
         {
-            /*
-            //Oauth Keys (Replace with values that are obtained from registering the application
-            //https://dev.twitter.com/apps/new
-
-            var oauth_consumer_key = "Fj6y59d4rcEHpslGnthlxfv62";
-            var oauth_consumer_secret = "wI1uwbfOeEqdTNfH1cAyCMtRHklOOq9YiYyiOjbptScCbdwujx";
-
-            //Token URL
-            var oauth_url = "https://api.twitter.com/oauth2/token";
-            var headerFormat = "Basic {0}";
-            var authHeader = string.Format(headerFormat,
-                        Convert.ToBase64String(Encoding.UTF8.GetBytes(Uri.EscapeDataString(oauth_consumer_key) + ":" +
-                        Uri.EscapeDataString((oauth_consumer_secret)))
-                        ));
-
-            var postBody = "grant_type=client_credentials";
-
-            ServicePointManager.Expect100Continue = false;
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(oauth_url);
-            request.Headers.Add("Authorization", authHeader);
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded;charset=UTF-8";
-
-            using (Stream stream = request.GetRequestStream())
-            {
-                byte[] content = ASCIIEncoding.ASCII.GetBytes(postBody);
-                stream.Write(content, 0, content.Length);
-            }
-
-            request.Headers.Add("Accept-Encoding", "gzip");
-            WebResponse response = request.GetResponse();
-            
-            //System.Diagnostics.Debug.WriteLine(response.ToString);
-            return null;*/
-            
-
             var oAuthConsumerKey = "Fj6y59d4rcEHpslGnthlxfv62";
             var oAuthConsumerSecret = "wI1uwbfOeEqdTNfH1cAyCMtRHklOOq9YiYyiOjbptScCbdwujx";
             var oAuthUrl = "https://api.twitter.com/oauth2/token";
-            var screenname = GetPersoon(id).Twitter;
+            
 
             // Do the Authenticate
             var authHeaderFormat = "Basic {0}";
@@ -1061,22 +1027,422 @@ namespace IP_8IEN.BL
             return avatarJson;
         }
 
-        public string GetImageString(int id)
+        public string GetImageString(string screenname)
         {
-            string avatarJson = UseApiTwitter(id);
-            dynamic items = JsonConvert.DeserializeObject(avatarJson);
-            string image = items.profile_image_url_https;
-            string imageBig = image.Replace("_normal", "");
+            string imageBig = "../Fotos/unknownAvatar.png";
+            if (screenname != "" && screenname != null)
+            {
+                string avatarJson = UseApiTwitter(screenname);
+                dynamic items = JsonConvert.DeserializeObject(avatarJson);
+                string image = items.profile_image_url_https;
+                imageBig = image.Replace("_normal", "");
+            } 
             //System.Diagnostics.Debug.WriteLine("de avatar string: " + imageBig);
             return imageBig;
         }
-        public string GetBannerString(int id)
+        public string GetBannerString(string screenname)
         {
-            string avatarJson = UseApiTwitter(id);
-            dynamic items = JsonConvert.DeserializeObject(avatarJson);
-            string banner = items.profile_banner_url;
+            string banner = "../Fotos/banner.png";
+            if (screenname != "" && screenname != null)
+            {
+                string avatarJson = UseApiTwitter(screenname);
+                dynamic items = JsonConvert.DeserializeObject(avatarJson);
+                banner = items.profile_banner_url;
+            }
             //System.Diagnostics.Debug.WriteLine("de banner string: " + banner);
             return banner;
+        }
+
+        //VIC
+
+        public double GetPolarityByPerson(Persoon persoon)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            double totalPolarity = 0;
+
+            messages = messages.Where(m => m.IsFromPersoon(persoon)).ToList();
+
+            foreach (Message m in messages)
+            {
+                totalPolarity += m.Polarity;
+            }
+
+            return totalPolarity / messages.Count;
+        }
+
+        public double GetPolarityByPerson(Persoon persoon, DateTime start)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            double totalPolarity = 0;
+
+            messages = messages.Where(m => m.IsFromPersoon(persoon) && m.Date > start).ToList();
+
+            foreach (Message m in messages)
+            {
+                totalPolarity += m.Polarity;
+            }
+
+            return totalPolarity / messages.Count;
+        }
+
+        public double GetPolarityByPerson(Persoon persoon, DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            double totalPolarity = 0;
+
+            messages = messages.Where(m => m.IsFromPersoon(persoon) && m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                totalPolarity += m.Polarity;
+            }
+
+            return totalPolarity / messages.Count;
+        }
+
+        public double GetObjectivityByPerson(Persoon persoon)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            double totalObjectivity = 0;
+
+            messages = messages.Where(m => m.IsFromPersoon(persoon)).ToList();
+
+            foreach (Message m in messages)
+            {
+                totalObjectivity += m.Objectivity;
+            }
+
+            return totalObjectivity / messages.Count;
+        }
+
+        public double GetObjectivityByPerson(Persoon persoon, DateTime start)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            double totalObjectivity = 0;
+
+            messages = messages.Where(m => m.IsFromPersoon(persoon) && m.Date > start).ToList();
+
+            foreach (Message m in messages)
+            {
+                totalObjectivity += m.Objectivity;
+            }
+
+            return totalObjectivity / messages.Count;
+        }
+
+        public double GetObjectivityByPerson(Persoon persoon, DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            double totalObjectivity = 0;
+
+            messages = messages.Where(m => m.IsFromPersoon(persoon) && m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                totalObjectivity += m.Objectivity;
+            }
+
+            return totalObjectivity / messages.Count;
+        }
+
+        public int GetMentionCountByName(string naam)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            int counter = 0;
+
+            foreach (Message m in messages)
+            {
+                if (m.Mention1 == naam || m.Mention2 == naam || m.Mention3 == naam || m.Mention4 == naam || m.Mention5 == naam)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+
+        public int GetMentionCountByName(string naam, DateTime start)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            int counter = 0;
+            messages = messages.Where(m => m.Date > start).ToList();
+
+            foreach (Message m in messages)
+            {
+                if (m.Mention1 == naam || m.Mention2 == naam || m.Mention3 == naam || m.Mention4 == naam || m.Mention5 == naam)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+
+        public int GetMentionCountByName(string naam, DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            int counter = 0;
+
+            messages = messages.Where(m => m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                if (m.Mention1 == naam || m.Mention2 == naam || m.Mention3 == naam || m.Mention4 == naam || m.Mention5 == naam)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+
+        public List<GraphData> GetTopWordsCount()
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> words = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            foreach (Message m in messages)
+            {
+                words.Add(m.Word1);
+                words.Add(m.Word2);
+                words.Add(m.Word3);
+                words.Add(m.Word4);
+                words.Add(m.Word5);
+            }
+
+            words = words.Distinct().ToList();
+
+            foreach (String w in words)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Word1 == w || m.Word2 == w || m.Word3 == w || m.Word4 == w || m.Word5 == w)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(w, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data;
+        }
+
+        public List<GraphData> GetTopWordsCount(int aantal)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> words = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            foreach (Message m in messages)
+            {
+                words.Add(m.Word1);
+                words.Add(m.Word2);
+                words.Add(m.Word3);
+                words.Add(m.Word4);
+                words.Add(m.Word5);
+            }
+
+            words = words.Distinct().ToList();
+
+            foreach (String w in words)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Word1 == w || m.Word2 == w || m.Word3 == w || m.Word4 == w || m.Word5 == w)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(w, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data.GetRange(0, aantal);
+        }
+
+        public List<GraphData> GetTopWordsCount(int aantal, DateTime start)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> words = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            messages = messages.Where(m => m.Date > start).ToList();
+
+            foreach (Message m in messages)
+            {
+                words.Add(m.Word1);
+                words.Add(m.Word2);
+                words.Add(m.Word3);
+                words.Add(m.Word4);
+                words.Add(m.Word5);
+            }
+
+            words = words.Distinct().ToList();
+
+            foreach (String w in words)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Word1 == w || m.Word2 == w || m.Word3 == w || m.Word4 == w || m.Word5 == w)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(w, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data.GetRange(0, aantal);
+        }
+
+        public List<GraphData> GetTopWordsCount(int aantal, DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> words = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            messages = messages.Where(m => m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                words.Add(m.Word1);
+                words.Add(m.Word2);
+                words.Add(m.Word3);
+                words.Add(m.Word4);
+                words.Add(m.Word5);
+            }
+
+            words = words.Distinct().ToList();
+
+            foreach (String w in words)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Word1 == w || m.Word2 == w || m.Word3 == w || m.Word4 == w || m.Word5 == w)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(w, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data.GetRange(0, aantal);
+        }
+
+        public List<GraphData> GetTopWordsCount(DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> words = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            messages = messages.Where(m => m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                words.Add(m.Word1);
+                words.Add(m.Word2);
+                words.Add(m.Word3);
+                words.Add(m.Word4);
+                words.Add(m.Word5);
+            }
+
+            words = words.Distinct().ToList();
+
+            foreach (String w in words)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Word1 == w || m.Word2 == w || m.Word3 == w || m.Word4 == w || m.Word5 == w)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(w, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data;
+        }
+
+        public int GetWordCountByName(string name)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            int counter = 0;
+
+            foreach (Message m in messages)
+            {
+                if (m.Word1 == name || m.Word2 == name || m.Word3 == name || m.Word4 == name || m.Word5 == name)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+
+        public int GetWordCountByName(string name, DateTime start)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            int counter = 0;
+
+            messages = messages.Where(m => m.Date > start).ToList();
+
+            foreach (Message m in messages)
+            {
+                if (m.Word1 == name || m.Word2 == name || m.Word3 == name || m.Word4 == name || m.Word5 == name)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+
+        public int GetWordCountByName(string name, DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            int counter = 0;
+
+            messages = messages.Where(m => m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                if (m.Word1 == name || m.Word2 == name || m.Word3 == name || m.Word4 == name || m.Word5 == name)
+                {
+                    counter++;
+                }
+            }
+            return counter;
         }
         
         public List<GraphData> GetTweetsPerDag(Persoon persoon, Gebruiker user, int aantalDagenTerug = 0)
@@ -1121,7 +1487,7 @@ namespace IP_8IEN.BL
 
                 //======= Edit : 10 mei 2018 : Stephane ======//
 
-                GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
+                GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon)).Count());
                 dashMgr.AddGraph(graph);
                 //dashItem.Graphdata.Add(graph);
                 //dashMgr.UpdateDashItem(dashItem);
@@ -1136,6 +1502,341 @@ namespace IP_8IEN.BL
             }
             uowManager.Save();
             return GraphDataList;
+        }
+        public List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<GraphData> data = new List<GraphData>();
+
+            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
+            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
+
+            return data;
+        }
+
+        public List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<GraphData> data = new List<GraphData>();
+
+            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
+            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
+            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()));
+
+            return data;
+        }
+
+        public List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3, Persoon p4)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<GraphData> data = new List<GraphData>();
+
+            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
+            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
+            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()));
+            data.Add(new GraphData(p4.Naam, messages.Where(m => m.IsFromPersoon(p4)).Count()));
+
+            return data;
+        }
+
+        public List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<GraphData> data = new List<GraphData>();
+
+            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
+            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
+            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()));
+            data.Add(new GraphData(p4.Naam, messages.Where(m => m.IsFromPersoon(p4)).Count()));
+            data.Add(new GraphData(p5.Naam, messages.Where(m => m.IsFromPersoon(p5)).Count()));
+
+            return data;
+        }
+
+        public List<GraphData> GetTopStoryCount()
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> stories = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+
+
+            foreach (Message m in messages)
+            {
+                stories.Add(m.Url1);
+                stories.Add(m.Url2);
+            }
+
+            stories = stories.Distinct().ToList();
+
+            foreach (String s in stories)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Url1 == s || m.Url2 == s)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(s, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data;
+        }
+
+        public List<GraphData> GetTopStoryCount(int aantal)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> stories = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+
+
+            foreach (Message m in messages)
+            {
+                stories.Add(m.Url1);
+                stories.Add(m.Url2);
+            }
+
+            stories = stories.Distinct().ToList();
+
+            foreach (String s in stories)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Url1 == s || m.Url2 == s)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(s, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data.GetRange(0, aantal);
+        }
+
+        public List<GraphData> GetTopStoryCount(int aantal, DateTime start)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> stories = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            messages = messages.Where(m => m.Date > start).ToList();
+
+            foreach (Message m in messages)
+            {
+                stories.Add(m.Url1);
+                stories.Add(m.Url2);
+            }
+
+            stories = stories.Distinct().ToList();
+
+            foreach (String s in stories)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Url1 == s || m.Url2 == s)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(s, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data.GetRange(0, aantal);
+        }
+
+        public List<GraphData> GetTopStoryCount(int aantal, DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> stories = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            messages = messages.Where(m => m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                stories.Add(m.Url1);
+                stories.Add(m.Url2);
+            }
+
+            stories = stories.Distinct().ToList();
+
+            foreach (String s in stories)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Url1 == s || m.Url2 == s)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(s, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data.GetRange(0, aantal);
+        }
+
+        public List<GraphData> GetTopStoryCount(DateTime start, DateTime stop)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> stories = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            messages = messages.Where(m => m.Date > start && m.Date < stop).ToList();
+
+            foreach (Message m in messages)
+            {
+                stories.Add(m.Url1);
+                stories.Add(m.Url2);
+            }
+
+            stories = stories.Distinct().ToList();
+
+            foreach (String s in stories)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Url1 == s || m.Url2 == s)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(s, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data;
+        }
+
+        public List<GraphData> GetTopStoryByPolitician(Persoon persoon)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> stories = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+            messages = messages.Where(m => m.IsFromPersoon(persoon)).ToList();
+
+            foreach (Message m in messages)
+            {
+                stories.Add(m.Url1);
+                stories.Add(m.Url2);
+                stories.Add(m.Word3);
+                stories.Add(m.Word4);
+                stories.Add(m.Word5);
+            }
+
+            stories = stories.Distinct().ToList();
+
+            foreach (String s in stories)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Url1 == s || m.Url2 == s)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(s, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data;
+
+        }
+        public List<GraphData2> GetComparisonPersonNumberOfTweetsOverTime(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<GraphData2> data = new List<GraphData2>();
+
+            DateTime first = messages.OrderBy(m => m.Date).First().Date;
+
+            do
+            {
+                data.Add(new GraphData2(
+                first.ToString(),
+                messages.Where(m => m.IsFromPersoon(p1) && m.Date.Date == first.Date).Count(),
+                messages.Where(m => m.IsFromPersoon(p2) && m.Date.Date == first.Date).Count(),
+                messages.Where(m => m.IsFromPersoon(p3) && m.Date.Date == first.Date).Count(),
+                messages.Where(m => m.IsFromPersoon(p4) && m.Date.Date == first.Date).Count(),
+                messages.Where(m => m.IsFromPersoon(p5) && m.Date.Date == first.Date).Count()));
+
+                first.AddDays(1);
+            } while (first.Date < DateTime.Now.Date);
+
+            return data;
+        }
+
+        public List<GraphData> GetTopMentions(int aantal)
+        {
+            initNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<string> mentions = new List<string>();
+            List<GraphData> data = new List<GraphData>();
+            int counter;
+
+
+
+            foreach (Message m in messages)
+            {
+                mentions.Add(m.Mention1);
+                mentions.Add(m.Mention2);
+                mentions.Add(m.Mention3);
+                mentions.Add(m.Mention4);
+                mentions.Add(m.Mention5);
+            }
+
+            mentions = mentions.Distinct().ToList();
+
+            foreach (String me in mentions)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Mention1 == me || m.Mention2 == me || m.Mention3 == me || m.Mention4 == me || m.Mention5 == me)
+                    {
+                        counter++;
+                    }
+                    data.Add(new GraphData(me, counter));
+                }
+            }
+
+            data = data.OrderByDescending(d => d.value).ToList();
+            return data.GetRange(0, aantal);
         }
     }
 }

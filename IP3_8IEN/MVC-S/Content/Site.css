@@ -1,8 +1,6 @@
 ﻿
 /* Set padding to keep content from hitting the edges */
-.body-content {
-    
-}
+
 
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
@@ -166,9 +164,11 @@ section {
 .pdsa-sn-wrapper{
     background-color:black;
 }
-h2{
-    margin-top:0px;
-    padding-top:10px;
+h2 {
+    
+    padding-top: 10px;
+    padding-bottom:10px;
+    color: #00295C;
 }
   
  

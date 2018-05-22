@@ -1,4 +1,4 @@
-﻿@model IP_8IEN.BL.Domain.Data.Organisatie
+﻿@model IP3_8IEN.BL.Domain.Data.Organisatie
 
 @{
     ViewBag.Title = "Organisatie";
@@ -86,10 +86,13 @@
                         </div>
                     </div>
                     <div class="col-lg-5">
-                        <form role="form">
-                            <a class="twitter-timeline" data-lang="nl" data-height="500" data-theme="light" data-link-color="#00295C" href="https://twitter.com/de_NVA?ref_src=twsrc%5Etfw">Tweets by de_NVA</a>
-                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                        </form>
+                        @if (Model.Twitter != null && Model.Twitter != "")
+                        {
+                            <form role="form">
+                                <a class="twitter-timeline" data-lang="nl" data-height="500" data-theme="light" data-link-color="#00295C" href="@($"https://twitter.com/{Model.Twitter}?ref_src=twsrc%5Etfw")">Tweets by de_NVA</a>
+                                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                            </form>
+                        }
                     </div>
                 </div>
             </div>

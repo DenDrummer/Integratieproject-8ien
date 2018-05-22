@@ -1,4 +1,4 @@
-﻿@model IP_8IEN.BL.Domain.Data.Persoon
+﻿@model IP3_8IEN.BL.Domain.Data.Persoon
 
 @{
     ViewBag.Title = "Personen";
@@ -72,12 +72,15 @@
                         </div>
                     </div>
                     <div class="col-lg-5">
-                        @if (Model.Twitter != null)
+                        @if (Model.Twitter != null && Model.Twitter != "")
                         {
                             <form role="form">
                                 <a class="twitter-timeline" data-height="500" data-theme="light" data-link-color="#00295C" href="@($"https://twitter.com/{Model.Twitter}?ref_src=twsrc%5Etfw")">Tweets by @Model.Twitter</a>
                                 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                             </form>
+                        } else
+                        {
+                            <img src="../Fotos/unknownTwitter.jpg" style="width: auto;"/>
                         }
                     </div>
                 </div>
