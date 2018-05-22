@@ -45,6 +45,14 @@ namespace IP_8IEN.BL
             return dash;
         }
 
+        public Dashbord GetDashboardWithFollows(Gebruiker user)
+        {
+            initNonExistingRepo();
+
+            Dashbord dash = repo.ReadDashbordWithFollows(user);
+            return dash;
+        }
+
         public DashItem CreateDashitem(bool adminGraph)
         {
             initNonExistingRepo();
@@ -175,15 +183,48 @@ namespace IP_8IEN.BL
             else { return follows; }
         }
 
-        public Dashbord UpdateDashboard(Dashbord dashbord)
+        public struct GraphdataValues
+        {
+            public int[] values;
+            public string[] labels;
+        }
+
+        public GraphdataValues getGraphData(int persoonId, int aantalDagen)
         {
             initNonExistingRepo();
+
+            dataMgr = new DataManager();
+            Persoon persoon = dataMgr.GetPersoon(persoonId);
+            List<GraphData> graphs = dataMgr.GetTweetsPerDag(persoon, 10);
+
+            GraphdataValues graphsVals = new GraphdataValues()
+            {
+                values = new int[aantalDagen+1],
+                labels = new string[aantalDagen+1]
+            };
+
+            int i = 0;
+            foreach(GraphData graph in graphs)
+            {
+                graphsVals.values[i] = graph.value1;
+                graphsVals.labels[i] = graph.label;
+                i++;
+            }
+
+            return graphsVals;
+        }
+
+        public Dashbord UpdateDashboard(Dashbord dashbord)
+        {
+            initNonExistingRepo(true);
+            dataMgr = new DataManager(uowManager);
+            repo.setUnitofWork(false);
 
             DateTime timeNow = DateTime.Now;
             foreach (TileZone tileZone in dashbord.TileZones)
             {
                 double hours = (timeNow - tileZone.DashItem.LastModified).TotalHours;
-                if (hours > 0.001)
+                if (hours > 3)
                 {
                     int i = 0;
                     //deze array verwijst naar de personen in GraphData
@@ -199,26 +240,29 @@ namespace IP_8IEN.BL
                         catch { throw new Exception("Out of bounds"); }
 
                     }
-                    List<GraphData> graphs;
-                    Persoon persoon;
 
-                    //We gebruiken de i teller om de overload op methodes te bepalen
-                    if (i == 1)
+                    GraphdataValues graphs = getGraphData(persoonId[0],10/*Hier moet aantalDagen uit DashItem*/);
+
+                    int j = 0;
+                    foreach (var graph in tileZone.DashItem.Graphdata)
                     {
-                        persoon = dataMgr.GetPersoon(persoonId[0]);
-                        graphs = dataMgr.GetTweetsPerDag(persoon);
-                        tileZone.DashItem.Graphdata = graphs;
-
-                        foreach (var graph in tileZone.DashItem.Graphdata)
-                        {
-                            repo.UpdateGraphData(graph);
-                        }
+                        graph.label = graphs.labels[j];
+                        graph.value1 = graphs.values[j];
+                        repo.UpdateGraphData(graph);
+                        j++;
                     }
+                    uowManager.Save();
                 }
+                //LastModified updaten
+                tileZone.DashItem.LastModified = timeNow;
+                repo.UpdateTileZone(tileZone);
+                uowManager.Save();
             }
-
+            repo.setUnitofWork(true);
             return dashbord;
         }
+
+
 
         public IEnumerable<DashItem> GetDashItems()
         {
@@ -239,6 +283,7 @@ namespace IP_8IEN.BL
             bool UoW = false;
             repo.setUnitofWork(UoW);
 
+            //De te associëren gebruiker wordt opgehaald
             Gebruiker gebruiker = gebruikerMgr.GetGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
 
             Dashbord dashbord = new Dashbord
@@ -262,7 +307,6 @@ namespace IP_8IEN.BL
 
             //We halen vaste grafieken op (AdminGraphs) en koppelen deze aan de 
             //nieuw aangemaakte dashboard van de nieuwe gebruiker
-
             IEnumerable<DashItem> dashItems = GetDashItems();
             dashItems = dashItems.Where(d => d.AdminGraph == true);
 
@@ -284,13 +328,13 @@ namespace IP_8IEN.BL
             return dashbord;
         }
 
-            public void InitializeDashbordNewUsers(string userId)
+        public void InitializeDashbordNewUsers(string userId)
         {
             initNonExistingRepo();
             //Dashbord aanmaken en associëren met user
             Dashbord dashbord = AddDashBord(userId);
 
-            //Dashbord opvullen met vaste grafieken
+            //Dashbord initialiseren met vaste grafieken
             DashbordInitGraphs(dashbord.DashbordId);
         }
 

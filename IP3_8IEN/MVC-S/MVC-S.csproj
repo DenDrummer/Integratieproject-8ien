@@ -524,6 +524,8 @@
     <Content Include="Views\Home\UserDashBoard.cshtml" />
     <Content Include="Views\Home\Grafiektest2.cshtml" />
     <Content Include="Views\Home\ListHogerLager.cshtml" />
+    <Content Include="Views\Admin\CreateGrafiekAutoComplete.cshtml" />
+    <Content Include="Views\Admin\CreateGrafiekInput.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

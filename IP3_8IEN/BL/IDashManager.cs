@@ -26,7 +26,6 @@ namespace IP_8IEN.BL
 
         //12 mei 2018 : Stephane
         IEnumerable<Follow> GetFollows(bool admin = false);
-        Dashbord UpdateDashboard(Dashbord dashbord);
 
         //15 mei 2018 : Stephane
         //IEnumerable<TileZone> GetTileZones(); // <-- nog niet compleet
@@ -38,5 +37,9 @@ namespace IP_8IEN.BL
         //void AddDashItems(Dashbord dashbord);
         Dashbord GetDashboard(int dashId);
         Dashbord DashbordInitGraphs(int dashId);
+
+        //22 mei 2018 : Stephane
+        Dashbord GetDashboardWithFollows(Gebruiker user);
+        Dashbord UpdateDashboard(Dashbord dashbord);
     }
 }

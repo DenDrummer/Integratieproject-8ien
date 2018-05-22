@@ -324,6 +324,7 @@ namespace IP_8IEN.BL
         {
             initNonExistingRepo();
 
+            //IdentityUser wordt verwijderd, data gebruiker wordt overschreven
             Gebruiker user = repo.ReadGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
 
             user.Username = "Deleted";
@@ -333,31 +334,6 @@ namespace IP_8IEN.BL
             user.Geboortedatum = DateTime.Now;
 
             UpdateGebruiker(user);
-        }
-
-        public void LinkUserToDash(int dashId, string userId)
-        {
-            initNonExistingRepo(true);
-
-            Gebruiker gebruiker = repo.ReadGebruiker(userId);
-
-            dashMgr = new DashManager(uowManager);
-            repo.setUnitofWork(false);
-            //Dashbord dashbord = dashMgr.GetDashboard(dashId);
-
-            if (gebruiker.Dashboards == null)
-            {
-                gebruiker.Dashboards = new Collection<Dashbord>();
-                gebruiker.Dashboards.Add(dashMgr.GetDashboard(dashId));
-            }
-            else
-            {
-                gebruiker.Dashboards.Add(dashMgr.GetDashboard(dashId));
-            }
-
-            repo.UpdateGebruiker(gebruiker);
-            uowManager.Save();
-            repo.setUnitofWork(true);
         }
 
         //Unit of Work related

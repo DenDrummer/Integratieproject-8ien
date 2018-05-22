@@ -111,9 +111,20 @@ namespace IP_8IEN.DAL
 
         public Dashbord ReadDashbord(int dashId)
         {
-            IEnumerable<Dashbord> dashbords = ctx.Dashbords.Include("User").ToList();
-            Dashbord dashbord = dashbords.FirstOrDefault(d => d.DashbordId == dashId);
+            Dashbord dashbord = ctx.Dashbords.Include("User").FirstOrDefault(d => d.DashbordId == dashId);
             return dashbord;
+        }
+
+        public Dashbord ReadDashbordWithFollows(Gebruiker user)
+        {
+            Dashbord dashbord = ctx.Dashbords.Include("TileZones").Include("TileZones.DashItem").Include("TileZones.DashItem.Graphdata").Include("TileZones.DashItem.Follows").Include("TileZones.DashItem.Follows.Onderwerp").FirstOrDefault(u => u.User.GebruikerId == user.GebruikerId);
+            return dashbord;
+        }
+
+        public void UpdateTileZone(TileZone tileZone)
+        {
+            ctx.Entry(tileZone).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
         }
 
         ////UoW related

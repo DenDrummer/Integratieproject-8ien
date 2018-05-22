@@ -140,14 +140,13 @@ namespace MVC_S.Controllers
         public ActionResult UserDashBoard()
         {
             //Dashbord van ingelogde gebruiker ophalen
-            //Nog niet getest
             try
             {
                 ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
                 string userName = appUser.UserName;
                 Gebruiker user = gMgr.FindUser(userName);
 
-                Dashbord dashbord = dashMgr.GetDashboard(user);
+                Dashbord dashbord = dashMgr.GetDashboardWithFollows(user);
                 dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem minstens 3h up-to-date is
 
                 return View(dashbord);
@@ -163,8 +162,7 @@ namespace MVC_S.Controllers
             // note : deze 'if else' kun je gebruiken voor authorisatie
             if (User.IsInRole("Admin"))
             {
-
-                return View();
+                return RedirectToAction("Index", "Admin");
             }
             else
             {
