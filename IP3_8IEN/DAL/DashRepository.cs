@@ -109,6 +109,13 @@ namespace IP_8IEN.DAL
             return dashItems;
         }
 
+        public Dashbord ReadDashbord(int dashId)
+        {
+            IEnumerable<Dashbord> dashbords = ctx.Dashbords.Include("User").ToList();
+            Dashbord dashbord = dashbords.FirstOrDefault(d => d.DashbordId == dashId);
+            return dashbord;
+        }
+
         ////UoW related
         //public DashRepository(UnitOfWork uow)
         //{

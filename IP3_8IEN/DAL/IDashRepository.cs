@@ -33,5 +33,8 @@ namespace IP_8IEN.DAL
         //15 mei 2018 : Stephane
         IEnumerable<TileZone> ReadTileZones(); // <-- nog niet compleet
         IEnumerable<DashItem> ReadDashItems();
+
+        //21 mei 2018 : Stephane
+        Dashbord ReadDashbord(int dashId);
     }
 }

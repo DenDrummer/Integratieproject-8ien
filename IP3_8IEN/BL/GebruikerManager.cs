@@ -294,18 +294,13 @@ namespace IP_8IEN.BL
             return alert;
         }
 
-        public void AddGebruiker(string userName, string id, string naam, string voornaam)
+        public void AddGebruiker(string userName, string userId, string naam, string voornaam)
         {
             initNonExistingRepo();
 
-            //bool UoW = false;
-            //repo.setUnitofWork(UoW);
-
-            //dashMgr = new DashManager();
-
             Gebruiker gebruiker = new Gebruiker
             {
-                GebruikerId = id,
+                GebruikerId = userId,
                 Username = userName,
                 Voornaam = voornaam,
                 Naam = naam
@@ -313,44 +308,41 @@ namespace IP_8IEN.BL
             repo.AddingGebruiker(gebruiker);
 
             dashMgr = new DashManager();
-            dashMgr.InitializeDashbordNewUsers(gebruiker.GebruikerId);
+            //dashMgr.InitializeDashbordNewUsers(gebruiker.GebruikerId);
+
+            //uowManager.Save();
+            //dashMgr = new DashManager(uowManager);
+            LinkUserToDash(dashMgr.DashbordInitGraphs().DashbordId, userId);
+
+            repo.ReadGebruiker(userId);
+            bool test = true;
 
             //dashMgr = new DashManager(uowManager);
-            //Dashbord dashbord = dashMgr.AddDashBord(gebruiker);
+            //repo.setUnitofWork(false);
+            //Dashbord dashbord = dashMgr.GetDashboard(dashId);
 
-            //gebruiker.Dashboards.Add(dashbord);
-            ///////////// Edit ///////////
-
-            ////We halen vaste grafieken op (AdminGraphs) en koppelen deze aan de 
-            ////nieuw aangemaakte dashboard van de nieuwe gebruiker
-            //IEnumerable<DashItem> dashItems = dashMgr.GetDashItems();
-            //dashItems = dashItems.Where(d => d.AdminGraph == true);
-
-            ////Deze aan een TileZone toewijzen
-            //foreach (DashItem item in dashItems)
+            //if (gebruiker.Dashboards == null)
             //{
-            //    TileZone tile = new TileZone()
-            //    {
-            //        DashItem = item,
-            //        Dashbord = dashbord
-            //    };
-            //    dashMgr.AddTileZone(tile);
+            //    repo.ReadGebruiker(userId).Dashboards = new Collection<Dashbord>();
+            //    repo.ReadGebruiker(userId).Dashboards.Add(dashMgr.GetDashboard(dashMgr.DashbordInitGraphs().DashbordId));
+            //}
+            //else
+            //{
+                //repo.ReadGebruiker(userId).Dashboards.Add(dashMgr.GetDashboard(dashMgr.DashbordInitGraphs().DashbordId));
             //}
 
-            ///////////// Edit ///////////
-            //UpdateGebruiker(gebruiker);
+            //repo.UpdateGebruiker(gebruiker);
             //uowManager.Save();
-
-            //uowManager.Save();
-            //UoW = true;
-            //repo.setUnitofWork(UoW);
+            //repo.setUnitofWork(true);
         }
 
         public void UpdateGebruiker(Gebruiker gebruiker)
         {
+            initNonExistingRepo();
+
             repo.UpdateGebruiker(gebruiker);
         }
-
+        
         public void DeleteUser(string userId)
         {
             initNonExistingRepo();
@@ -364,6 +356,31 @@ namespace IP_8IEN.BL
             user.Geboortedatum = DateTime.Now;
 
             UpdateGebruiker(user);
+        }
+
+        public void LinkUserToDash(int dashId, string userId)
+        {
+            initNonExistingRepo(true);
+
+            Gebruiker gebruiker = repo.ReadGebruiker(userId);
+
+            dashMgr = new DashManager(uowManager);
+            repo.setUnitofWork(false);
+            //Dashbord dashbord = dashMgr.GetDashboard(dashId);
+
+            if (gebruiker.Dashboards == null)
+            {
+                gebruiker.Dashboards = new Collection<Dashbord>();
+                gebruiker.Dashboards.Add(dashMgr.GetDashboard(dashId));
+            }
+            else
+            {
+                gebruiker.Dashboards.Add(dashMgr.GetDashboard(dashId));
+            }
+
+            repo.UpdateGebruiker(gebruiker);
+            uowManager.Save();
+            repo.setUnitofWork(true);
         }
 
         //Unit of Work related

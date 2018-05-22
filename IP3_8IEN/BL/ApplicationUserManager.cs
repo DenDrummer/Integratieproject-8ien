@@ -144,7 +144,7 @@ namespace IP_8IEN.BL
                 string passw = item.Password;
                 CreateUserWithRoleAsync(gebruiker, passw, "Admin");
 
-                // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken : Identity doet moeilijk
+                // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken
                 _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName);
             }
         }

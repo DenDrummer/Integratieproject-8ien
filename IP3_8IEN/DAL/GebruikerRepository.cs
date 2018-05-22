@@ -40,7 +40,12 @@ namespace IP_8IEN.DAL
             ctx.SaveChanges();
         }
 
-        public Gebruiker FindGebruiker(int userId) => ctx.Gebruikers.Find(userId);
+        public Gebruiker ReadGebruiker(string userId)
+        {
+            IEnumerable<Gebruiker> users = ctx.Gebruikers.Include("Dashboards").ToList();
+            Gebruiker gebruiker = users.FirstOrDefault(u => u.GebruikerId == userId);
+            return gebruiker;
+        }
 
         //Deze moet nog ge-update worden
         public void DeleteGebruiker(Gebruiker gebruiker)

@@ -37,6 +37,14 @@ namespace IP_8IEN.BL
             return dash;
         }
 
+        public Dashbord GetDashboard(int dashId)
+        {
+            initNonExistingRepo();
+
+            Dashbord dash = repo.ReadDashbord(dashId);
+            return dash;
+        }
+
         public DashItem CreateDashitem(bool adminGraph)
         {
             initNonExistingRepo();
@@ -146,18 +154,7 @@ namespace IP_8IEN.BL
             repo.AddGraph(graph);
         }
 
-        public Dashbord AddDashBord(Gebruiker gebruiker)
-        {
-            initNonExistingRepo(true);
-
-            Dashbord dashbord = new Dashbord
-            {
-                User = gebruiker,
-                TileZones = new Collection<TileZone>()
-            };
-            repo.AddDashBord(dashbord);
-            return dashbord;
-        }
+        
 
         public void UpdateDashItem(DashItem dashItem)
         {
@@ -189,6 +186,7 @@ namespace IP_8IEN.BL
                 if (hours > 3)
                 {
                     int i = 0;
+                    //deze verwijst naar de personen in GraphData
                     int[] persoonId = { 0, 0, 0, 0, 0 };
 
                     foreach (Follow follow in tileZone.DashItem.Follows)
@@ -233,41 +231,123 @@ namespace IP_8IEN.BL
             repo.AddTileZone(tile);
         }
 
-        public void InitializeDashbordNewUsers(string userId)
+
+
+        //public void AddDashToUser(Dashbord dashbord, string userId)
+        //{
+        //    initNonExistingRepo(true);
+
+        //    Gebruiker gebruiker = gebruikerMgr.GetGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
+        //    dashbord.User = gebruiker;
+        //    gebruiker.Dashboards.Add(dashbord);
+
+        //    uowManager.Save();
+        //    //repo.setUnitofWork(true);
+        //}
+
+        public Dashbord AddDashBord(string userId /*Gebruiker gebruiker*/)
         {
             initNonExistingRepo(true);
 
-            gebruikerMgr = new GebruikerManager();
-            Gebruiker gebruiker = gebruikerMgr.GetGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
-            Dashbord dashbord = AddDashBord(gebruiker);
+            gebruikerMgr = new GebruikerManager(uowManager);
 
-            gebruiker.Dashboards.Add(dashbord);
-            /////////// Edit ///////////
+            //repo.setUnitofWork(false);
+            Gebruiker gebruiker = gebruikerMgr.GetGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
+
+            Dashbord dashbord = new Dashbord
+            {
+                User = gebruiker,
+                TileZones = new Collection<TileZone>()
+            };
+            repo.AddDashBord(dashbord);
+
+            uowManager.Save();
+            //repo.setUnitofWork(true);
+
+            return dashbord;
+        }
+
+        public void LinkDashToUser(int dashId, string userId)
+        {
+            initNonExistingRepo(true);
+            
+            gebruikerMgr = new GebruikerManager(uowManager);
+            Dashbord dashbord = repo.ReadDashbord(dashId);
+            //repo.setUnitofWork(false);
+            //Gebruiker gebruiker = gebruikerMgr.GetGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
+
+            dashbord.User = gebruikerMgr.GetGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
+            //gebruiker.Dashboards = new Collection<Dashbord>();
+            //gebruiker.Dashboards.Add(dashbord);
+            //gebruikerMgr.UpdateGebruiker(gebruiker);
+            //uowManager.Save();
+            //repo.setUnitofWork(true);
+
+            //dashbord.User = gebruiker;
+            //uowManager.Save();
+
+            //uowManager.Save();
+            repo.UpdateDashboard(dashbord);
+            uowManager.Save();
+
+            //repo.setUnitofWork(true);
+        }
+
+        public Dashbord DashbordInitGraphs()
+        {
+            initNonExistingRepo(/*true*/);
+
+            Dashbord dashbord = new Dashbord();
+            repo.AddDashBord(dashbord);
 
             //We halen vaste grafieken op (AdminGraphs) en koppelen deze aan de 
             //nieuw aangemaakte dashboard van de nieuwe gebruiker
 
-            //IEnumerable<DashItem> dashItems = GetDashItems();
-            //dashItems = dashItems.Where(d => d.AdminGraph == true);
+            //repo.setUnitofWork(false);
+            IEnumerable<DashItem> dashItems = GetDashItems();
+            dashItems = dashItems.Where(d => d.AdminGraph == true);
 
-            ////Deze aan een TileZone toewijzen
-            //foreach (DashItem item in dashItems)
-            //{
-            //    TileZone tile = new TileZone()
-            //    {
-            //        DashItem = item,
-            //        Dashbord = dashbord
-            //    };
-            //    dashMgr.AddTileZone(tile);
-            //}
+            if (dashbord.TileZones == null)
+            {
+                dashbord.TileZones = new Collection<TileZone>();
+            }
 
-            ///////////// Edit ///////////
-            //UpdateGebruiker(gebruiker);
+            foreach (DashItem item in dashItems)
+            {
+                TileZone tile = new TileZone()
+                {
+                    DashItem = item,
+                    Dashbord = dashbord
+                };
+                //uowManager.Save();
+                repo.AddTileZone(tile);
+                //dashbord.TileZones.Add(tile);
+            }
+            repo.UpdateDashboard(dashbord);
+            return dashbord;
             //uowManager.Save();
+            //repo.setUnitofWork(true);
+        }
 
-            //uowManager.Save();
-            //UoW = true;
-            //repo.setUnitofWork(UoW);
+            public void InitializeDashbordNewUsers(/*Gebruiker gebruiker*/string userId)
+        {
+            initNonExistingRepo();
+
+            //Dashbord aanmaken in db
+            //Dashbord dashbord = new Dashbord();
+            //repo.AddDashBord(dashbord);
+
+            //Dashbord opvullen met vaste grafieken
+             //DashbordInitGraphs(/*dashbord*/);
+
+            //Dashbord linken met user
+            //LinkDashToUser(dashbord.DashbordId, userId);
+            gebruikerMgr = new GebruikerManager();
+            gebruikerMgr.LinkUserToDash(DashbordInitGraphs().DashbordId/*dashbord.DashbordId*/, userId);
+
+            //Update dashboard gebruiker
+            //gebruikerMgr = new GebruikerManager();
+            //gebruikerMgr.UpdateGebruiker(dashbord, userId);
         }
 
 

@@ -182,6 +182,21 @@ namespace MVC_S.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Zoeken(string search)
+        {
+            IEnumerable<Persoon> ObjList = dMgr.GetPersonen().Where(p => p.Naam.Contains(search));
+            
+            return View(ObjList);
+        }
+
+        //[HttpGet]
+        //public ActionResult LijstPersonen(string search)
+        //{
+        //    IEnumerable<Persoon> ObjList = dMgr.GetPersonen().Where(p => p.Naam.Contains(search));
+        //    return View(ObjList);
+        //}
+
         public ActionResult InitializeAdmins()
         {
             aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));

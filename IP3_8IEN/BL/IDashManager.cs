@@ -15,7 +15,7 @@ namespace IP_8IEN.BL
         Dashbord GetDashboard(Gebruiker user);
         //DashItem AddDashItem(Gebruiker user, Onderwerp onderwerp);
         void AddGraph(GraphData graph);
-        Dashbord AddDashBord(Gebruiker gebruiker);
+        //Dashbord AddDashBord(Gebruiker gebruiker); // <-- 21 mei comment
 
         //11 mei 2018 : Stephane
         void UpdateDashItem(DashItem dashItem);
@@ -32,8 +32,11 @@ namespace IP_8IEN.BL
         //IEnumerable<TileZone> GetTileZones(); // <-- nog niet compleet
         IEnumerable<DashItem> GetDashItems();
         void AddTileZone(TileZone tile);
-        void InitializeDashbordNewUsers(string userId);
+        void InitializeDashbordNewUsers(/*Gebruiker user */string userId);
 
-        
+        //21 mei 2018 : Stephane
+        //void AddDashItems(Dashbord dashbord);
+        Dashbord GetDashboard(int dashId);
+        Dashbord DashbordInitGraphs();
     }
 }
