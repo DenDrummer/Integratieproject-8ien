@@ -378,6 +378,8 @@
     <Content Include="Fotos\hslogo.png" />
     <Content Include="Fotos\noti.png" />
     <Content Include="Fotos\NVA.jpg" />
+    <Content Include="Fotos\unknownTwitter.jpg" />
+    <Content Include="Fotos\unknownAvatar.png" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Google.DataTable.Net.Wrapper.XML" />

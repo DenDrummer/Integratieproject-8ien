@@ -57,7 +57,7 @@ namespace IP3_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "29 Apr 2018 00:01",
+                        since = "29 Apr 2018 23:01",
                         //until weglaten --> last scraping
                         until = "30 Apr 2018 00:01",
                     });
@@ -1029,18 +1029,26 @@ namespace IP3_8IEN.BL
 
         public string GetImageString(string screenname)
         {
-            string avatarJson = UseApiTwitter(screenname);
-            dynamic items = JsonConvert.DeserializeObject(avatarJson);
-            string image = items.profile_image_url_https;
-            string imageBig = image.Replace("_normal", "");
+            string imageBig = "../Fotos/unknownAvatar.png";
+            if (screenname != "" && screenname != null)
+            {
+                string avatarJson = UseApiTwitter(screenname);
+                dynamic items = JsonConvert.DeserializeObject(avatarJson);
+                string image = items.profile_image_url_https;
+                imageBig = image.Replace("_normal", "");
+            } 
             //System.Diagnostics.Debug.WriteLine("de avatar string: " + imageBig);
             return imageBig;
         }
         public string GetBannerString(string screenname)
         {
-            string avatarJson = UseApiTwitter(screenname);
-            dynamic items = JsonConvert.DeserializeObject(avatarJson);
-            string banner = items.profile_banner_url;
+            string banner = "../Fotos/banner.png";
+            if (screenname != "" && screenname != null)
+            {
+                string avatarJson = UseApiTwitter(screenname);
+                dynamic items = JsonConvert.DeserializeObject(avatarJson);
+                banner = items.profile_banner_url;
+            }
             //System.Diagnostics.Debug.WriteLine("de banner string: " + banner);
             return banner;
         }
