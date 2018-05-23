@@ -1,7 +1,7 @@
 ﻿@model IP3_8IEN.BL.Domain.Data.Thema
 
 @{
-    ViewBag.Title = "Thema";
+    ViewBag.Title = Model.Naam;
 }
 <h2>@ViewBag.Title</h2>
 
@@ -41,12 +41,12 @@
                                     <tr>
                                         <td colspan="2">
                                             <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width:350px">
-
-                                                @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
-                                                {
-                                                    var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
-                                                    <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
-                                                }
+                                                @*NANI?*@
+                                                @*@for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
+                                                    {
+                                                        var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
+                                                        <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
+                                                    }*@
                                             </ul>
                                         </td>
                                     </tr>
@@ -58,7 +58,23 @@
                                         <table>
                                             <tr>
                                                 <td valign="top"><b>@Html.DisplayNameFor(m => m.Hashtags): </b></td>
-                                                <td>#KrisPeetersJood</td>
+                                                <td>
+                                                    @{
+                                                        int i = 0;
+                                                        System.Text.StringBuilder hashtags = new System.Text.StringBuilder();
+                                                        foreach (string h in Model.Hashtags)
+                                                        {
+                                                            if (i > 0)
+                                                            {
+                                                                hashtags.Append(", ");
+                                                            }
+                                                            i++;
+                                                            hashtags.Append(h);
+                                                        }
+                                                        string hashes = hashtags.ToString();
+                                                    }
+                                                    @Html.DisplayFor(m => hashes)
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td valign="top"><b>Aantal Mentions: </b></td>
@@ -70,12 +86,12 @@
                                             <tr>
                                                 <td colspan="2">
                                                     <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width:100%">
-
-                                                        @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
-                                                        {
-                                                            var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
-                                                            <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
-                                                        }
+                                                        @*NANI?*@
+                                                        @*@for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
+                                                            {
+                                                                var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
+                                                                <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
+                                                            }*@
                                                     </ul>
                                                 </td>
                                             </tr>
@@ -85,12 +101,12 @@
                                             <tr>
                                                 <td colspan="2">
                                                     <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width:100%">
-
-                                                        @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
-                                                        {
+                                                        @*NANI?*@
+                                                        @*@for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
+                                                            {
                                                             var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
                                                             <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
-                                                        }
+                                                            }*@
                                                     </ul>
                                                 </td>
                                             </tr>
@@ -103,7 +119,7 @@
                     <div class="col-lg-4">
 
                         <form role="form">
-                            <a class="twitter-timeline" href="https://twitter.com/hashtag/OMAtletico" data-widget-id="997206574266535936">Tweets over #OMAtletico</a>
+                            <a class="twitter-timeline" href="@(ViewBag.SearchString)" data-widget-id="997206574266535936">Tweets over #OMAtletico</a>
                             <script>
                                 !function (d, s, id) {
                                     var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
