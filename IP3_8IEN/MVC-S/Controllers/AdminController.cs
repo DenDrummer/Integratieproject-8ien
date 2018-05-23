@@ -8,7 +8,7 @@ using Microsoft.AspNet.Identity;
 using IP_8IEN.BL.Domain.Dashboard;
 using System.Linq;
 
-namespace MVC_S.Controllers
+namespace IP_8IEN.UI.MVC_S.Controllers
 {
     //[Authorize(Roles = "Admin")]
     public class AdminController : Controller

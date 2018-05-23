@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace MVC_S
+namespace IP_8IEN.UI.MVC_S
 {
     public class BundleConfig
     {

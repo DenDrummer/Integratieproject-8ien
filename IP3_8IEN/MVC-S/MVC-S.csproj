@@ -14,8 +14,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MVC_S</RootNamespace>
-    <AssemblyName>MVC-S</AssemblyName>
+    <RootNamespace>IP_8IEN.UI.MVC_S</RootNamespace>
+    <AssemblyName>IP_8IEN.UI.MVC-S</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -184,7 +184,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\ResourceHandler.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -534,11 +533,12 @@
     <Content Include="Views\Home\LijstPersonen.cshtml" />
     <Content Include="Views\Home\Faq.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
+    <Content Include="Views\Alert\ListPositiefNegatief.cshtml" />
+    <Content Include="Views\Alert\ListHogerLager.cshtml" />
+    <Content Include="Views\Alert\ListValueFluctuations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="App_GlobalResources\" />
-    <Folder Include="Views\Alert\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

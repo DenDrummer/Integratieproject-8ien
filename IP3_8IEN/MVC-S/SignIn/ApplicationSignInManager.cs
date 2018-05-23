@@ -5,7 +5,7 @@ using Microsoft.Owin.Security;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace MVC_S.SignIn
+namespace IP_8IEN.UI.MVC_S.SignIn
 {
     // Vroeger stond dit in IdentityConfig
     // Normaal gezien moet dit in BL -> OWIN mag niet in BL

@@ -2,9 +2,9 @@
 using Microsoft.Owin;
 
 using IP_8IEN.BL;
-using MVC_S.SignIn;
+using IP_8IEN.UI.MVC_S.SignIn;
 
-namespace MVC_S
+namespace IP_8IEN.UI.MVC_S
 {
     /*
     ApplicationUserManager maakt gebruik van DAL -> Hoort thuis in BL!!!
