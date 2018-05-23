@@ -39,12 +39,16 @@ namespace MVC_S.App_Code
         {
             ResourceWriter rw = new ResourceWriter(ConvertToPath(GetCurrentResource()));
             rw.AddResource(key, stringValue);
-            rw.Generate();
+            //rw.Generate(); //niet zeker of nodig
+            rw.Close();
         }
 
         public string ReadString(string key)
         {
-            return "Sorry maar dit werkt nog niet";
+            ResourceSet rs = new ResourceSet(ConvertToPath(GetCurrentResource()));
+            string value = rs.GetString(key);
+            rs.Close();
+            return value;
         }
 
         private string GetCurrentResource() => resourceSets.ElementAt(currentResource);
