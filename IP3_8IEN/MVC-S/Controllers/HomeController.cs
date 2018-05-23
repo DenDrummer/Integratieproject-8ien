@@ -11,7 +11,6 @@ using IP_8IEN.BL.Domain.Dashboard;
 using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Web.Helpers;
-using IP_8IEN.BL.Domain.Dashboard;
 using Microsoft.Ajax.Utilities;
 
 namespace MVC_S.Controllers
@@ -274,10 +273,18 @@ namespace MVC_S.Controllers
             ViewBag.NUMMER1 = aantalTweets;
             ViewBag.naam1 = persoon.Naam;
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
-            int[] init = {0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
+            string init = "[0,1,2,3,4,5,6,7,8,9]";
             //ViewData["init"] = init;
             ViewBag.INIT = init;
-            return View();
+
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = gMgr.FindUser(userName);
+
+            //dashMgr.AddDashBord(user);
+            Dashbord dash = dashMgr.GetDashboard(user);
+
+            return View(dash);
         }
 
         public ActionResult GetData(int id)
