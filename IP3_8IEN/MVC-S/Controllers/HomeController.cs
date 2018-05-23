@@ -15,7 +15,7 @@ using Microsoft.Ajax.Utilities;
 using System.Text;
 
 namespace MVC_S.Controllers
-{
+{   [RequireHttps]
     public class HomeController : Controller
     {
         private IDataManager dMgr = new DataManager();
