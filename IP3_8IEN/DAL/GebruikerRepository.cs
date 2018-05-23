@@ -2,8 +2,6 @@
 using IP_8IEN.BL.Domain.Gebruikers;
 using IP_8IEN.DAL.EF;
 using System.Linq;
-using IP3_8IEN.BL.Domain.Gebruikers;
-
 namespace IP_8IEN.DAL
 {
     public class GebruikerRepository : IGebruikerRepository

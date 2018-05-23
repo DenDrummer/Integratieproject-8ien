@@ -10,7 +10,7 @@ using System;
 using System.Net;
 using System.Web.Script.Serialization;
 using System.Net.Mail;
-using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Dashboard;
 
 namespace IP_8IEN.BL
 {

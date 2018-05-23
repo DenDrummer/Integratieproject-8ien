@@ -1,5 +1,5 @@
 ﻿using IP_8IEN.BL.Domain.Data;
-using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Dashboard;
 using System;
 using System.Collections.Generic;
 

@@ -16,7 +16,7 @@ namespace MVC_S
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            //app.CreatePerOwinContext(IP3_8IEN.DAL.EF.ApplicationDbContext.Create);
+            //app.CreatePerOwinContext(IP_8IEN.DAL.EF.ApplicationDbContext.Create);
             // ApplicationUserManager werd verplaatst naar BL, Factory dient voor OWIN authentication
 
             // We maken gebruik van de Factories -> Correcte toegang tot Managers volgens N-Tier!
