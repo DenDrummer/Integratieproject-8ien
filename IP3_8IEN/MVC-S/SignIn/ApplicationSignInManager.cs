@@ -1,5 +1,5 @@
-﻿using IP_8IEN.BL;
-using IP_8IEN.BL.Domain;
+﻿using IP3_8IEN.BL;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Security.Claims;
@@ -18,8 +18,6 @@ namespace MVC_S.SignIn
         }
 
         public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
-        {
-            return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
-        }
+            => user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
     }
 }

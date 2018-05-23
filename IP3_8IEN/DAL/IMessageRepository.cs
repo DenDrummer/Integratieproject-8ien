@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-using IP_8IEN.BL.Domain.Data;
+using IP3_8IEN.BL.Domain.Data;
 
-namespace IP_8IEN.DAL
+namespace IP3_8IEN.DAL
 {
     public interface IMessageRepository
     {
@@ -45,5 +45,9 @@ namespace IP_8IEN.DAL
         //4 mei 2018 : Stephane
         IEnumerable<Message> ReadMessages(bool subjM);
         Organisatie ReadOrganisatie(int organisatieId);
+
+        //10 mei 2018 : Stephane
+        void EditOrganisation(Organisatie organisatie);
+        void EditPersoon(Persoon persoon);
     }
 }

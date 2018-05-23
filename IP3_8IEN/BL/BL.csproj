@@ -106,12 +106,9 @@
     <Compile Include="UnitOfWorkManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AddAlertInstelling.json" />
-    <None Include="AddAlerts.json" />
-    <None Include="AddGebruikersInit.Json" />
     <None Include="App.config" />
-    <None Include="JsonFiles\apiRequest.json" />
     <None Include="packages.config" />
+    <None Include="Scripts\jquery-1.12.4.min.map" />
     <None Include="textgaindump.json" />
   </ItemGroup>
   <ItemGroup>
@@ -124,7 +121,11 @@
       <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Scripts\jquery-1.12.4.intellisense.js" />
+    <Content Include="Scripts\jquery-1.12.4.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

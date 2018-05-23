@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using IP_8IEN.BL.Domain.Gebruikers;
 using IP3_8IEN.BL.Domain.Gebruikers;
 
-namespace IP_8IEN.DAL
+namespace IP3_8IEN.DAL
 {
     public interface IGebruikerRepository
     {
@@ -10,6 +9,7 @@ namespace IP_8IEN.DAL
         void AddingGebruiker(Gebruiker gebruiker);
         void AddingAlertInstelling(AlertInstelling alertinstelling);
         Gebruiker FindGebruiker(int userId);
+        void DeleteGebruiker(Gebruiker gebruiker);
         IEnumerable<Gebruiker> ReadGebruikers();
 
         //31 mrt 2018 : Stephane
@@ -33,5 +33,7 @@ namespace IP_8IEN.DAL
         IEnumerable<PositiefNegatief> ReadPositiefNegatiefs();
         IEnumerable<HogerLager> ReadHogerLagers();
 
+        //10 mei 2018 : Stephane
+        void UpdateGebruiker(Gebruiker gebruiker);
     }
 }

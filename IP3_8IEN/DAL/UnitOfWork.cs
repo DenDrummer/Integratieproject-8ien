@@ -1,6 +1,6 @@
-﻿using IP_8IEN.DAL.EF;
+﻿using IP3_8IEN.DAL.EF;
 
-namespace IP_8IEN.DAL
+namespace IP3_8IEN.DAL
 {
     public class UnitOfWork
     {
@@ -19,9 +19,6 @@ namespace IP_8IEN.DAL
         /// Deze methode zorgt ervoor dat alle tot hier toe aangepaste domein objecten
         /// worden gepersisteert naar de databank
         /// </summary>
-        public void CommitChanges()
-        {
-            ctx.CommitChanges();
-        }
+        public void CommitChanges() => ctx.CommitChanges();
     }
 }

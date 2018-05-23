@@ -1,4 +1,4 @@
-﻿@model IP_8IEN.BL.Domain.Data.Thema
+﻿@model IP3_8IEN.BL.Domain.Data.Thema
 
 @{
     ViewBag.Title = "Thema";
@@ -6,50 +6,127 @@
 <h2>@ViewBag.Title</h2>
 
 
-<br />
-
-
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                @ViewBag.Title
+                Informatie
             </div>
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-2">
-                        <form role="form">
-                            <div class="form-group">
-                                <img src="../Fotos/bartdewever.jpg" alt="Bart De Wever" style="max-height:100%; max-width:100%">
+                <div class="row" style="padding-left:5px;">
+                    <div class="col-lg-8" style="background-color:#f8f8f8; padding-left:1px; padding-right: 1px;">
+                        <div style="position: relative; left: 0; top: 0;">
+                            <img src="../Fotos/banner.png" alt="" style="height: 50%; width: 100%; display:inline-block; position: relative; top: 0; left: 0;" />
+                            <img src="../Fotos/hslogo.png" alt="" style="height: 150px; width: 150px; border-radius:50%; border:2px solid white; position: absolute;top: 70%; left: 40%;" />
+                        </div>
+                        <div class="row" style="padding-top:80px; padding-left:40px; padding-right:5px;">
+                            <div class="col-lg-6">
+                                <table>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>Naam Thema: </b></td>
+                                        <td>@Html.DisplayFor(m => m.Naam)</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>Trend</b></td>
+                                        <td>@Html.DisplayFor(m => m.Beschrijving)</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>Aantal Vermeldingen:</b> </td>
+                                        <td>@Html.DisplayFor(model => model.Naam)</td>
+                                    </tr>
+                                    <tr></tr>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>Gekoppelde Termen:</b> </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width:350px">
 
+                                                @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
+                                                {
+                                                    var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
+                                                    <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
+                                                }
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-                        </form>
+                            <div class="col-lg-6">
+                                <div>
+                                    <div>
+                                        <table>
+                                            <tr>
+                                                <td valign="top"><b>@Html.DisplayNameFor(m => m.Hashtags): </b></td>
+                                                <td>#KrisPeetersJood</td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top"><b>Aantal Mentions: </b></td>
+                                                <td>@Html.DisplayFor(m => m.SubjectMessages.Count)@*6586*@</td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top" style="color:#00295C"><b>Vaak voorkomende Woorden:</b> </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width:100%">
+
+                                                        @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
+                                                        {
+                                                            var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
+                                                            <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
+                                                        }
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top" style="color:#00295C"><b>Vaak voorkomende Verhalen:</b> </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width:100%">
+
+                                                        @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
+                                                        {
+                                                            var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
+                                                            <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
+                                                        }
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-5">
-                        <table>
-                            <tr>
-                                <td valign="top"><b>@Html.DisplayNameFor(m => m.ThemaString): </b></td>
-                                <td>@Html.DisplayFor(m => m.ThemaString)</td>
-                            </tr>
-                            <tr>
-                                <td valign="top"><b>@Html.DisplayNameFor(m => m.Beschrijving): </b></td>
-                                <td>@Html.DisplayFor(m => m.Beschrijving)</td>
-                            </tr>
-                            <tr>
-                                <td valign="top"><b>@Html.DisplayNameFor(m => m.Hashtags): </b></td>
-                                <td>#KrisPeetersJood</td>
-                            </tr>
-                            <tr>
-                                <td valign="top"><b>Aantal Mentions: </b></td>
-                                <td>@Html.DisplayFor(m => m.SubjectMessages.Count)@*6586*@</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-4">
+
                         <form role="form">
-                            <a class="twitter-timeline" data-height="500" data-theme="light" href="https://twitter.com/Bart_DeWever?ref_src=twsrc%5Etfw">Tweets by Bart_DeWever</a>
-                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                            <a class="twitter-timeline" href="https://twitter.com/hashtag/OMAtletico" data-widget-id="997206574266535936">Tweets over #OMAtletico</a>
+                            <script>
+                                !function (d, s, id) {
+                                    var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                                    if (!d.getElementById(id)) {
+                                        js = d.createElement(s);
+                                        js.id = id; js.src = p + "://platform.twitter.com/widgets.js";
+                                        fjs.parentNode.insertBefore(js, fjs);
+                                    }
+                                }(document, "script", "twitter-wjs");</script>
                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Chart
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-lg-6" style="height: 200px" id="persoon-chart1">
+                        </div>
                     </div>
                 </div>
             </div>

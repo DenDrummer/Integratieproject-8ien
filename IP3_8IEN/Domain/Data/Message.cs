@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace IP_8IEN.BL.Domain.Data
+namespace IP3_8IEN.BL.Domain.Data
 {
     public class Message
     {
@@ -61,6 +61,21 @@ namespace IP_8IEN.BL.Domain.Data
                 if (s.Persoon == persoon)
                 {
                     return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsFromOrganisatie(Organisatie organisatie)
+        {
+            foreach (SubjectMessage s in SubjectMessages)
+            {
+                foreach (Tewerkstelling t in s.Persoon.Tewerkstellingen)
+                {
+                    if (t.Organisatie == organisatie)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-using IP_8IEN.BL.Domain.Data;
-using IP_8IEN.DAL.EF;
+using IP3_8IEN.BL.Domain.Data;
+using IP3_8IEN.DAL.EF;
 using System.Linq;
 using System.Data.Entity;
 
-namespace IP_8IEN.DAL
+namespace IP3_8IEN.DAL
 {
     public class MessageRepository : IMessageRepository
     {
@@ -25,15 +25,9 @@ namespace IP_8IEN.DAL
             ctx = uow.Context;
         }
 
-        public bool isUnitofWork()
-        {
-            return isUoW;
-        }
+        public bool isUnitofWork() => isUoW;
 
-        public void setUnitofWork(bool UoW)
-        {
-            isUoW = UoW;
-        }
+        public void setUnitofWork(bool UoW) => isUoW = UoW;
 
         public void AddingMessage(Message message)
         {
@@ -53,65 +47,42 @@ namespace IP_8IEN.DAL
             ctx.SaveChanges();
         }
 
-        public IEnumerable<Persoon> ReadPersonen()
-        {
-            //return ctx.Personen.Include("Tewerkstellingen").Include("Onderwerpen").ToList<Persoon>();
-            return ctx.Personen.ToList<Persoon>();
-        }
+        public IEnumerable<Persoon> ReadPersonen() => ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie").ToList();
 
-        public IEnumerable<Hashtag> ReadHashtags()
-        {
-            return ctx.Hashtags;
-        }
+        public IEnumerable<Hashtag> ReadHashtags() => ctx.Hashtags;
 
-        public IEnumerable<Onderwerp> ReadSubjects()
-        {
-            //Onderwerp onderwerp = ctx.Onderwerpen.Find(onderwerpId);
-            return ctx.Onderwerpen;
-        }
+        public IEnumerable<Onderwerp> ReadSubjects() => ctx.Onderwerpen;
 
-        public IEnumerable<Organisatie> ReadOrganisaties()
-        {            
-            return ctx.Organisaties.ToList<Organisatie>();
-        }
+        public IEnumerable<Organisatie> ReadOrganisaties() => ctx.Organisaties.ToList();
 
         public void AddingTewerkstelling(Tewerkstelling tewerkstelling)
         {
             ctx.Tewerkstellingen.Add(tewerkstelling);
             ctx.SaveChanges();
         }
-        public IEnumerable<SubjectMessage> ReadSubjectMessages()
-        {
-            return ctx.SubjectMessages.ToList<SubjectMessage>();
-        }
-        public IEnumerable<Message> ReadMessages()
-        {
-            return ctx.Messages.ToList<Message>();
-        }
-        public void UdateOnderwerp(Onderwerp onderwerp)
-        {
-            ctx.SaveChanges();
-        }
-        public void UpdateMessage()
-        {
-            ctx.SaveChanges();
-        }
+        public IEnumerable<SubjectMessage> ReadSubjectMessages() => ctx.SubjectMessages.ToList();
+
+        public IEnumerable<Message> ReadMessages() => ctx.Messages.ToList();
+
+        public void UdateOnderwerp(Onderwerp onderwerp) => ctx.SaveChanges();
+
+        public void UpdateMessage() => ctx.SaveChanges();
+
         public Persoon ReadPersoon(int persoonId)
         {
             IEnumerable<Persoon> personen = ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie");//.Find(persoonId);
             return personen.FirstOrDefault(p => p.OnderwerpId == persoonId);
         }
-        public IEnumerable<Tewerkstelling> ReadTewerkstellingen()
-        {
-            return ctx.Tewerkstellingen.ToList<Tewerkstelling>();
-        }
+        public IEnumerable<Tewerkstelling> ReadTewerkstellingen() => ctx.Tewerkstellingen.ToList();
+
         public IEnumerable<Message> ReadMessages(bool subjM)
         {
-            if(subjM)
+            if (subjM)
             {
                 IEnumerable<Message> messages = ctx.Messages.Include("SubjectMessages").Include("SubjectMessages.Persoon").Include("SubjectMessages.Persoon.Tewerkstellingen");
                 return messages;
-            } else
+            }
+            else
             {
                 return ReadMessages();
             }
@@ -121,5 +92,18 @@ namespace IP_8IEN.DAL
             IEnumerable<Organisatie> organisaties = ctx.Organisaties.Include("Tewerkstellingen").Include("Tewerkstellingen.Persoon");
             return organisaties.FirstOrDefault(o => o.OnderwerpId == organisatieId);
         }
+
+        public void EditOrganisation(Organisatie organisatie)
+        {
+            ctx.Entry(organisatie).State = EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
+        public void EditPersoon(Persoon persoon)
+        {
+            ctx.Entry(persoon).State = EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
     }
 }

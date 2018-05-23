@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace IP_8IEN.BL.Domain.Gebruikers
+namespace IP3_8IEN.BL.Domain.Gebruikers
 {
     public class Alert
     {
@@ -13,9 +13,6 @@ namespace IP_8IEN.BL.Domain.Gebruikers
         public AlertInstelling AlertInstelling;
 
 
-        public override string ToString()
-        {
-            return AlertContent;
-        }
+        public override string ToString() => AlertContent;
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-using IP_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.BL.Domain.Gebruikers;
 
-namespace IP_8IEN.BL.Domain.Dashboard
+namespace IP3_8IEN.BL.Domain.Dashboard
 {
     public class Dashbord
     {
@@ -11,7 +11,7 @@ namespace IP_8IEN.BL.Domain.Dashboard
         public int DashbordId { get; set; }
 
         public Deelplatform Deelplatform { get; set; }
-        public Gebruiker Gebruiker { get; set; }
+        public Gebruiker User { get; set; }
         public ICollection<TileZone> TileZones { get; set; }
     }
 }

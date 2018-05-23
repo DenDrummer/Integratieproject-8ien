@@ -1,6 +1,6 @@
-﻿using IP_8IEN.DAL;
+﻿using IP3_8IEN.DAL;
 
-namespace IP_8IEN.BL
+namespace IP3_8IEN.BL
 {
     public class UnitOfWorkManager
     {
@@ -16,9 +16,6 @@ namespace IP_8IEN.BL
             }
         }
 
-        public void Save()
-        {
-            UnitOfWork.CommitChanges();
-        }
+        public void Save() => UnitOfWork.CommitChanges();
     }
 }

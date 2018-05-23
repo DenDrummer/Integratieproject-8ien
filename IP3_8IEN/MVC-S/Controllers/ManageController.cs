@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MVC_S.Models;
 using MVC_S.SignIn;
-using IP_8IEN.BL;
+using IP3_8IEN.BL;
 
 namespace MVC_S.Controllers
 {
@@ -33,9 +33,9 @@ namespace MVC_S.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -102,10 +102,7 @@ namespace MVC_S.Controllers
 
         //
         // GET: /Manage/AddPhoneNumber
-        public ActionResult AddPhoneNumber()
-        {
-            return View();
-        }
+        public ActionResult AddPhoneNumber() => View();
 
         //
         // POST: /Manage/AddPhoneNumber
@@ -216,10 +213,7 @@ namespace MVC_S.Controllers
 
         //
         // GET: /Manage/ChangePassword
-        public ActionResult ChangePassword()
-        {
-            return View();
-        }
+        public ActionResult ChangePassword() => View();
 
         //
         // POST: /Manage/ChangePassword
@@ -247,10 +241,7 @@ namespace MVC_S.Controllers
 
         //
         // GET: /Manage/SetPassword
-        public ActionResult SetPassword()
-        {
-            return View();
-        }
+        public ActionResult SetPassword() => View();
 
         //
         // POST: /Manage/SetPassword
@@ -334,7 +325,7 @@ namespace MVC_S.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -385,6 +376,6 @@ namespace MVC_S.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

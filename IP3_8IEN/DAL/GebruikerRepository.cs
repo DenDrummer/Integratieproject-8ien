@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using IP_8IEN.BL.Domain.Gebruikers;
-using IP_8IEN.DAL.EF;
-using System.Linq;
 using IP3_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.DAL.EF;
+using System.Linq;
 
-namespace IP_8IEN.DAL
+namespace IP3_8IEN.DAL
 {
     public class GebruikerRepository : IGebruikerRepository
     {
@@ -24,15 +23,9 @@ namespace IP_8IEN.DAL
             isUoW = true;
         }
 
-        public bool isUnitofWork()
-        {
-            return isUoW;
-        }
+        public bool isUnitofWork() => isUoW;
 
-        public void setUnitofWork(bool UoW)
-        {
-            isUoW = UoW;
-        }
+        public void setUnitofWork(bool UoW) => isUoW = UoW;
 
         public void AddingAlertInstelling(AlertInstelling alertinstelling)
         {
@@ -46,10 +39,16 @@ namespace IP_8IEN.DAL
             ctx.SaveChanges();
         }
 
-        public Gebruiker FindGebruiker(int userId)
+        public Gebruiker FindGebruiker(int userId) => ctx.Gebruikers.Find(userId);
+
+        //Deze moet nog ge-update worden
+        public void DeleteGebruiker(Gebruiker gebruiker)
         {
-            Gebruiker user = ctx.Gebruikers.Find(userId);
-            return user;
+            if (gebruiker != null)
+            {
+                ctx.Gebruikers.Remove(gebruiker);
+                ctx.SaveChanges();
+            }
         }
 
         public IEnumerable<Gebruiker> ReadGebruikers()
@@ -58,11 +57,7 @@ namespace IP_8IEN.DAL
             return gebruikers;
         }
 
-        public AlertInstelling ReadAlertInstelling(int alertInstellingId)
-        {
-            AlertInstelling alertInstelling = ctx.AlertInstellingen.Find(alertInstellingId);
-            return alertInstelling;
-        }
+        public AlertInstelling ReadAlertInstelling(int alertInstellingId) => ctx.AlertInstellingen.Find(alertInstellingId);
 
         public void AddingAlert(Alert alert)
         {
@@ -70,10 +65,11 @@ namespace IP_8IEN.DAL
             ctx.SaveChanges();
         }
 
-        public IEnumerable<Alert> ReadAlerts()
-        {
-            return ctx.Alerts.ToList<Alert>();
-        }
+        public IEnumerable<Alert> ReadAlerts() => ctx.Alerts.ToList();
+
+        public void UpdateAlertInstelling(AlertInstelling alertInstelling) => ctx.SaveChanges();
+
+        public IEnumerable<Gebruiker> ReadGebruikersWithAlertInstellingen() => ctx.Gebruikers.Include("AlertInstellingen").Include("AlertInstellingen.Alerts");
 
         public void UpdateAlertInstelling(AlertInstelling alertInstelling)
         {
@@ -105,6 +101,12 @@ namespace IP_8IEN.DAL
         {
             IEnumerable<PositiefNegatief> positiefNegatiefs = ctx.PositiefNegatiefs.Include("Alerts").Include("Gebruiker").Include("Onderwerp");
             return positiefNegatiefs;
+        }
+
+        public void UpdateGebruiker(Gebruiker gebruiker)
+        {
+            ctx.Entry(gebruiker).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
         }
     }
 }

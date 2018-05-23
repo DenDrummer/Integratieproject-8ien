@@ -1,7 +1,8 @@
-﻿using IP_8IEN.BL.Domain;
+﻿using IP3_8IEN.BL.Domain.Gebruikers;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 
-namespace IP_8IEN.DAL.EF
+namespace IP3_8IEN.DAL.EF
 {
     // Dit stond vroeger in UI_MVC_S -> Bad Practice
     // Toegang tot databank hoort thuis in DAL
@@ -11,6 +12,12 @@ namespace IP_8IEN.DAL.EF
             : base("OurDB_EFCodeFirst", throwIfV1Schema: false)
         {
 
+        }
+
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
         }
 
         /*

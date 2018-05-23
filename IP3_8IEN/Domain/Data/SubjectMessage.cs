@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IP_8IEN.BL.Domain.Data
+namespace IP3_8IEN.BL.Domain.Data
 {
     public class SubjectMessage
     {
@@ -9,5 +9,7 @@ namespace IP_8IEN.BL.Domain.Data
         public Message Msg { get; set; }
         public Persoon Persoon { get; set; }
         public Hashtag Hashtag { get; set; }
+        //Sam 9/05/18
+        public Organisatie Organisatie { get; set; }
     }
 }
