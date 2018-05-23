@@ -112,12 +112,12 @@ namespace IP_8IEN.BL
         public void RemoveUser(string id) => ((IdentityRepository)Store).DeleteUser(id);
 
         // Nieuwe gebruikers aanmaken MET hun role
-        public async Task<IdentityResult> CreateUserWithRoleAsync(ApplicationUser user,
+        public void  CreateUserWithRole(ApplicationUser user,
             string pwd, string role)
         {
-            var t = await this.CreateAsync(user, pwd);
+            var t = this.CreateAsync(user, pwd);
             this.AddToRole(user.Id, role);
-            return t;
+            //return t;
         }
 
         ////inladen vanuit json formaat
@@ -142,7 +142,7 @@ namespace IP_8IEN.BL
                     Geboortedatum = item.Geboortedatum
                 };
                 string passw = item.Password;
-                CreateUserWithRoleAsync(gebruiker, passw, "Admin");
+                CreateUserWithRole(gebruiker, passw, "Admin");
 
                 // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken : Identity doet moeilijk
                 _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName);

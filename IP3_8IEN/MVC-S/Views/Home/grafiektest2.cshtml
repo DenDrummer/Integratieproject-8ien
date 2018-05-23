@@ -1,6 +1,9 @@
 ﻿@Scripts.Render("~/bundles/kendo")
-@Scripts.Render("~/scripts/charts")
+@Scripts.Render("~/Scripts/charts")
+<script src="~/Scripts/addGrapfiek.js"></script>
 
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="~/Content/creategrafiek.css" />
 <script src="~/Scripts/grafiekaanmaken.js"></script>
 <script type="text/javascript">
@@ -39,9 +42,8 @@
 
 
 
-<ul>
-    <div id="sortable"></div>
-</ul>
+<div id="sortable"></div>
+
 <script id="tmp" type="text/x-kendo-template">
     @*<li class="sortable">Item #:data#</li>*@
 
@@ -62,6 +64,52 @@
     </div>
 
 </script>
+
+<div class="container">
+    <div class="modal fade" id="myModal" role="dialog">
+
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2>Maak grafiek aan</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="container-md">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4>Kies type</h4>
+                            </div>
+                            <div class="col-md-4"><h4>Kies een naam</h4></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <form id="grafiekType" name="grafiekType">
+                                    <input type="radio" name="type" value="bar" checked> Bar chart<br>
+                                    <input type="radio" name="type" value="doughnut"> Doughnut<br>
+                                    <input type="radio" name="type" value="line"> Line chart<br>
+                                    <input type="radio" name="type" value="area"> Area chart<br>
+                                    <input type="radio" name="type" value="sentiment"> Sentiment<br>
+                                    <input type="radio" name="type" value="topics"> Bekende topics<br>
+                                </form>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" id="onderwerpId" name="naam">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-md" id="aanmakenBtn">Aanmaken</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
 
 <script>
     var initialData = [0, 1, 2, 3, 4, 5, 6, 7, 8], //initial items order (used if there is no saved data
@@ -106,6 +154,7 @@
 <!-- A link to the NodeBox JavaScript API  -->
 <script src="https://nodebox.live/api/v1/ndbx.js"></script>
 <script src="@Url.Content("~/Scripts/morris-data.js")"></script>
+<script src="~/Scripts/morrisGrafieken.js"></script>
 <script type="text/javascript">
 
     var number = @Html.Raw(Json.Encode(ViewBag.NUMMER1));
@@ -119,72 +168,8 @@
     mycontent.appendChild(document.createTextNode(name+" heeft: "+number+" tweets"));
     mydiv.appendChild(mycontent);
 </script>
-
-
-<!--Get Data for Graph-->
 <script type="text/javascript">
-    $(document).ready(function() {
-        $.get('@Url.Action("GetData","Home",new {id = 231})', function (result) {
-
-            Morris.Area({
-                // ID of the element in which to draw the chart.
-                element: 'chart4',
-                // Chart data records -- each entry in this array corresponds to a point on
-                // the chart.
-                data: result,
-                // The name of the data record attribute that contains x-values.
-                xkey: 'label',
-                ykeys: ['value'],
-                labels: ['aantal tweets Van Verhofstad'],
-                pointSize: 2,
-                hideHover: 'auto',
-                resize: true
-            });
-        });
-
-
-
-
+    $(document).ready(function () {
+        $.get('@Url.Action("GetRank","Home",new {aantal = 1})', window.maakDonutAan(result));
     });
-</script>
-<script type="text/javascript">
-    $(document).ready(function() {
-
-        $.get('@Url.Action("GetData","Home",new {id = 170})', function (result) {
-
-            Morris.Line({
-                // ID of the element in which to draw the chart.
-                element: 'chart1',
-                // Chart data records -- each entry in this array corresponds to a point on
-                // the chart.
-                data: result,
-                // The name of the data record attribute that contains x-values.
-                xkey: 'label',
-                ykeys: ['value'],
-                labels: ['aantal tweets van Bart De Wever'],
-                pointSize: 2,
-                hideHover: 'auto',
-                resize: true
-            });
-        });
-    });
-</script>
-<script type="text/javascript">
-    $(document).ready(function() {
-
-       $.get('@Url.Action("GetRank","Home",new {aantal = 5})', function (result) {
-
-            Morris.Donut({
-                // ID of the element in which to draw the chart.
-                element: 'chart2',
-                // Chart data records -- each entry in this array corresponds to a point on
-                // the chart.
-                data: result,
-                // The name of the data record attribute that contains x-values.
-
-                hideHover: 'auto',
-                resize: true
-            });
-        });
-        });
 </script>

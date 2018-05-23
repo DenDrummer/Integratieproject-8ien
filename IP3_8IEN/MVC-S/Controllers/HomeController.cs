@@ -213,7 +213,7 @@ namespace MVC_S.Controllers
         {
             Persoon persoon = dMgr.GetPersoon(170);
             int aantalTweets = dMgr.GetNumber(persoon);
-           // int aantalTweets = 69;
+            // int aantalTweets = 69;
             ViewBag.NUMMER1 = aantalTweets;
             ViewBag.naam1 = persoon.Naam;
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
