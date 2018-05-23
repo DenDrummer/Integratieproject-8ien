@@ -24,9 +24,17 @@
                         @foreach (var t in Model)
                         {
                             <tr class="odd gradeX">
-                                <td>@Html.ActionLink(t.ThemaString,"Themas","Home", new { }, null)</td>
-                                <td>Bart De Wever</td>
-                                <td>Bart_DeWever</td>
+                                <td>@Html.ActionLink(t.ThemaString, "Themas", "Home", new { }, null)</td>
+                                <td>
+                                    <ul style="list-style:none;padding-left:0px">
+                                        @foreach (string h in t.Hashtags)
+                                        {
+                                            string hash = $"#{h}";
+                                            <li>@Html.DisplayFor(m => hash)</li>
+                                        }
+                                    </ul>
+                                </td>
+                                <td>@Html.DisplayFor(m => t.SubjectMessages.Count)</td>
                             </tr>
                         }
                     </tbody>

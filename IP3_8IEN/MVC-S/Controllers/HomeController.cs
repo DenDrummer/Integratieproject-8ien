@@ -10,9 +10,6 @@ using System.Web;
 using IP3_8IEN.BL.Domain.Dashboard;
 using Microsoft.AspNet.Identity;
 using System.Linq;
-using System.Web.Helpers;
-using IP3_8IEN.BL.Domain.Dashboard;
-using Microsoft.Ajax.Utilities;
 using System.Text;
 
 namespace MVC_S.Controllers
@@ -135,6 +132,7 @@ namespace MVC_S.Controllers
             {
                 OnderwerpId = onderwerpId,
                 Naam = "het nieuws",
+                ThemaString = "het nieuws",
                 Beschrijving = "wat er in het nieuws over wordt gesproken",
                 Hashtags = new List<string>()
                 {
@@ -166,7 +164,8 @@ namespace MVC_S.Controllers
             return View(thema);
         }
 
-        public ActionResult Organisatie(int onderwerpId = 22) {
+        public ActionResult Organisatie(int onderwerpId = 22)
+        {
             string screenname = dMgr.GetOrganisatie(onderwerpId).Twitter;
             System.Diagnostics.Debug.WriteLine("Screenname: " + screenname);
             ViewBag.TWITIMAGE = dMgr.GetImageString(screenname);
@@ -228,17 +227,27 @@ namespace MVC_S.Controllers
         public ActionResult LijstPersonen() => View(dMgr.GetPersonen());
 
         public ActionResult LijstThemas() => View(new List<Thema>()
+        {
+            new Thema()
             {
-                new Thema()
+                OnderwerpId = 500,
+                Naam = "het nieuws",
+                ThemaString = "het nieuws",
+                Beschrijving = "wat er in het nieuws over wordt gesproken",
+                Hashtags = new List<string>()
                 {
-                    OnderwerpId = 285,
-                    Naam = "ukip",
-                    Hashtags = new List<string>()
+                    "vtmnieuws",
+                    "vrtjournaal"
+                },
+                SubjectMessages = new List<SubjectMessage>()
+                {
+                    new SubjectMessage()
                     {
-                        "ukip"
+                        SubjectMsgId = 10000
                     }
                 }
-            });
+            }
+        });
 
         public ActionResult LijstOrganisaties() => View(dMgr.GetOrganisaties());
 
@@ -286,7 +295,7 @@ namespace MVC_S.Controllers
             ViewBag.NUMMER1 = aantalTweets;
             ViewBag.naam1 = persoon.Naam;
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
-            int[] init = {0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
+            int[] init = { 0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
             //ViewData["init"] = init;
             ViewBag.INIT = init;
             return View();
@@ -306,7 +315,7 @@ namespace MVC_S.Controllers
             Persoon persoon3 = dMgr.GetPersoon(id3);
             Persoon persoon4 = dMgr.GetPersoon(id4);
             Persoon persoon5 = dMgr.GetPersoon(id5);
-            return Json(dMgr.GetComparisonPersonNumberOfTweetsOverTime(persoon1,persoon2,persoon3,persoon4,persoon5), JsonRequestBehavior.AllowGet);
+            return Json(dMgr.GetComparisonPersonNumberOfTweetsOverTime(persoon1, persoon2, persoon3, persoon4, persoon5), JsonRequestBehavior.AllowGet);
         }
     }
 }
