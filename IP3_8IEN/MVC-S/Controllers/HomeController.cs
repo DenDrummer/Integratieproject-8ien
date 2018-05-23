@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 using IP_8IEN.BL.Domain.Gebruikers;
 using System.IO;
 using System.Web;
-using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Dashboard;
 using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Web.Helpers;
-using IP_8IEN.BL.Domain.Dashboard;
 using Microsoft.Ajax.Utilities;
 using System.Text;
 
