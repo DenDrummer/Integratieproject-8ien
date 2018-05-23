@@ -1,8 +1,8 @@
-﻿using IP_8IEN.BL.Domain.Gebruikers;
+﻿using IP3_8IEN.BL.Domain.Gebruikers;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 
-namespace IP_8IEN.DAL.EF
+namespace IP3_8IEN.DAL.EF
 {
     // Dit stond vroeger in UI_MVC_S -> Bad Practice
     // Toegang tot databank hoort thuis in DAL

@@ -1,9 +1,9 @@
-﻿using IP_8IEN.BL.Domain.Data;
-using IP_8IEN.BL.Domain.Gebruikers;
+﻿using IP3_8IEN.BL.Domain.Data;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using Newtonsoft.Json;
 using System.IO;
 
-using IP_8IEN.DAL;
+using IP3_8IEN.DAL;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,7 +11,7 @@ using System;
 using System.Net.Mail;
 using System.Text;
 
-namespace IP_8IEN.BL
+namespace IP3_8IEN.BL
 {
     public class GebruikerManager : IGebruikerManager
     {

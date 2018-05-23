@@ -1,8 +1,8 @@
-﻿using IP_8IEN.BL.Domain.Data;
+﻿using IP3_8IEN.BL.Domain.Data;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace IP_8IEN.BL.Domain.Gebruikers
+namespace IP3_8IEN.BL.Domain.Gebruikers
 {
     public abstract class AlertInstelling
     {

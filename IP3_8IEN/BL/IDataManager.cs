@@ -1,10 +1,10 @@
-﻿using IP_8IEN.BL.Domain.Data;
+﻿using IP3_8IEN.BL.Domain.Data;
 using System;
 using System.Collections.Generic;
-using IP_8IEN.BL.Domain.Dashboard;
-using IP_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Gebruikers;
 
-namespace IP_8IEN.BL
+namespace IP3_8IEN.BL
 {
     public interface IDataManager
     {

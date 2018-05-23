@@ -1,6 +1,6 @@
-﻿using IP_8IEN.DAL.EF;
+﻿using IP3_8IEN.DAL.EF;
 
-namespace IP_8IEN.DAL
+namespace IP3_8IEN.DAL
 {
     public class UnitOfWork
     {
