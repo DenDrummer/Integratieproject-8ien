@@ -70,6 +70,21 @@ namespace IP_8IEN.BL.Domain.Data
         {
             foreach (SubjectMessage s in SubjectMessages)
             {
+                foreach (Tewerkstelling t in s.Persoon.Tewerkstellingen)
+                {
+                    if (t.Organisatie == organisatie)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool IsFromOrganisatie(Organisatie organisatie)
+        {
+            foreach (SubjectMessage s in SubjectMessages)
+            {
                 if (s.Persoon != null)
                 {
                     foreach (Tewerkstelling t in s.Persoon.Tewerkstellingen)

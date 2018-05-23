@@ -8,7 +8,7 @@ namespace IP_8IEN.DAL
         //30 mrt 2018 : Stephane
         void AddingGebruiker(Gebruiker gebruiker);
         void AddingAlertInstelling(AlertInstelling alertinstelling);
-        Gebruiker FindGebruiker(int userId);
+        void DeleteGebruiker(Gebruiker gebruiker);
         IEnumerable<Gebruiker> ReadGebruikers();
 
         //31 mrt 2018 : Stephane
@@ -32,5 +32,10 @@ namespace IP_8IEN.DAL
         IEnumerable<PositiefNegatief> ReadPositiefNegatiefs();
         IEnumerable<HogerLager> ReadHogerLagers();
 
+        //10 mei 2018 : Stephane
+        void UpdateGebruiker(Gebruiker gebruiker);
+
+        //20 mei 2018 : Stephane
+        Gebruiker ReadGebruiker(string userId);
     }
 }

@@ -24,10 +24,7 @@ namespace MVC_S.Controllers
         }
 
         // GET: Alert/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        public ActionResult Create() => View();
 
         // POST: Alert/Create
         [HttpPost]
@@ -46,10 +43,7 @@ namespace MVC_S.Controllers
         }
 
         // GET: Alert/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        public ActionResult Edit(int id) => View();
 
         // POST: Alert/Edit/5
         [HttpPost]
@@ -68,10 +62,7 @@ namespace MVC_S.Controllers
         }
 
         // GET: Alert/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        public ActionResult Delete(int id) => View();
 
         // POST: Alert/Delete/5
         [HttpPost]

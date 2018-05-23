@@ -1,5 +1,8 @@
 ﻿using IP_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Gebruikers;
 using IP_8IEN.DAL.EF;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace IP_8IEN.DAL
 {
@@ -11,14 +14,123 @@ namespace IP_8IEN.DAL
         public DashRepository()
         {
             ctx = new OurDbContext();
+            //isUoW = false;
             ctx.Database.Initialize(false);
         }
 
-        //UoW related
         public DashRepository(UnitOfWork uow)
         {
             ctx = uow.Context;
-        }        
+            //isUoW = true;
+        }
+
+        public Dashbord ReadDashbord(Gebruiker user)
+        {
+            Dashbord dashbord = ctx.Dashbords.Include("TileZones").Include("TileZones.DashItem").FirstOrDefault(u => u.User.GebruikerId == user.GebruikerId);
+            return dashbord;
+        }
+
+        public void AddFollow(Follow follow)
+        {
+            ctx.Follows.Add(follow);
+            ctx.SaveChanges();
+        }
+        public void UpdateDashItem(DashItem dashItem)
+        {
+            ctx.Entry(dashItem).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
+        public void AddGraph(GraphData graph)
+        {
+            ctx.Graphs.Add(graph);
+            ctx.SaveChanges();
+        }
+
+        public void AddDashBord(Dashbord dashbord)
+        {
+            ctx.Dashbords.Add(dashbord);
+            ctx.SaveChanges();
+        }
+
+        //gebruik deze methode voor het type: 'Vergelijking','Kruising' en 'Cijfer'
+        public void AddDashItem(DashItem dashItem)
+        {
+            ctx.DashItems.Add(dashItem);
+            ctx.SaveChanges();
+        }
+
+        public void AddTileZone(TileZone tileZone)
+        {
+            ctx.TileZones.Add(tileZone);
+            ctx.SaveChanges();
+        }
+
+        public void UpdateGraphData(GraphData graph)
+        {
+            ctx.Entry(graph).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
+        public DashItem ReadDashItem(int dashId)
+        {
+            DashItem dashItem = ctx.DashItems.Find(dashId);
+            return dashItem;
+        }
+
+        public void UpdateFollow(Follow follow)
+        {
+            ctx.Entry(follow).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
+        public IEnumerable<Follow> ReadFollows()
+        {
+            IEnumerable<Follow> follows = ctx.Follows.Include("DashItem").Include("Onderwerp").ToList();
+            return follows;
+        }
+
+        public void UpdateDashboard(Dashbord dashbord)
+        {
+            ctx.Entry(dashbord).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
+        public IEnumerable<TileZone> ReadTileZones()
+        {
+            IEnumerable<TileZone> tileZones = ctx.TileZones;
+            return tileZones;
+        }
+
+        public IEnumerable<DashItem> ReadDashItems()
+        {
+            IEnumerable<DashItem> dashItems = ctx.DashItems.ToList();
+            return dashItems;
+        }
+
+        public Dashbord ReadDashbord(int dashId)
+        {
+            Dashbord dashbord = ctx.Dashbords.Include("User").FirstOrDefault(d => d.DashbordId == dashId);
+            return dashbord;
+        }
+
+        public Dashbord ReadDashbordWithFollows(Gebruiker user)
+        {
+            Dashbord dashbord = ctx.Dashbords.Include("TileZones").Include("TileZones.DashItem").Include("TileZones.DashItem.Graphdata").Include("TileZones.DashItem.Follows").Include("TileZones.DashItem.Follows.Onderwerp").FirstOrDefault(u => u.User.GebruikerId == user.GebruikerId);
+            return dashbord;
+        }
+
+        public void UpdateTileZone(TileZone tileZone)
+        {
+            ctx.Entry(tileZone).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
+        ////UoW related
+        //public DashRepository(UnitOfWork uow)
+        //{
+        //    ctx = uow.Context;
+        //}
         public bool isUnitofWork()
         {
             return isUoW;
@@ -26,12 +138,6 @@ namespace IP_8IEN.DAL
         public void setUnitofWork(bool UoW)
         {
             isUoW = UoW;
-        }
-
-        //gebruik deze methode voor het type: 'Vergelijking','Kruising' en 'Cijfer'
-        public void AddDashItem(DashItem dashItem)
-        {
-            ctx.DashItems.Add(dashItem);
         }
     }
 }

@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using IP_8IEN.DAL.EF;
 using IP_8IEN.DAL;
-using IP_8IEN.BL.Domain;
+using IP_8IEN.BL.Domain.Gebruikers;
 
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace IP_8IEN.BL
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        //1 apr 2018 : Stephane
+        //IdentityRepository repo =  new IdentityRepository();
+        private IGebruikerManager _gebruikerMgr;
 
         public ApplicationUserManager()
             : base(new IdentityRepository())
@@ -28,11 +30,11 @@ namespace IP_8IEN.BL
             // Configure validation logic for passwords
             PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequiredLength = 8,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults
@@ -41,27 +43,26 @@ namespace IP_8IEN.BL
             MaxFailedAccessAttemptsBeforeLockout = 5;
 
             // Role bij een gebruiker toevoegen
-            CreateRolesandUsers();
+            CreateRolesandUsers(); // CreateRolesandUsers();
         }
 
         // Roles in ASP.Identity
-        private async Task CreateRolesandUsers()
+        private void CreateRolesandUsers()
         {
             // Context moet opgehaald worden uit de repository!
-            // ApplicationDbContext context = (ApplicationDbContext)(((IdentityRepository)Store).Context);
+            // ApplicationDbContext repo = (ApplicationDbContext)(((IdentityRepository)Store).Context);
             IdentityRepository repo = new IdentityRepository();
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(repo.GetContext()));
 
             // Bij initialisatie van het systeem wordt Admin aangemaakt
-            bool x = await roleManager.RoleExistsAsync("Admin");
-            if (!x)
+            if (!roleManager.RoleExists("Admin"))
             {
 
                 // Aanmaken van de Admin role
                 var role = new IdentityRole();
                 role.Name = "Admin";
-                await roleManager.CreateAsync(role);
+                roleManager.Create(role);
 
                 // Administrator aanmaken
 
@@ -81,49 +82,34 @@ namespace IP_8IEN.BL
             }
 
             // Manager role aanmaken    
-            x = await roleManager.RoleExistsAsync("Manager");
-            if (!x)
+            if (!roleManager.RoleExists("Manager"))
             {
                 var role = new IdentityRole();
                 role.Name = "Manager";
-                await roleManager.CreateAsync(role);
-
+                roleManager.Create(role);
             }
 
             // Emloyee role aanmaken    
-            x = await roleManager.RoleExistsAsync("Employee");
-            if (!x)
+            if (!roleManager.RoleExists("Employee"))
             {
                 var role = new IdentityRole();
                 role.Name = "Employee";
-                await roleManager.CreateAsync(role);
+                roleManager.Create(role);
 
             }
         }
 
         // Een lijst van beschikbare roles ophalen
-        public IList<IdentityRole> GetRoles()
-        {
-            return ((IdentityRepository)Store).ReadRoles();
-        }
+        public IList<IdentityRole> GetRoles() => ((IdentityRepository)Store).ReadRoles();
 
         // Alle users ophalen
-        public IEnumerable<ApplicationUser> GetUsers()
-        {
-            return ((IdentityRepository)Store).ReadUsers();
-        }
+        public IEnumerable<ApplicationUser> GetUsers() => ((IdentityRepository)Store).ReadUsers();
 
         // Een specifieke user ophalen
-        public ApplicationUser GetUser(string id)
-        {
-            return ((IdentityRepository)Store).ReadUser(id);
-        }
+        public ApplicationUser GetUser(string id) => ((IdentityRepository)Store).ReadUser(id);
 
         // Een user verwijderen obv. de id
-        public void RemoveUser(string id)
-        {
-            ((IdentityRepository)Store).DeleteUser(id);
-        }
+        public void RemoveUser(string id) => ((IdentityRepository)Store).DeleteUser(id);
 
         // Nieuwe gebruikers aanmaken MET hun role
         public async Task<IdentityResult> CreateUserWithRoleAsync(ApplicationUser user,
@@ -132,6 +118,35 @@ namespace IP_8IEN.BL
             var t = await this.CreateAsync(user, pwd);
             this.AddToRole(user.Id, role);
             return t;
+        }
+
+        ////inladen vanuit json formaat
+        public void AddApplicationGebruikers(string filePath)
+        {
+            _gebruikerMgr = new GebruikerManager();
+
+            //sourceUrl /relatief path
+            StreamReader r = new StreamReader(filePath);
+            string json = r.ReadToEnd();
+
+            dynamic users = JsonConvert.DeserializeObject(json);
+
+            foreach (var item in users.records)
+            {
+                ApplicationUser gebruiker = new ApplicationUser()
+                {
+                    UserName = item.Username,
+                    VoorNaam = item.Voornaam,
+                    AchterNaam = item.Achternaam,
+                    Email = item.email,
+                    Geboortedatum = item.Geboortedatum
+                };
+                string passw = item.Password;
+                CreateUserWithRoleAsync(gebruiker, passw, "Admin");
+
+                // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken
+                _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName);
+            }
         }
     }
 }

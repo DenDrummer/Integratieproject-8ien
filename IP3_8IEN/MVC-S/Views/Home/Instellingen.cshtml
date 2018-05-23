@@ -5,8 +5,8 @@
 
 
 <ul class="nav nav-tabs">
-    <li class="active"><a href="#info" data-toggle="tab">User Informatie</a></li>
-    <li><a href="#settings" data-toggle="tab">Account Settings</a></li>
+    <li class="active"><a href="#info" data-toggle="tab">Gebruikersprofiel</a></li>
+    <li><a href="#settings" data-toggle="tab">Account instellingen</a></li>
     <li><a href="#paswoord" data-toggle="tab">Verander paswoord</a></li>
     <li><a href="#layout" data-toggle="tab">Layout </a></li>
 </ul>
@@ -39,9 +39,11 @@
                         <td><b>Geboortedatum: </b></td>
                         <td><input type="date" name="txtDate"></td>
                     </tr>
-                      <tr>
+                    <tr>
                         <td colspan="2"><button type="button" class="btn basic">Opslaan</button></td>
                     </tr>
+
+                    <tr>@Html.ActionLink("Verander passwoord", "ChangePassword", "Manage")</tr>
 
                 </table>
             </div>
@@ -57,11 +59,3 @@
         Address Tab Content goes here
     </div>
 </div>
-
-        public int GebruikerId { get; set; }
-        public string Username { get; set; }
-        public string Naam { get; set; }
-        public string Voornaam { get; set; }
-        public string Email { get; set; }
-        public DateTime Geboortedatum { get; set; }
-

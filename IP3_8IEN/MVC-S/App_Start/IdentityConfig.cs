@@ -21,7 +21,7 @@ namespace MVC_S
             {
                 manager.UserTokenProvider =
                     //new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
-                    new DataProtectorTokenProvider<IP_8IEN.BL.Domain.ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                    new DataProtectorTokenProvider<IP_8IEN.BL.Domain.Gebruikers.ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
 
             return manager;

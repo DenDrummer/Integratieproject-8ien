@@ -1,5 +1,6 @@
-﻿using IP_8IEN.BL.Domain;
+﻿using IP_8IEN.BL.Domain.Gebruikers;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 
 namespace IP_8IEN.DAL.EF
 {
@@ -11,6 +12,12 @@ namespace IP_8IEN.DAL.EF
             : base("OurDB_EFCodeFirst", throwIfV1Schema: false)
         {
 
+        }
+
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
         }
 
         /*
