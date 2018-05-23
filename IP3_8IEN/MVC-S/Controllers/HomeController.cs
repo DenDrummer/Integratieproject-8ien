@@ -140,6 +140,13 @@ namespace MVC_S.Controllers
                 {
                     "vtmnieuws",
                     "vrtjournaal"
+                },
+                SubjectMessages = new List<SubjectMessage>()
+                {
+                    new SubjectMessage()
+                    {
+                        SubjectMsgId = 10000
+                    }
                 }
             };
             #endregion
