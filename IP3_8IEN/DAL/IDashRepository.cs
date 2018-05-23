@@ -1,9 +1,9 @@
-﻿using IP3_8IEN.BL.Domain.Dashboard;
-using IP3_8IEN.BL.Domain.Data;
-using IP3_8IEN.BL.Domain.Gebruikers;
+﻿using IP_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Data;
+using IP_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
 
-namespace IP3_8IEN.DAL
+namespace IP_8IEN.DAL
 {
     public interface IDashRepository
     {
@@ -32,5 +32,12 @@ namespace IP3_8IEN.DAL
         //15 mei 2018 : Stephane
         IEnumerable<TileZone> ReadTileZones(); // <-- nog niet compleet
         IEnumerable<DashItem> ReadDashItems();
+
+        //21 mei 2018 : Stephane
+        Dashbord ReadDashbord(int dashId);
+
+        //22 mei 2018 : Stephane
+        Dashbord ReadDashbordWithFollows(Gebruiker user);
+        void UpdateTileZone(TileZone tileZone);
     }
 }

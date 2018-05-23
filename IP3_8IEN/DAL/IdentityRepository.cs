@@ -1,10 +1,10 @@
-﻿using IP3_8IEN.BL.Domain.Gebruikers;
-using IP3_8IEN.DAL.EF;
+﻿using IP_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.DAL.EF;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace IP3_8IEN.DAL
+namespace IP_8IEN.DAL
 {
     //1 apr 2018 : Stephane
 

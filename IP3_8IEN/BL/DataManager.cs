@@ -1,8 +1,8 @@
-﻿using IP3_8IEN.BL.Domain.Data;
+﻿using IP_8IEN.BL.Domain.Data;
 using Newtonsoft.Json;
 using System.IO;
 
-using IP3_8IEN.DAL;
+using IP_8IEN.DAL;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,11 +10,11 @@ using System;
 using System.Net;
 using System.Web.Script.Serialization;
 using System.Net.Mail;
-using IP3_8IEN.BL.Domain.Dashboard;
-using IP3_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Gebruikers;
 using System.Text;
 
-namespace IP3_8IEN.BL
+namespace IP_8IEN.BL
 {
     public class DataManager : IDataManager
     {
@@ -57,9 +57,9 @@ namespace IP3_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "30 Apr 2018 00:01",
+                        since = "29 Apr 2018 00:01",
                         //until weglaten --> last scraping
-                        until = "20 May 2018 00:01",
+                        until = "30 May 2018 00:01",
                     });
 
                     streamWriter.Write(json);

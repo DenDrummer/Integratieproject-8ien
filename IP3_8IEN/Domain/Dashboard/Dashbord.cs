@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-using IP3_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.BL.Domain.Gebruikers;
 
-namespace IP3_8IEN.BL.Domain.Dashboard
+namespace IP_8IEN.BL.Domain.Dashboard
 {
     public class Dashbord
     {
