@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IP3_8IEN.BL.Domain.Gebruikers.ApplicationUser>
+﻿@model IEnumerable<IP_8IEN.BL.Domain.Gebruikers.ApplicationUser>
 @{
     ViewBag.Title = "Index";
 }
@@ -37,3 +37,14 @@
         </div>
     </div>
 </div>
+<table class="table">
+    <p>
+        @Html.ActionLink("Users", "User")
+        @Html.ActionLink("Personen", "Persoon")
+        @Html.ActionLink("Organisaties", "Organisatie")
+    </p>
+
+    <tr>
+        @Html.ActionLink("Nieuwe LineGrafiek", "CreateGrafiekInput")
+    </tr>
+</table>

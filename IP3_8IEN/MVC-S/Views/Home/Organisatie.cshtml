@@ -12,12 +12,12 @@
             </div>
             <div class="panel-body">
                 <div class="row" style="padding-left:5px;">
-                    <div class="col-lg-7" style="background-color:#f8f8f8; padding-left:1px; padding-right: 1px;">
+                    <div class="col-lg-8" style="background-color:#f8f8f8; padding-left:1px; padding-right: 1px;">
                         <div style="position: relative; left: 0; top: 0;">
                             <img src="@ViewBag.TWITBANNER" alt="" style="height: 50%; width: 100%; display:inline-block; position: relative; top: 0; left: 0;" />
                             <img src="@ViewBag.TWITIMAGE" alt="" style="height: 150px; width: 150px; border-radius:50%; border:2px solid white; position: absolute;top: 70%; left: 40%;" />
                         </div>
-                        <div class="row" style="padding-top:80px; padding-left:5px; padding-right:5px;">
+                        <div class="row" style="padding-top:80px; padding-left:40px; padding-right:5px;">
                             <div class="col-lg-6">
                                 <table>
                                     <tr>
@@ -25,20 +25,8 @@
                                         <td>@Html.DisplayFor(model => model.Naam)</td>
                                     </tr>
                                     <tr>
-                                        <td valign="top"><b>@Html.DisplayNameFor(model => model.Afkorting): </b></td>
-                                        <td>@Html.DisplayFor(model => model.Afkorting)</td>
-                                    </tr>
-                                    <tr>
                                         <td valign="top"><b>@Html.DisplayNameFor(model => model.Twitter):</b> </td>
                                         <td>@Html.DisplayFor(model => model.Twitter)</td>
-                                    </tr>
-                                    <tr>
-                                        <td valign="top"><b>@Html.DisplayNameFor(model => model.Facebook):</b> </td>
-                                        <td>@Html.DisplayFor(model => model.Facebook)</td>
-                                    </tr>
-                                    <tr>
-                                        <td valign="top"><b>@Html.DisplayNameFor(model => model.Oprichtingsdatum):</b> </td>
-                                        <td>@Html.DisplayFor(model => model.Oprichtingsdatum)</td>
                                     </tr>
                                     <tr>
                                         <td valign="top"><b>@Html.DisplayNameFor(model => model.Oprichter):</b> </td>
@@ -49,26 +37,91 @@
                                         <td>@Html.DisplayFor(model => model.Leider.Naam)</td>
                                     </tr>
                                     <tr>
-                                        <td valign="top"><b>@Html.DisplayNameFor(model => model.Ideologie):</b> </td>
-                                        <td>@Html.DisplayFor(model => model.Ideologie)</td>
+                                        <td valign="top" style="color:#00295C"><b>Trend:</b> </td>
+                                        <td>@Html.DisplayFor(model => model.Naam)</td>
                                     </tr>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>Aantal Vermeldingen:</b> </td>
+                                        <td>@Html.DisplayFor(model => model.Naam)</td>
+                                    </tr>
+                                    <tr></tr>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>Gekoppelde Termen:</b> </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <ul style="overflow: scroll; height: 43px; overflow-x: hidden; width:350px">
+
+                                                @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
+                                                {
+                                                    var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
+                                                    <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
+                                                }
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>Vaak voorkomende Woorden:</b> </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <ul style="overflow: scroll; height: 43px; overflow-x: hidden; width:100%">
+
+                                                @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
+                                                {
+                                                    var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
+                                                    <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
+                                                }
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" style="color:#00295C"><b>Vaak voorkomende Verhalen:</b> </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <ul style="overflow: scroll; height: 43px; overflow-x: hidden; width:100%">
+
+                                                @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
+                                                {
+                                                    var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
+                                                    <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
+                                                }
+                                            </ul>
+                                        </td>
+                                    </tr>
+
                                 </table>
                             </div>
                             <div class="col-lg-6">
                                 <div>
                                     <table>
-                                        <thead>
-                                            <tr>
-                                                <td valign="top"><b>@Html.DisplayNameFor(model => model.Tewerkstellingen):</b> </td>
-                                            </tr>
-                                        </thead>
+                                        <tr>
+                                            <td valign="top"><b>@Html.DisplayNameFor(model => model.Afkorting): </b></td>
+                                            <td>@Html.DisplayFor(model => model.Afkorting)</td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top"><b>@Html.DisplayNameFor(model => model.Facebook):</b> </td>
+                                            <td>@Html.DisplayFor(model => model.Facebook)</td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top"><b>@Html.DisplayNameFor(model => model.Oprichtingsdatum):</b> </td>
+                                            <td>@Html.DisplayFor(model => model.Oprichtingsdatum)</td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top"><b>@Html.DisplayNameFor(model => model.Ideologie):</b> </td>
+                                            <td>@Html.DisplayFor(model => model.Ideologie)</td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top"><b>@Html.DisplayNameFor(model => model.Tewerkstellingen):</b> </td>
+                                        </tr>
                                     </table>
                                     <div>
                                         <table>
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <ul style="overflow: scroll; height: 200px; overflow-x: hidden; width:300px">
+                                                        <ul style="overflow: scroll; height: 238px; overflow-x: hidden; width:300px">
 
                                                             @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
                                                             {
@@ -85,8 +138,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5">
-                        @if (Model.Twitter != null && Model.Twitter != "")
+                    <div class="col-lg-4">
+                        @if (Model.Twitter != null)
                         {
                             <form role="form">
                                 <a class="twitter-timeline" data-lang="nl" data-height="500" data-theme="light" data-link-color="#00295C" href="@($"https://twitter.com/{Model.Twitter}?ref_src=twsrc%5Etfw")">Tweets by de_NVA</a>

@@ -1,6 +1,6 @@
-﻿using IP3_8IEN.BL.Domain.Gebruikers;
+﻿using IP_8IEN.BL.Domain.Gebruikers;
 
-namespace IP3_8IEN.BL.Domain.Gebruikers
+namespace IP_8IEN.BL.Domain.Gebruikers
 {
     public class PositiefNegatief : AlertInstelling
     {
