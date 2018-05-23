@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using IP_8IEN.BL.Domain.Dashboard;
+using System.Linq;
 
 namespace MVC_S.Controllers
 {
@@ -31,8 +32,7 @@ namespace MVC_S.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            //IEnumerable<ApplicationUser> users = _userManager.GetUsers();
-            return View(/*users*/);
+            return View();
         }
 
         public ActionResult User()
@@ -84,6 +84,10 @@ namespace MVC_S.Controllers
                 ApplicationUser user = _userManager.FindById(id);
                 _userManager.Delete(user);
 
+                // We gaan de gebruiker (gelinkt met objecten in de Db)
+                //  niet echt deleten maar overschrijven met anonieme data
+                _gebrManager.DeleteUser(id);
+
                 return RedirectToAction("Index");
             }
             catch
@@ -107,7 +111,7 @@ namespace MVC_S.Controllers
         }
 
         [HttpGet]
-        public ActionResult DetailsPersoon(int id)
+        public ActionResult DetailsPersoon(int id = 1)
         {
             Persoon persoon = _dataManager.GetPersoon(id);
             return View(persoon);
@@ -178,14 +182,22 @@ namespace MVC_S.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateGrafiekLine()
+        public ActionResult CreateGrafiekInput()
         {
+            IEnumerable<Persoon> ObjList = _dataManager.GetPersonen().ToList();
+            List<string> names = ObjList.Select(p => p.Naam).ToList();
+            ViewData["names"] = names;
             return View();
         }
 
         [HttpPost]
-        public ActionResult CreateGrafiekLine(Persoon persoon)
+        public ActionResult CreateGrafiekLine(string automplete)
         {
+            string naam = automplete;
+            Persoon p = _dataManager.GetPersoon(naam);
+
+            ViewBag.naam = automplete;
+
             //Zie dat je bent ingelogd
             //TODO: redirect naar inlog pagina <--
             ApplicationUser currUser = _userManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
@@ -193,15 +205,15 @@ namespace MVC_S.Controllers
             Gebruiker user = _gebrManager.FindUser(userName);
 
             // Als de zoekmthode klaar is wordt het onderwerp door de view meegegeven //
-            int id = 231; // <-- Verhofstadt
-            int nDagen = 10;
-            Persoon p = _dataManager.GetPersoon(id);
+            //int id = 231; // <-- Verhofstadt
+            //Persoon p = _dataManager.GetPersoon(id);
+            int nDagen = 10; // <-- voorlopig default
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-            List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, user, nDagen);
+            List<IP_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, user, nDagen);
             IP_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true);
             IP_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
-            IP_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(/*newDashItem, */user, follow);
+            IP_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
             _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
             // ================================================================================ //
 

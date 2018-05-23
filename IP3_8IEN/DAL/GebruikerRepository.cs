@@ -2,7 +2,6 @@
 using IP_8IEN.BL.Domain.Gebruikers;
 using IP_8IEN.DAL.EF;
 using System.Linq;
-using IP3_8IEN.BL.Domain.Gebruikers;
 
 namespace IP_8IEN.DAL
 {
@@ -14,14 +13,14 @@ namespace IP_8IEN.DAL
         public GebruikerRepository()
         {
             ctx = new OurDbContext();
-            isUoW = false;
+            //isUoW = false;
             ctx.Database.Initialize(false);
         }
 
         public GebruikerRepository(UnitOfWork uow)
         {
             ctx = uow.Context;
-            isUoW = true;
+            //isUoW = true;
         }
 
         public bool isUnitofWork() => isUoW;
@@ -40,7 +39,12 @@ namespace IP_8IEN.DAL
             ctx.SaveChanges();
         }
 
-        public Gebruiker FindGebruiker(int userId) => ctx.Gebruikers.Find(userId);
+        public Gebruiker ReadGebruiker(string userId)
+        {
+            IEnumerable<Gebruiker> users = ctx.Gebruikers.Include("Dashboards").ToList();
+            Gebruiker gebruiker = users.FirstOrDefault(u => u.GebruikerId == userId);
+            return gebruiker;
+        }
 
         //Deze moet nog ge-update worden
         public void DeleteGebruiker(Gebruiker gebruiker)

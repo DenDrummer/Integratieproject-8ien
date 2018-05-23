@@ -366,7 +366,6 @@
     <Content Include="DataTables\Scroller-1.4.4\js\dataTables.scroller.js" />
     <Content Include="DataTables\Scroller-1.4.4\js\dataTables.scroller.min.js" />
     <Content Include="Fotos\banner.png" />
-    <Content Include="Fotos\bartdewever.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -376,8 +375,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Fotos\hashtag.svg" />
     <Content Include="Fotos\hslogo.png" />
-    <Content Include="Fotos\noti.png" />
     <Content Include="Fotos\NVA.jpg" />
+    <Content Include="Fotos\unknownTwitter.jpg" />
+    <Content Include="Fotos\unknownAvatar.png" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Google.DataTable.Net.Wrapper.XML" />
@@ -411,8 +411,6 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\grafiekaanmaken.js" />
     <Content Include="Scripts\flot-data.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -435,6 +433,7 @@
     <Content Include="Scripts\morris\morris-chart-settings.min.js" />
     <Content Include="Scripts\morris\morris.min.js" />
     <Content Include="Scripts\morris\raphael.min.js" />
+    <Content Include="Scripts\morris_chart.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -509,10 +508,6 @@
     <Content Include="Views\Home\AdminOmgeving.cshtml" />
     <Content Include="Views\Home\Superadmin.cshtml" />
     <Content Include="Views\Home\Zoeken.cshtml" />
-    <Content Include="Views\Alert\Internal.cshtml" />
-    <Content Include="Views\Alert\NotAllowed.cshtml" />
-    <Content Include="Views\Alert\NotFound.cshtml" />
-    <Content Include="Views\Alert\BadRequest.cshtml" />
     <Content Include="Views\Shared\_ShortDateView.cshtml" />
     <Content Include="Views\Home\Initialize.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
@@ -533,9 +528,17 @@
     <Content Include="Views\Home\UserDashBoard.cshtml" />
     <Content Include="Views\Home\Grafiektest2.cshtml" />
     <Content Include="Views\Home\ListHogerLager.cshtml" />
+    <Content Include="Views\Admin\CreateGrafiekAutoComplete.cshtml" />
+    <Content Include="Views\Admin\CreateGrafiekInput.cshtml" />
+    <Content Include="Views\Home\LijstThemas.cshtml" />
+    <Content Include="Views\Home\LijstOrganisaties.cshtml" />
+    <Content Include="Views\Home\LijstPersonen.cshtml" />
+    <Content Include="Views\Home\Faq.cshtml" />
+    <Content Include="Views\Home\Privacy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Alert\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

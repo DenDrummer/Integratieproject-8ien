@@ -1,7 +1,7 @@
 ﻿using IP_8IEN.BL.Domain.Data;
 using System;
 using System.Collections.Generic;
-using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Dashboard;
 using IP_8IEN.BL.Domain.Gebruikers;
 
 namespace IP_8IEN.BL
@@ -82,7 +82,38 @@ namespace IP_8IEN.BL
         List<GraphData> GetTweetsPerDag(Persoon persoon, Gebruiker user, int aantalDagenTerug = 0);
 
         //Sam 15 mei
-        string GetImageString(int id);
-        string GetBannerString(int id);
+        string GetImageString(string screenname);
+        string GetBannerString(string screenname);
+
+        //VIC
+        double GetPolarityByPerson(Persoon persoon);
+        double GetPolarityByPerson(Persoon persoon, DateTime start);
+        double GetPolarityByPerson(Persoon persoon, DateTime start, DateTime stop);
+        double GetObjectivityByPerson(Persoon persoon);
+        double GetObjectivityByPerson(Persoon persoon, DateTime start);
+        double GetObjectivityByPerson(Persoon persoon, DateTime start, DateTime stop);
+        int GetMentionCountByName(string naam);
+        int GetMentionCountByName(string naam, DateTime start);
+        int GetMentionCountByName(string naam, DateTime start, DateTime stop);
+        List<GraphData> GetTopWordsCount();
+        List<GraphData> GetTopWordsCount(int aantal);
+        List<GraphData> GetTopWordsCount(int aantal, DateTime start);
+        List<GraphData> GetTopWordsCount(int aantal, DateTime start, DateTime stop);
+        List<GraphData> GetTopWordsCount(DateTime start, DateTime stop);
+        int GetWordCountByName(string name);
+        int GetWordCountByName(string name, DateTime start);
+        int GetWordCountByName(string name, DateTime start, DateTime stop);
+        List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2);
+        List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3);
+        List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3, Persoon p4);
+        List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5);
+        List<GraphData> GetTopStoryCount();
+        List<GraphData> GetTopStoryCount(int aantal);
+        List<GraphData> GetTopStoryCount(int aantal, DateTime start);
+        List<GraphData> GetTopStoryCount(int aantal, DateTime start, DateTime stop);
+        List<GraphData> GetTopStoryCount(DateTime start, DateTime stop);
+        List<GraphData> GetTopStoryByPolitician(Persoon persoon);
+        List<GraphData2> GetComparisonPersonNumberOfTweetsOverTime(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5);
+        List<GraphData> GetTopMentions(int aantal);
     }
 }

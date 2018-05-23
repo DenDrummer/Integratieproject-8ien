@@ -1,4 +1,4 @@
-﻿using IP3_8IEN.BL.Domain.Dashboard;
+﻿using IP_8IEN.BL.Domain.Dashboard;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,6 +10,7 @@ namespace IP_8IEN.BL.Domain.Dashboard
         [Key]
         public int DashItemId { get; set; }
         public bool AdminGraph { get; set; }
+        public int aantalDagen { get; set; }
 
         public DateTime LastModified { get; set; }
 

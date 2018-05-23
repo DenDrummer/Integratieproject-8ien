@@ -3,8 +3,6 @@ using IP_8IEN.BL.Domain.Data;
 using IP_8IEN.BL.Domain.Gebruikers;
 using System;
 using IP_8IEN.BL.Domain.Dashboard;
-using IP3_8IEN.BL.Domain.Gebruikers;
-using IP3_8IEN.BL.Domain.Dashboard;
 
 namespace IP_8IEN.DAL.EF
 {
