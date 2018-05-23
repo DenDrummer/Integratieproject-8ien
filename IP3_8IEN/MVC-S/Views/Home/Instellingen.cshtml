@@ -14,10 +14,7 @@
 <div class="tab-content well">
     <div class="tab-pane active col-lg-12" id="info">
         <div class="row">
-            <div class="col-lg-2">
-                <img src="../Fotos/bartdewever.jpg" alt="Bart De Wever" style="max-height:100%; max-width:100%">
-            </div>
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 <table>
                     <tr>
                         <td><b>Voornaam: </b></td>
@@ -37,23 +34,52 @@
                     </tr>
                     <tr>
                         <td><b>Geboortedatum: </b></td>
-                        <td><input type="date" name="txtDate"></td>
+                        <td><input type="text" name="txtGeboortedatum"></td>
                     </tr>
                     <tr>
                         <td colspan="2"><button type="button" class="btn basic">Opslaan</button></td>
                     </tr>
-
                     <tr>@Html.ActionLink("Verander passwoord", "ChangePassword", "Manage")</tr>
-
                 </table>
             </div>
         </div>
     </div>
     <div class="tab-pane" id="settings">
-        Address Tab Content goes here
+        <div class="row">
+            <div class="col-lg-12">
+                <table>
+                    <tr>
+                        <td><b>Wilt u uw account verwijderen van het platform? </b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button type="button" class="btn basic">Verwijder Account</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
     <div class="tab-pane" id="paswoord">
-        Address Tab Content goes here
+        <div class="row">
+            <div class="col-lg-12">
+                <table>
+                    <tr>
+                        <td><b>Oude paswoord: </b></td>
+                        <td><input type="text" name="txtOudPaswoord"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Herhaal oud paswoord: </b></td>
+                        <td><input type="text" name="txtHerhaalOudPaswoord"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Nieuw paswoord: </b></td>
+                        <td><input type="text" name="txtNieuwPaswoord"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button type="button" class="btn basic">Wijzigen</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
     <div class="tab-pane" id="layout">
         Address Tab Content goes here

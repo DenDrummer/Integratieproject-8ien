@@ -43,9 +43,9 @@ namespace MVC_S
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             //// Facebook Authentication toevoegen
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+            appId: "786425028220021",
+            appSecret: "a39af7003045b89b48e1c50bcde5a76b");
 
             //// Google Authentication toevoegen
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
@@ -53,6 +53,11 @@ namespace MVC_S
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+
+
+            app.UseGoogleAuthentication(
+            clientId: "405673408772-6jao4f265fi7ma5em94ha9aagp7r7rf2.apps.googleusercontent.com",
+            clientSecret: "s5SLDGpe7yxRep217lP_Tdsk");
         }
     }
 }
