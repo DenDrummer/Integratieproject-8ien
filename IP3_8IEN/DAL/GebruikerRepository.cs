@@ -72,11 +72,7 @@ namespace IP_8IEN.DAL
         public IEnumerable<Alert> ReadAlerts() => ctx.Alerts.ToList();
 
         public void UpdateAlertInstelling(AlertInstelling alertInstelling) => ctx.SaveChanges();
-
-        public void UpdateAlertInstelling(AlertInstelling alertInstelling)
-        {
-            ctx.SaveChanges();
-        }
+        
         public IEnumerable<Gebruiker> ReadGebruikersWithAlertInstellingen()
         {
             IEnumerable<Gebruiker> gebruikers = ctx.Gebruikers.Include("AlertInstellingen").Include("AlertInstellingen.Alerts");

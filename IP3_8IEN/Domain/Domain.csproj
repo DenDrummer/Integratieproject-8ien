@@ -68,7 +68,6 @@
     <Compile Include="Dashboard\DashItem.cs" />
     <Compile Include="Dashboard\Deelplatform.cs" />
     <Compile Include="Dashboard\GraphData.cs" />
-    <Compile Include="Dashboard\GraphData2.cs" />
     <Compile Include="Dashboard\Kruising.cs" />
     <Compile Include="Dashboard\TileZone.cs" />
     <Compile Include="Dashboard\Vergelijking.cs" />

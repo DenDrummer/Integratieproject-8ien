@@ -408,7 +408,7 @@ namespace IP_8IEN.BL
                             Organisatie o2 = (Organisatie)hl.Onderwerp2;
                             repo.AddingAlert(new Alert()
                             {
-                                AlertContent = o2.NaamOrganisatie + "is nu populairder dan " + o1.NaamOrganisatie,
+                                AlertContent = o2.Afkorting + "is nu populairder dan " + o1.Afkorting,
                                 AlertInstelling = hl,
                                 CreatedOn = DateTime.Now
                             });
@@ -423,7 +423,7 @@ namespace IP_8IEN.BL
                             Organisatie o2 = (Organisatie)hl.Onderwerp2;
                             repo.AddingAlert(new Alert()
                             {
-                                AlertContent = o2.NaamOrganisatie + "is nu populairder dan " + o2.NaamOrganisatie,
+                                AlertContent = o2.Afkorting + "is nu populairder dan " + o2.Afkorting,
                                 AlertInstelling = hl,
                                 CreatedOn = DateTime.Now
                             });
@@ -468,7 +468,7 @@ namespace IP_8IEN.BL
                         repo.AddingAlert(new Alert()
                         {
 
-                            AlertContent = "Thresholdvalue voor " + o.NaamOrganisatie + " is overschreden",
+                            AlertContent = "Thresholdvalue voor " + o.Afkorting + " is overschreden",
                             AlertInstelling = vf,
                             CreatedOn = DateTime.Now
                         });
@@ -536,7 +536,7 @@ namespace IP_8IEN.BL
                             Organisatie o = (Organisatie)pn.Onderwerp;
                             repo.AddingAlert(new Alert()
                             {
-                                AlertContent = o.NaamOrganisatie + " is nu positief",
+                                AlertContent = o.Afkorting + " is nu positief",
                                 AlertInstelling = pn,
                                 CreatedOn = DateTime.Now
                             });
@@ -550,7 +550,7 @@ namespace IP_8IEN.BL
                             Organisatie o = (Organisatie)pn.Onderwerp;
                             repo.AddingAlert(new Alert()
                             {
-                                AlertContent = o.NaamOrganisatie + " is nu negatief",
+                                AlertContent = o.Afkorting + " is nu negatief",
                                 AlertInstelling = pn,
                                 CreatedOn = DateTime.Now
                             });
@@ -633,7 +633,7 @@ namespace IP_8IEN.BL
                         bool test3 = false;
                         foreach (Tewerkstelling t in sm.Persoon.Tewerkstellingen)
                         {
-                            if(t.Organisatie.NaamOrganisatie == o.NaamOrganisatie)
+                            if(t.Organisatie.Afkorting == o.Afkorting)
                             {
                                 test3 = true;
                             }

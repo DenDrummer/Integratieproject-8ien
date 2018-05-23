@@ -2,7 +2,6 @@
 using IP_8IEN.BL.Domain.Dashboard;
 using System;
 using System.Collections.Generic;
-using IP_8IEN.BL.Domain.Dashboard;
 using IP_8IEN.BL.Domain.Gebruikers;
 
 namespace IP_8IEN.BL
