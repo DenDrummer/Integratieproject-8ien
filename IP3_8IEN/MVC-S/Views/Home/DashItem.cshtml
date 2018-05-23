@@ -1,0 +1,13 @@
+﻿@model IEnumerable<IP3_8IEN.BL.Domain.Dashboard.DashItem>
+<script src="~/Scripts/morris_chart.js"></script>
+@{
+    ViewBag.Title = "DashItem";
+}
+
+<h2>DashItem</h2>
+<div id="dashi"></div>
+
+<script type="text/javascript">
+    var data = @Html.Raw(Json.Encode(ViewBag.DATA));
+    customChart("dashi",data);
+</script>

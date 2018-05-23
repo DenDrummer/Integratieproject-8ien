@@ -233,7 +233,7 @@ namespace MVC_S.Controllers
             // >>>>>>>>> InitializeAdmins() hierboven eerst uitvoeren <<<<<<<<< //
 
             #region initialisatie blok databank
-            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             dMgr.ApiRequestToJson();
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
@@ -265,9 +265,9 @@ namespace MVC_S.Controllers
             Gebruiker user = gMgr.FindUser(userName);
 
             //dashMgr.AddDashBord(user);
-            Dashbord dash = dashMgr.GetDashboard(user);
+            //Dashbord dash = dashMgr.GetDashboard(user);
 
-            return View(dash);
+            return View();
         }
 
         public ActionResult GetData(int id)
@@ -285,6 +285,15 @@ namespace MVC_S.Controllers
             Persoon persoon4 = dMgr.GetPersoon(id4);
             Persoon persoon5 = dMgr.GetPersoon(id5);
             return Json(dMgr.GetComparisonPersonNumberOfTweetsOverTime(persoon1,persoon2,persoon3,persoon4,persoon5), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DashItem()
+        {
+            Persoon persoon = dMgr.GetPersoon(170);
+            List<GraphData> data = dMgr.GetTweetsPerDag(persoon, 20);
+            ViewBag.DATA = data;
+            //IEnumerable<DashItem> dashItem = dashMgr.GetDashItems();
+            return View();
         }
     }
 }
