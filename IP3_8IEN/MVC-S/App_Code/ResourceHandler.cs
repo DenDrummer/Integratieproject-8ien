@@ -1,36 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Resources;
 
 namespace MVC_S.App_Code
 {
-    public class ResourceHandler //: ResourceManager
+    public sealed class ResourceHandler //: ResourceManager
     {
-        public static readonly ResourceHandler rh;
-        private ResourceWriter rw;
-        private ResourceReader rr;
-        private int currentResource;
-        private string defaultResource;
-        List<string> resourceSets;
+        private static readonly ResourceHandler instance;
 
-        public ResourceHandler()
+        public static  ResourceHandler Instance
         {
-            defaultResource = "Resources.resx";
-            ResourceSet defaultSet = new ResourceSet("Resources.resx");
+            get
+            {
+                return Instance;
+            }
+        }
+        private int currentResource;
+        private int defaultResource;
+        private List<string> resourceSets;
+        
+        static ResourceHandler()
+        {
+        }
+
+        private ResourceHandler()
+        {
+            string defaultResourceString = "Resources.resx";
+            
             resourceSets = new List<string>()
             {
-                defaultResource
+                defaultResourceString
             };
-            rw = new ResourceWriter(defaultResource);
-            rr = new ResourceReader(defaultResource);
-            resourceSets.ElementAt(0);
+            defaultResource = resourceSets.FindIndex(r => r.Equals(defaultResourceString));
+            currentResource = defaultResource;
         }
 
         public void WriteString(string key, string stringValue)
         {
-
+            ResourceWriter rw = new ResourceWriter(ConvertToPath(GetCurrentResource()));
+            rw.AddResource(key, stringValue);
+            rw.Generate();
         }
+
+        public string ReadString(string key)
+        {
+            return "Sorry maar dit werkt nog niet";
+        }
+
+        private string GetCurrentResource() => resourceSets.ElementAt(currentResource);
+
+        public void ChangeResource(string resource)
+        {
+            if (!resourceSets.Exists(r => r.Equals(resource)))
+            {
+                resourceSets.Add(resource);
+            }
+            currentResource = resourceSets.FindIndex(r => r.Equals(resource));
+        }
+
+        private string ConvertToPath(string resource) => $"~/App_GlobalResources/{resource}.resx";
     }
 }

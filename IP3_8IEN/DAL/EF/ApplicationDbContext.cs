@@ -15,10 +15,7 @@ namespace IP_8IEN.DAL.EF
         }
 
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder) => base.OnModelCreating(modelBuilder);
 
         /*
          * DbSet Users werd reeds voorzien door IdentityDbContext

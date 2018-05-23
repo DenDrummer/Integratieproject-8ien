@@ -1505,10 +1505,11 @@ namespace IP_8IEN.BL
         {
             initNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
-            List<GraphData> data = new List<GraphData>();
-
-            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
-            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
+            List<GraphData> data = new List<GraphData>
+            {
+                new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()),
+                new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count())
+            };
 
             return data;
         }
@@ -1517,11 +1518,12 @@ namespace IP_8IEN.BL
         {
             initNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
-            List<GraphData> data = new List<GraphData>();
-
-            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
-            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
-            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()));
+            List<GraphData> data = new List<GraphData>
+            {
+                new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()),
+                new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()),
+                new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count())
+            };
 
             return data;
         }
@@ -1530,12 +1532,13 @@ namespace IP_8IEN.BL
         {
             initNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
-            List<GraphData> data = new List<GraphData>();
-
-            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
-            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
-            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()));
-            data.Add(new GraphData(p4.Naam, messages.Where(m => m.IsFromPersoon(p4)).Count()));
+            List<GraphData> data = new List<GraphData>
+            {
+                new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()),
+                new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()),
+                new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()),
+                new GraphData(p4.Naam, messages.Where(m => m.IsFromPersoon(p4)).Count())
+            };
 
             return data;
         }
@@ -1544,13 +1547,14 @@ namespace IP_8IEN.BL
         {
             initNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
-            List<GraphData> data = new List<GraphData>();
-
-            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
-            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
-            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()));
-            data.Add(new GraphData(p4.Naam, messages.Where(m => m.IsFromPersoon(p4)).Count()));
-            data.Add(new GraphData(p5.Naam, messages.Where(m => m.IsFromPersoon(p5)).Count()));
+            List<GraphData> data = new List<GraphData>
+            {
+                new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()),
+                new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()),
+                new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()),
+                new GraphData(p4.Naam, messages.Where(m => m.IsFromPersoon(p4)).Count()),
+                new GraphData(p5.Naam, messages.Where(m => m.IsFromPersoon(p5)).Count())
+            };
 
             return data;
         }

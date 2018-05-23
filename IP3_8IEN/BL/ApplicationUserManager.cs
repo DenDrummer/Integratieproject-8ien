@@ -60,19 +60,20 @@ namespace IP_8IEN.BL
             {
 
                 // Aanmaken van de Admin role
-                var role = new IdentityRole();
-                role.Name = "Admin";
-                roleManager.Create(role);
+                roleManager.Create(new IdentityRole
+                {
+                    Name = "Admin"
+                });
 
                 // Administrator aanmaken
 
-                var user = new ApplicationUser();
-                user.UserName = "AdminQwerty@mail.com";
-                user.Email = "AdminQwerty@mail.com";
+                var user = new ApplicationUser
+                {
+                    UserName = "AdminQwerty@mail.com",
+                    Email = "AdminQwerty@mail.com"
+                };
 
-                string userPWD = "Azerty123!";
-
-                var chkUser = this.Create(user, userPWD);
+                var chkUser = this.Create(user, "Azerty123!");
 
                 // Administrator de rol van Admin toewijzen
                 if (chkUser.Succeeded)
@@ -84,17 +85,19 @@ namespace IP_8IEN.BL
             // Manager role aanmaken    
             if (!roleManager.RoleExists("Manager"))
             {
-                var role = new IdentityRole();
-                role.Name = "Manager";
-                roleManager.Create(role);
+                roleManager.Create(new IdentityRole
+                {
+                    Name = "Manager"
+                });
             }
 
             // Emloyee role aanmaken    
             if (!roleManager.RoleExists("Employee"))
             {
-                var role = new IdentityRole();
-                role.Name = "Employee";
-                roleManager.Create(role);
+                roleManager.Create(new IdentityRole
+                {
+                    Name = "Employee"
+                });
 
             }
         }

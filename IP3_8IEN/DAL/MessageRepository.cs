@@ -20,10 +20,7 @@ namespace IP_8IEN.DAL
             ctx.Database.Initialize(false);
         }
 
-        public MessageRepository(UnitOfWork uow)
-        {
-            ctx = uow.Context;
-        }
+        public MessageRepository(UnitOfWork uow) => ctx = uow.Context;
 
         public bool isUnitofWork() => isUoW;
 

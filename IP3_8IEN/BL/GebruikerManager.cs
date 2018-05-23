@@ -124,15 +124,15 @@ namespace IP_8IEN.BL
 
             dynamic alertInstellingen = JsonConvert.DeserializeObject(json);
 
-            string user = null;
-            bool notificationWeb;
-            bool email;
-            bool mobileNotification;
-            bool state;
-            int onderwerpId;
-            int onderwerpId2;
-            int thresh;
-            bool negatief;
+            //string user = null;
+            //bool notificationWeb;
+            //bool email;
+            //bool mobileNotification;
+            //bool state;
+            //int onderwerpId;
+            //int onderwerpId2;
+            //int thresh;
+            //bool negatief;
 
 
             dataMgr = new DataManager(uowManager);
@@ -269,8 +269,7 @@ namespace IP_8IEN.BL
         {
             initNonExistingRepo();
 
-            Alert alert = repo.ReadAlert(alertId);
-            return alert;
+            return repo.ReadAlert(alertId);
         }
 
         public void AddGebruiker(string userName, string userId, string naam, string voornaam)
@@ -326,7 +325,7 @@ namespace IP_8IEN.BL
                 {
                     uowManager = new UnitOfWorkManager();
                 }
-                repo = new DAL.GebruikerRepository(uowManager.UnitOfWork);
+                repo = new GebruikerRepository(uowManager.UnitOfWork);
             }
             // Als we niet met UoW willen werken, dan maken we een repo aan als die nog niet bestaat.
             else
@@ -334,7 +333,7 @@ namespace IP_8IEN.BL
                 //zien of repo al bestaat
                 if (repo == null)
                 {
-                    repo = new DAL.GebruikerRepository();
+                    repo = new GebruikerRepository();
                 }
                 else
                 {
@@ -342,7 +341,7 @@ namespace IP_8IEN.BL
                     bool isUoW = repo.isUnitofWork();
                     if (isUoW)
                     {
-                        repo = new DAL.GebruikerRepository();
+                        repo = new GebruikerRepository();
                     }
                     else
                     {
@@ -495,7 +494,7 @@ namespace IP_8IEN.BL
                     messages = messages.Where(m => m.IsFromPersoon((Persoon)pn.Onderwerp)).ToList();
                     total = messages.Sum(m => m.Polarity);
 
-                    if (pn.negatief == true)
+                    if (pn.negatief)
                     {
                         if (total / messages.Count() > 0)
                         {
@@ -607,7 +606,7 @@ namespace IP_8IEN.BL
                 double totaal = 0;
                 foreach (int i in tweetsPerDag)
                 {
-                    totaal = totaal + i;
+                    totaal += i;
                 }
 
                 gemiddelde = totaal / tweetsPerDag.Count();
@@ -618,9 +617,8 @@ namespace IP_8IEN.BL
                 System.Diagnostics.Debug.WriteLine(average);
                 double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
                 double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
-
-                double test2 = ((tweetsPerDag.Last() - gemiddelde) / sd);
-                return test2;
+                
+                return ((tweetsPerDag.Last() - gemiddelde) / sd);
             }
             else
             {
@@ -663,7 +661,7 @@ namespace IP_8IEN.BL
                 double totaal = 0;
                 foreach (int i in tweetsPerDag)
                 {
-                    totaal = totaal + i;
+                    totaal += i;
                 }
 
                 gemiddelde = totaal / tweetsPerDag.Count();
@@ -675,8 +673,7 @@ namespace IP_8IEN.BL
                 double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
                 double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
 
-                double test2 = ((tweetsPerDag.Last() - gemiddelde) / sd);
-                return test2;
+                return ((tweetsPerDag.Last() - gemiddelde) / sd);
             }
             
         }
