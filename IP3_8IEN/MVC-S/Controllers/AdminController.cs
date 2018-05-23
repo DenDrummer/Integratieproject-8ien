@@ -205,9 +205,6 @@ namespace MVC_S.Controllers
             string userName = currUser.UserName;
             Gebruiker user = _gebrManager.FindUser(userName);
 
-            // Als de zoekmthode klaar is wordt het onderwerp door de view meegegeven //
-            //int id = 231; // <-- Verhofstadt
-            //Persoon p = _dataManager.GetPersoon(id);
             int nDagen = 10; // <-- voorlopig default
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
@@ -218,18 +215,13 @@ namespace MVC_S.Controllers
             _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
             // ================================================================================ //
 
+            Dashbord dash = _dashManager.GetDashboardWithFollows(user);
             return View();
         }
 
         [HttpGet]
         public ActionResult CreateRankingInput()
         {
-            //RankViewModel rankModel = new RankViewModel
-            //{
-            //    Aantal = 10,
-            //    interval = 5
-            //};
-            //ViewBag.Message = rankModel;
             return View();
         }
 
@@ -253,6 +245,8 @@ namespace MVC_S.Controllers
             int aantal = rankModel.Aantal;
             int interval = rankModel.interval;
 
+            //ViewBag.naam = automplete;
+
             //Zie dat je bent ingelogd
             //TODO: redirect naar inlog pagina <--
             ApplicationUser currUser = _userManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
@@ -268,6 +262,7 @@ namespace MVC_S.Controllers
             _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
             // ================================================================================ //
 
+            Dashbord dash = _dashManager.GetDashboardWithFollows(user);
             return View();
         }
 

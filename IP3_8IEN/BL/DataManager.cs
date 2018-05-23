@@ -57,7 +57,7 @@ namespace IP3_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "29 Apr 2018 22:01",
+                        since = "29 Apr 2018 00:01",
                         //until weglaten --> last scraping
                         until = "30 Apr 2018 00:01",
                     });
@@ -1486,18 +1486,17 @@ namespace IP3_8IEN.BL
         }
 
         public List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = false)
-
         {
             initNonExistingRepo(true);
             dashMgr = new DashManager();
 
             List<Persoon> personen = repo.ReadPersonen().ToList();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<GraphData> graphsList = new List<GraphData>();
             DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
             int laatstePeriode;
             int voorlaatstePeriode;
-            //Sam
-            //Dictionary<Persoon, double> ranking = new Dictionary<Persoon, double>();
+            
             List<GraphData> ranking = new List<GraphData>();
             foreach (Persoon p in personen)
             {
@@ -1507,25 +1506,68 @@ namespace IP3_8IEN.BL
                 voorlaatstePeriode = messages2.Where(m => lastTweet.AddHours((interval_uren * 2) * -1) < m.Date && m.Date < lastTweet.AddHours(interval_uren * -1)).Count();
                 if (puntNotatie == true)
                 {
-                    GraphData graph = new GraphData(p.Naam, (int)CalculateChange(voorlaatstePeriode, laatstePeriode));
-                    dashMgr.AddGraph(graph);
-
+                    GraphData graph = new GraphData(p.Naam, (double)CalculateChange(voorlaatstePeriode, laatstePeriode));
                     ranking.Add(graph);
                 }
                 else
                 {
-                    GraphData graph = new GraphData(p.Naam, (int)CalculateChange(voorlaatstePeriode, laatstePeriode));
-                    dashMgr.AddGraph(graph);
-
+                    GraphData graph = new GraphData(p.Naam, (double)CalculateChange(voorlaatstePeriode, laatstePeriode));
                     ranking.Add(graph);
                 }
             }
-            uowManager.Save();
             ranking = ranking.OrderByDescending(r => r.value).ToList();
+            ranking = ranking.GetRange(0, aantal);
 
-            List<GraphData> graphsList = ranking.GetRange(0, aantal);
+            foreach(GraphData graph in ranking)
+            {
+                dashMgr.AddGraph(graph);
+                graphsList.Add(graph);
+            }
+            uowManager.Save();
+
             return graphsList; //ranking.GetRange(0, aantal);
         }
+
+        //public List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = false)
+        //{
+        //    initNonExistingRepo(true);
+        //    dashMgr = new DashManager();
+
+        //    List<Persoon> personen = repo.ReadPersonen().ToList();
+        //    List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+        //    DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+        //    int laatstePeriode;
+        //    int voorlaatstePeriode;
+        //    //Sam
+        //    //Dictionary<Persoon, double> ranking = new Dictionary<Persoon, double>();
+        //    List<GraphData> ranking = new List<GraphData>();
+        //    foreach (Persoon p in personen)
+        //    {
+        //        int teller = messages.Where(m => m.IsFromPersoon(p)).Count();
+        //        List<Message> messages2 = messages.Where(m => m.IsFromPersoon(p)).ToList();
+        //        laatstePeriode = messages2.Where(m => lastTweet.AddHours(interval_uren * -1) < m.Date).Count();
+        //        voorlaatstePeriode = messages2.Where(m => lastTweet.AddHours((interval_uren * 2) * -1) < m.Date && m.Date < lastTweet.AddHours(interval_uren * -1)).Count();
+        //        if (puntNotatie == true)
+        //        {
+        //            GraphData graph = new GraphData(p.Naam, (int)CalculateChange(voorlaatstePeriode, laatstePeriode));
+        //            dashMgr.AddGraph(graph);
+
+        //            ranking.Add(graph);
+        //        }
+        //        else
+        //        {
+        //            GraphData graph = new GraphData(p.Naam, (double)CalculateChange(voorlaatstePeriode, laatstePeriode));
+        //            dashMgr.AddGraph(graph);
+
+        //            ranking.Add(graph);
+        //        }
+        //    }
+        //    uowManager.Save();
+        //    ranking = ranking.OrderByDescending(r => r.value).ToList();
+
+        //    List<GraphData> graphsList = ranking.GetRange(0, aantal);
+        //    return graphsList; //ranking.GetRange(0, aantal);
+        //}
 
         public List<int> ExtractListPersoonId(IEnumerable<GraphData> graphDataList)
         {

@@ -171,8 +171,8 @@ namespace IP3_8IEN.BL
 
             foreach(Follow follow in follows)
             {
-                follow.DashItem.Follows = new Collection<Follow>();
-                follow.DashItem.Follows.Add(follow);
+                //follow.DashItem.Follows = new Collection<Follow>();
+                //follow.DashItem.Follows.Add(follow);
 
                 Dashbord dashbord = GetDashboard(user);
 
@@ -184,7 +184,7 @@ namespace IP3_8IEN.BL
 
                 repo.AddTileZone(tile);
                 follow.DashItem.TileZones.Add(tile);
-                repo.UpdateFollow(follow);
+                //repo.UpdateFollow(follow);
             }
 
             uowManager.Save();
@@ -198,9 +198,6 @@ namespace IP3_8IEN.BL
         {
             initNonExistingRepo();
 
-            //bool UoW = false;
-            //repo.setUnitofWork(UoW);
-
             DashItem dashItem = repo.ReadDashItem(dashId);
             dashItem.Graphdata = new Collection<GraphData>();
 
@@ -211,11 +208,7 @@ namespace IP3_8IEN.BL
                 repo.UpdateGraphData(graph);
             }
 
-            UpdateDashItem(dashItem);
-
-            //uowManager.Save();
-            //UoW = true;
-            //repo.setUnitofWork(UoW);
+            //UpdateDashItem(dashItem);
         }
 
         public void AddGraph(GraphData graph)
@@ -248,7 +241,7 @@ namespace IP3_8IEN.BL
 
         public struct GraphdataValues
         {
-            public int[] values;
+            public double[] values;
             public string[] labels;
         }
 
@@ -262,7 +255,7 @@ namespace IP3_8IEN.BL
 
             GraphdataValues graphsVals = new GraphdataValues()
             {
-                values = new int[aantalDagen+1],
+                values = new double[aantalDagen+1],
                 labels = new string[aantalDagen+1]
             };
 
