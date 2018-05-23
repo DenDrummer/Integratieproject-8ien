@@ -57,9 +57,9 @@ namespace IP_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "29 Apr 2018 22:01",
+                        since = "23 May 2018 00:00",
                         //until weglaten --> last scraping
-                        until = "30 Apr 2018 00:01",
+                        //until = "30 Apr 2018 00:01",
                     });
 
                     streamWriter.Write(json);
@@ -658,8 +658,6 @@ namespace IP_8IEN.BL
             public override string ToString() => $"Politieker {politician}\n \t score: {score}";
         }
 
-
-
         public void GetAlerts()
         {
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
@@ -782,7 +780,7 @@ namespace IP_8IEN.BL
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Mail says no");
+                System.Diagnostics.Debug.WriteLine("Mail says no" + ex);
             }
         }
 
