@@ -1,13 +1,13 @@
-﻿using IP3_8IEN.BL.Domain.Dashboard;
-using IP3_8IEN.BL.Domain.Data;
-using IP3_8IEN.BL.Domain.Gebruikers;
-using IP3_8IEN.DAL;
+﻿using IP_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Data;
+using IP_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.DAL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace IP3_8IEN.BL
+namespace IP_8IEN.BL
 {
     public class DashManager : IDashManager
     {
@@ -33,6 +33,22 @@ namespace IP3_8IEN.BL
             initNonExistingRepo();
 
             Dashbord dash = repo.ReadDashbord(user);
+            return dash;
+        }
+
+        public Dashbord GetDashboard(int dashId)
+        {
+            initNonExistingRepo();
+
+            Dashbord dash = repo.ReadDashbord(dashId);
+            return dash;
+        }
+
+        public Dashbord GetDashboardWithFollows(Gebruiker user)
+        {
+            initNonExistingRepo();
+
+            Dashbord dash = repo.ReadDashbordWithFollows(user);
             return dash;
         }
 
@@ -145,18 +161,7 @@ namespace IP3_8IEN.BL
             repo.AddGraph(graph);
         }
 
-        public Dashbord AddDashBord(Gebruiker gebruiker)
-        {
-            initNonExistingRepo(true);
-
-            Dashbord dashbord = new Dashbord
-            {
-                User = gebruiker,
-                TileZones = new Collection<TileZone>()
-            };
-            repo.AddDashBord(dashbord);
-            return dashbord;
-        }
+        
 
         public void UpdateDashItem(DashItem dashItem)
         {
@@ -177,9 +182,42 @@ namespace IP3_8IEN.BL
             else { return follows; }
         }
 
-        public Dashbord UpdateDashboard(Dashbord dashbord)
+        public struct GraphdataValues
+        {
+            public int[] values;
+            public string[] labels;
+        }
+
+        public GraphdataValues getGraphData(int persoonId, int aantalDagen)
         {
             initNonExistingRepo();
+
+            dataMgr = new DataManager();
+            Persoon persoon = dataMgr.GetPersoon(persoonId);
+            List<GraphData> graphs = dataMgr.GetTweetsPerDag(persoon, 10);
+
+            GraphdataValues graphsVals = new GraphdataValues()
+            {
+                values = new int[aantalDagen+1],
+                labels = new string[aantalDagen+1]
+            };
+
+            int i = 0;
+            foreach(GraphData graph in graphs)
+            {
+                graphsVals.values[i] = graph.value;
+                graphsVals.labels[i] = graph.label;
+                i++;
+            }
+
+            return graphsVals;
+        }
+
+        public Dashbord UpdateDashboard(Dashbord dashbord)
+        {
+            initNonExistingRepo(true);
+            dataMgr = new DataManager(uowManager);
+            repo.setUnitofWork(false);
 
             DateTime timeNow = DateTime.Now;
             foreach (TileZone tileZone in dashbord.TileZones)
@@ -188,6 +226,7 @@ namespace IP3_8IEN.BL
                 if (hours > 3)
                 {
                     int i = 0;
+                    //deze array verwijst naar de personen in GraphData
                     int[] persoonId = { 0, 0, 0, 0, 0 };
 
                     foreach (Follow follow in tileZone.DashItem.Follows)
@@ -200,26 +239,29 @@ namespace IP3_8IEN.BL
                         catch { throw new Exception("Out of bounds"); }
 
                     }
-                    List<GraphData> graphs;
-                    Persoon persoon;
 
-                    //We gebruiken de i teller om de overload op methodes te bepalen
-                    if (i == 1)
+                    GraphdataValues graphs = getGraphData(persoonId[0],10/*Hier moet aantalDagen uit DashItem*/);
+
+                    int j = 0;
+                    foreach (var graph in tileZone.DashItem.Graphdata)
                     {
-                        persoon = dataMgr.GetPersoon(persoonId[0]);
-                        graphs = dataMgr.GetTweetsPerDag(persoon);
-                        tileZone.DashItem.Graphdata = graphs;
-
-                        foreach (var graph in tileZone.DashItem.Graphdata)
-                        {
-                            repo.UpdateGraphData(graph);
-                        }
+                        graph.label = graphs.labels[j];
+                        graph.value = graphs.values[j];
+                        repo.UpdateGraphData(graph);
+                        j++;
                     }
+                    uowManager.Save();
                 }
+                //LastModified updaten
+                tileZone.DashItem.LastModified = timeNow;
+                repo.UpdateTileZone(tileZone);
+                uowManager.Save();
             }
-
+            repo.setUnitofWork(true);
             return dashbord;
         }
+
+
 
         public IEnumerable<DashItem> GetDashItems()
         {
@@ -232,41 +274,67 @@ namespace IP3_8IEN.BL
             repo.AddTileZone(tile);
         }
 
-        public void InitializeDashbordNewUsers(string userId)
+        public Dashbord AddDashBord(string userId)
         {
             initNonExistingRepo(true);
 
-            gebruikerMgr = new GebruikerManager();
-            Gebruiker gebruiker = gebruikerMgr.GetGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
-            Dashbord dashbord = AddDashBord(gebruiker);
+            gebruikerMgr = new GebruikerManager(uowManager);
+            bool UoW = false;
+            repo.setUnitofWork(UoW);
 
-            gebruiker.Dashboards.Add(dashbord);
-            /////////// Edit ///////////
+            //De te associëren gebruiker wordt opgehaald
+            Gebruiker gebruiker = gebruikerMgr.GetGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
+
+            Dashbord dashbord = new Dashbord
+            {
+                User = gebruiker,
+                TileZones = new Collection<TileZone>()
+            };
+            repo.AddDashBord(dashbord);
+            uowManager.Save();
+            repo.setUnitofWork(true);
+
+            return dashbord;
+        }
+
+
+        public Dashbord DashbordInitGraphs(int dashId)
+        {
+            initNonExistingRepo();
+
+            Dashbord dashbord = repo.ReadDashbord(dashId);
 
             //We halen vaste grafieken op (AdminGraphs) en koppelen deze aan de 
             //nieuw aangemaakte dashboard van de nieuwe gebruiker
+            IEnumerable<DashItem> dashItems = GetDashItems();
+            dashItems = dashItems.Where(d => d.AdminGraph == true);
 
-            //IEnumerable<DashItem> dashItems = GetDashItems();
-            //dashItems = dashItems.Where(d => d.AdminGraph == true);
+            if (dashbord.TileZones == null)
+            {
+                dashbord.TileZones = new Collection<TileZone>();
+            }
 
-            ////Deze aan een TileZone toewijzen
-            //foreach (DashItem item in dashItems)
-            //{
-            //    TileZone tile = new TileZone()
-            //    {
-            //        DashItem = item,
-            //        Dashbord = dashbord
-            //    };
-            //    dashMgr.AddTileZone(tile);
-            //}
+            foreach (DashItem item in dashItems)
+            {
+                TileZone tile = new TileZone()
+                {
+                    DashItem = item,
+                    Dashbord = dashbord
+                };
+                repo.AddTileZone(tile);
+            }
+            repo.UpdateDashboard(dashbord);
+            return dashbord;
+        }
 
-            ///////////// Edit ///////////
-            //UpdateGebruiker(gebruiker);
-            //uowManager.Save();
+        public void InitializeDashbordNewUsers(string userId)
+        {
+            initNonExistingRepo();
+            //Dashbord aanmaken en associëren met user
+            Dashbord dashbord = AddDashBord(userId);
 
-            //uowManager.Save();
-            //UoW = true;
-            //repo.setUnitofWork(UoW);
+            //Dashbord initialiseren met vaste grafieken
+            DashbordInitGraphs(dashbord.DashbordId);
         }
 
 

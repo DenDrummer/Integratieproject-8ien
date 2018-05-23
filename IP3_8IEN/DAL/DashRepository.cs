@@ -1,10 +1,10 @@
-﻿using IP3_8IEN.BL.Domain.Dashboard;
-using IP3_8IEN.BL.Domain.Gebruikers;
-using IP3_8IEN.DAL.EF;
+﻿using IP_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.DAL.EF;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace IP3_8IEN.DAL
+namespace IP_8IEN.DAL
 {
     public class DashRepository : IDashRepository
     {
@@ -14,14 +14,14 @@ namespace IP3_8IEN.DAL
         public DashRepository()
         {
             ctx = new OurDbContext();
-            isUoW = false;
+            //isUoW = false;
             ctx.Database.Initialize(false);
         }
 
         public DashRepository(UnitOfWork uow)
         {
             ctx = uow.Context;
-            isUoW = true;
+            //isUoW = true;
         }
 
         public Dashbord ReadDashbord(Gebruiker user)
@@ -106,6 +106,24 @@ namespace IP3_8IEN.DAL
         {
             IEnumerable<DashItem> dashItems = ctx.DashItems.ToList();
             return dashItems;
+        }
+
+        public Dashbord ReadDashbord(int dashId)
+        {
+            Dashbord dashbord = ctx.Dashbords.Include("User").FirstOrDefault(d => d.DashbordId == dashId);
+            return dashbord;
+        }
+
+        public Dashbord ReadDashbordWithFollows(Gebruiker user)
+        {
+            Dashbord dashbord = ctx.Dashbords.Include("TileZones").Include("TileZones.DashItem").Include("TileZones.DashItem.Graphdata").Include("TileZones.DashItem.Follows").Include("TileZones.DashItem.Follows.Onderwerp").FirstOrDefault(u => u.User.GebruikerId == user.GebruikerId);
+            return dashbord;
+        }
+
+        public void UpdateTileZone(TileZone tileZone)
+        {
+            ctx.Entry(tileZone).State = System.Data.Entity.EntityState.Modified;
+            ctx.SaveChanges();
         }
 
         ////UoW related

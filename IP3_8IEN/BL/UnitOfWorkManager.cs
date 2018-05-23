@@ -1,6 +1,6 @@
-﻿using IP3_8IEN.DAL;
+﻿using IP_8IEN.DAL;
 
-namespace IP3_8IEN.BL
+namespace IP_8IEN.BL
 {
     public class UnitOfWorkManager
     {

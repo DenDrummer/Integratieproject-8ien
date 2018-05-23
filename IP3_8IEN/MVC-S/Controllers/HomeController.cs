@@ -1,17 +1,17 @@
 ﻿using System.Web.Mvc;
-using IP3_8IEN.BL;
-using IP3_8IEN.BL.Domain.Data;
+using IP_8IEN.BL;
+using IP_8IEN.BL.Domain.Data;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using IP3_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.BL.Domain.Gebruikers;
 using System.IO;
 using System.Web;
-using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Dashboard;
 using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Web.Helpers;
-using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Dashboard;
 using Microsoft.Ajax.Utilities;
 
 namespace MVC_S.Controllers
@@ -44,6 +44,9 @@ namespace MVC_S.Controllers
             //dMgr.ReadOnderwerpenWithSubjMsgs();
             //dMgr.GetAlerts();
             //**** dit zijn test methodes ****//
+
+            //string id = System.DateTime.Now.ToString();
+            //gMgr.AddGebruiker("testuser", id, "dummy", "plug");
 
             //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
             //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
@@ -182,14 +185,13 @@ namespace MVC_S.Controllers
         public ActionResult UserDashBoard()
         {
             //Dashbord van ingelogde gebruiker ophalen
-            //Nog niet getest
             try
             {
                 ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
                 string userName = appUser.UserName;
                 Gebruiker user = gMgr.FindUser(userName);
 
-                Dashbord dashbord = dashMgr.GetDashboard(user);
+                Dashbord dashbord = dashMgr.GetDashboardWithFollows(user);
                 dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem minstens 3h up-to-date is
 
                 return View(dashbord);
@@ -202,10 +204,10 @@ namespace MVC_S.Controllers
 
         public ActionResult AdminOmgeving()
         {
-            // stephane : note : deze 'if else' kun je gebruiken voor authorisatie
-            if (User.IsInRole("Admin")) {
-
-                return View();
+            // note : deze 'if else' kun je gebruiken voor authorisatie
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
             }
             else
             {
@@ -242,6 +244,21 @@ namespace MVC_S.Controllers
             ViewData["names"] = names;
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Zoeken(string search)
+        {
+            IEnumerable<Persoon> ObjList = dMgr.GetPersonen().Where(p => p.Naam.Contains(search));
+            
+            return View(ObjList);
+        }
+
+        //[HttpGet]
+        //public ActionResult LijstPersonen(string search)
+        //{
+        //    IEnumerable<Persoon> ObjList = dMgr.GetPersonen().Where(p => p.Naam.Contains(search));
+        //    return View(ObjList);
+        //}
 
         public ActionResult InitializeAdmins()
         {

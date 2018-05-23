@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using IP3_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.BL.Domain.Gebruikers;
 
-namespace IP3_8IEN.DAL
+namespace IP_8IEN.DAL
 {
     public interface IGebruikerRepository
     {
         //30 mrt 2018 : Stephane
         void AddingGebruiker(Gebruiker gebruiker);
         void AddingAlertInstelling(AlertInstelling alertinstelling);
-        Gebruiker FindGebruiker(int userId);
         void DeleteGebruiker(Gebruiker gebruiker);
         IEnumerable<Gebruiker> ReadGebruikers();
 
@@ -35,5 +34,8 @@ namespace IP3_8IEN.DAL
 
         //10 mei 2018 : Stephane
         void UpdateGebruiker(Gebruiker gebruiker);
+
+        //20 mei 2018 : Stephane
+        Gebruiker ReadGebruiker(string userId);
     }
 }

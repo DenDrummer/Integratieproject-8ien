@@ -2,7 +2,7 @@
 using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
 
-namespace IP3_8IEN.BL
+namespace IP_8IEN.BL
 {
     public interface IGebruikerManager
     {
@@ -45,5 +45,8 @@ namespace IP3_8IEN.BL
         List<PositiefNegatief> GetPositiefNegatiefsByUser();
         List<ValueFluctuation> GetValueFluctuationsByUser();
         List<Alert> GetAlertsByUser(Gebruiker gebruiker);
+
+        //21 mei 2018 : Stephane
+        void DeleteUser(string userId);
     }
 }

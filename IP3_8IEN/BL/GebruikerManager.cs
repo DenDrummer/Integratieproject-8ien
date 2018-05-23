@@ -1,9 +1,9 @@
-﻿using IP3_8IEN.BL.Domain.Data;
-using IP3_8IEN.BL.Domain.Gebruikers;
+﻿using IP_8IEN.BL.Domain.Data;
+using IP_8IEN.BL.Domain.Gebruikers;
 using Newtonsoft.Json;
 using System.IO;
 
-using IP3_8IEN.DAL;
+using IP_8IEN.DAL;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,7 +11,7 @@ using System;
 using System.Net.Mail;
 using System.Text;
 
-namespace IP3_8IEN.BL
+namespace IP_8IEN.BL
 {
     public class GebruikerManager : IGebruikerManager
     {
@@ -273,18 +273,13 @@ namespace IP3_8IEN.BL
             return alert;
         }
 
-        public void AddGebruiker(string userName, string id, string naam, string voornaam)
+        public void AddGebruiker(string userName, string userId, string naam, string voornaam)
         {
             initNonExistingRepo();
 
-            //bool UoW = false;
-            //repo.setUnitofWork(UoW);
-
-            //dashMgr = new DashManager();
-
             Gebruiker gebruiker = new Gebruiker
             {
-                GebruikerId = id,
+                GebruikerId = userId,
                 Username = userName,
                 Voornaam = voornaam,
                 Naam = naam
@@ -292,42 +287,32 @@ namespace IP3_8IEN.BL
             repo.AddingGebruiker(gebruiker);
 
             dashMgr = new DashManager();
+
+            //Dashboard initialiseren voor nieuwe gebruiker en opvullen met vaste grafieken
             dashMgr.InitializeDashbordNewUsers(gebruiker.GebruikerId);
-
-            //dashMgr = new DashManager(uowManager);
-            //Dashbord dashbord = dashMgr.AddDashBord(gebruiker);
-
-            //gebruiker.Dashboards.Add(dashbord);
-            ///////////// Edit ///////////
-
-            ////We halen vaste grafieken op (AdminGraphs) en koppelen deze aan de 
-            ////nieuw aangemaakte dashboard van de nieuwe gebruiker
-            //IEnumerable<DashItem> dashItems = dashMgr.GetDashItems();
-            //dashItems = dashItems.Where(d => d.AdminGraph == true);
-
-            ////Deze aan een TileZone toewijzen
-            //foreach (DashItem item in dashItems)
-            //{
-            //    TileZone tile = new TileZone()
-            //    {
-            //        DashItem = item,
-            //        Dashbord = dashbord
-            //    };
-            //    dashMgr.AddTileZone(tile);
-            //}
-
-            ///////////// Edit ///////////
-            //UpdateGebruiker(gebruiker);
-            //uowManager.Save();
-
-            //uowManager.Save();
-            //UoW = true;
-            //repo.setUnitofWork(UoW);
         }
 
         public void UpdateGebruiker(Gebruiker gebruiker)
         {
+            initNonExistingRepo();
+
             repo.UpdateGebruiker(gebruiker);
+        }
+        
+        public void DeleteUser(string userId)
+        {
+            initNonExistingRepo();
+
+            //IdentityUser wordt verwijderd, data gebruiker wordt overschreven
+            Gebruiker user = repo.ReadGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
+
+            user.Username = "Deleted";
+            user.Naam = "Deleted";
+            user.Voornaam = "Deleted";
+            user.Email = "Deleted";
+            user.Geboortedatum = DateTime.Now;
+
+            UpdateGebruiker(user);
         }
 
         //Unit of Work related
