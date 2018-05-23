@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace IP3_8IEN.BL.Domain.Gebruikers
+namespace IP_8IEN.BL.Domain.Gebruikers
 {
     public class Alert
     {
