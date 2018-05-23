@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IP3_8IEN.BL.Domain.Data
+namespace IP_8IEN.BL.Domain.Data
 {
     public class SubjectMessage
     {

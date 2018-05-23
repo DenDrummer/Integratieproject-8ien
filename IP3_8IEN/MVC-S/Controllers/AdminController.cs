@@ -1,6 +1,6 @@
-﻿using IP3_8IEN.BL;
-using IP3_8IEN.BL.Domain.Data;
-using IP3_8IEN.BL.Domain.Gebruikers;
+﻿using IP_8IEN.BL;
+using IP_8IEN.BL.Domain.Data;
+using IP_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -210,7 +210,7 @@ namespace MVC_S.Controllers
             int nDagen = 10; // <-- voorlopig default
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-            List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, user, nDagen);
+            List<IP_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, user, nDagen);
             IP_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true);
             IP_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
             IP_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);

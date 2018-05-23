@@ -1,13 +1,13 @@
-﻿using IP3_8IEN.BL.Domain.Dashboard;
-using IP3_8IEN.BL.Domain.Data;
-using IP3_8IEN.BL.Domain.Gebruikers;
-using IP3_8IEN.DAL;
+﻿using IP_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Data;
+using IP_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.DAL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace IP3_8IEN.BL
+namespace IP_8IEN.BL
 {
     public class DashManager : IDashManager
     {
@@ -205,7 +205,7 @@ namespace IP3_8IEN.BL
             int i = 0;
             foreach(GraphData graph in graphs)
             {
-                graphsVals.values[i] = graph.value1;
+                graphsVals.values[i] = graph.value;
                 graphsVals.labels[i] = graph.label;
                 i++;
             }
@@ -246,7 +246,7 @@ namespace IP3_8IEN.BL
                     foreach (var graph in tileZone.DashItem.Graphdata)
                     {
                         graph.label = graphs.labels[j];
-                        graph.value1 = graphs.values[j];
+                        graph.value = graphs.values[j];
                         repo.UpdateGraphData(graph);
                         j++;
                     }

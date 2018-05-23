@@ -1,8 +1,8 @@
-﻿using IP3_8IEN.BL.Domain.Dashboard;
-using IP3_8IEN.BL.Domain.Gebruikers;
+﻿using IP_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
 
-namespace IP3_8IEN.BL
+namespace IP_8IEN.BL
 {
     public interface IDashManager
     {

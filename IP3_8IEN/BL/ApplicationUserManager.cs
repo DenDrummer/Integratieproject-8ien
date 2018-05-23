@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using IP3_8IEN.DAL;
-using IP3_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.DAL;
+using IP_8IEN.BL.Domain.Gebruikers;
 
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace IP3_8IEN.BL
+namespace IP_8IEN.BL
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
