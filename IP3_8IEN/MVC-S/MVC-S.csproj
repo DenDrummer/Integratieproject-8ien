@@ -195,6 +195,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SuperadminController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -533,6 +534,9 @@
     <Content Include="Views\Home\LijstPersonen.cshtml" />
     <Content Include="Views\Home\Faq.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
+    <Content Include="Views\Superadmin\Inloggen.cshtml" />
+    <Content Include="Views\Superadmin\Adminlijst.cshtml" />
+    <Content Include="Views\Superadmin\SMBeheren.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
