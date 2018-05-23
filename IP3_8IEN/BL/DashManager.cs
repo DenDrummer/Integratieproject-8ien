@@ -161,19 +161,19 @@ namespace IP_8IEN.BL
             repo.AddGraph(graph);
         }
 
-        public Dashbord AddDashBord(Gebruiker gebruiker)
-        {
-            initNonExistingRepo(true);
+        //public Dashbord AddDashBord(Gebruiker gebruiker)
+        //{
+        //    initNonExistingRepo(true);
 
-            Dashbord dashbord = new Dashbord
-            {
-                User = gebruiker,
-                ZonesOrder = "[0,1,2,3,4,5,6,7,8,9]",
-                TileZones = new Collection<TileZone>()
-            };
-            repo.AddDashBord(dashbord);
-            return dashbord;
-        }
+        //    Dashbord dashbord = new Dashbord
+        //    {
+        //        User = gebruiker,
+        //        ZonesOrder = "[0,1,2,3,4,5,6,7,8,9]",
+        //        TileZones = new Collection<TileZone>()
+        //    };
+        //    repo.AddDashBord(dashbord);
+        //    return dashbord;
+        //}
 
         public void UpdateDashItem(DashItem dashItem)
         {
@@ -300,6 +300,7 @@ namespace IP_8IEN.BL
             Dashbord dashbord = new Dashbord
             {
                 User = gebruiker,
+                ZonesOrder = "[0,1,2,3,4,5,6,7,8,9]",
                 TileZones = new Collection<TileZone>()
             };
             repo.AddDashBord(dashbord);
