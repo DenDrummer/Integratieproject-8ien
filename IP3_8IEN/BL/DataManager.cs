@@ -53,7 +53,7 @@ namespace IP_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "17 May 2018 0:01",
+                        since = "23 May 2018 0:01",
                         //until weglaten --> last scraping
                         //until = "26 Apr 2018 23:59",
                     });
