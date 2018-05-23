@@ -1,13 +1,13 @@
-﻿using IP_8IEN.BL.Domain.Dashboard;
-using IP_8IEN.BL.Domain.Data;
-using IP_8IEN.BL.Domain.Gebruikers;
-using IP_8IEN.DAL;
+﻿using IP3_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Data;
+using IP3_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.DAL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace IP_8IEN.BL
+namespace IP3_8IEN.BL
 {
     public class DashManager : IDashManager
     {
@@ -100,6 +100,38 @@ namespace IP_8IEN.BL
             return follow;
         }
 
+        public List<Follow> CreateFollow(int dashId, List<int> listPersoonId)
+        {
+            initNonExistingRepo(true);
+
+            DashItem dashItem = repo.ReadDashItem(dashId);
+            List<Follow> follows = new List<Follow>();
+
+            dataMgr = new DataManager(uowManager);
+            bool UoW = false;
+            repo.setUnitofWork(UoW);
+
+            IEnumerable<Persoon> personen = dataMgr.GetPersonen();
+            List<Persoon> listPersonen = new List<Persoon>(); //dataMgr.GetPersoon(id);
+
+            foreach(int persoonId in listPersoonId)
+            {
+                Follow follow = new Follow()
+                {
+                    DashItem = dashItem,
+                    Onderwerp = personen.FirstOrDefault(p => p.OnderwerpId == persoonId)
+                };
+                follows.Add(follow);
+                repo.AddFollow(follow);
+            }
+            uowManager.Save();
+
+            UoW = true;
+            repo.setUnitofWork(UoW);
+
+            return follows;
+        }
+
         public DashItem SetupDashItem(/*DashItem dashItem,*/ Gebruiker user, Follow follow)
         {
             initNonExistingRepo(true);
@@ -128,6 +160,38 @@ namespace IP_8IEN.BL
             repo.setUnitofWork(UoW);
 
             return follow.DashItem;
+        }
+
+        public DashItem SetupDashItem(Gebruiker user, List<Follow> follows)
+        {
+            initNonExistingRepo(true);
+
+            bool UoW = false;
+            repo.setUnitofWork(UoW);
+
+            foreach(Follow follow in follows)
+            {
+                follow.DashItem.Follows = new Collection<Follow>();
+                follow.DashItem.Follows.Add(follow);
+
+                Dashbord dashbord = GetDashboard(user);
+
+                TileZone tile = new TileZone()
+                {
+                    Dashbord = dashbord,
+                    DashItem = follow.DashItem
+                };
+
+                repo.AddTileZone(tile);
+                follow.DashItem.TileZones.Add(tile);
+                repo.UpdateFollow(follow);
+            }
+
+            uowManager.Save();
+            UoW = true;
+            repo.setUnitofWork(UoW);
+
+            return follows[0].DashItem;
         }
 
         public void LinkGraphsToUser(List<GraphData> graphDataList, int dashId /*DashItem dashItem*/)

@@ -1,10 +1,10 @@
-﻿using IP_8IEN.BL.Domain.Data;
+﻿using IP3_8IEN.BL.Domain.Data;
 using System;
 using System.Collections.Generic;
-using IP_8IEN.BL.Domain.Dashboard;
-using IP_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Gebruikers;
 
-namespace IP_8IEN.BL
+namespace IP3_8IEN.BL
 {
     public interface IDataManager
     {
@@ -59,8 +59,8 @@ namespace IP_8IEN.BL
         int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
         //Sam
         //Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
-        List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
-
+        List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0); //Edit 18 mei 2018 : Stephane
+ 
         List<GraphData2> GetTweetsPerDag2(Persoon persoon1, Persoon persoon2, Persoon persoon3, Persoon persoon4,
             Persoon persoon5, int aantalDagenTerug = 0);
 
@@ -79,11 +79,12 @@ namespace IP_8IEN.BL
         //18 mei 2018 : Stephane
         Persoon GetPersoon(string naam);
 
-        List<GraphData> GetTweetsPerDag(Persoon persoon, Gebruiker user, int aantalDagenTerug = 0);
-
         //Sam 15 mei
         string GetImageString(string screenname);
         string GetBannerString(string screenname);
+
+        //23 mei 2018 : Stephane
+        List<int> ExtractListPersoonId(IEnumerable<GraphData> graphDataList);
 
         //VIC
         double GetPolarityByPerson(Persoon persoon);
