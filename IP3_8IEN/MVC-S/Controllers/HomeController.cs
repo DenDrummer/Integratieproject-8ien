@@ -25,14 +25,32 @@ namespace MVC_S.Controllers
 
         public HomeController()
         {
-            // initialisatie Admins zitten in InitializeAdmins()
-            // initialisatie methodes zitten in Initialize()
+            // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
+            // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
+            dMgr = new DataManager();
+            gMgr = new GebruikerManager();
 
-            //string id = System.DateTime.Now.ToString();
-            //gMgr.AddGebruiker("testuser", id, "dummy", "plug");
+            #region initialisatie blok databank
+            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            dMgr.ApiRequestToJson();
+
+            //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
+            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
+            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            #endregion
+
+            //**** dit zijn test methodes ****//
+            //dMgr.CountSubjMsgsPersoon();
+            //dMgr.ReadOnderwerpenWithSubjMsgs();
+            //dMgr.GetAlerts();
+            //**** dit zijn test methodes ****//
 
             //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
             //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
+            //gMgr.GetAlertHogerLagers();
+            //gMgr.GetAlertPositiefNegatiefs();
+            //gMgr.GetAlertValueFluctuations();
+            
         }
 
         private async Task RetrieveAPIData(IDataManager dMgr)
