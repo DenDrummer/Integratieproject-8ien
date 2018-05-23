@@ -134,6 +134,7 @@
             var item = data.splice(e.oldIndex, 1)[0]; //remove the item that has changed its order
             data.splice(e.newIndex, 0, item); //add the item back using the newIndex
 
+            //$.post('@Url.Action()')
             localStorage.setItem("sortableData", kendo.stringify(data)); //set the updated data in the local storage
         }
     });
