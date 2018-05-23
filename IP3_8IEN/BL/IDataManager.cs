@@ -1,4 +1,5 @@
 ﻿using IP_8IEN.BL.Domain.Data;
+using IP3_8IEN.BL.Domain.Dashboard;
 using System;
 using System.Collections.Generic;
 using IP_8IEN.BL.Domain.Dashboard;
@@ -84,8 +85,7 @@ namespace IP_8IEN.BL
         //Sam 15 mei
         string GetImageString(string screenname);
         string GetBannerString(string screenname);
-
-        //VIC
+        //4 mei 2018 : Victor
         double GetPolarityByPerson(Persoon persoon);
         double GetPolarityByPerson(Persoon persoon, DateTime start);
         double GetPolarityByPerson(Persoon persoon, DateTime start, DateTime stop);

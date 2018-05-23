@@ -1,4 +1,5 @@
 ﻿using IP_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
 
 namespace IP_8IEN.BL
@@ -27,9 +28,23 @@ namespace IP_8IEN.BL
         //6 mei 2018 : Stephane
         //void AddApplicationGebruikers(string filePath); <-- verhuist naar ApplicationUserManager()
 
+
+        //8 mei 2018 : Victor
+        void GetAlertHogerLagers();
+
         //10 mei 2018 : Stephane
         void AddGebruiker(string userName, string id, string naam, string voornaam);
         void UpdateGebruiker(Gebruiker gebruiker);
+
+        //15 mei 2018 : Victor
+        void GetAlertValueFluctuations();
+        void GetAlertPositiefNegatiefs();
+
+        //18 mei 2018 : Victor
+        List<HogerLager> GetHogerLagersByUser();
+        List<PositiefNegatief> GetPositiefNegatiefsByUser();
+        List<ValueFluctuation> GetValueFluctuationsByUser();
+        List<Alert> GetAlertsByUser(Gebruiker gebruiker);
 
         //21 mei 2018 : Stephane
         void DeleteUser(string userId);

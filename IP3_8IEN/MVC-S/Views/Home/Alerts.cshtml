@@ -9,87 +9,49 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-body">
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<h2>Instellingen Alerts</h2>
-
-<br />
-
-<ul class="nav nav-tabs">
-    <li class="active"><a href="#hla" data-toggle="tab">Hoger/Lager Alerts</a></li>
-    <li><a href="#vla" data-toggle="tab">Value Fluctuations Alerts</a></li>
-    <li><a href="#pna" data-toggle="tab">Positief/Negatieve Alerts</a></li>
-</ul>
-
-<div class="tab-content well">
-    <div class="tab-pane active col-lg-12" id="hla">
-        <div class="row">
-            <div class="col-lg-8">
-                @RenderPage("ListHogerLager.cshtml")
-            </div>
-            <div class="col-lg-4">
-                <h2>Nieuwe Alert Maken!</h2>
-                <table>
-                    <tr>
-                        <td><b>Ontvangen op: </b></td>
-                        <td><input type="checkbox" name="checkEmailA" value="Email"> Email</td>
-                    </tr>
-                    <tr>
-                        <td> </td>
-                        <td><input type="checkbox" name="checkNotificatieA" value="Notificatie"> Notifactie</td>
-                    </tr>
-                    <tr>
-                        <td> </td>
-                        <td><input type="checkbox" name="checkAndroidA" value="Android"> Android App</td>
-                    </tr>
-                    <tr>
-                        <td><b>Type Alert: </b> </td>
-                        <td><input type="radio" name="type" value="stijgdaling"> Stijging/Daling (Selected)<br></td>
-                    </tr>
-                    <tr>
-                        <td> </td>
-                        <td><input type="radio" name="type" value="vergelijking"> Vergelijking tussen Onderwerpen<br></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="radio" name="type" value="verhouding"> Verhouding positief/negatief<br></td>
-                    </tr>
-                    <tr>
-                        <td><b>Onderwerptype: </b></td>
-                        <td>
-                            <select>
-                                <option value="personen">Personen</option>
-                                <option value="organisaties">Organisaties</option>
-                                <option value="themas">Themas</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><b>Onderwerp 1: </b></td>
-                        <td><input type="text" name="search1" placeholder="Search.."></td>
-                    </tr>
-                    <tr>
-                        <td><b>Onderwerp 2: </b></td>
-                        <td><input type="text" name="search2" placeholder="Search.."></td>
-                    </tr>
-                    <tr>
-                        <td><b>Waarde: </b></td>
-                        <td><input type="text" name="txtWaarde" value="geef waarde in" readonly></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><button type="button">Alert Toevoegen</button></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="tab-pane col-lg-12" id="vla">
-        <div class="row">
-            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form role="form">
+                            <div class="form-group" style="border-right: 1px solid" ;>
+                                <h2>Bestaande Alerts!</h2>
+                                @RenderPage("~/Views/Alert/ListHogerLager.cshtml")
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6">
+                        <h2>Nieuwe Alert Maken!</h2>
+                        <table>
+                            <tr>
+                                <td><b>Ontvangen op: </b></td>
+                                <td><input type="checkbox" name="checkEmailA" value="Email"> Email</td>
+                            </tr>
+                            <tr>
+                                <td> </td>
+                                <td><input type="checkbox" name="checkNotificatieA" value="Notificatie"> Notifactie</td>
+                            </tr>
+                            <tr>
+                                <td> </td>
+                                <td><input type="checkbox" name="checkAndroidA" value="Android"> Android App</td>
+                            </tr>
+                            <tr>
+                                <td><b>Type Alert: </b> </td>
+                                <td><input type="radio" name="type" value="stijgdaling"> Stijging/Daling (Selected)<br></td>
+                            </tr>
+                            <tr>
+                                <td> </td>
+                                <td><input type="radio" name="type" value="vergelijking"> Vergelijking tussen Onderwerpen<br></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input type="radio" name="type" value="verhouding"> Verhouding positief/negatief<br></td>
+                            </tr>
+                            <tr>
+                                <td><b>Onderwerptype: </b></td>
+                                <td>
+                                    <select>
+                                        <option value="personen">Personen</option>
+                                        <option value="organisaties">Organisaties</option>
+                                        <option value="themas">Themas</option>
 
             </div>
             <div class="col-lg-4">

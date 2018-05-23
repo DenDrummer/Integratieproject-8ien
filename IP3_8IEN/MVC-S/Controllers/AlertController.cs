@@ -1,5 +1,6 @@
 ﻿using IP_8IEN.BL;
 using IP_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
@@ -18,7 +19,10 @@ namespace MVC_S.Controllers
         }
         
         // GET: Alert/Details/5
-        public ActionResult Details(int id) => View();
+        public ActionResult Details()
+        {
+            return View();
+        }
 
         // GET: Alert/Create
         public ActionResult Create() => View();
@@ -75,6 +79,27 @@ namespace MVC_S.Controllers
             {
                 return View();
             }
+        }
+
+        //Lijst met PositiefNegatiefs alertinstellingen
+        public ActionResult ListPositiefNegatief()
+        {
+            List<PositiefNegatief> pns = mgr.GetPositiefNegatiefsByUser();
+            return View(pns);
+        }
+
+        //Lijst met HogerLagers alertinstellingen
+        public ActionResult ListHogerLager()
+        {
+            List<HogerLager> hls = mgr.GetHogerLagersByUser();
+            return View(hls);
+        }
+
+        //Lijst met PositiefNegatiefs alertinstellingen
+        public ActionResult ListValueFluctuations()
+        {
+            List<ValueFluctuation> vfs = mgr.GetValueFluctuationsByUser();
+            return View(vfs);
         }
     }
 }
