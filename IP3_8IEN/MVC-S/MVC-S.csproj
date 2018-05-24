@@ -534,6 +534,7 @@
     <Content Include="Views\Home\LijstPersonen.cshtml" />
     <Content Include="Views\Home\Faq.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
+    <Content Include="Views\Home\DashItem.cshtml" />
     <Content Include="Views\Superadmin\Inloggen.cshtml" />
     <Content Include="Views\Superadmin\Adminlijst.cshtml" />
     <Content Include="Views\Superadmin\SMBeheren.cshtml" />
