@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Resources;
 
-namespace IP_8IEN.UI.MVC_S.App_Code
+namespace IP_8IEN.UI.ConsoleTesting
 {
     public sealed class ResourceHandler //: ResourceManager
     {
@@ -23,11 +23,11 @@ namespace IP_8IEN.UI.MVC_S.App_Code
         private ResourceHandler()
         {
             string defaultResourceString = "Resources";
-            resourceFolder = "~\\App_GlobalResources\\";
+            resourceFolder = "";
 
             #region load existing resource files
             string currentDir = Directory.GetCurrentDirectory();
-            DirectoryInfo d = new DirectoryInfo($@"{currentDir.Replace("~","")}{resourceFolder}");
+            DirectoryInfo d = new DirectoryInfo($@"{currentDir}{resourceFolder}");
             FileInfo[] files = d.GetFiles("*.resx");
             resourceSets = new List<string>();
             foreach (FileInfo f in files)
@@ -86,6 +86,10 @@ namespace IP_8IEN.UI.MVC_S.App_Code
             currentResource = resourceSets.FindIndex(r => r.Equals(resource));
         }
 
-        private string ConvertToPath(string resource) => $"{resourceFolder}{resource}.resx";
+        private string ConvertToPath(string resource)
+        {
+            string path = $"{resourceFolder}{resource}.resx";
+            return path;
+        }
     }
 }
