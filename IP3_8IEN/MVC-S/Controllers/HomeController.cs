@@ -111,7 +111,7 @@ namespace MVC_S.Controllers
 
             return View(persoon);
         }
-        public ActionResult Personen(int onderwerpId = 1)
+        public ActionResult Personen(int onderwerpId = 231)
         {
             Persoon persoon = dMgr.GetPersoon(onderwerpId);
             string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
@@ -345,10 +345,13 @@ namespace MVC_S.Controllers
             return null;
         }
 
-        public ActionResult GetTweets(Persoon persoon )
+        public ActionResult GetTweets(int persoonId,int aantaldagen )
         {
-
-            return Json(dMgr.GetTweetsPerDag(persoon, 20), JsonRequestBehavior.AllowGet);
+            Persoon persoon = dMgr.GetPersoon(persoonId);
+            //test debug//
+            List<GraphData> lijst = dMgr.GetTweetsPerDag(persoon, aantaldagen);
+            //////////////
+            return Json(dMgr.GetTweetsPerDag(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -99,16 +99,22 @@
                 <div class="row">
                     <div class="col-lg-6" style="height: 200px" id="persoon-chart1">
                     </div>
-                    <div class="col-lg-6" style="height: 200px" id="persoon-chart1">
+                    <div class="col-lg-6" style="height: 200px" id="persoon-chart2">
                     </div>
                 </div>
                 <div class="row">
-                    <select id="morrisType" name="morrisType">
-                        <option value="Area">Area</option>
-                        <option value="Line">Line</option>
-                        <option value="Bar">Bar</option>
-                        <option value="Donut">Donut</option>
+                    <select id="morrisType" name="morrisType" onclick="">
+                        <option value="1">Area</option>
+                        <option value="2">Line</option>
+                        <option value="3">Bar</option>
+                        <option value="4">Donut</option>
                     </select>
+                    <label for="aantaldagen">Hoeveel dagen terug: </label>
+                    <input type="text" id="aantaldagen" name="aantaldagen" />
+                    <label for="message">label voor de chart: </label>
+                    <input type="text" id="message" name="message" />
+                    <button id="buttonReload">Reload</button>
+                    <button id="buttonSave">Save</button>
                 </div>
             </div>
         </div>
@@ -116,7 +122,11 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function() {
+    setAantalDagen(5);
+    setOnderwerpId(@Model.OnderwerpId);
+    makeChart();
+    @*mChart(@Model.OnderwerpId, 20, "persoon-chart1", "@Model.Naam");*@
+    @*$(document).ready(function() {
         $.get('@Url.Action("GetData","Home",new {id = (Model.OnderwerpId)})', function (result) {
             Morris.Area({
                 // ID of the element in which to draw the chart.
@@ -133,5 +143,5 @@
                 resize: true
             });
         });
-    });
+    });*@
 </script>
