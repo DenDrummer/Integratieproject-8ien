@@ -200,6 +200,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\GraphDataViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -429,6 +430,8 @@
     <Content Include="Scripts\kendo_ui.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\morris-onderwerpPagina.js" />
+    <Content Include="Scripts\morris-scripts.js" />
     <Content Include="Scripts\morris\morris-chart-settings.min.js" />
     <Content Include="Scripts\morris\morris.min.js" />
     <Content Include="Scripts\morris\raphael.min.js" />
@@ -541,6 +544,7 @@
     <Content Include="Views\Alert\ListPositiefNegatief.cshtml" />
     <Content Include="Views\Alert\ListHogerLager.cshtml" />
     <Content Include="Views\Alert\ListValueFluctuations.cshtml" />
+    <Content Include="Views\Home\grafiektest3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

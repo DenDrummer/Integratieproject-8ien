@@ -77,7 +77,11 @@ namespace IP_8IEN.DAL
             DashItem dashItem = ctx.DashItems.Find(dashId);
             return dashItem;
         }
-
+        public DashItem ReadDashItemWithGraph(int dashId)
+        {
+            DashItem dashItem = ctx.DashItems.Include("Graphdata").FirstOrDefault(d=>d.DashItemId == dashId);
+            return dashItem;
+        }
         public void UpdateFollow(Follow follow)
         {
             ctx.Entry(follow).State = System.Data.Entity.EntityState.Modified;

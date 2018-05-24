@@ -39,5 +39,7 @@ namespace IP_8IEN.DAL
         //22 mei 2018 : Stephane
         Dashbord ReadDashbordWithFollows(Gebruiker user);
         void UpdateTileZone(TileZone tileZone);
+        //Sam
+        DashItem ReadDashItemWithGraph(int dashId);
     }
 }

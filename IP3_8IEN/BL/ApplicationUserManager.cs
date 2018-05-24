@@ -43,61 +43,61 @@ namespace IP_8IEN.BL
             MaxFailedAccessAttemptsBeforeLockout = 5;
 
             // Role bij een gebruiker toevoegen
-            CreateRolesandUsers(); // CreateRolesandUsers();
+            //CreateRolesandUsers(); // CreateRolesandUsers();
         }
 
-        // Roles in ASP.Identity
-        private void CreateRolesandUsers()
-        {
-            // Context moet opgehaald worden uit de repository!
-            // ApplicationDbContext repo = (ApplicationDbContext)(((IdentityRepository)Store).Context);
-            IdentityRepository repo = new IdentityRepository();
+        //// Roles in ASP.Identity
+        //private void CreateRolesandUsers()
+        //{
+        //    // Context moet opgehaald worden uit de repository!
+        //    // ApplicationDbContext repo = (ApplicationDbContext)(((IdentityRepository)Store).Context);
+        //    IdentityRepository repo = new IdentityRepository();
 
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(repo.GetContext()));
+        //    var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(repo.GetContext()));
 
-            // Bij initialisatie van het systeem wordt Admin aangemaakt
-            if (!roleManager.RoleExists("Admin"))
-            {
+        //    // Bij initialisatie van het systeem wordt Admin aangemaakt
+        //    if (!roleManager.RoleExists("Admin"))
+        //    {
 
-                // Aanmaken van de Admin role
-                var role = new IdentityRole();
-                role.Name = "Admin";
-                roleManager.Create(role);
+        //        // Aanmaken van de Admin role
+        //        var role = new IdentityRole();
+        //        role.Name = "Admin";
+        //        roleManager.Create(role);
 
-                // Administrator aanmaken
+        //        // Administrator aanmaken
 
-                var user = new ApplicationUser();
-                user.UserName = "AdminQwerty@mail.com";
-                user.Email = "AdminQwerty@mail.com";
+        //        var user = new ApplicationUser();
+        //        user.UserName = "AdminQwerty@mail.com";
+        //        user.Email = "AdminQwerty@mail.com";
 
-                string userPWD = "Azerty123!";
+        //        string userPWD = "Azerty123!";
 
-                var chkUser = this.Create(user, userPWD);
+        //        var chkUser = this.Create(user, userPWD);
 
-                // Administrator de rol van Admin toewijzen
-                if (chkUser.Succeeded)
-                {
-                    var result1 = this.AddToRole(user.Id, "Admin");
-                }
-            }
+        //        // Administrator de rol van Admin toewijzen
+        //        if (chkUser.Succeeded)
+        //        {
+        //            var result1 = this.AddToRole(user.Id, "Admin");
+        //        }
+        //    }
 
-            // Manager role aanmaken    
-            if (!roleManager.RoleExists("Manager"))
-            {
-                var role = new IdentityRole();
-                role.Name = "Manager";
-                roleManager.Create(role);
-            }
+        //    // Manager role aanmaken    
+        //    if (!roleManager.RoleExists("Manager"))
+        //    {
+        //        var role = new IdentityRole();
+        //        role.Name = "Manager";
+        //        roleManager.Create(role);
+        //    }
 
-            // Emloyee role aanmaken    
-            if (!roleManager.RoleExists("Employee"))
-            {
-                var role = new IdentityRole();
-                role.Name = "Employee";
-                roleManager.Create(role);
+        //    // Emloyee role aanmaken    
+        //    if (!roleManager.RoleExists("Employee"))
+        //    {
+        //        var role = new IdentityRole();
+        //        role.Name = "Employee";
+        //        roleManager.Create(role);
 
-            }
-        }
+        //    }
+        //}
 
         // Een lijst van beschikbare roles ophalen
         public IList<IdentityRole> GetRoles() => ((IdentityRepository)Store).ReadRoles();

@@ -1485,7 +1485,7 @@ namespace IP_8IEN.BL
 
                 //======= Edit : 10 mei 2018 : Stephane ======//
 
-                GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon)).Count());
+                GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date ).Count());
                 dashMgr.AddGraph(graph);
                 //dashItem.Graphdata.Add(graph);
                 //dashMgr.UpdateDashItem(dashItem);
