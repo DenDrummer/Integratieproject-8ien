@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Web.Helpers;
 using Microsoft.Ajax.Utilities;
+using MVC_S.Models;
 
 namespace MVC_S.Controllers
 {
@@ -250,7 +251,7 @@ namespace MVC_S.Controllers
             // >>>>>>>>> InitializeAdmins() hierboven eerst uitvoeren <<<<<<<<< //
 
             #region initialisatie blok databank
-            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             dMgr.ApiRequestToJson();
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
@@ -275,16 +276,22 @@ namespace MVC_S.Controllers
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
             string init = "[0,1,2,3,4,5,6,7,8,9]";
             //ViewData["init"] = init;
-            ViewBag.INIT = init;
+
+            List<GraphData> data = dMgr.GetTweetsPerDag(persoon, 20);
+            ViewBag.DATA = data;
+
 
             ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             string userName = currUser.UserName;
             Gebruiker user = gMgr.FindUser(userName);
 
-            //dashMgr.AddDashBord(user);
-            //Dashbord dash = dashMgr.GetDashboard(user);
 
-            return View();
+            Dashbord dash = dashMgr.GetDashboardWithFollows(user);
+            ViewBag.INIT = dash.ZonesOrder;
+
+            //GraphDataViewModel model = new GraphDataViewModel { dash = dash,
+            //};
+            return View(dash);
         }
 
         public ActionResult GetData(int id)
@@ -304,13 +311,44 @@ namespace MVC_S.Controllers
             return Json(dMgr.GetComparisonPersonNumberOfTweetsOverTime(persoon1,persoon2,persoon3,persoon4,persoon5), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult DashItem()
+        public ActionResult DashItem(int id)
         {
             Persoon persoon = dMgr.GetPersoon(170);
             List<GraphData> data = dMgr.GetTweetsPerDag(persoon, 20);
             ViewBag.DATA = data;
             //IEnumerable<DashItem> dashItem = dashMgr.GetDashItems();
             return View();
+        }
+
+        public ActionResult GetJson(List<GraphData> data)
+        {
+            string bla = null;
+            JsonResult d = Json(data, JsonRequestBehavior.AllowGet);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Grafiektest3()
+        {
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = gMgr.FindUser(userName);
+            Dashbord dash = dashMgr.GetDashboardWithFollows(user);
+            return View(dash);
+        }
+
+        public ActionResult GetJsonFromGraphData(int id)
+        {
+            //IEnumerable<GraphData> list2 = dashMgr.GetDashItemWithGraph(id).Graphdata;
+            List<GraphData> list = dashMgr.ExtractGraphList(id);
+            var json = Json(list, JsonRequestBehavior.AllowGet);
+            return json;
+            return null;
+        }
+
+        public ActionResult GetTweets(Persoon persoon )
+        {
+
+            return Json(dMgr.GetTweetsPerDag(persoon, 20), JsonRequestBehavior.AllowGet);
         }
     }
 }

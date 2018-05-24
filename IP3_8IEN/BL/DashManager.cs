@@ -350,6 +350,33 @@ namespace IP_8IEN.BL
             DashbordInitGraphs(dashbord.DashbordId);
         }
 
+        public DashItem GetDashItemWithGraph(int id)
+        {
+            initNonExistingRepo();
+
+            DashItem dashItem = repo.ReadDashItemWithGraph(id);
+            return dashItem;
+        }
+
+        public List<GraphData> ExtractGraphList(int id)
+        {
+            initNonExistingRepo();
+
+            DashItem dashItem = repo.ReadDashItemWithGraph(id);
+            List<GraphData> listData = new List<GraphData>();
+
+            foreach(GraphData graph in dashItem.Graphdata)
+            {
+                listData.Add(new GraphData
+                {
+                    //controleren duplicaten DB
+                    label = graph.label,
+                    value = graph.value
+                });
+            }
+
+            return listData;
+        }
 
         //Unit of Work related
         public void initNonExistingRepo(bool withUnitOfWork = false)

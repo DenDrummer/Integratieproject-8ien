@@ -57,7 +57,7 @@ namespace IP_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "29 Apr 2018 23:31",
+                        since = "1 Apr 2018 00:01",
                         //until weglaten --> last scraping
                         until = "30 Apr 2018 00:01",
                     });
@@ -1487,7 +1487,7 @@ namespace IP_8IEN.BL
 
                 //======= Edit : 10 mei 2018 : Stephane ======//
 
-                GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon)).Count());
+                GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date ).Count());
                 dashMgr.AddGraph(graph);
                 //dashItem.Graphdata.Add(graph);
                 //dashMgr.UpdateDashItem(dashItem);

@@ -1,5 +1,5 @@
 ﻿@model IP_8IEN.BL.Domain.Data.Persoon
-
+<script src="~/Scripts/morris-onderwerpPagina.js"></script>
 @{
     ViewBag.Title = "Personen";
 }
@@ -96,7 +96,19 @@
                 Chart
             </div>
             <div class="panel-body">
-                <div class="col-lg-6" style="height: 200px" id="persoon-chart1">
+                <div class="row">
+                    <div class="col-lg-6" style="height: 200px" id="persoon-chart1">
+                    </div>
+                    <div class="col-lg-6" style="height: 200px" id="persoon-chart1">
+                    </div>
+                </div>
+                <div class="row">
+                    <select id="morrisType" name="morrisType">
+                        <option value="Area">Area</option>
+                        <option value="Line">Line</option>
+                        <option value="Bar">Bar</option>
+                        <option value="Donut">Donut</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -105,8 +117,8 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        $.get('@Url.Action("GetData","Home",new {id = 170})', function (result) {
-            Morris.Line({
+        $.get('@Url.Action("GetData","Home",new {id = (Model.OnderwerpId)})', function (result) {
+            Morris.Area({
                 // ID of the element in which to draw the chart.
                 element: 'persoon-chart1',
                 // Chart data records -- each entry in this array corresponds to a point on
@@ -122,6 +134,4 @@
             });
         });
     });
-    var per = @Html.Raw(Json.Encode(ViewBag.PER));
-    console.log(per);
 </script>

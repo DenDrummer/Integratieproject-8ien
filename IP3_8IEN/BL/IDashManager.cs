@@ -39,5 +39,9 @@ namespace IP_8IEN.BL
         //22 mei 2018 : Stephane
         Dashbord GetDashboardWithFollows(Gebruiker user);
         Dashbord UpdateDashboard(Dashbord dashbord);
+
+        //Sam 
+        DashItem GetDashItemWithGraph(int id);
+        List<GraphData> ExtractGraphList(int id);
     }
 }
