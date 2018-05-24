@@ -12,8 +12,7 @@ namespace IP3_8IEN.BL
         //void AddMessages(string sourceUrl);
 
         //25 mrt 2018 : Stephane
-        //Persoon AddPersoon(string voornaam, string achternaam);
-        SubjectMessage AddSubjectMessage(Message msg, Persoon persoon);  //20 apr 2018 Victor (update: subjmes toevoegen aan tweet)
+        SubjectMessage AddSubjectMessage(Message msg, Persoon persoon);
 
         //28 mrt 2018 : Stephane
         Hashtag AddHashtag(string hashtag);
@@ -45,7 +44,6 @@ namespace IP3_8IEN.BL
 
 
         //23 apr 2018 : Stephane
-        //IEnumerable<Onderwerp> ReadOnderwerpenWithSubjMsgs(); [verwijderd] 4 mei 2018 : Stephane
         IEnumerable<Message> ReadMessagesWithSubjMsgs();
 
         //24 apr 2018 : Victor
@@ -54,11 +52,9 @@ namespace IP3_8IEN.BL
         //27 apr 2018 : Victor
         void SendMail();
         //Sam
-        List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
-        //Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
+        List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = true); //Edit 24 mei 2018 : Stephane
         int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
         //Sam
-        //Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
         List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0); //Edit 18 mei 2018 : Stephane
  
         List<GraphData2> GetTweetsPerDag2(Persoon persoon1, Persoon persoon2, Persoon persoon3, Persoon persoon4,

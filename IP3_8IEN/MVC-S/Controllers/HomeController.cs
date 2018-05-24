@@ -10,9 +10,6 @@ using System.Web;
 using IP3_8IEN.BL.Domain.Dashboard;
 using Microsoft.AspNet.Identity;
 using System.Linq;
-using System.Web.Helpers;
-using IP3_8IEN.BL.Domain.Dashboard;
-using Microsoft.Ajax.Utilities;
 
 namespace MVC_S.Controllers
 {
@@ -27,9 +24,6 @@ namespace MVC_S.Controllers
         {
             // initialisatie Admins zitten in InitializeAdmins()
             // initialisatie methodes zitten in Initialize()
-
-            //string id = System.DateTime.Now.ToString();
-            //gMgr.AddGebruiker("testuser", id, "dummy", "plug");
 
             //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
             //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
@@ -60,22 +54,6 @@ namespace MVC_S.Controllers
         }
 
         public ActionResult Index() => View();
-
-        //Searchbar testing
-        //--> Deze werkt ook (direct in de db zoeken) : er gaat enkel nog iets mis in het weergeven
-        //      misschien een verkeerd gebruik van attributen
-        //[HttpPost]
-        //public JsonResult Index(string Prefix)
-        //{
-        //    //Note : you can bind same list from database  
-        //    IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
-
-        //    //Searching records from list using LINQ query  
-        //    var Names = (from N in ObjList
-        //                 where N.Naam.StartsWith(Prefix)
-        //                 select new { N.Naam });
-        //    return Json(Names, JsonRequestBehavior.AllowGet);
-        //}
 
 
         public ActionResult About()

@@ -245,8 +245,6 @@ namespace MVC_S.Controllers
             int aantal = rankModel.Aantal;
             int interval = rankModel.interval;
 
-            //ViewBag.naam = automplete;
-
             //Zie dat je bent ingelogd
             //TODO: redirect naar inlog pagina <--
             ApplicationUser currUser = _userManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());

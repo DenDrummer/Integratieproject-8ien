@@ -14,7 +14,7 @@ namespace IP3_8IEN.BL
         private DataManager dataMgr;
         private GebruikerManager gebruikerMgr;
         private UnitOfWorkManager uowManager;
-        private DashRepository repo;//= new MessageRepository();
+        private DashRepository repo;
 
         // Deze constructor gebruiken we voor operaties binnen de package
         public DashManager()
@@ -112,7 +112,7 @@ namespace IP3_8IEN.BL
             repo.setUnitofWork(UoW);
 
             IEnumerable<Persoon> personen = dataMgr.GetPersonen();
-            List<Persoon> listPersonen = new List<Persoon>(); //dataMgr.GetPersoon(id);
+            List<Persoon> listPersonen = new List<Persoon>();
 
             foreach(int persoonId in listPersoonId)
             {
@@ -194,7 +194,7 @@ namespace IP3_8IEN.BL
             return follows[0].DashItem;
         }
 
-        public void LinkGraphsToUser(List<GraphData> graphDataList, int dashId /*DashItem dashItem*/)
+        public void LinkGraphsToUser(List<GraphData> graphDataList, int dashId)
         {
             initNonExistingRepo();
 
