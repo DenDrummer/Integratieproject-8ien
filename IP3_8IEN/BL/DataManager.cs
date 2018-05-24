@@ -1953,5 +1953,74 @@ namespace IP3_8IEN.BL
             data = data.OrderByDescending(d => d.value).ToList();
             return data.GetRange(0, aantal);
         }
+
+        public IEnumerable<Thema> GetThemas()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddThema(Thema thema)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> FrequenteWoorden(ICollection<SubjectMessage> subjMsgs, int ammount)
+        {
+            Dictionary<string, int> woorden = new Dictionary<string, int>();
+            List<string> woordStrings = new List<string>();
+            foreach (SubjectMessage subjMsg in subjMsgs)
+            {
+                #region add all words to temporary list
+                string woord = subjMsg.Msg.Word1;
+                if (woord != null && !woord.Equals(""))
+                {
+                    woordStrings.Add(woord);
+                }
+
+                woord = subjMsg.Msg.Word2;
+                if (woord != null && !woord.Equals(""))
+                {
+                    woordStrings.Add(woord);
+                }
+
+                woord = subjMsg.Msg.Word3;
+                if (woord != null && !woord.Equals(""))
+                {
+                    woordStrings.Add(woord);
+                }
+
+                woord = subjMsg.Msg.Word4;
+                if (woord != null && !woord.Equals(""))
+                {
+                    woordStrings.Add(woord);
+                }
+
+                woord = subjMsg.Msg.Word5;
+                if (woord != null && !woord.Equals(""))
+                {
+                    woordStrings.Add(woord);
+                }
+                #endregion
+            }
+            foreach (string woord in woordStrings)
+            {
+                if (woorden.ContainsKey(woord))
+                {
+                    woorden.Add(woord, 1);
+                }
+                else
+                {
+                    int value;
+                    woorden.TryGetValue(woord, out value);
+                    woorden.Remove(woord);
+                    woorden.Add(woord, value++);
+                }
+            }
+            woorden.ToList().Sort(delegate (KeyValuePair<string, int> kvp1, KeyValuePair<string, int> kvp2)
+            {
+                return kvp1.Value.CompareTo(kvp2.Value);
+            });
+            return woorden.Keys.ToList().Take(ammount);
+        }
     }
 }
