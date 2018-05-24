@@ -1,17 +1,18 @@
-﻿using IP_8IEN.BL.Domain.Data;
-using IP_8IEN.BL.Domain.Gebruikers;
+﻿using IP3_8IEN.BL.Domain.Data;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using Newtonsoft.Json;
 using System.IO;
 
-using IP_8IEN.DAL;
+using IP3_8IEN.DAL;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System;
 using System.Net.Mail;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace IP_8IEN.BL
+namespace IP3_8IEN.BL
 {
     public class GebruikerManager : IGebruikerManager
     {
@@ -795,5 +796,32 @@ namespace IP_8IEN.BL
             }
         }
 
+        //SendMail(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+        public void SendMail(string userId, string subject, string body)
+        {
+            try
+            {
+                string userEmail = repo.ReadGebruiker(userId).Email;
+
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress("integratieproject.8ien@gmail.com");
+                mail.To.Add(userEmail);
+                mail.Subject = subject;
+                mail.Body = body;
+                mail.IsBodyHtml = true;
+
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("integratieproject.8ien@gmail.com", "integratieproject");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Mail says no");
+            }
+        }
     }
 }

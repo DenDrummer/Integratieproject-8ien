@@ -19,10 +19,11 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -203,6 +204,7 @@
     <Compile Include="Models\GraphDataViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\RankViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignIn\ApplicationSignInManager.cs" />
     <Compile Include="Startup.cs" />
@@ -544,7 +546,8 @@
     <Content Include="Views\Alert\ListPositiefNegatief.cshtml" />
     <Content Include="Views\Alert\ListHogerLager.cshtml" />
     <Content Include="Views\Alert\ListValueFluctuations.cshtml" />
-    <Content Include="Views\Home\grafiektest3.cshtml" />
+    <Content Include="Views\Admin\CreateRankingInput.cshtml" />
+    <Content Include="Views\Admin\CreateRanking.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -584,7 +587,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>61094</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
