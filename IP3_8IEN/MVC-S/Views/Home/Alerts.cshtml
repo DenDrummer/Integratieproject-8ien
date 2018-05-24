@@ -1,4 +1,4 @@
-﻿ @model IP_8IEN.BL.Domain.Gebruikers.Alert
+﻿ @model IP3_8IEN.BL.Domain.Gebruikers.Alert
 
 @{
     ViewBag.Title = "Alerts";
@@ -14,7 +14,7 @@
                         <form role="form">
                             <div class="form-group" style="border-right: 1px solid" ;>
                                 <h2>Bestaande Alerts!</h2>
-                                @RenderPage("~/Views/Alert/ListHogerLager.cshtml")
+                                @Html.Partial("~/Views/Alert/ListHogerLager.cshtml", new List<IP3_8IEN.BL.Domain.Gebruikers.HogerLager>())
                             </div>
                         </form>
                     </div>

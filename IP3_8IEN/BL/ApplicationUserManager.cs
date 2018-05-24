@@ -43,7 +43,7 @@ namespace IP3_8IEN.BL
             MaxFailedAccessAttemptsBeforeLockout = 5;
 
             // Role bij een gebruiker toevoegen
-            //CreateRolesandUsers(); // CreateRolesandUsers();
+           // CreateRolesandUsers(); // CreateRolesandUsers();
         }
 
         //// Roles in ASP.Identity

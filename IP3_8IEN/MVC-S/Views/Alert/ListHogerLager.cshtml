@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IP_8IEN.BL.Domain.Gebruikers.ValueFluctuation>
+﻿@model IEnumerable<IP3_8IEN.BL.Domain.Gebruikers.HogerLager>
 
 @{
     ViewBag.Title = "LijstHogerLager";
@@ -26,12 +26,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Type)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ThresholdValue)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CurrentValue)
-        </th>
         <th></th>
     </tr>
 
@@ -53,10 +47,7 @@
             @Html.DisplayFor(modelItem => item.Type)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ThresholdValue)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CurrentValue)
+            @Html.DisplayFor(modelItem => item.OneHigherThanTwo)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.AlertInstellingId }) |
