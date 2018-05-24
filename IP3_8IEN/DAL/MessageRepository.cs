@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-using IP_8IEN.BL.Domain.Data;
-using IP_8IEN.DAL.EF;
+using IP3_8IEN.BL.Domain.Data;
+using IP3_8IEN.DAL.EF;
 using System.Linq;
 using System.Data.Entity;
 
-namespace IP_8IEN.DAL
+namespace IP3_8IEN.DAL
 {
     public class MessageRepository : IMessageRepository
     {
@@ -105,5 +105,10 @@ namespace IP_8IEN.DAL
             ctx.SaveChanges();
         }
 
+        public Persoon ReadPersoon(string naam)
+        {
+            Persoon persoon = ctx.Personen.Include("SubjectMessages").Include("SubjectMessages.Msg").Where(p => p.Naam == naam).FirstOrDefault();
+            return persoon;
+        }
     }
 }

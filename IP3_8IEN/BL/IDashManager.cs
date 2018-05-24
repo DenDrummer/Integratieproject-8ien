@@ -1,8 +1,8 @@
-﻿using IP_8IEN.BL.Domain.Dashboard;
-using IP_8IEN.BL.Domain.Gebruikers;
+﻿using IP3_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
 
-namespace IP_8IEN.BL
+namespace IP3_8IEN.BL
 {
     public interface IDashManager
     {
@@ -39,5 +39,9 @@ namespace IP_8IEN.BL
         //22 mei 2018 : Stephane
         Dashbord GetDashboardWithFollows(Gebruiker user);
         Dashbord UpdateDashboard(Dashbord dashbord);
+
+        //23 mei 2018 : Stephane
+        List<Follow> CreateFollow(int dashId, List<int> listPersoonId);
+        DashItem SetupDashItem(Gebruiker user, List<Follow> follows);
     }
 }

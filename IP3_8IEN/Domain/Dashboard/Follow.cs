@@ -1,7 +1,7 @@
-﻿using IP_8IEN.BL.Domain.Data;
+﻿using IP3_8IEN.BL.Domain.Data;
 using System.ComponentModel.DataAnnotations;
 
-namespace IP_8IEN.BL.Domain.Dashboard
+namespace IP3_8IEN.BL.Domain.Dashboard
 {
     public class Follow
     {
