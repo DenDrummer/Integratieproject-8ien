@@ -27,7 +27,7 @@ namespace IP_8IEN.UI.MVC_S.App_Code
 
             #region load existing resource files
             string currentDir = Directory.GetCurrentDirectory();
-            DirectoryInfo d = new DirectoryInfo($@"{currentDir.Replace("~", "")}{resourceFolder}");
+            DirectoryInfo d = new DirectoryInfo($@"{/*currentDir*/""}{resourceFolder.Replace("~", "")}");
             FileInfo[] files = d.GetFiles("*.resx");
             resourceSets = new List<string>();
             foreach (FileInfo f in files)

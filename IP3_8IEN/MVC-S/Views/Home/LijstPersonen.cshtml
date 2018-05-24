@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<IP_8IEN.BL.Domain.Data.Persoon>
 @using IP_8IEN.UI.MVC_S.App_Code
 @{
-    ResourceHandler.Initialize();
     ViewBag.Title = ResourceHandler.ReadString("Personen");
 }
 
-<h2>LijstPersonen</h2>
+<h2>Lijst @ResourceHandler.ReadString("Personen")</h2>
 
 <div class="row">
     <div class="col-lg-12">
