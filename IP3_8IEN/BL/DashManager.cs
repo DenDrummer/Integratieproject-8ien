@@ -169,22 +169,19 @@ namespace IP3_8IEN.BL
             bool UoW = false;
             repo.setUnitofWork(UoW);
 
-            foreach(Follow follow in follows)
+            Dashbord dashbord = GetDashboard(user);
+
+            TileZone tile = new TileZone()
             {
-                //follow.DashItem.Follows = new Collection<Follow>();
-                //follow.DashItem.Follows.Add(follow);
+                Dashbord = dashbord,
+                DashItem = follows[0].DashItem
+            };
+            uowManager.Save();
 
-                Dashbord dashbord = GetDashboard(user);
-
-                TileZone tile = new TileZone()
-                {
-                    Dashbord = dashbord,
-                    DashItem = follow.DashItem
-                };
-
+            foreach (Follow follow in follows)
+            {
                 repo.AddTileZone(tile);
                 follow.DashItem.TileZones.Add(tile);
-                //repo.UpdateFollow(follow);
             }
 
             uowManager.Save();

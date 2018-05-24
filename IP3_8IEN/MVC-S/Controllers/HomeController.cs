@@ -10,9 +10,10 @@ using System.Web;
 using IP3_8IEN.BL.Domain.Dashboard;
 using Microsoft.AspNet.Identity;
 using System.Linq;
+using System.Text;
 
 namespace MVC_S.Controllers
-{   [RequireHttps]
+{   /*[RequireHttps]*/
     public class HomeController : Controller
     {
         private IDataManager dMgr = new DataManager();
