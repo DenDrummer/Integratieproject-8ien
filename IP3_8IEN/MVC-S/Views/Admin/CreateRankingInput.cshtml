@@ -1,0 +1,48 @@
+﻿@model IP_8IEN.UI.MVC_S.Models.RankViewModel
+
+@{
+    ViewBag.Title = "CreateRankingInput";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Ranking</h4>
+    <hr />
+
+    <input name="aantal" type="text" />
+    <input name="interval" type="text" />
+    @*<input name="submit1" type="submit" value="Count" />*@
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.Aantal, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Aantal, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Aantal, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.interval, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.interval, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.interval, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+</div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create Ranking" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Index", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

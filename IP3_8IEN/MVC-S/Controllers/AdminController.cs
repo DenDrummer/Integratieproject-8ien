@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using IP_8IEN.BL.Domain.Dashboard;
 using System.Linq;
+using IP_8IEN.UI.MVC_S.Models;
 
 namespace IP_8IEN.UI.MVC_S.Controllers
 {
@@ -204,19 +205,62 @@ namespace IP_8IEN.UI.MVC_S.Controllers
             string userName = currUser.UserName;
             Gebruiker user = _gebrManager.FindUser(userName);
 
-            // Als de zoekmthode klaar is wordt het onderwerp door de view meegegeven //
-            //int id = 231; // <-- Verhofstadt
-            //Persoon p = _dataManager.GetPersoon(id);
             int nDagen = 10; // <-- voorlopig default
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-            List<IP_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, user, nDagen);
-            IP_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true);
-            IP_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
-            IP_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+            List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true);
+            IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
             _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
             // ================================================================================ //
 
+            Dashbord dash = _dashManager.GetDashboardWithFollows(user);
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult CreateRankingInput()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateRankingInput(int aantal, int interval/*, RankViewModel rankModel*/)
+        {
+            RankViewModel rankModel = new RankViewModel();
+            rankModel.Aantal = aantal;
+            rankModel.interval = interval;
+
+            TempData["rankModel"] = rankModel;
+
+            return RedirectToAction("CreateRanking"/*, rankModel*/);
+        }
+
+        [HttpGet]
+        public ActionResult CreateRanking(/*RankViewModel rankModel*/)
+        {
+            RankViewModel rankModel = TempData["rankModel"] as RankViewModel;
+
+            int aantal = rankModel.Aantal;
+            int interval = rankModel.interval;
+
+            //Zie dat je bent ingelogd
+            //TODO: redirect naar inlog pagina <--
+            ApplicationUser currUser = _userManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = _gebrManager.FindUser(userName);
+
+            // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+            List<GraphData> graphDataList = _dataManager.GetRanking(aantal,interval,true);
+            DashItem newDashItem = _dashManager.CreateDashitem(true);
+            List<int> arrayPersoonId = _dataManager.ExtractListPersoonId(graphDataList);
+            List<Follow> follows = _dashManager.CreateFollow(newDashItem.DashItemId, arrayPersoonId);
+            DashItem dashItem = _dashManager.SetupDashItem(user, follows);
+            _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+            // ================================================================================ //
+
+            Dashbord dash = _dashManager.GetDashboardWithFollows(user);
             return View();
         }
 

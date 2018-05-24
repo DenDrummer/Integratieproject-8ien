@@ -1,7 +1,7 @@
 ﻿using IP_8IEN.BL.Domain.Data;
-using IP_8IEN.BL.Domain.Dashboard;
 using System;
 using System.Collections.Generic;
+using IP_8IEN.BL.Domain.Dashboard;
 using IP_8IEN.BL.Domain.Gebruikers;
 
 namespace IP_8IEN.BL
@@ -12,8 +12,7 @@ namespace IP_8IEN.BL
         //void AddMessages(string sourceUrl);
 
         //25 mrt 2018 : Stephane
-        //Persoon AddPersoon(string voornaam, string achternaam);
-        SubjectMessage AddSubjectMessage(Message msg, Persoon persoon);  //20 apr 2018 Victor (update: subjmes toevoegen aan tweet)
+        SubjectMessage AddSubjectMessage(Message msg, Persoon persoon);
 
         //28 mrt 2018 : Stephane
         Hashtag AddHashtag(string hashtag);
@@ -45,7 +44,6 @@ namespace IP_8IEN.BL
 
 
         //23 apr 2018 : Stephane
-        //IEnumerable<Onderwerp> ReadOnderwerpenWithSubjMsgs(); [verwijderd] 4 mei 2018 : Stephane
         IEnumerable<Message> ReadMessagesWithSubjMsgs();
 
         //24 apr 2018 : Victor
@@ -54,13 +52,11 @@ namespace IP_8IEN.BL
         //27 apr 2018 : Victor
         void SendMail();
         //Sam
-        List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
-        //Dictionary<Persoon, double> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
+        List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = true); //Edit 24 mei 2018 : Stephane
         int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
         //Sam
-        //Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
-        List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
-
+        List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0); //Edit 18 mei 2018 : Stephane
+ 
         List<GraphData2> GetTweetsPerDag2(Persoon persoon1, Persoon persoon2, Persoon persoon3, Persoon persoon4,
             Persoon persoon5, int aantalDagenTerug = 0);
 
@@ -79,13 +75,14 @@ namespace IP_8IEN.BL
         //18 mei 2018 : Stephane
         Persoon GetPersoon(string naam);
 
-        List<GraphData> GetTweetsPerDag(Persoon persoon, Gebruiker user, int aantalDagenTerug = 0);
-
         //Sam 15 mei
         string GetImageString(string screenname);
         string GetBannerString(string screenname);
 
-        //4 mei 2018 : Victor
+        //23 mei 2018 : Stephane
+        List<int> ExtractListPersoonId(IEnumerable<GraphData> graphDataList);
+
+        //VIC
         double GetPolarityByPerson(Persoon persoon);
         double GetPolarityByPerson(Persoon persoon, DateTime start);
         double GetPolarityByPerson(Persoon persoon, DateTime start, DateTime stop);

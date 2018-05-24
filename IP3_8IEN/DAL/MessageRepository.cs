@@ -102,5 +102,10 @@ namespace IP_8IEN.DAL
             ctx.SaveChanges();
         }
 
+        public Persoon ReadPersoon(string naam)
+        {
+            Persoon persoon = ctx.Personen.Include("SubjectMessages").Include("SubjectMessages.Msg").Where(p => p.Naam == naam).FirstOrDefault();
+            return persoon;
+        }
     }
 }

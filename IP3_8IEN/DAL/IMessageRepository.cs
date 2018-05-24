@@ -49,5 +49,7 @@ namespace IP_8IEN.DAL
         //10 mei 2018 : Stephane
         void EditOrganisation(Organisatie organisatie);
         void EditPersoon(Persoon persoon);
+
+        Persoon ReadPersoon(string naam);
     }
 }

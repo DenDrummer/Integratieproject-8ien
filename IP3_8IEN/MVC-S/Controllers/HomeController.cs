@@ -10,12 +10,11 @@ using System.Web;
 using IP_8IEN.BL.Domain.Dashboard;
 using Microsoft.AspNet.Identity;
 using System.Linq;
-using System.Web.Helpers;
-using Microsoft.Ajax.Utilities;
 using System.Text;
 
 namespace IP_8IEN.UI.MVC_S.Controllers
 {
+    /*[RequireHttps]*/
     public class HomeController : Controller
     {
         private IDataManager dMgr = new DataManager();
@@ -30,27 +29,8 @@ namespace IP_8IEN.UI.MVC_S.Controllers
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
 
-            #region initialisatie blok databank
-            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
-            dMgr.ApiRequestToJson();
-
-            //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
-            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
-            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
-            #endregion
-
-            //**** dit zijn test methodes ****//
-            //dMgr.CountSubjMsgsPersoon();
-            //dMgr.ReadOnderwerpenWithSubjMsgs();
-            //dMgr.GetAlerts();
-            //**** dit zijn test methodes ****//
-
             //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
             //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
-            //gMgr.GetAlertHogerLagers();
-            //gMgr.GetAlertPositiefNegatiefs();
-            //gMgr.GetAlertValueFluctuations();
-            
         }
 
         private async Task RetrieveAPIData(IDataManager dMgr)
@@ -78,22 +58,6 @@ namespace IP_8IEN.UI.MVC_S.Controllers
         }
 
         public ActionResult Index() => View();
-
-        //Searchbar testing
-        //--> Deze werkt ook (direct in de db zoeken) : er gaat enkel nog iets mis in het weergeven
-        //      misschien een verkeerd gebruik van attributen
-        //[HttpPost]
-        //public JsonResult Index(string Prefix)
-        //{
-        //    //Note : you can bind same list from database  
-        //    IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
-
-        //    //Searching records from list using LINQ query  
-        //    var Names = (from N in ObjList
-        //                 where N.Naam.StartsWith(Prefix)
-        //                 select new { N.Naam });
-        //    return Json(Names, JsonRequestBehavior.AllowGet);
-        //}
 
 
         public ActionResult About()
