@@ -10,10 +10,10 @@ namespace IP_8IEN.UI.MVC_S.App_Code
 
         public static ResourceHandler Instance { get; } = new ResourceHandler();
 
-        private int currentResource;
-        private int defaultResource;
-        private List<string> resourceSets;
-        private string resourceFolder;
+        private static int currentResource;
+        private static int defaultResource;
+        private static List<string> resourceSets;
+        private static string resourceFolder;
 
         #region constructors
         static ResourceHandler()
@@ -27,7 +27,7 @@ namespace IP_8IEN.UI.MVC_S.App_Code
 
             #region load existing resource files
             string currentDir = Directory.GetCurrentDirectory();
-            DirectoryInfo d = new DirectoryInfo($@"{currentDir.Replace("~","")}{resourceFolder}");
+            DirectoryInfo d = new DirectoryInfo($@"{currentDir.Replace("~", "")}{resourceFolder}");
             FileInfo[] files = d.GetFiles("*.resx");
             resourceSets = new List<string>();
             foreach (FileInfo f in files)
@@ -44,14 +44,14 @@ namespace IP_8IEN.UI.MVC_S.App_Code
         }
         #endregion
 
-        public void WriteString(string key, string stringValue)
+        public static void WriteString(string key, string stringValue)
         {
             ResourceWriter rw = new ResourceWriter(ConvertToPath(GetResource(currentResource)));
             rw.AddResource(key, stringValue);
             rw.Close();
         }
 
-        public string ReadString(string key)
+        public static string ReadString(string key)
         {
             try
             {
@@ -75,9 +75,9 @@ namespace IP_8IEN.UI.MVC_S.App_Code
             }
         }
 
-        private string GetResource(int index) => resourceSets.ElementAt(index);
+        private static string GetResource(int index) => resourceSets.ElementAt(index);
 
-        public void ChangeResource(string resource)
+        public static void ChangeResource(string resource)
         {
             if (!resourceSets.Exists(r => r.Equals(resource)))
             {
@@ -86,6 +86,34 @@ namespace IP_8IEN.UI.MVC_S.App_Code
             currentResource = resourceSets.FindIndex(r => r.Equals(resource));
         }
 
-        private string ConvertToPath(string resource) => $"{resourceFolder}{resource}.resx";
+        private static string ConvertToPath(string resource) => $"{resourceFolder}{resource}.resx";
+
+        public static void Initialize()
+        {
+            int current = currentResource;
+
+            #region default
+            ChangeResource(resourceSets.ElementAt(defaultResource));
+
+            WriteString("District", "District");
+            WriteString("Organisatie", "Organisatie");
+            WriteString("Organisaties", "Organisaties");
+            WriteString("Persoon", "Persoon");
+            WriteString("Personen", "Personen");
+            #endregion
+
+            #region Politieke Barometer
+            ChangeResource("PolitiekeBarometer");
+
+            WriteString("District", "Kieskring");
+            WriteString("Organisatie", "Partij");
+            WriteString("Organisaties", "Partijen");
+            WriteString("Persoon", "Politicus");
+            WriteString("Personen", "Politici");
+            #endregion
+
+            //change back to current resources
+            ChangeResource(resourceSets.ElementAt(current));
+        }
     }
 }
