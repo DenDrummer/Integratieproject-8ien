@@ -57,9 +57,9 @@ namespace IP3_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "27 Apr 2018 00:01",
+                        since = "28 Apr 2018 20:01",
                         //until weglaten --> last scraping
-                        until = "30 Apr 2018 00:01",
+                        until = "30 Apr 2018 10:01",
                     });
 
                     streamWriter.Write(json);
@@ -863,57 +863,6 @@ namespace IP3_8IEN.BL
 
             return aantal;
         }
-        //Sam
-        //public Dictionary<DateTime, int> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0)
-        //    public List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0)
-        //{
-        //    initNonExistingRepo();
-        //    List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
-        //    DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
-        //    DateTime stop = new DateTime();
-
-        //    if (aantalDagenTerug == 0)
-        //    {
-        //        stop = messages.OrderBy(m => m.Date).ToList().First().Date;
-        //    }
-        //    else
-        //    {
-        //        stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
-        //        stop.AddDays(aantalDagenTerug * -1);
-        //    }
-
-        //    Dictionary<DateTime, int> tweetsPerDag = new Dictionary<DateTime, int>();
-        //    //Sam
-        //    List<GraphData> GraphDataList = new List<GraphData>();
-        //    /*
-        //    do
-        //    {
-        //        //Sam
-        //        string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
-        //        //Sam
-        //        GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count()));
-
-        //        tweetsPerDag.Add(lastTweet.Date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFrom(persoon)).Count());
-        //        lastTweet = lastTweet.AddDays(-1);
-        //    } while (lastTweet >= stop);*/
-            
-        //    for (int i = 0; i < aantalDagenTerug+1; i++)
-        //    {
-        //        //Sam
-        //        string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
-        //        //Sam
-        //        GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon)).Count()));
-        //        lastTweet = lastTweet.AddDays(-1);
-        //    }
-            
-        //    foreach (var v in GraphDataList)
-        //    {
-        //        System.Diagnostics.Debug.WriteLine(v.label + " " + v.value);
-        //    }
-            
-
-        //    return GraphDataList;
-        //}
 
         public List<GraphData2> GetTweetsPerDag2(Persoon persoon1, Persoon persoon2, Persoon persoon3, Persoon persoon4, Persoon persoon5, int aantalDagenTerug = 0)
         {

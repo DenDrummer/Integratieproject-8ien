@@ -274,7 +274,7 @@ namespace IP3_8IEN.BL
             return alert;
         }
 
-        public void AddGebruiker(string userName, string userId, string naam, string voornaam)
+        public void AddGebruiker(string userName, string userId, string naam, string voornaam, string role = "User")
         {
             initNonExistingRepo();
 
@@ -283,7 +283,8 @@ namespace IP3_8IEN.BL
                 GebruikerId = userId,
                 Username = userName,
                 Voornaam = voornaam,
-                Naam = naam
+                Naam = naam,
+                Role = role
             };
             repo.AddingGebruiker(gebruiker);
 
@@ -314,6 +315,24 @@ namespace IP3_8IEN.BL
             user.Geboortedatum = DateTime.Now;
 
             UpdateGebruiker(user);
+        }
+
+        public IEnumerable<Gebruiker> GetUsers()
+        {
+            initNonExistingRepo();
+
+            return repo.ReadUsers();
+        }
+
+        public IEnumerable<ApplicationUser> GetUsersInRoles(IEnumerable<ApplicationUser> appUsers)
+        {
+            List<ApplicationUser> appUsersInRole = new List<ApplicationUser>();
+            IEnumerable<Gebruiker> users = repo.ReadGebruikers().Where(u => u.Role == "Admin");
+            foreach(Gebruiker user in users)
+            {
+                appUsersInRole.Add(appUsers.FirstOrDefault(u => u.Id == user.GebruikerId));
+            }
+            return appUsersInRole;
         }
 
         //Unit of Work related

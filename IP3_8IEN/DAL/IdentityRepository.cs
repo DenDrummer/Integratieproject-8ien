@@ -29,11 +29,11 @@ namespace IP3_8IEN.DAL
         // Alle gebruikers behalve de administrator ophalen
         public IEnumerable<ApplicationUser> ReadUsers()
         {
-            IdentityRole role = ctx.Roles.SingleOrDefault(u => u.Name.Contains("Admin"));
-            string adminId = role.Users.First().UserId;
+            //IdentityRole role = ctx.Roles.FirstOrDefault(u => u.Name.Contains("Admin"));
+            //string adminId = role.Users.First().UserId;
 
-            return ctx.Users.Where(u => !u.Id.Equals(adminId));
-            //return ctx.Users.AsEnumerable();
+            //return ctx.Users.Where(u => !u.Id.Equals(adminId));
+            return ctx.Users.ToList(); // AsEnumerable();
         }
 
         // Specifieke gebruiker ophalen obv. id
