@@ -13,6 +13,7 @@ using System.Linq;
 using System.Web.Helpers;
 using Microsoft.Ajax.Utilities;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace MVC_S.Controllers
 {
@@ -31,12 +32,13 @@ namespace MVC_S.Controllers
             gMgr = new GebruikerManager();
 
             #region initialisatie blok databank
-            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
-            dMgr.ApiRequestToJson();
+            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            //dMgr.ApiRequestToJson();
 
-            //gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
-            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
+            // gMgr.AddGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddGebruikersInit.Json"));
+            // gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            //InitializeAdmins();
             #endregion
 
             //**** dit zijn test methodes ****//
@@ -50,7 +52,7 @@ namespace MVC_S.Controllers
             //gMgr.GetAlertHogerLagers();
             //gMgr.GetAlertPositiefNegatiefs();
             //gMgr.GetAlertValueFluctuations();
-            
+
         }
 
         private async Task RetrieveAPIData(IDataManager dMgr)
@@ -286,7 +288,7 @@ namespace MVC_S.Controllers
         public ActionResult Zoeken(string search)
         {
             IEnumerable<Persoon> ObjList = dMgr.GetPersonen().Where(p => p.Naam.Contains(search));
-            
+
             return View(ObjList);
         }
 
@@ -353,6 +355,32 @@ namespace MVC_S.Controllers
             Persoon persoon4 = dMgr.GetPersoon(id4);
             Persoon persoon5 = dMgr.GetPersoon(id5);
             return Json(dMgr.GetComparisonPersonNumberOfTweetsOverTime(persoon1, persoon2, persoon3, persoon4, persoon5), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult UserDashBoardById(string name)
+        {
+            //Dashbord van ingelogde gebruiker ophalen
+            try
+            {
+                //ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
+                //string userName = appUser.UserName;
+                Gebruiker user = gMgr.FindUser(name);
+
+                Dashbord dashbord = dashMgr.GetDashboardWithFollows(user);
+                dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem minstens 3h up-to-date is
+
+                var list = JsonConvert.SerializeObject(dashbord,Formatting.None,new JsonSerializerSettings()
+                {
+                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+
+                return Content(list, "application/json");
+            }
+            catch
+            {
+                return Json("error", JsonRequestBehavior.AllowGet);
+
+            }
         }
     }
 }
