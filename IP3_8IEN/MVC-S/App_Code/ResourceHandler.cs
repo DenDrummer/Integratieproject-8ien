@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Resources;
+using System.Web.Hosting;
 
 namespace IP_8IEN.UI.MVC_S.App_Code
 {
@@ -23,11 +26,12 @@ namespace IP_8IEN.UI.MVC_S.App_Code
         private ResourceHandler()
         {
             string defaultResourceString = "Resources";
-            resourceFolder = "~\\App_GlobalResources\\";
 
             #region load existing resource files
-            string currentDir = Directory.GetCurrentDirectory();
-            DirectoryInfo d = new DirectoryInfo($@"{/*currentDir*/""}{resourceFolder.Replace("~", "")}");
+            string currentDir = HostingEnvironment.ApplicationPhysicalPath;
+            resourceFolder = $"{currentDir}App_GlobalResources\\";
+            DirectoryInfo d = new DirectoryInfo($@"{resourceFolder}");
+
             FileInfo[] files = d.GetFiles("*.resx");
             resourceSets = new List<string>();
             foreach (FileInfo f in files)
@@ -46,8 +50,24 @@ namespace IP_8IEN.UI.MVC_S.App_Code
 
         public static void WriteString(string key, string stringValue)
         {
+            Dictionary<string, string> d = new Dictionary<string, string>();
+            if (File.Exists(ConvertToPath(GetResource(currentResource))))
+            {
+                ResourceSet rs = new ResourceSet(ConvertToPath(GetResource(currentResource)));
+                foreach (DictionaryEntry de in rs)
+                {
+                    d.Add((string)de.Key, (string)de.Value);
+                }
+                rs.Close();
+            }
+            d.Add(key, stringValue);
+
             ResourceWriter rw = new ResourceWriter(ConvertToPath(GetResource(currentResource)));
-            rw.AddResource(key, stringValue);
+            foreach(KeyValuePair<string, string> kvp in d)
+            {
+                rw.AddResource(kvp.Key, kvp.Value);
+            }
+            rw.Generate();
             rw.Close();
         }
 
@@ -68,6 +88,10 @@ namespace IP_8IEN.UI.MVC_S.App_Code
             }
             catch (FileNotFoundException fnfe)
             {
+                if (!File.Exists(ConvertToPath(GetResource(defaultResource))))
+                {
+                    Initialize();
+                }
                 ResourceSet rs = new ResourceSet(ConvertToPath(GetResource(defaultResource)));
                 string value = rs.GetString(key);
                 rs.Close();
