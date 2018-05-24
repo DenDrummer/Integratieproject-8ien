@@ -59,7 +59,7 @@ namespace IP3_8IEN.BL
                         //name = "Annick De Ridder",
                         since = "19 Apr 2018 00:01",
                         //until weglaten --> last scraping
-                        until = "30 Apr 2018 00:01",
+                        //until = "30 Apr 2018 00:01",
                     });
 
                     streamWriter.Write(json);
@@ -665,8 +665,6 @@ namespace IP3_8IEN.BL
             public override string ToString() => $"Politieker {politician}\n \t score: {score}";
         }
 
-
-
         public void GetAlerts()
         {
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
@@ -789,7 +787,7 @@ namespace IP3_8IEN.BL
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Mail says no");
+                System.Diagnostics.Debug.WriteLine("Mail says no" + ex);
             }
         }
 

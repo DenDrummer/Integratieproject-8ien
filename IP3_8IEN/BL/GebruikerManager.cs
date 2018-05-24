@@ -146,8 +146,7 @@ namespace IP3_8IEN.BL
 
             foreach (var item in alertInstellingen.records)
             {
-                try
-                {
+                if (item.Threshold != null) {
                     ValueFluctuation vf = new ValueFluctuation()
                     {
                         Gebruiker = FindUser((String)item.Username),
@@ -160,15 +159,7 @@ namespace IP3_8IEN.BL
                     };
                     repo.AddingAlertInstelling(vf);
                     System.Diagnostics.Debug.WriteLine("jah");
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("nah" + ex);
-                }
-
-
-                try
-                {
+                }else if (item.OnderwerpId2 != null) {
                     HogerLager hl = new HogerLager()
                     {
                         Gebruiker = FindUser((String)item.Username),
@@ -177,18 +168,12 @@ namespace IP3_8IEN.BL
                         MobileNotification = (bool)item.MobileNotification,
                         AlertState = true,
                         Onderwerp = onderwerpen.FirstOrDefault(x => x.OnderwerpId == (int)item.OnderwerpId),
-                        Onderwerp2 = item.OnderwerpId2
+                        Onderwerp2 = onderwerpen.FirstOrDefault(x => x.OnderwerpId == (int)item.OnderwerpId2)
                     };
                     repo.AddingAlertInstelling(hl);
                     System.Diagnostics.Debug.WriteLine("jah");
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("nah" + ex);
-                }
-
-                try
-                {
+                }else
+                { 
                     PositiefNegatief pn = new PositiefNegatief()
                     {
                         Gebruiker = FindUser((String)item.Username),
@@ -202,12 +187,8 @@ namespace IP3_8IEN.BL
                     repo.AddingAlertInstelling(pn);
                     System.Diagnostics.Debug.WriteLine("jah");
                 }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("nah" + ex);
-                }
-
-
+                
+                
                 uowManager.Save();
             }
             //we zetten 'UoW' boolian terug op true
@@ -372,6 +353,335 @@ namespace IP3_8IEN.BL
             }
         }
 
+
+        public void GetAlertHogerLagers()
+        {
+            System.Diagnostics.Debug.WriteLine("HL started");
+            initNonExistingRepo();
+            dataMgr = new DataManager();
+
+            List<HogerLager> hogerLagers = repo.ReadHogerLagers().ToList();
+
+            foreach(HogerLager hl in hogerLagers)
+            {
+                //Check if onderwerp is een peroon
+                if (hl.Onderwerp is Persoon && hl.Onderwerp2 is Persoon)
+                {
+                    if (hl.OneHigherThanTwo)
+                    {
+                        if (CalculateZscore(hl.Onderwerp) < CalculateZscore(hl.Onderwerp2))
+                        {
+                            Persoon p1 = (Persoon)hl.Onderwerp;
+                            Persoon p2 = (Persoon)hl.Onderwerp2;
+                            repo.AddingAlert(new Alert()
+                            {
+                                AlertContent = p2.Naam + "is nu populairder dan " + p1.Naam,
+                                AlertInstelling = hl,
+                                CreatedOn = DateTime.Now
+                            });
+                            System.Diagnostics.Debug.WriteLine("One HL added");
+                        }
+                    }
+                    else
+                    {
+                        if (CalculateZscore(hl.Onderwerp) > CalculateZscore(hl.Onderwerp2))
+                        {
+                            Persoon p1 = (Persoon)hl.Onderwerp;
+                            Persoon p2 = (Persoon)hl.Onderwerp2;
+                            repo.AddingAlert(new Alert()
+                            {
+                                AlertContent = p1.Naam + "is nu populairder dan " + p2.Naam,
+                                AlertInstelling = hl,
+                                CreatedOn = DateTime.Now
+                            });
+                            System.Diagnostics.Debug.WriteLine("One HL added");
+                        }
+                    }
+                }
+                //als onderwerp een organistatie is
+                else
+                {
+                    if (hl.OneHigherThanTwo)
+                    {
+                        if (CalculateZscore(hl.Onderwerp) < CalculateZscore(hl.Onderwerp2))
+                        {
+                            Organisatie o1 = (Organisatie)hl.Onderwerp;
+                            Organisatie o2 = (Organisatie)hl.Onderwerp2;
+                            repo.AddingAlert(new Alert()
+                            {
+                                AlertContent = o2.Afkorting + "is nu populairder dan " + o1.Afkorting,
+                                AlertInstelling = hl,
+                                CreatedOn = DateTime.Now
+                            });
+                            System.Diagnostics.Debug.WriteLine("One HL added");
+                        }
+                    }
+                    else
+                    {
+                        if (CalculateZscore(hl.Onderwerp) > CalculateZscore(hl.Onderwerp2))
+                        {
+                            Organisatie o1 = (Organisatie)hl.Onderwerp;
+                            Organisatie o2 = (Organisatie)hl.Onderwerp2;
+                            repo.AddingAlert(new Alert()
+                            {
+                                AlertContent = o2.Afkorting + "is nu populairder dan " + o2.Afkorting,
+                                AlertInstelling = hl,
+                                CreatedOn = DateTime.Now
+                            });
+                            System.Diagnostics.Debug.WriteLine("One HL added");
+                        }
+                    }
+                }
+            }
+        }
+        
+        public void GetAlertValueFluctuations()
+        {
+            System.Diagnostics.Debug.WriteLine("VF Started");
+            initNonExistingRepo();
+            dataMgr = new DataManager();
+
+            List<ValueFluctuation> valueFluctuations = repo.ReadValueFluctuations().ToList();
+            List<Message> messages = dataMgr.ReadMessagesWithSubjMsgs().ToList();
+
+            foreach(ValueFluctuation vf in valueFluctuations)
+            {
+                if (vf.Onderwerp is Persoon)
+                {
+                    if (messages.Where(m => m.IsFromPersoon((Persoon)vf.Onderwerp) && m.Date.Date == DateTime.Now.Date).Count() > vf.CurrentValue + vf.ThresholdValue)
+                    {
+                        Persoon p = (Persoon)vf.Onderwerp;
+                        repo.AddingAlert(new Alert()
+                        {
+
+                            AlertContent = "Thresholdvalue voor " + p.Naam + " is overschreden",
+                            AlertInstelling = vf,
+                            CreatedOn = DateTime.Now
+                        });
+                        System.Diagnostics.Debug.WriteLine("One VF added");
+                    }
+                }
+                else
+                {
+                    if (messages.Where(m => m.IsFromOrganisatie((Organisatie)vf.Onderwerp) && m.Date.Date == DateTime.Now.Date).Count() > vf.CurrentValue + vf.ThresholdValue)
+                    {
+                        Organisatie o = (Organisatie)vf.Onderwerp;
+                        repo.AddingAlert(new Alert()
+                        {
+
+                            AlertContent = "Thresholdvalue voor " + o.Afkorting + " is overschreden",
+                            AlertInstelling = vf,
+                            CreatedOn = DateTime.Now
+                        });
+                        System.Diagnostics.Debug.WriteLine("One VF added");
+                    }
+                }
+            }
+        }
+
+        public void GetAlertPositiefNegatiefs()
+        {
+            System.Diagnostics.Debug.WriteLine("PN started");
+            initNonExistingRepo();
+            dataMgr = new DataManager();
+            double total = 1;
+
+            List<PositiefNegatief> positiefNegatiefs = repo.ReadPositiefNegatiefs().ToList();
+            List<Message> messages = dataMgr.ReadMessagesWithSubjMsgs().ToList();
+
+            foreach (PositiefNegatief pn in positiefNegatiefs)
+            {
+                if (pn.Onderwerp is Persoon)
+                {
+                    messages = messages.Where(m => m.IsFromPersoon((Persoon)pn.Onderwerp)).ToList();
+                    total = messages.Sum(m => m.Polarity);
+
+                    if (pn.negatief == true)
+                    {
+                        if (total / messages.Count() > 0)
+                        {
+                            Persoon p = (Persoon)pn.Onderwerp;
+                            repo.AddingAlert(new Alert()
+                            {
+                                AlertContent = p.Naam + " is nu positief",
+                                AlertInstelling = pn,
+                                CreatedOn = DateTime.Now
+                            });
+                            System.Diagnostics.Debug.WriteLine("One PN added");
+                        }
+                    }
+                    else
+                    {
+                        if (total / messages.Count() < 0)
+                        {
+                            Persoon p = (Persoon)pn.Onderwerp;
+                            repo.AddingAlert(new Alert()
+                            {
+                                AlertContent = p.Naam + " is nu negatief",
+                                AlertInstelling = pn,
+                                CreatedOn = DateTime.Now
+                            });
+                            System.Diagnostics.Debug.WriteLine("One PN added");
+                        }
+                    }
+                }
+                else
+                {
+                    messages = messages.Where(m => m.IsFromOrganisatie((Organisatie)pn.Onderwerp)).ToList();
+                    total = messages.Sum(m => m.Polarity);
+
+                    if (pn.negatief == true)
+                    {
+                        if (total / messages.Count() > 0)
+                        {
+                            Organisatie o = (Organisatie)pn.Onderwerp;
+                            repo.AddingAlert(new Alert()
+                            {
+                                AlertContent = o.Afkorting + " is nu positief",
+                                AlertInstelling = pn,
+                                CreatedOn = DateTime.Now
+                            });
+                            System.Diagnostics.Debug.WriteLine("One PN added");
+                        }
+                    }
+                    else
+                    {
+                        if (total / messages.Count() < 0)
+                        {
+                            Organisatie o = (Organisatie)pn.Onderwerp;
+                            repo.AddingAlert(new Alert()
+                            {
+                                AlertContent = o.Afkorting + " is nu negatief",
+                                AlertInstelling = pn,
+                                CreatedOn = DateTime.Now
+                            });
+                            System.Diagnostics.Debug.WriteLine("One PN added");
+                        }
+                    }
+                }
+            }
+
+        }
+
+        double CalculateZscore(Onderwerp onderwerp)
+        {
+            initNonExistingRepo();
+            int totaalTweets = 0;
+            //totaalTweets = messages.Where(Message => Message.Politician == s).Count();
+            bool test;
+            List<Message> messages = dataMgr.ReadMessagesWithSubjMsgs().ToList();
+            List<Message> ms = new List<Message>();
+            List<int> tweetsPerDag = new List<int>();
+            double gemiddelde;
+            DateTime laatsteTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+
+            if (onderwerp is Persoon)
+            {
+                Persoon p = (Persoon)onderwerp;
+                foreach (Message m in messages)
+                {
+                    test = false;
+                    foreach (SubjectMessage sm in m.SubjectMessages)
+                    {
+                        if (sm.Persoon != null && sm.Persoon.Naam == p.Naam)
+                        {
+                            test = true;
+                        }
+                    }
+                    if (test)
+                    {
+                        totaalTweets++;
+                        ms.Add(m);
+                    }
+                }
+
+                //Message mm = messages.Where(Message => Message.Politician == s).OrderBy(o=>o.Date).First();
+                DateTime start = messages.OrderBy(m => m.Date).ToList().First().Date;
+                tweetsPerDag.Clear();
+                do
+                {
+                    tweetsPerDag.Add(ms.Where(m => m.Date.Date == start.Date).Count());
+                    //tweetsPerDag.Add(messages.Where(Message => Message.Politician == s).Where(Message => Message.Date.Date == start).Count());
+                    start = start.AddDays(1);
+
+                } while (start <= laatsteTweet);
+                double totaal = 0;
+                foreach (int i in tweetsPerDag)
+                {
+                    totaal = totaal + i;
+                }
+
+                gemiddelde = totaal / tweetsPerDag.Count();
+
+
+
+                double average = tweetsPerDag.Average();
+                System.Diagnostics.Debug.WriteLine(average);
+                double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
+                double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
+
+                double test2 = ((tweetsPerDag.Last() - gemiddelde) / sd);
+                return test2;
+            }
+            else
+            {
+                Organisatie o = (Organisatie)onderwerp;
+                foreach (Message m in messages)
+                {
+                    test = false;
+                    foreach (SubjectMessage sm in m.SubjectMessages)
+                    {
+                        bool test3 = false;
+                        foreach (Tewerkstelling t in sm.Persoon.Tewerkstellingen)
+                        {
+                            if(t.Organisatie.Afkorting == o.Afkorting)
+                            {
+                                test3 = true;
+                            }
+                        }
+                        if (sm.Persoon != null && test3)
+                        {
+                            test = true;
+                        }
+                    }
+                    if (test)
+                    {
+                        totaalTweets++;
+                        ms.Add(m);
+                    }
+                }
+
+                //Message mm = messages.Where(Message => Message.Politician == s).OrderBy(o=>o.Date).First();
+                DateTime start = messages.OrderBy(m => m.Date).ToList().First().Date;
+                tweetsPerDag.Clear();
+                do
+                {
+                    tweetsPerDag.Add(ms.Where(m => m.Date.Date == start.Date).Count());
+                    //tweetsPerDag.Add(messages.Where(Message => Message.Politician == s).Where(Message => Message.Date.Date == start).Count());
+                    start = start.AddDays(1);
+
+                } while (start <= laatsteTweet);
+                double totaal = 0;
+                foreach (int i in tweetsPerDag)
+                {
+                    totaal = totaal + i;
+                }
+
+                gemiddelde = totaal / tweetsPerDag.Count();
+
+
+
+                double average = tweetsPerDag.Average();
+                System.Diagnostics.Debug.WriteLine(average);
+                double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
+                double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
+
+                double test2 = ((tweetsPerDag.Last() - gemiddelde) / sd);
+                return test2;
+            }
+            
+        }
+
         public void WeeklyReview()
         {
             initNonExistingRepo();
@@ -392,29 +702,68 @@ namespace IP3_8IEN.BL
                             <p>Via de Weekly Review wordt u op de hoogte gehouden van alle trending Onderwerpen die </br>
                             u volgt. Indien u op de hoogte gehouden wilt worden van nog meer onderwerpen, kan u 
                             </br> steeds extra onderwerpen volgen op <a href=""www.8ien.be""> Weekly Reviews </a>. </p>
-                            <h3>Personen</h3> <div style=""margin: 0px;""> <p>Naam : BARTJE </p> <ul>");
-                if (g.AlertInstellingen != null)
+                            <h3>Personen</h3> <div style=""margin: 0px;""> <p>Naam : Bart De Wever </p> <ul>");
+                if (g.AlertInstellingen != null) {
+                foreach (AlertInstelling al in g.AlertInstellingen)
                 {
-                    foreach (AlertInstelling al in g.AlertInstellingen)
+                    if (al.Alerts != null) {
+                    foreach (Alert a in al.Alerts)
                     {
-                        if (al.Alerts != null)
+                        if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
                         {
-                            foreach (Alert a in al.Alerts)
-                            {
-                                if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
-                                {
-                                    dezeWeek.Add(a);
-                                    sb.Append("<li>" + a.ToString() + "</li>");
-                                }
-                            }
+                            dezeWeek.Add(a);
+                                    sb.Append("<li>" +  a.ToString() + "</li>");
                         }
                     }
+                    }
+                }
                 }
                 sb.Append(@"</ul></div></div>");
-                //SendMail(dezeWeek, g.Email, sb.ToString());
+                SendMail(dezeWeek, g.Email, sb.ToString());
             }
+         }
+
+        public List<HogerLager> GetHogerLagersByUser()
+        {
+            initNonExistingRepo();
+
+            List<HogerLager> hogerLagers = repo.ReadHogerLagers().ToList();
+            //hogerLagers = hogerLagers.Where(hl => hl.Gebruiker == gebruiker).ToList();
+
+            return hogerLagers;
         }
-        private bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
+
+        public List<ValueFluctuation> GetValueFluctuationsByUser()
+        {
+            initNonExistingRepo();
+
+            List<ValueFluctuation> valueFluctuations = repo.ReadValueFluctuations().ToList();
+            //valueFluctuations = valueFluctuations.Where(vf => vf.Gebruiker == gebruiker).ToList();
+
+            return valueFluctuations;
+        }
+
+        public List<PositiefNegatief> GetPositiefNegatiefsByUser()
+        {
+            initNonExistingRepo();
+
+            List<PositiefNegatief> positiefNegatiefs = repo.ReadPositiefNegatiefs().ToList();
+            //positiefNegatiefs = positiefNegatiefs.Where(pn => pn.Gebruiker == gebruiker).ToList();
+
+            return positiefNegatiefs;
+        }
+
+        public List<Alert> GetAlertsByUser(Gebruiker gebruiker)
+        {
+            initNonExistingRepo();
+
+            List<Alert> alerts = repo.ReadAlerts().ToList();
+            alerts = alerts.Where(a => a.AlertInstelling.Gebruiker == gebruiker).ToList();
+
+            return alerts;
+        }
+
+        bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
         {
             var cal = System.Globalization.DateTimeFormatInfo.CurrentInfo.Calendar;
             var d1 = date1.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date1));
@@ -422,7 +771,7 @@ namespace IP3_8IEN.BL
 
             return d1 == d2;
         }
-        public void SendMail(List<Alert> alerts, string email, string body)
+        void SendMail(List<Alert> alerts, string email, string body)
         {
             try
             {

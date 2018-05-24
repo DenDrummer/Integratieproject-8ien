@@ -79,7 +79,7 @@ namespace IP3_8IEN.DAL
         {
             if (subjM)
             {
-                IEnumerable<Message> messages = ctx.Messages.Include("SubjectMessages").Include("SubjectMessages.Persoon");
+                IEnumerable<Message> messages = ctx.Messages.Include("SubjectMessages").Include("SubjectMessages.Persoon").Include("SubjectMessages.Persoon.Tewerkstellingen");
                 return messages;
             }
             else

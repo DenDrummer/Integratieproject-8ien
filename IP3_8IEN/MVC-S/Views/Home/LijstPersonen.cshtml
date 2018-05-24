@@ -17,7 +17,7 @@
                         <tr class="odd gradeX">
                             <th>Naam</th>
                             <th>Twitter</th>
-                            <th>Gemeente</th>
+                            <th>Kieskring</th>
                             <th>Geslacht</th>
                         </tr>
                     </thead>
@@ -26,18 +26,18 @@
                         {
                             <tr class="odd gradeX">
                                 <td>
-                                    @Html.ActionLink(p.Naam, "DetailsPersoon", "Admin", new { id = p.OnderwerpId }, null)
+                                    @Html.ActionLink(p.Naam, "Personen", "Home", new { OnderwerpId = p.OnderwerpId }, null)
                                 </td>
                                 <td><a href="@($"https://twitter.com/{p.Twitter}")">@Html.DisplayFor(m => p.Twitter)</a></td>
-                                <td>@Html.DisplayFor(m => p.Town)</td>
+                                <td>@Html.DisplayFor(m => p.District)</td>
                                 <td>
                                     @if (p.Gender.Equals("M"))
                                     {
-                                        @Html.Raw("♂")
+                                        @Html.Raw("Man")
                                     }
                                     else if (p.Gender.Equals("V"))
                                     {
-                                        @Html.Raw("♀")
+                                        @Html.Raw("Vrouw")
                                     }
                                     else
                                     {

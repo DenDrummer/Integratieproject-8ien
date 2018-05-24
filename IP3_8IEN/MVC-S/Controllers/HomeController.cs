@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity;
 using System.Linq;
 
 namespace MVC_S.Controllers
-{
+{   [RequireHttps]
     public class HomeController : Controller
     {
         private IDataManager dMgr = new DataManager();
@@ -22,8 +22,10 @@ namespace MVC_S.Controllers
 
         public HomeController()
         {
-            // initialisatie Admins zitten in InitializeAdmins()
-            // initialisatie methodes zitten in Initialize()
+            // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
+            // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
+            dMgr = new DataManager();
+            gMgr = new GebruikerManager();
 
             //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
             //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
@@ -76,12 +78,12 @@ namespace MVC_S.Controllers
         [HttpPost]
         public ActionResult Personen(string automplete)
         {
-            string naam = automplete;
-            Persoon persoon = dMgr.GetPersoon(naam);
-            string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
-            string aantalT = "aantal tweets van " + persoon.Naam;
-            ViewBag.TWITTER = twit;
-            ViewBag.AANTALT = aantalT;
+            //string naam = id;
+            Persoon persoon = dMgr.GetPersoon(automplete);
+            //string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
+            //string aantalT = "aantal tweets van " + persoon.Naam;
+            //ViewBag.TWITTER = twit;
+            //ViewBag.AANTALT = aantalT;
 
             string screenname = persoon.Twitter;
             ViewBag.TWITIMAGE = dMgr.GetImageString(screenname);
@@ -92,10 +94,10 @@ namespace MVC_S.Controllers
         public ActionResult Personen(int onderwerpId = 1)
         {
             Persoon persoon = dMgr.GetPersoon(onderwerpId);
-            string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
-            string aantalT = "aantal tweets van " + persoon.Naam;
-            ViewBag.TWITTER = twit;
-            ViewBag.AANTALT = aantalT;
+            //string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
+            //string aantalT = "aantal tweets van " + persoon.Naam;
+            //ViewBag.TWITTER = twit;
+            //ViewBag.AANTALT = aantalT;
 
             ViewBag.TWITIMAGE = dMgr.GetImageString(persoon.Twitter);
             ViewBag.TWITBANNER = dMgr.GetBannerString(persoon.Twitter);
@@ -103,22 +105,52 @@ namespace MVC_S.Controllers
             return View(persoon);
         }
 
-        public ActionResult Themas(/*int onderwerpId*/)
+        public ActionResult Themas(int onderwerpId = 500)
         {
             //Thema thema = xMgr.GetThema(onderwerpId);
-            /*  verwijder alle onderstaande code buiten de return
+            /*  verwijder onderstaande region
              *      zodra er via bovenstaande methode
              *      een thema kan binnengehaald worden
              *      en vervang de xMgr met de correcte mgr*/
+            #region create default thema
             Thema thema = new Thema()
             {
-                Naam = "thema",
-                Beschrijving = "beschrijving over het thema"
+                OnderwerpId = onderwerpId,
+                Naam = "het nieuws",
+                ThemaString = "het nieuws",
+                Beschrijving = "wat er in het nieuws over wordt gesproken",
+                Hashtags = new List<string>()
+                {
+                    "vtmnieuws",
+                    "vrtjournaal"
+                },
+                SubjectMessages = new List<SubjectMessage>()
+                {
+                    new SubjectMessage()
+                    {
+                        SubjectMsgId = 10000
+                    }
+                }
             };
+            #endregion
+            #region create searchstring
+            StringBuilder searchString = new StringBuilder();
+            searchString.Append("https://twitter.com/search?q=");
+            for (int i = 0; i < thema.Hashtags.Count; i++)
+            {
+                if (i > 0)
+                {
+                    searchString.Append(" OR ");
+                }
+                searchString.Append($"%23{thema.Hashtags.ElementAt(i)}");
+            }
+            ViewBag.SearchString = searchString.ToString();
+            #endregion
             return View(thema);
         }
 
-        public ActionResult Organisatie(int onderwerpId = 22) {
+        public ActionResult Organisatie(int onderwerpId = 22)
+        {
             string screenname = dMgr.GetOrganisatie(onderwerpId).Twitter;
             System.Diagnostics.Debug.WriteLine("Screenname: " + screenname);
             ViewBag.TWITIMAGE = dMgr.GetImageString(screenname);
@@ -179,17 +211,27 @@ namespace MVC_S.Controllers
         public ActionResult LijstPersonen() => View(dMgr.GetPersonen());
 
         public ActionResult LijstThemas() => View(new List<Thema>()
+        {
+            new Thema()
             {
-                new Thema()
+                OnderwerpId = 500,
+                Naam = "het nieuws",
+                ThemaString = "het nieuws",
+                Beschrijving = "wat er in het nieuws over wordt gesproken",
+                Hashtags = new List<string>()
                 {
-                    OnderwerpId = 285,
-                    Naam = "ukip",
-                    Hashtags = new List<string>()
+                    "vtmnieuws",
+                    "vrtjournaal"
+                },
+                SubjectMessages = new List<SubjectMessage>()
+                {
+                    new SubjectMessage()
                     {
-                        "ukip"
+                        SubjectMsgId = 10000
                     }
                 }
-            });
+            }
+        });
 
         public ActionResult LijstOrganisaties() => View(dMgr.GetOrganisaties());
 
@@ -252,7 +294,7 @@ namespace MVC_S.Controllers
             ViewBag.NUMMER1 = aantalTweets;
             ViewBag.naam1 = persoon.Naam;
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
-            int[] init = {0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
+            int[] init = { 0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
             //ViewData["init"] = init;
             ViewBag.INIT = init;
             return View();
@@ -272,7 +314,7 @@ namespace MVC_S.Controllers
             Persoon persoon3 = dMgr.GetPersoon(id3);
             Persoon persoon4 = dMgr.GetPersoon(id4);
             Persoon persoon5 = dMgr.GetPersoon(id5);
-            return Json(dMgr.GetComparisonPersonNumberOfTweetsOverTime(persoon1,persoon2,persoon3,persoon4,persoon5), JsonRequestBehavior.AllowGet);
+            return Json(dMgr.GetComparisonPersonNumberOfTweetsOverTime(persoon1, persoon2, persoon3, persoon4, persoon5), JsonRequestBehavior.AllowGet);
         }
     }
 }

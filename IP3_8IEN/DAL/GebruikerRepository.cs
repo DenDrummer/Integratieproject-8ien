@@ -73,18 +73,32 @@ namespace IP3_8IEN.DAL
         public IEnumerable<Alert> ReadAlerts() => ctx.Alerts.ToList();
 
         public void UpdateAlertInstelling(AlertInstelling alertInstelling) => ctx.SaveChanges();
+        
+        public IEnumerable<Gebruiker> ReadGebruikersWithAlertInstellingen()
+        {
+            IEnumerable<Gebruiker> gebruikers = ctx.Gebruikers.Include("AlertInstellingen").Include("AlertInstellingen.Alerts");
+            return gebruikers;
+        }
+        public Alert ReadAlert(int alertId)
+        {
+            Alert alert = ctx.Alerts.Find(alertId);
+            return alert;
+        }
+        public IEnumerable<ValueFluctuation> ReadValueFluctuations()
+        {
+            IEnumerable<ValueFluctuation> valueFluctuations = ctx.Fluctuations.Include("Alerts").Include("Gebruiker").Include("Onderwerp");
+            return valueFluctuations;
+        }
 
-        public IEnumerable<Gebruiker> ReadGebruikersWithAlertInstellingen() => ctx.Gebruikers.Include("AlertInstellingen").Include("AlertInstellingen.Alerts");
-
-        public Alert ReadAlert(int alertId) => ctx.Alerts.Find(alertId);
-
-        public IEnumerable<ValueFluctuation> ReadValueFluctuations() => ctx.Fluctuations.Include("Alerts");
-
-        public IEnumerable<HogerLager> ReadHogerLagers() => ctx.HogerLagers.Include("Alerts");
+        public IEnumerable<HogerLager> ReadHogerLagers()
+        {
+            IEnumerable<HogerLager> hogerLagers = ctx.HogerLagers.Include("Onderwerp").Include("Onderwerp2").Include("Gebruiker").Include("Onderwerp");
+            return hogerLagers;
+        }
 
         public IEnumerable<PositiefNegatief> ReadPositiefNegatiefs()
         {
-            IEnumerable<PositiefNegatief> positiefNegatiefs = ctx.PositiefNegatiefs.Include("Alerts");
+            IEnumerable<PositiefNegatief> positiefNegatiefs = ctx.PositiefNegatiefs.Include("Alerts").Include("Gebruiker").Include("Onderwerp");
             return positiefNegatiefs;
         }
 
