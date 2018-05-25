@@ -115,9 +115,12 @@ namespace IP3_8IEN.BL
 
         #region themas
         IEnumerable<Thema> GetThemas();
-        void AddThema(Thema thema);
+        Thema AddThema(Thema thema);
+        void ChangeThema(Thema thema);
+        Thema GetThema(int onderwerpId);
         #endregion
 
         IEnumerable<string> FrequenteWoorden(ICollection<SubjectMessage> subjMsgs, int ammount);
+        IEnumerable<string> GetMessageWords(Message msg);
     }
 }

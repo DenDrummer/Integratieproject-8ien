@@ -11,7 +11,6 @@ using System.Net;
 using System.Web.Script.Serialization;
 using System.Net.Mail;
 using IP3_8IEN.BL.Domain.Dashboard;
-using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Text;
 
 namespace IP3_8IEN.BL
@@ -185,37 +184,6 @@ namespace IP3_8IEN.BL
             }
         }
 
-        // We gaan kijken of de 'Persoon' al in de databank bestaat.
-        // Zoja: De bestaande 'Persoon' wordt meegegeven
-        // Zonee: Een nieuwe 'Persoon' wordt geïnitialiseerd en meegegeven
-        public Persoon AddPersoon(string naam)
-        {
-            initNonExistingRepo();
-
-            Persoon persoon;
-            IEnumerable<Persoon> personen = repo.ReadPersonen();
-
-            bool ifExists = personen.Any(x => x.Naam == naam);
-
-            if (ifExists == true)
-            {
-                persoon = personen.FirstOrDefault(x => x.Naam == naam);
-            }
-            else
-            {
-                persoon = new Persoon()
-                {
-
-                    Naam = naam,
-                    // DateTime kan niet null zijn --> voorlopig tijd van creatie meegeven
-                    Geboortedatum = DateTime.Now,
-                    SubjectMessages = new Collection<SubjectMessage>()
-                };
-                repo.AddOnderwerp(persoon);
-            }
-            return persoon;
-        }
-
         // We gaan kijken of de 'Hashtag' al in de databank bestaat.
         // Zoja: De bestaande 'Hashtag' wordt meegegeven
         // Zonee: Een nieuwe 'Hashtag' wordt geïnitialiseerd en meegegeven
@@ -291,38 +259,6 @@ namespace IP3_8IEN.BL
             return onderwerpen;
         }
 
-        public Organisatie AddOrganisation(string naamOrganisatie)
-        {
-            initNonExistingRepo();
-
-            Organisatie organisatie;
-            IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
-
-            bool ifExists = organisaties.Any(x => x.Naam == naamOrganisatie);
-
-            if (ifExists == true)
-            {
-                organisatie = organisaties.FirstOrDefault(x => x.Naam == naamOrganisatie);
-            }
-            else
-            {
-                organisatie = new Organisatie()
-                {
-                    Naam = naamOrganisatie,
-                    Tewerkstellingen = new Collection<Tewerkstelling>()
-                };
-                repo.AddOnderwerp(organisatie);
-            }
-            return organisatie;
-        }
-
-        public void AddOrganisations(string filePath)
-        {
-            initNonExistingRepo();
-
-            // Json /CSV
-        }
-
         public void AddTewerkstelling(string naam, string naamOrganisatie)
         {
             initNonExistingRepo();
@@ -393,7 +329,7 @@ namespace IP3_8IEN.BL
             repo.AddingTewerkstelling(tewerkstelling);
             //dan de persoon & organisatie updaten met de nieuwe 'Tewerkstelling'
             //Todo: misschien gewoon een UpdateContext maken
-            repo.UdateOnderwerp(persoon);
+            repo.UpdateOnderwerp(persoon);
         }
 
         public void AddTewerkstelling(Persoon persoon, string naamOrganisatie)
@@ -463,7 +399,136 @@ namespace IP3_8IEN.BL
             repo.AddingTewerkstelling(tewerkstelling);
             //dan de persoon & organisatie updaten met de nieuwe 'Tewerkstelling'
             //Todo: misschien gewoon een UpdateContext maken
-            repo.UdateOnderwerp(persoon);
+            repo.UpdateOnderwerp(persoon);
+        }
+
+        public int CountSubjMsgsPersoon(Onderwerp onderwerp)
+        {
+            initNonExistingRepo();
+
+            int countedTweets = 0;
+
+            IEnumerable<Persoon> personen = repo.ReadPersonen();
+            IEnumerable<Hashtag> hashtags = repo.ReadHashtags();
+
+
+            IEnumerable<SubjectMessage> subjMsgs = repo.ReadSubjectMessages();
+
+            foreach (var subj in subjMsgs)
+            {
+                //kijkt of het om een 'persoon' gaat
+                if (subj.Persoon != null)
+                {
+                    if (subj.Persoon.OnderwerpId == onderwerp.OnderwerpId)
+                    {
+                        countedTweets++;
+                    }
+                }
+                //kijkt of het om een 'hashtag' gaat
+                if (subj.Hashtag != null)
+                {
+                    if (subj.Hashtag.OnderwerpId == onderwerp.OnderwerpId)
+                    {
+                        countedTweets++;
+                    }
+                }
+            }
+
+            return countedTweets;
+        }
+
+        public IEnumerable<Message> ReadMessagesWithSubjMsgs()
+        {
+            initNonExistingRepo();
+
+            IEnumerable<Message> messages = repo.ReadMessages(true);
+
+            return messages;
+        }
+
+        #region Organisaties
+        public Organisatie GetOrganisatie(int organisatieId)
+        {
+            initNonExistingRepo();
+
+            Organisatie organisatie = repo.ReadOrganisatie(organisatieId);
+            return organisatie;
+        }
+
+        public IEnumerable<Organisatie> GetOrganisaties()
+        {
+            initNonExistingRepo();
+            IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
+            return organisaties;
+        }
+
+        public void ChangeOrganisation(Organisatie organisatie)
+        {
+            initNonExistingRepo();
+            repo.EditOrganisation(organisatie);
+        }
+
+        public void AddOrganisations(string filePath)
+        {
+            initNonExistingRepo();
+
+            // Json /CSV
+        }
+
+        public Organisatie AddOrganisation(string naamOrganisatie)
+        {
+            initNonExistingRepo();
+
+            Organisatie organisatie;
+            IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
+
+            bool ifExists = organisaties.Any(x => x.Naam == naamOrganisatie);
+
+            if (ifExists == true)
+            {
+                organisatie = organisaties.FirstOrDefault(x => x.Naam == naamOrganisatie);
+            }
+            else
+            {
+                organisatie = new Organisatie()
+                {
+                    Naam = naamOrganisatie,
+                    Tewerkstellingen = new Collection<Tewerkstelling>()
+                };
+                repo.AddOnderwerp(organisatie);
+            }
+            return organisatie;
+        }
+        #endregion
+
+        #region Personen
+        public void ChangePersoon(Persoon persoon)
+        {
+            initNonExistingRepo();
+            repo.EditPersoon(persoon);
+        }
+
+        public Persoon GetPersoon(string naam)
+        {
+            initNonExistingRepo();
+            Persoon persoon = repo.ReadPersoon(naam);
+
+            return persoon;
+        }
+
+        public IEnumerable<Persoon> GetPersonen()
+        {
+            initNonExistingRepo();
+            IEnumerable<Persoon> personen = repo.ReadPersonen();
+            return personen;
+        }
+
+        public Persoon GetPersoon(int persoonId)
+        {
+            initNonExistingRepo();
+
+            Persoon persoon = repo.ReadPersoon(persoonId);
+            return persoon;
         }
 
         public void AddPersonen(string pathToJson)
@@ -519,99 +584,37 @@ namespace IP3_8IEN.BL
             }
         }
 
-        public int CountSubjMsgsPersoon(Onderwerp onderwerp)
+        // We gaan kijken of de 'Persoon' al in de databank bestaat.
+        // Zoja: De bestaande 'Persoon' wordt meegegeven
+        // Zonee: Een nieuwe 'Persoon' wordt geïnitialiseerd en meegegeven
+        public Persoon AddPersoon(string naam)
         {
             initNonExistingRepo();
 
-            int countedTweets = 0;
-
+            Persoon persoon;
             IEnumerable<Persoon> personen = repo.ReadPersonen();
-            IEnumerable<Hashtag> hashtags = repo.ReadHashtags();
 
+            bool ifExists = personen.Any(x => x.Naam == naam);
 
-            IEnumerable<SubjectMessage> subjMsgs = repo.ReadSubjectMessages();
-
-            foreach (var subj in subjMsgs)
+            if (ifExists == true)
             {
-                //kijkt of het om een 'persoon' gaat
-                if (subj.Persoon != null)
-                {
-                    if (subj.Persoon.OnderwerpId == onderwerp.OnderwerpId)
-                    {
-                        countedTweets++;
-                    }
-                }
-                //kijkt of het om een 'hashtag' gaat
-                if (subj.Hashtag != null)
-                {
-                    if (subj.Hashtag.OnderwerpId == onderwerp.OnderwerpId)
-                    {
-                        countedTweets++;
-                    }
-                }
+                persoon = personen.FirstOrDefault(x => x.Naam == naam);
             }
+            else
+            {
+                persoon = new Persoon()
+                {
 
-            return countedTweets;
-        }
-
-        public IEnumerable<Message> ReadMessagesWithSubjMsgs()
-        {
-            initNonExistingRepo();
-
-            IEnumerable<Message> messages = repo.ReadMessages(true);
-
-            return messages;
-        }
-
-        public Persoon GetPersoon(int persoonId)
-        {
-            initNonExistingRepo();
-
-            Persoon persoon = repo.ReadPersoon(persoonId);
+                    Naam = naam,
+                    // DateTime kan niet null zijn --> voorlopig tijd van creatie meegeven
+                    Geboortedatum = DateTime.Now,
+                    SubjectMessages = new Collection<SubjectMessage>()
+                };
+                repo.AddOnderwerp(persoon);
+            }
             return persoon;
         }
-
-        public Organisatie GetOrganisatie(int organisatieId)
-        {
-            initNonExistingRepo();
-
-            Organisatie organisatie = repo.ReadOrganisatie(organisatieId);
-            return organisatie;
-        }
-
-        public IEnumerable<Persoon> GetPersonen()
-        {
-            initNonExistingRepo();
-            IEnumerable<Persoon> personen = repo.ReadPersonen();
-            return personen;
-        }
-
-        public IEnumerable<Organisatie> GetOrganisaties()
-        {
-            initNonExistingRepo();
-            IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
-            return organisaties;
-        }
-
-        public void ChangeOrganisation(Organisatie organisatie)
-        {
-            initNonExistingRepo();
-            repo.EditOrganisation(organisatie);
-        }
-
-        public void ChangePersoon(Persoon persoon)
-        {
-            initNonExistingRepo();
-            repo.EditPersoon(persoon);
-        }
-
-        public Persoon GetPersoon(string naam)
-        {
-            initNonExistingRepo();
-            Persoon persoon = repo.ReadPersoon(naam);
-
-            return persoon;
-        }
+        #endregion
 
         //Unit of Work related
         public void initNonExistingRepo(bool withUnitOfWork = false)
@@ -1954,15 +1957,49 @@ namespace IP3_8IEN.BL
             return data.GetRange(0, aantal);
         }
 
+        #region Themas
         public IEnumerable<Thema> GetThemas()
         {
-            throw new NotImplementedException();
+            initNonExistingRepo();
+            List<Thema> themas = repo.ReadThemas();
+            return themas;
         }
 
-        public void AddThema(Thema thema)
+        public Thema AddThema(Thema thema)
         {
-            throw new NotImplementedException();
+            initNonExistingRepo();
+
+            Thema thema2;
+            IEnumerable<Thema> themas = repo.ReadThemas();
+
+            bool ifExists = themas.Any(x => x.Naam == thema.Naam);
+
+            if (ifExists == true)
+            {
+                thema2 = themas.FirstOrDefault(x => x.Naam == thema.Naam);
+            }
+            else
+            {
+                thema2 = thema;
+                repo.AddOnderwerp(thema2);
+            }
+            return thema2;
         }
+
+        public void ChangeThema(Thema thema)
+        {
+            initNonExistingRepo();
+            repo.EditThema(thema);
+        }
+
+        public Thema GetThema(int onderwerpId)
+        {
+            initNonExistingRepo();
+
+            Thema thema = repo.ReadThema(onderwerpId);
+            return thema;
+        }
+        #endregion
 
         public IEnumerable<string> FrequenteWoorden(ICollection<SubjectMessage> subjMsgs, int ammount)
         {
@@ -1971,32 +2008,7 @@ namespace IP3_8IEN.BL
             foreach (SubjectMessage subjMsg in subjMsgs)
             {
                 #region add all words to temporary list
-                string woord = subjMsg.Msg.Word1;
-                if (woord != null && !woord.Equals(""))
-                {
-                    woordStrings.Add(woord);
-                }
-
-                woord = subjMsg.Msg.Word2;
-                if (woord != null && !woord.Equals(""))
-                {
-                    woordStrings.Add(woord);
-                }
-
-                woord = subjMsg.Msg.Word3;
-                if (woord != null && !woord.Equals(""))
-                {
-                    woordStrings.Add(woord);
-                }
-
-                woord = subjMsg.Msg.Word4;
-                if (woord != null && !woord.Equals(""))
-                {
-                    woordStrings.Add(woord);
-                }
-
-                woord = subjMsg.Msg.Word5;
-                if (woord != null && !woord.Equals(""))
+                foreach (string woord in GetMessageWords(subjMsg.Msg))
                 {
                     woordStrings.Add(woord);
                 }
@@ -2021,6 +2033,32 @@ namespace IP3_8IEN.BL
                 return kvp1.Value.CompareTo(kvp2.Value);
             });
             return woorden.Keys.ToList().Take(ammount);
+        }
+
+        public IEnumerable<string> GetMessageWords(Message msg)
+        {
+            List<string> words = new List<string>();
+            if (msg.Word1 != null && !msg.Word1.Equals(""))
+            {
+                words.Add(msg.Word1);
+            }
+            if (msg.Word2 != null && !msg.Word2.Equals(""))
+            {
+                words.Add(msg.Word2);
+            }
+            if (msg.Word3 != null && !msg.Word3.Equals(""))
+            {
+                words.Add(msg.Word3);
+            }
+            if (msg.Word4 != null && !msg.Word4.Equals(""))
+            {
+                words.Add(msg.Word4);
+            }
+            if (msg.Word5 != null && !msg.Word5.Equals(""))
+            {
+                words.Add(msg.Word5);
+            }
+            return words;
         }
     }
 }

@@ -39,6 +39,7 @@ namespace IP3_8IEN.DAL.EF
         public DbSet<Cijfer> Cijfers { get; set; }
         public DbSet<Kruising> Kruisingen { get; set; }
         public DbSet<Vergelijking> Vergelijkingen { get; set; }
+        public DbSet<Thema> Themas { get; set; }
 
         //4 mei 2018 : Victor
         public DbSet<ValueFluctuation> Fluctuations { get; set; }

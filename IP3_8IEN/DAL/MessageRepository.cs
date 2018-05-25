@@ -53,8 +53,6 @@ namespace IP3_8IEN.DAL
 
         public IEnumerable<Onderwerp> ReadSubjects() => ctx.Onderwerpen;
 
-        public IEnumerable<Organisatie> ReadOrganisaties() => ctx.Organisaties.ToList();
-
         public void AddingTewerkstelling(Tewerkstelling tewerkstelling)
         {
             ctx.Tewerkstellingen.Add(tewerkstelling);
@@ -64,15 +62,9 @@ namespace IP3_8IEN.DAL
 
         public IEnumerable<Message> ReadMessages() => ctx.Messages.ToList();
 
-        public void UdateOnderwerp(Onderwerp onderwerp) => ctx.SaveChanges();
+        public void UpdateOnderwerp(Onderwerp onderwerp) => ctx.SaveChanges();
 
         public void UpdateMessage() => ctx.SaveChanges();
-
-        public Persoon ReadPersoon(int persoonId)
-        {
-            IEnumerable<Persoon> personen = ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie");//.Find(persoonId);
-            return personen.FirstOrDefault(p => p.OnderwerpId == persoonId);
-        }
         public IEnumerable<Tewerkstelling> ReadTewerkstellingen() => ctx.Tewerkstellingen.ToList();
 
         public IEnumerable<Message> ReadMessages(bool subjM)
@@ -87,6 +79,8 @@ namespace IP3_8IEN.DAL
                 return ReadMessages();
             }
         }
+
+        #region Organisaties
         public Organisatie ReadOrganisatie(int organisatieId)
         {
             IEnumerable<Organisatie> organisaties = ctx.Organisaties.Include("Tewerkstellingen").Include("Tewerkstellingen.Persoon");
@@ -99,6 +93,10 @@ namespace IP3_8IEN.DAL
             ctx.SaveChanges();
         }
 
+        public IEnumerable<Organisatie> ReadOrganisaties() => ctx.Organisaties.ToList();
+        #endregion
+
+        #region Personen
         public void EditPersoon(Persoon persoon)
         {
             ctx.Entry(persoon).State = EntityState.Modified;
@@ -107,8 +105,34 @@ namespace IP3_8IEN.DAL
 
         public Persoon ReadPersoon(string naam)
         {
-            Persoon persoon = ctx.Personen.Include("SubjectMessages").Include("SubjectMessages.Msg").Where(p => p.Naam == naam).FirstOrDefault();
+            Persoon persoon = ctx.Personen.Include("SubjectMessages").Include("SubjectMessages.Msg").Where(p => p.Naam.Equals(naam)).FirstOrDefault();
             return persoon;
         }
+
+        public Persoon ReadPersoon(int persoonId)
+        {
+            IEnumerable<Persoon> personen = ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie");//.Find(persoonId);
+            return personen.FirstOrDefault(p => p.OnderwerpId == persoonId);
+        }
+        #endregion
+
+        #region themas
+        public List<Thema> ReadThemas()
+        {
+            return ctx.Themas.ToList();
+        }
+
+        public void EditThema(Thema thema)
+        {
+            ctx.Entry(thema).State = EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
+        public Thema ReadThema(int onderwerpId)
+        {
+            Thema thema = ctx.Themas.Include("SubjectMessages").Include("SubjectMessages.Msg").Where(t => t.OnderwerpId == onderwerpId).FirstOrDefault();
+            throw new System.NotImplementedException();
+        }
+        #endregion
     }
 }

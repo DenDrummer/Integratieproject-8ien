@@ -29,7 +29,7 @@ namespace IP3_8IEN.DAL
         //2 apr 2018 : Stephane
         IEnumerable<Organisatie> ReadOrganisaties();
         void AddingTewerkstelling(Tewerkstelling tewerkstelling);
-        void UdateOnderwerp(Onderwerp onderwerp);
+        void UpdateOnderwerp(Onderwerp onderwerp);
 
         //20 apr 2018 : Stephane
         IEnumerable<SubjectMessage> ReadSubjectMessages();
@@ -51,5 +51,8 @@ namespace IP3_8IEN.DAL
         void EditPersoon(Persoon persoon);
 
         Persoon ReadPersoon(string naam);
+        List<Thema> ReadThemas();
+        void EditThema(Thema thema);
+        Thema ReadThema(int onderwerpId);
     }
 }
