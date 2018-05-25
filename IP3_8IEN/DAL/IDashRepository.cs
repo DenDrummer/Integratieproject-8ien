@@ -42,5 +42,6 @@ namespace IP3_8IEN.DAL
         //Sam
         DashItem ReadDashItemWithGraph(int dashId);
         Dashbord ReadDashbordWithFollows(int dashId);
+        Dashbord ReadDefaultDashbord();
     }
 }

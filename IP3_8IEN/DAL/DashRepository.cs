@@ -135,6 +135,12 @@ namespace IP3_8IEN.DAL
             ctx.Entry(tileZone).State = System.Data.Entity.EntityState.Modified;
             ctx.SaveChanges();
         }
+        //sam
+        public Dashbord ReadDefaultDashbord()
+        {
+            Dashbord dashbord = ctx.Dashbords.FirstOrDefault(d => d.defaultDash == true);
+            return dashbord;
+        }
 
         ////UoW related
         //public DashRepository(UnitOfWork uow)

@@ -3,9 +3,10 @@
 @Scripts.Render("~/scripts/charts")
 
 <link rel="stylesheet" href="~/Content/creategrafiek.css" />
+<script src="https://nodebox.live/api/v1/ndbx.js"></script>
 <script src="~/Scripts/kendoUiUpdate.js"></script>
 <script src="~/Scripts/morris-scripts.js"></script>
-
+<script src="~/Scripts/nodeBoxInitialize.js"></script>
 <script src="~/Scripts/grafiekaanmaken.js"></script>
 <script type="text/javascript">
     $(function () {
@@ -126,11 +127,10 @@
 
 
 <!-- A link to the NodeBox JavaScript API  -->
-<script src="https://nodebox.live/api/v1/ndbx.js"></script>
-    <script src="@Url.Content("~/Scripts/morris-data.js")"></script>
+
     <script type="text/javascript">
 
-        var number = @Html.Raw(Json.Encode(ViewBag.NUMMER1));
+        @*var number = @Html.Raw(Json.Encode(ViewBag.NUMMER1));
         var name = @Html.Raw(Json.Encode(ViewBag.NAAM1));
         console.log(number);
         //document.getElementById("chart7").innerHTML = number;
@@ -139,7 +139,8 @@
         var mydiv = document.getElementById("chart7");
         var mycontent = document.createElement("p");
         mycontent.appendChild(document.createTextNode(name+" heeft: "+number+" tweets"));
-        mydiv.appendChild(mycontent);
+        mydiv.appendChild(mycontent);*@
+        initializeNodeBox("chart0");
     </script>
 
 

@@ -262,6 +262,7 @@ namespace MVC_S.Controllers
             #region initialisatie blok databank
             dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             dMgr.ApiRequestToJson();
+            dashMgr.DashbordInitGraphs(dashMgr.AddDefaultDashBord().DashbordId);
             //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
             #endregion
@@ -291,15 +292,19 @@ namespace MVC_S.Controllers
 
 
             ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            string userName = currUser.UserName;
-            Gebruiker user = gMgr.FindUser(userName);
-
-
-            Dashbord dash = dashMgr.GetDashboardWithFollows(user);
+            Dashbord dash;
+            if (currUser != null) {
+                string userName = currUser.UserName;
+                Gebruiker user = gMgr.FindUser(userName);
+                dash = dashMgr.GetDashboardWithFollows(user);
+            } else
+            {
+                dash = dashMgr.GetDefaultDashboard();
+            }
             ViewBag.INIT = dash.ZonesOrder;
             dashMgr.GetDashItems().Where(d => d.AdminGraph == true);
-            ViewBag.AANTAL = dashMgr.GetDashItems().Where(d => d.AdminGraph == true).Count();
-
+            ViewBag.AANTALADMIN = dashMgr.GetDashItems().Where(d => d.AdminGraph == true).Count();
+            
             //GraphDataViewModel model = new GraphDataViewModel { dash = dash,
             //};
             return View(dash);

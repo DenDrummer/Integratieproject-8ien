@@ -49,5 +49,7 @@ namespace IP3_8IEN.BL
         DashItem GetDashItemWithGraph(int id);
         List<GraphData> ExtractGraphList(int id);
         void updateTilezonesOrderDashboard(int dashId, string zonesOrder);
+        Dashbord GetDefaultDashboard();
+        Dashbord AddDefaultDashBord();
     }
 }

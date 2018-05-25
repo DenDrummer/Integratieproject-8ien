@@ -1,14 +1,23 @@
 {
-	"records": [
-		{
-			"Username": "ivaylo.deshev@student.kdg.be",
-			"Voornaam": "Ivaylo",
-			"Achternaam": "Deshev",
-			"email": "ivaylo.deshev@student.kdg.be",
+  "records": [
+    {
+      "Username": "Jos",
+      "Voornaam": "Jos",
+      "Achternaam": "Janssens",
+      "email": "",
+      "Geboortedatum": "",
+      "Password": "0000",
+      "Role": "User"
+    },
+    {
+      "Username": "ivaylo.deshev@student.kdg.be",
+      "Voornaam": "Ivaylo",
+      "Achternaam": "Deshev",
+      "email": "ivaylo.deshev@student.kdg.be",
       "Geboortedatum": "2017-09-15 13:25:39",
       "Password": "Password",
-      "Role":  "Admin"
-		},
+      "Role": "Admin"
+    },
     {
       "Username": "sam.laureys@student.kdg.be",
       "Voornaam": "Sam",
@@ -54,5 +63,5 @@
       "Password": "Password",
       "Role": "Admin"
     }
-	]
+  ]
 }

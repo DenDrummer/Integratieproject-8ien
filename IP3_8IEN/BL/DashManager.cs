@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 
 namespace IP3_8IEN.BL
 {
@@ -369,13 +370,25 @@ namespace IP3_8IEN.BL
             Dashbord dashbord = new Dashbord
             {
                 User = gebruiker,
-                ZonesOrder = "[0,1,2,3,4,5,6,7,8,9]",
-                TileZones = new Collection<TileZone>()
+                ZonesOrder = SetTilezonesOrder(),
+                TileZones = new Collection<TileZone>(),
+                defaultDash = false
             };
             repo.AddDashBord(dashbord);
             uowManager.Save();
             repo.setUnitofWork(true);
 
+            return dashbord;
+        }
+        public Dashbord AddDefaultDashBord()
+        {
+            Dashbord dashbord = new Dashbord
+            {
+                ZonesOrder = SetTilezonesOrder(),
+                TileZones = new Collection<TileZone>(),
+                defaultDash = true
+            };
+            repo.AddDashBord(dashbord);
             return dashbord;
         }
 
@@ -491,7 +504,7 @@ namespace IP3_8IEN.BL
                 }
             }
         }
-
+        //sam
         public void updateTilezonesOrderDashboard(int dashId, string zonesOrder)
         {
             initNonExistingRepo();
@@ -500,5 +513,46 @@ namespace IP3_8IEN.BL
 
             repo.UpdateDashboard(dashbord);
         }
+        //sam
+        public Dashbord GetDefaultDashboard()
+        {
+            initNonExistingRepo();
+            Dashbord dashbord = repo.ReadDefaultDashbord();
+            return dashbord;
+        }
+        //sam
+        public string SetTilezonesOrder()
+        {
+            int aantalZones = GetDashItems().Where(d => d.AdminGraph == true).Count();
+            StringBuilder stringBuilder = new StringBuilder("[0");
+            for (var i = 1;i >= aantalZones; i++)
+            {
+                stringBuilder.Append("," + i);
+            }
+            stringBuilder.Append("]");
+            string zonesOrder = stringBuilder.ToString();
+            return zonesOrder;
+        }
+        //sam
+        //public string UpdateTileZonesOrder(Dashbord dashbord)
+        //{
+        //    int[] zones = Newtonsoft.Json.JsonConvert.DeserializeObject(dashbord.ZonesOrder);
+        //    int aantalAdminGraphs = GetDashItems().Where(d => d.AdminGraph == true).Count();
+            
+        //    foreach (TileZone t in dashbord.TileZones)
+        //    {
+        //        if(t.DashItem.AdminGraph == false)
+        //        {
+        //            aantalAdminGraphs++;
+        //        }
+        //    }
+        //    zones.Length;
+        //    for (var i = 1; i >= aantalZones; i++)
+        //    {
+        //        stringBuilder.Append("," + i);
+        //    }
+        //    return null;
+        //}
+
     }
 }
