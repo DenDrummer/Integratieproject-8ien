@@ -288,6 +288,8 @@ namespace MVC_S.Controllers
 
             Dashbord dash = dashMgr.GetDashboardWithFollows(user);
             ViewBag.INIT = dash.ZonesOrder;
+            dashMgr.GetDashItems().Where(d => d.AdminGraph == true);
+            ViewBag.AANTAL = dashMgr.GetDashItems().Where(d => d.AdminGraph == true).Count();
 
             //GraphDataViewModel model = new GraphDataViewModel { dash = dash,
             //};
@@ -352,6 +354,13 @@ namespace MVC_S.Controllers
             List<GraphData> lijst = dMgr.GetTweetsPerDag(persoon, aantaldagen);
             //////////////
             return Json(dMgr.GetTweetsPerDag(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult SaveTilezonesOrder(int dashId,string zonesorder)
+        {
+            dashMgr.updateTilezonesOrderDashboard(dashId, zonesorder);
+            return RedirectToAction("Grafiektest2");
         }
     }
 }

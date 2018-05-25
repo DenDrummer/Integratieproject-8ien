@@ -117,6 +117,12 @@ namespace IP_8IEN.DAL
             Dashbord dashbord = ctx.Dashbords.Include("User").FirstOrDefault(d => d.DashbordId == dashId);
             return dashbord;
         }
+        //sam
+        public Dashbord ReadDashbordWithFollows(int dashId)
+        {
+            Dashbord dashbord = ctx.Dashbords.Include("User").Include("TileZones").Include("TileZones.DashItem").Include("TileZones.DashItem.Graphdata").Include("TileZones.DashItem.Follows").Include("TileZones.DashItem.Follows.Onderwerp").FirstOrDefault(d => d.DashbordId == dashId);
+            return dashbord;
+        }
 
         public Dashbord ReadDashbordWithFollows(Gebruiker user)
         {

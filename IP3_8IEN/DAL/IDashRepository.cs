@@ -41,5 +41,6 @@ namespace IP_8IEN.DAL
         void UpdateTileZone(TileZone tileZone);
         //Sam
         DashItem ReadDashItemWithGraph(int dashId);
+        Dashbord ReadDashbordWithFollows(int dashId);
     }
 }

@@ -43,5 +43,6 @@ namespace IP_8IEN.BL
         //Sam 
         DashItem GetDashItemWithGraph(int id);
         List<GraphData> ExtractGraphList(int id);
+        void updateTilezonesOrderDashboard(int dashId, string zonesOrder);
     }
 }

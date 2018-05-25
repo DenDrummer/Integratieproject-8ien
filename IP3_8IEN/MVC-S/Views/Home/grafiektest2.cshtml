@@ -3,6 +3,7 @@
 @Scripts.Render("~/scripts/charts")
 
 <link rel="stylesheet" href="~/Content/creategrafiek.css" />
+<script src="~/Scripts/kendoUiUpdate.js"></script>
 <script src="~/Scripts/morris-scripts.js"></script>
 
 <script src="~/Scripts/grafiekaanmaken.js"></script>
@@ -76,6 +77,8 @@
 
         if (@Model.ZonesOrder) {
             //retrieve local storage data if such is available, else use the default order
+            var temp = JSON.parse("@Model.ZonesOrder");
+            var aantalAdmin
             order =  JSON.parse("@Model.ZonesOrder") || initialData;
         } else {
             alert("your Database does not have zones saved");
@@ -92,7 +95,8 @@
                     order.splice(e.newIndex, 0, item); //add the item back using the newIndex
                     //localStorage.setItem("sortableData", kendo.stringify(data)); //set the updated data in the local storage
                     @*@Model.ZonesOrder = kendo.stringify(data);*@
-            }
+                    updateKendoZones(@Model.DashbordId, kendo.stringify(order));
+                    }
     });
 
     

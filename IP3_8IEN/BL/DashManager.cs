@@ -414,5 +414,14 @@ namespace IP_8IEN.BL
                 }
             }
         }
+
+        public void updateTilezonesOrderDashboard(int dashId, string zonesOrder)
+        {
+            initNonExistingRepo();
+            Dashbord dashbord = repo.ReadDashbordWithFollows(dashId);
+            dashbord.ZonesOrder = zonesOrder;
+
+            repo.UpdateDashboard(dashbord);
+        }
     }
 }
