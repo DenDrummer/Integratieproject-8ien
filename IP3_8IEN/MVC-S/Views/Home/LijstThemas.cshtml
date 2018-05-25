@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IP_8IEN.BL.Domain.Data.Thema>
+﻿@model IEnumerable<IP3_8IEN.BL.Domain.Data.Thema>
 @{
     ViewBag.Title = "LijstThemas";
 }
@@ -12,7 +12,7 @@
                 Hieronder ziet u een overzicht van alle Personen in onze databank.
             </div>
             <div class="panel-body">
-                <table width="100%" class="table table-striped table-bordered table-hover" id="themasTable">
+                <table style="width:100%" class="table table-striped table-bordered table-hover" id="themasTable">
                     <thead>
                         <tr class="odd gradeX">
                             <th>Thema Naam</th>
@@ -24,9 +24,17 @@
                         @foreach (var t in Model)
                         {
                             <tr class="odd gradeX">
-                                <td>@Html.ActionLink(t.ThemaString,"Themas","Home", new { }, null)</td>
-                                <td>Bart De Wever</td>
-                                <td>Bart_DeWever</td>
+                                <td>@Html.ActionLink(t.ThemaString, "Themas", "Home", new { }, null)</td>
+                                <td>
+                                    <ul style="list-style:none;padding-left:0px">
+                                        @foreach (string h in t.Hashtags)
+                                        {
+                                            string hash = $"#{h}";
+                                            <li>@Html.DisplayFor(m => hash)</li>
+                                        }
+                                    </ul>
+                                </td>
+                                <td>@Html.DisplayFor(m => t.SubjectMessages.Count)</td>
                             </tr>
                         }
                     </tbody>

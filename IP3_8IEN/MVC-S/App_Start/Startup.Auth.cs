@@ -4,9 +4,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using IP_8IEN.BL;
+using IP3_8IEN.BL;
 using MVC_S.SignIn;
-using IP_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.BL.Domain.Gebruikers;
 
 namespace MVC_S
 {
@@ -16,7 +16,7 @@ namespace MVC_S
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            //app.CreatePerOwinContext(IP_8IEN.DAL.EF.ApplicationDbContext.Create);
+            //app.CreatePerOwinContext(IP3_8IEN.DAL.EF.ApplicationDbContext.Create);
             // ApplicationUserManager werd verplaatst naar BL, Factory dient voor OWIN authentication
 
             // We maken gebruik van de Factories -> Correcte toegang tot Managers volgens N-Tier!
@@ -43,9 +43,9 @@ namespace MVC_S
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             //// Facebook Authentication toevoegen
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+            appId: "786425028220021",
+            appSecret: "a39af7003045b89b48e1c50bcde5a76b");
 
             //// Google Authentication toevoegen
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
@@ -53,6 +53,11 @@ namespace MVC_S
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+
+
+            app.UseGoogleAuthentication(
+            clientId: "405673408772-6jao4f265fi7ma5em94ha9aagp7r7rf2.apps.googleusercontent.com",
+            clientSecret: "s5SLDGpe7yxRep217lP_Tdsk");
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace IP_8IEN.BL.Domain.Data
+namespace IP3_8IEN.BL.Domain.Data
 {
     public class Message
     {
@@ -80,5 +80,7 @@ namespace IP_8IEN.BL.Domain.Data
             }
             return false;
         }
+
+       
     }
 }

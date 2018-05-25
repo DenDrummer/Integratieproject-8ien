@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IP_8IEN.BL.Domain.Dashboard.Follow>
+﻿@model IEnumerable<IP3_8IEN.BL.Domain.Dashboard.DashItem>
 
 @{
     ViewBag.Title = "Grafiek";
@@ -12,29 +12,40 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.DashItem.DashItemId)
+            @Html.DisplayNameFor(model => model.DashItemId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Onderwerp.Naam)
+            @Html.DisplayNameFor(model => model.Naam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastModified)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
         </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DashItem.DashItemId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.DashItem.DashItemId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.DashItem.DashItemId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.DashItem.DashItemId })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DashItemId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Naam)
+        </td>
+        <th>
+            @Html.DisplayNameFor(model => model.LastModified)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <td>
+            @Html.ActionLink("Details", "DetailsGrafiek", new { id = item.DashItemId }) |
+            @Html.ActionLink("Delete", "DeleteGrafiek", new { id = item.DashItemId })
+        </td>
+    </tr>
     }
     <tr>
         @Html.ActionLink("CreateGrafiekLine", "CreateGrafiekLine")

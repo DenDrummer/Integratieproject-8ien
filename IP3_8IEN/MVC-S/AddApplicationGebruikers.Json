@@ -6,47 +6,53 @@
 			"Achternaam": "Deshev",
 			"email": "ivaylo.deshev@student.kdg.be",
       "Geboortedatum": "2017-09-15 13:25:39",
-      "Password":  "Password"
+      "Password": "Password",
+      "Role":  "Admin"
 		},
-		{
-			"Username": "sam.laureys@student.kdg.be",
-			"Voornaam": "Sam",
-			"Achternaam": "Laureys",
-			"email": "sam.laureys@student.kdg.be" ,
-			"Geboortedatum": "2017-09-15 13:25:39",
-      "Password":  "Password"
-		},
-		{
-			"Username": "jorden.laureyssens@student.kdg.be",
-			"Voornaam": "Jorden",
-			"Achternaam":  "Laureyssens" ,
-			"email":  "jorden.laureyssens@student.kdg.be" ,
-			"Geboortedatum": "2017-09-15 13:25:39",
-      "Password":  "Password"
-		},
-		{
-			"Username": "stephane.boogaerts@student.kdg.be",
-			"Voornaam":  "Stephane" ,
-			"Achternaam":  "Boogaerts" ,
-			"email":  "stephane.boogaerts@student.kdg.be" ,
-			"Geboortedatum": "2017-09-15 13:25:39",
-      "Password":  "Password"
-		},
-		{
-			"Username": "thomas.dewitte@student.kdg.be",
-			"Voornaam":  "Thomas" ,
-			"Achternaam":  "Dewitte" ,
-			"email":  "thomas.dewitte@student.kdg.be" ,
-			"Geboortedatum": "2017-09-15 13:25:39",
-      "Password":  "Password"
-		},
-		{
-			"Username": "victor.declercq@student.kdg.be",
-			"Voornaam":  "Victor" ,
-			"Achternaam":  "Declercq" ,
-			"email":  "victor.declercq@student.kdg.be" ,
-			"Geboortedatum": "2017-09-15 13:25:39",
-      "Password":  "Password"
-		}
+    {
+      "Username": "sam.laureys@student.kdg.be",
+      "Voornaam": "Sam",
+      "Achternaam": "Laureys",
+      "email": "sam.laureys@student.kdg.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "Password": "Password",
+      "Role": "Admin"
+    },
+    {
+      "Username": "jorden.laureyssens@student.kdg.be",
+      "Voornaam": "Jorden",
+      "Achternaam": "Laureyssens",
+      "email": "jorden.laureyssens@student.kdg.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "Password": "Password",
+      "Role": "Admin"
+    },
+    {
+      "Username": "stephane.boogaerts@student.kdg.be",
+      "Voornaam": "Stephane",
+      "Achternaam": "Boogaerts",
+      "email": "stephane.boogaerts@student.kdg.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "Password": "Password",
+      "Role": "Admin"
+    },
+    {
+      "Username": "thomas.dewitte@student.kdg.be",
+      "Voornaam": "Thomas",
+      "Achternaam": "Dewitte",
+      "email": "thomas.dewitte@student.kdg.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "Password": "Password",
+      "Role": "Admin"
+    },
+    {
+      "Username": "victor.declercq@student.kdg.be",
+      "Voornaam": "Victor",
+      "Achternaam": "Declercq",
+      "email": "victor.declercq@student.kdg.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "Password": "Password",
+      "Role": "Admin"
+    }
 	]
 }

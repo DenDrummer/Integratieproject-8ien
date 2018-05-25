@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-using IP_8IEN.BL.Domain.Data;
-using IP_8IEN.DAL.EF;
+using IP3_8IEN.BL.Domain.Data;
+using IP3_8IEN.DAL.EF;
 using System.Linq;
 using System.Data.Entity;
 
-namespace IP_8IEN.DAL
+namespace IP3_8IEN.DAL
 {
     public class MessageRepository : IMessageRepository
     {
@@ -79,7 +79,7 @@ namespace IP_8IEN.DAL
         {
             if (subjM)
             {
-                IEnumerable<Message> messages = ctx.Messages.Include("SubjectMessages").Include("SubjectMessages.Persoon");
+                IEnumerable<Message> messages = ctx.Messages.Include("SubjectMessages").Include("SubjectMessages.Persoon").Include("SubjectMessages.Persoon.Tewerkstellingen");
                 return messages;
             }
             else
@@ -105,5 +105,17 @@ namespace IP_8IEN.DAL
             ctx.SaveChanges();
         }
 
+        public Persoon ReadPersoon(string naam)
+        {
+            Persoon persoon = ctx.Personen.Include("SubjectMessages").Include("SubjectMessages.Msg").Include("Tewerkstellingen").Where(p => p.Naam == naam).FirstOrDefault();
+            return persoon;
+        }
+        public Persoon ReadPersoonWithTewerkstelling(string naam) {
+            return ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie").FirstOrDefault(p => p.Naam == naam);
+        }
+        public Persoon ReadPersoonWithTewerkstelling(int id)
+        {
+            return ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie").FirstOrDefault(p => p.OnderwerpId == id);
+        }
     }
 }

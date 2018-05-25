@@ -1,0 +1,72 @@
+﻿@model IP3_8IEN.BL.Domain.Gebruikers.ApplicationUser
+
+@{
+    ViewBag.Title = "DeleteAdmin";
+}
+
+<h2>DeleteAdmin</h2>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VoorNaam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VoorNaam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AchterNaam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AchterNaam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Geboortedatum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Geboortedatum)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
