@@ -12,6 +12,7 @@ using System.Web.Script.Serialization;
 using System.Net.Mail;
 using IP3_8IEN.BL.Domain.Dashboard;
 using System.Text;
+using System.Globalization;
 
 namespace IP3_8IEN.BL
 {
@@ -36,7 +37,7 @@ namespace IP3_8IEN.BL
         }
 
         //httpWebRequest POST naar 'textgain' api --> output doorgegeven aan 'AddMessages'
-        public void ApiRequestToJson()
+        public void ApiRequestToJson(bool isReCheck = false)
         {
             {
                 string url = "https://kdg.textgain.com/query";
@@ -50,13 +51,26 @@ namespace IP3_8IEN.BL
                 using (StreamWriter streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
                     //query opstellen : named parameters
-                    string json = new JavaScriptSerializer().Serialize(new
+                    if (isReCheck)
                     {
-                        //name = "Annick De Ridder",
-                        since = "29 Apr 2018 20:01",
-                        //until weglaten --> last scraping
-                        until = "30 Apr 2018 10:01",
-                    });
+                        json = new JavaScriptSerializer().Serialize(new
+                        {
+                            //name = "Annick De Ridder",
+                            since = ReadMessagesWithSubjMsgs().ToList().OrderByDescending(m => m.Date).First().Date.ToString("dd MMM yyyy hh:mm", new CultureInfo("en-GB")),
+                            //until weglaten --> last scraping
+                            // until = "30 Apr 2018 00:01",
+                        });
+                    }
+                    else
+                    {
+                        json = new JavaScriptSerializer().Serialize(new
+                        {
+                            //name = "Annick De Ridder",
+                            since = "24 May 2018 23:31",
+                            //until weglaten --> last scraping
+                            // until = "30 Apr 2018 00:01",
+                        });
+                    }
 
                     streamWriter.Write(json);
                 }
@@ -707,47 +721,24 @@ namespace IP3_8IEN.BL
                     tweetsPerDag.Add(ms.Where(m => m.Date.Date == start.Date).Count());
                     //tweetsPerDag.Add(messages.Where(Message => Message.Politician == s).Where(Message => Message.Date.Date == start).Count());
                     start = start.AddDays(1);
-                    System.Diagnostics.Debug.WriteLine(start);
                 } while (start <= laatsteTweet);
                 double totaal = 0;
                 foreach (int i in tweetsPerDag)
                 {
                     totaal = totaal + i;
                 }
-                System.Diagnostics.Debug.WriteLine("got here 1");
-                System.Diagnostics.Debug.WriteLine("1 " + totaal);
                 gemiddelde = totaal / tweetsPerDag.Count();
-                System.Diagnostics.Debug.WriteLine("1.1 " + gemiddelde + " " + tweetsPerDag.Count());
-                //tweetsPerDag.ForEach(i => System.Diagnostics.Debug.Write("{0}\n", i));
-                System.Diagnostics.Debug.WriteLine("got here 2");
 
                 double average = tweetsPerDag.Average();
-                System.Diagnostics.Debug.WriteLine(average);
                 double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
                 double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
-                System.Diagnostics.Debug.WriteLine("got here 3");
+                
 
-                System.Diagnostics.Debug.WriteLine("2 " + sd);
-
-                zscores.Add(new ZScore(s, (tweetsPerDag.Last() - gemiddelde) / sd));
-                System.Diagnostics.Debug.WriteLine((((double)tweetsPerDag.Last() - gemiddelde) / (gemiddelde * 100)));
-                System.Diagnostics.Debug.WriteLine(tweetsPerDag.Last());
-                System.Diagnostics.Debug.WriteLine(gemiddelde);
-                System.Diagnostics.Debug.WriteLine("---");
-                System.Diagnostics.Debug.WriteLine(tweetsPerDag.Count());
-                System.Diagnostics.Debug.WriteLine(totaal);
-                System.Diagnostics.Debug.WriteLine(s);
+                zscores.Add(new zscore(s, (tweetsPerDag.Last() - gemiddelde) / sd));
             }
-            System.Diagnostics.Debug.WriteLine("---");
-            foreach (ZScore z in zscores)
-            {
-                System.Diagnostics.Debug.WriteLine(z.ToString());
-            }
-
-            System.Diagnostics.Debug.WriteLine("got here 4");
+            
 
             GetTweetsPerDagList(repo.ReadPersonen().ToList().Where(p => p.Naam == "Jan Jambon").First());
-            System.Diagnostics.Debug.WriteLine(repo.ReadMessages().ToList().Count());
         }
 
         public void SendMail()
@@ -770,7 +761,7 @@ namespace IP3_8IEN.BL
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Mail says no" + ex);
+                System.Diagnostics.Debug.WriteLine("Mail was not send" + ex);
             }
         }
 
@@ -887,12 +878,7 @@ namespace IP3_8IEN.BL
                 GraphDataList.Add(new GraphData2(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon1)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon2)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon3)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon4)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon5)).Count()));
                 lastTweet = lastTweet.AddDays(-1);
             }
-
-            foreach (var v in GraphDataList)
-            {
-                System.Diagnostics.Debug.WriteLine(v.Label + " " + v.Value);
-            }
-
+            
 
             return GraphDataList;
         }
@@ -1409,11 +1395,7 @@ namespace IP3_8IEN.BL
                 GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date.Day == lastTweet.Date.Day && m.IsFromPersoon(persoon)).Count()));
                 lastTweet = lastTweet.AddDays(-1);
             }
-
-            foreach (var v in GraphDataList)
-            {
-                System.Diagnostics.Debug.WriteLine(v.Label + " " + v.Value);
-            }
+            
             return GraphDataList;
         }
 
@@ -1444,14 +1426,16 @@ namespace IP3_8IEN.BL
             {
                 string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
                 int count = 0;
-                IEnumerable<SubjectMessage> subjMsgs = persoon.SubjectMessages.Where(s => s.Msg.Date.Day == lastTweet.Date.Day).ToList();
-                
-                foreach (SubjectMessage s in subjMsgs)
+                if (persoon.SubjectMessages != null)
                 {
+                    IEnumerable<SubjectMessage> subjMsgs = persoon.SubjectMessages.Where(s => s.Msg.Date.Day == lastTweet.Date.Day).ToList();
+                    //////////////////////////////////////////////////////////////////////////
+                    foreach (SubjectMessage s in subjMsgs)
+                    {
                         count++;
-                }
-                GraphData graph = new GraphData(date, count);
-                dashMgr.AddGraph(graph);
+                    }
+                    GraphData graph = new GraphData(date, count);
+                    dashMgr.AddGraph(graph);
 
                 GraphDataList.Add(graph);
                 

@@ -64,7 +64,7 @@ namespace IP3_8IEN.BL
                     Name = "SuperAdmin"
                 });
 
-                // Administrator aanmaken
+        //        // Administrator aanmaken
 
                 var user = new ApplicationUser
                 {
@@ -84,7 +84,7 @@ namespace IP3_8IEN.BL
                 {
                     var result1 = this.AddToRole(user.Id, "SuperAdmin");
                 }
-                _gebruikerMgr.AddGebruiker(user.UserName, user.Id, "Admin", "Qwerty", "SuperAdmin");
+                _gebruikerMgr.AddGebruiker(user.UserName, user.Id, "Admin", "Qwerty",user.Email, "SuperAdmin");
             }
 
             // Manager role aanmaken    
@@ -142,7 +142,7 @@ namespace IP3_8IEN.BL
             CreateUserWithRoleAsync(gebruiker, passw, role);
 
             // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken
-            _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName, role);
+            _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName,gebruiker.Email, role);
         }
 
         ////inladen vanuit json formaat
@@ -171,7 +171,7 @@ namespace IP3_8IEN.BL
                 CreateUserWithRoleAsync(gebruiker, passw, role);
 
                 // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken
-                _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName, role);
+                _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName, gebruiker.Email, role);
             }
         }
     }

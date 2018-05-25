@@ -100,10 +100,7 @@ namespace IP3_8IEN.BL
                         ThresholdValue = item.Threshold
                     };
                     repo.AddingAlertInstelling(vf);
-                    System.Diagnostics.Debug.WriteLine("jah");
-                }
-                else if (item.OnderwerpId2 != null)
-                {
+                }else if (item.OnderwerpId2 != null) {
                     HogerLager hl = new HogerLager()
                     {
                         Gebruiker = FindUser((String)item.Username),
@@ -115,10 +112,8 @@ namespace IP3_8IEN.BL
                         Onderwerp2 = onderwerpen.FirstOrDefault(x => x.OnderwerpId == (int)item.OnderwerpId2)
                     };
                     repo.AddingAlertInstelling(hl);
-                    System.Diagnostics.Debug.WriteLine("jah");
-                }
-                else
-                {
+                }else
+                { 
                     PositiefNegatief pn = new PositiefNegatief()
                     {
                         Gebruiker = FindUser((String)item.Username),
@@ -130,7 +125,6 @@ namespace IP3_8IEN.BL
                         negatief = (bool)item.Negatief
                     };
                     repo.AddingAlertInstelling(pn);
-                    System.Diagnostics.Debug.WriteLine("jah");
                 }
 
 
@@ -219,7 +213,7 @@ namespace IP3_8IEN.BL
             return alert;
         }
 
-        public void AddGebruiker(string userName, string userId, string naam, string voornaam, string role = "User")
+        public void AddGebruiker(string userName, string userId, string naam, string voornaam, string email, string role = "User")
         {
             InitNonExistingRepo();
 
@@ -230,6 +224,7 @@ namespace IP3_8IEN.BL
                 Voornaam = voornaam,
                 Naam = naam,
                 Role = role,
+                Email = email,
                 Active = true
             };
             repo.AddingGebruiker(gebruiker);
@@ -326,8 +321,7 @@ namespace IP3_8IEN.BL
 
         public void GetAlertHogerLagers()
         {
-            System.Diagnostics.Debug.WriteLine("HL started");
-            InitNonExistingRepo();
+            initNonExistingRepo();
             dataMgr = new DataManager();
 
             List<HogerLager> hogerLagers = repo.ReadHogerLagers().ToList();
@@ -349,7 +343,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = hl,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One HL added");
                         }
                     }
                     else
@@ -364,7 +357,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = hl,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One HL added");
                         }
                     }
                 }
@@ -383,7 +375,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = hl,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One HL added");
                         }
                     }
                     else
@@ -398,7 +389,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = hl,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One HL added");
                         }
                     }
                 }
@@ -407,8 +397,7 @@ namespace IP3_8IEN.BL
 
         public void GetAlertValueFluctuations()
         {
-            System.Diagnostics.Debug.WriteLine("VF Started");
-            InitNonExistingRepo();
+            initNonExistingRepo();
             dataMgr = new DataManager();
 
             List<ValueFluctuation> valueFluctuations = repo.ReadValueFluctuations().ToList();
@@ -428,7 +417,6 @@ namespace IP3_8IEN.BL
                             AlertInstelling = vf,
                             CreatedOn = DateTime.Now
                         });
-                        System.Diagnostics.Debug.WriteLine("One VF added");
                     }
                 }
                 else
@@ -443,7 +431,6 @@ namespace IP3_8IEN.BL
                             AlertInstelling = vf,
                             CreatedOn = DateTime.Now
                         });
-                        System.Diagnostics.Debug.WriteLine("One VF added");
                     }
                 }
             }
@@ -451,8 +438,7 @@ namespace IP3_8IEN.BL
 
         public void GetAlertPositiefNegatiefs()
         {
-            System.Diagnostics.Debug.WriteLine("PN started");
-            InitNonExistingRepo();
+            initNonExistingRepo();
             dataMgr = new DataManager();
             double total = 1;
 
@@ -477,7 +463,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = pn,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One PN added");
                         }
                     }
                     else
@@ -491,7 +476,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = pn,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One PN added");
                         }
                     }
                 }
@@ -511,7 +495,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = pn,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One PN added");
                         }
                     }
                     else
@@ -525,7 +508,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = pn,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One PN added");
                         }
                     }
                 }
@@ -585,7 +567,6 @@ namespace IP3_8IEN.BL
 
 
                 double average = tweetsPerDag.Average();
-                System.Diagnostics.Debug.WriteLine(average);
                 double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
                 double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
 
@@ -640,7 +621,6 @@ namespace IP3_8IEN.BL
 
 
                 double average = tweetsPerDag.Average();
-                System.Diagnostics.Debug.WriteLine(average);
                 double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
                 double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
 
@@ -660,7 +640,7 @@ namespace IP3_8IEN.BL
             foreach (Gebruiker g in gebruikers)
             {
                 sb.Clear();
-                sb.Append(@"<div id=""wrapper"" style=""width:600px;margin:0 auto; border:1px solid black; 
+                sb.Append(@"<img src='https://i.imgur.com/mxv6a2j.png' alt='Smiley face' style='width:620px;display:block;padding: 10px 10px 10px 10px;margin:0 auto;'> <div id=""wrapper"" style=""width:600px;margin:0 auto; border:1px solid black; 
                             overflow:hidden; padding: 10px 10px 10px 10px;"" ><p><i>");
                 // Voor- en Achternaam kunnen voorlopig leeg zijn
                 //sb.Append(g.Voornaam + " " + g.Naam);
@@ -670,22 +650,20 @@ namespace IP3_8IEN.BL
                             u volgt. Indien u op de hoogte gehouden wilt worden van nog meer onderwerpen, kan u 
                             </br> steeds extra onderwerpen volgen op <a href=""www.8ien.be""> Weekly Reviews </a>. </p>
                             <h3>Personen</h3> <div style=""margin: 0px;""> <p>Naam : Bart De Wever </p> <ul>");
-                if (g.AlertInstellingen != null)
+                if (g.AlertInstellingen.Count() != 0) {
+                foreach (AlertInstelling al in g.AlertInstellingen)
                 {
-                    foreach (AlertInstelling al in g.AlertInstellingen)
+                    if (al.Alerts != null) {
+                    foreach (Alert a in al.Alerts)
                     {
-                        if (al.Alerts != null)
+                        if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
                         {
-                            foreach (Alert a in al.Alerts)
-                            {
-                                if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
-                                {
-                                    dezeWeek.Add(a);
-                                    sb.Append("<li>" + a.ToString() + "</li>");
-                                }
-                            }
+                            dezeWeek.Add(a);
+                                    sb.Append("<li>" +  a.ToString() + "</li>");
                         }
                     }
+                    }
+                }
                 }
                 sb.Append(@"</ul></div></div>");
                 SendMail(dezeWeek, g.Email, sb.ToString());
@@ -760,7 +738,7 @@ namespace IP3_8IEN.BL
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Mail says no");
+                System.Diagnostics.Debug.WriteLine("Mail did not send" + ex);
             }
         }
 
@@ -788,7 +766,7 @@ namespace IP3_8IEN.BL
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Mail says no");
+                System.Diagnostics.Debug.WriteLine("Mail did not send" + ex);
             }
         }
     }

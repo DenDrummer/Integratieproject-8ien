@@ -29,8 +29,9 @@ namespace IP3_8IEN.BL
         List<ValueFluctuation> GetValueFluctuationsByUser();
         List<Alert> GetAlertsByUser(Gebruiker gebruiker);
         //void AddApplicationGebruikers(string filePath); <-- verhuist naar ApplicationUserManager()
-        
-        void AddGebruiker(string userName, string id, string naam, string voornaam, string role);
+
+        //10 mei 2018 : Stephane
+        void AddGebruiker(string userName, string id, string naam, string voornaam, string email, string role);
         void UpdateGebruiker(Gebruiker gebruiker);
         
         void DeleteUser(string userId);

@@ -328,7 +328,30 @@ namespace IP3_8IEN.BL
             return repo.ReadDashItems().Where(d => d.Active == true);
         }
 
-        public void AddTileZone(TileZone tile) => repo.AddTileZone(tile);
+        public List<GraphData> ExtractGraphList(int id)
+        {
+            initNonExistingRepo();
+
+            DashItem dashItem = repo.ReadDashItemWithGraph(id);
+            List<GraphData> listData = new List<GraphData>();
+
+            foreach (GraphData graph in dashItem.Graphdata)
+            {
+                listData.Add(new GraphData
+                {
+                    //controleren duplicaten DB
+                    label = graph.label,
+                    value = graph.value
+                });
+            }
+
+            return listData;
+        }
+
+        public void AddTileZone(TileZone tile)
+        {
+            repo.AddTileZone(tile);
+        }
 
         public Dashbord AddDashBord(string userId)
         {

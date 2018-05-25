@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IP_8IEN.BL.Domain.Gebruikers.PositiefNegatief>
+﻿@model IEnumerable<IP3_8IEN.BL.Domain.Gebruikers.PositiefNegatief>
 
 @{
     ViewBag.Title = "Details";
@@ -12,6 +12,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Onderwerp)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.AlertState)
         </th>
         <th>
@@ -23,14 +26,14 @@
         <th>
             @Html.DisplayNameFor(model => model.MobileNotification)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Type)
-        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Onderwerp.Naam)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.AlertState)
         </td>
@@ -44,12 +47,9 @@
             @Html.DisplayFor(modelItem => item.MobileNotification)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Type)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AlertInstellingId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AlertInstellingId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AlertInstellingId })
+            @Html.ActionLink("Edit", "Edit", new { id = item.AlertInstellingId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.AlertInstellingId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.AlertInstellingId })
         </td>
     </tr>
 }

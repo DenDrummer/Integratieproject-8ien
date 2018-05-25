@@ -32,7 +32,11 @@ namespace IP3_8IEN.BL
         
         Dashbord GetDashboardWithFollows(Gebruiker user);
         Dashbord UpdateDashboard(Dashbord dashbord);
-        
+
+        //Sam 
+        List<GraphData> ExtractGraphList(int id);
+
+        //23 mei 2018 : Stephane
         List<Follow> CreateFollow(int dashId, List<int> listPersoonId);
         DashItem SetupDashItem(Gebruiker user, List<Follow> follows);
         void RemoveDashItem(int id);

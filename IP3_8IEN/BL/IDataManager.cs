@@ -27,6 +27,11 @@ namespace IP3_8IEN.BL
         Persoon GetPersoon(string naam);
         Persoon GetPersoon(int persoonId);
         IEnumerable<Persoon> GetPersonen();
+        //6 apr 2018 : Stephane
+        void ApiRequestToJson(bool isReCheck = false);
+
+        //16 apr 2018 : Stephane
+        void AddMessages(string json);
         Persoon AddPersoon(string naam);
         void AddPersonen(string path);
         Persoon GetPersoonWithTewerkstelling(string naam);
