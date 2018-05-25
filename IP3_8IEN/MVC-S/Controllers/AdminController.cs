@@ -69,7 +69,7 @@ namespace MVC_S.Controllers
             //add user to the datacontext (database) and save changes
             _userManager.Update(user);
 
-            return RedirectToAction("index");
+            return RedirectToAction("User");
         }
 
         [HttpGet]
@@ -91,7 +91,7 @@ namespace MVC_S.Controllers
                 //  niet echt deleten maar overschrijven met anonieme data
                 _gebrManager.DeleteUser(id);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("User");
             }
             catch
             {
@@ -134,7 +134,7 @@ namespace MVC_S.Controllers
             {
                 _dataManager.ChangePersoon(persoon);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Persoon");
             }
 
             return View();
@@ -168,7 +168,7 @@ namespace MVC_S.Controllers
             {
                 _dataManager.ChangeOrganisation(organisatie);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Organisatie");
             }
 
             return View();
@@ -206,7 +206,7 @@ namespace MVC_S.Controllers
             try
             {
                 _dashManager.RemoveDashItem(id);
-                return RedirectToAction("Index");
+                return RedirectToAction("Grafiek");
             }
             catch
             {
