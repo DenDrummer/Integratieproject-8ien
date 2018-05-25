@@ -30,34 +30,35 @@ namespace IP3_8IEN.BL
 
         public Dashbord GetDashboard(Gebruiker user)
         {
-            initNonExistingRepo();
-
-            Dashbord dash = repo.ReadDashbord(user);
-            return dash;
+            InitNonExistingRepo();
+            
+            return repo.ReadDashbord(user);
         }
 
         public Dashbord GetDashboard(int dashId)
         {
-            initNonExistingRepo();
-
-            Dashbord dash = repo.ReadDashbord(dashId);
-            return dash;
+            InitNonExistingRepo();
+            
+            return repo.ReadDashbord(dashId);
         }
 
         public Dashbord GetDashboardWithFollows(Gebruiker user)
         {
-            initNonExistingRepo();
-
-            Dashbord dash = repo.ReadDashbordWithFollows(user);
-            return dash;
+            InitNonExistingRepo();
+            
+            return repo.ReadDashbordWithFollows(user);
         }
 
         public DashItem CreateDashitem(bool adminGraph, string type, string naam = "usergraph")
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
-            DashItem dashItem;
-            dashItem = new DashItem() { LastModified = System.DateTime.Now, Type = type, Naam = naam, Active = true };
+            DashItem dashItem = new DashItem() {
+                LastModified = DateTime.Now,
+                Type = type,
+                Naam = naam,
+                Active = true
+            };
 
             if (adminGraph)
             {
@@ -75,20 +76,16 @@ namespace IP3_8IEN.BL
 
         public Follow CreateFollow(int dashId, int id)
         {
-            initNonExistingRepo(true);
-
-            DashItem dashItem = repo.ReadDashItem(dashId);
+            InitNonExistingRepo(true);
 
             dataMgr = new DataManager(uowManager);
             bool UoW = false;
             repo.setUnitofWork(UoW);
 
-            Persoon onderwerp = dataMgr.GetPersoon(id);
-
             Follow follow = new Follow()
             {
-                DashItem = dashItem,
-                Onderwerp = onderwerp
+                DashItem = repo.ReadDashItem(dashId),
+                Onderwerp = dataMgr.GetPersoon(id)
             };
             repo.AddFollow(follow);
 
@@ -102,24 +99,22 @@ namespace IP3_8IEN.BL
 
         public List<Follow> CreateFollow(int dashId, List<int> listPersoonId)
         {
-            initNonExistingRepo(true);
-
-            DashItem dashItem = repo.ReadDashItem(dashId);
+            InitNonExistingRepo(true);
+            
             List<Follow> follows = new List<Follow>();
 
             dataMgr = new DataManager(uowManager);
             bool UoW = false;
             repo.setUnitofWork(UoW);
-
-            IEnumerable<Persoon> personen = dataMgr.GetPersonen();
+            
             List<Persoon> listPersonen = new List<Persoon>();
 
             foreach(int persoonId in listPersoonId)
             {
                 Follow follow = new Follow()
                 {
-                    DashItem = dashItem,
-                    Onderwerp = personen.FirstOrDefault(p => p.OnderwerpId == persoonId)
+                    DashItem = repo.ReadDashItem(dashId),
+                    Onderwerp = dataMgr.GetPersonen().FirstOrDefault(p => p.OnderwerpId == persoonId)
                 };
                 follows.Add(follow);
                 repo.AddFollow(follow);
@@ -134,13 +129,15 @@ namespace IP3_8IEN.BL
 
         public DashItem SetupDashItem(/*DashItem dashItem,*/ Gebruiker user, Follow follow)
         {
-            initNonExistingRepo(true);
+            InitNonExistingRepo(true);
 
             bool UoW = false;
             repo.setUnitofWork(UoW);
 
-            follow.DashItem.Follows = new Collection<Follow>();
-            follow.DashItem.Follows.Add(follow);
+            follow.DashItem.Follows = new Collection<Follow>
+            {
+                follow
+            };
 
             Dashbord dashbord = GetDashboard(user);
 
@@ -164,16 +161,14 @@ namespace IP3_8IEN.BL
 
         public DashItem SetupDashItem(Gebruiker user, List<Follow> follows)
         {
-            initNonExistingRepo(true);
+            InitNonExistingRepo(true);
 
             bool UoW = false;
             repo.setUnitofWork(UoW);
 
-            Dashbord dashbord = GetDashboard(user);
-
             TileZone tile = new TileZone()
             {
-                Dashbord = dashbord,
+                Dashbord = GetDashboard(user),
                 DashItem = follows[0].DashItem
             };
             uowManager.Save();
@@ -193,7 +188,7 @@ namespace IP3_8IEN.BL
 
         public void LinkGraphsToUser(List<GraphData> graphDataList, int dashId)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             DashItem dashItem = repo.ReadDashItem(dashId);
             dashItem.Graphdata = new Collection<GraphData>();
@@ -210,21 +205,18 @@ namespace IP3_8IEN.BL
 
         public void AddGraph(GraphData graph)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             repo.AddGraph(graph);
         }
 
-        
 
-        public void UpdateDashItem(DashItem dashItem)
-        {
-            repo.UpdateDashItem(dashItem);
-        }
+
+        public void UpdateDashItem(DashItem dashItem) => repo.UpdateDashItem(dashItem);
 
         public IEnumerable<Follow> GetFollows(bool admin = false)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             IEnumerable<Follow> follows = repo.ReadFollows();
 
             if (admin)
@@ -242,14 +234,13 @@ namespace IP3_8IEN.BL
             public string[] labels;
         }
 
-        public GraphdataValues getGraphData(int persoonId, int aantalDagen, string type)
+        public GraphdataValues GetGraphData(int persoonId, int aantalDagen, string type)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             dataMgr = new DataManager();
-            Persoon persoon = dataMgr.GetPersoon(persoonId);
 
-            List<GraphData> graphs = dataMgr.GetTweetsPerDagList(persoon, aantalDagen);
+            List<GraphData> graphs = dataMgr.GetTweetsPerDagList(dataMgr.GetPersoon(persoonId), aantalDagen);
 
             if (type == "Line")
             {
@@ -283,7 +274,7 @@ namespace IP3_8IEN.BL
 
         public Dashbord UpdateDashboard(Dashbord dashbord)
         {
-            initNonExistingRepo(true);
+            InitNonExistingRepo(true);
             dataMgr = new DataManager(uowManager);
             repo.setUnitofWork(false);
 
@@ -308,7 +299,7 @@ namespace IP3_8IEN.BL
 
                     }
 
-                    GraphdataValues graphs = getGraphData(persoonId[0], 10, tileZone.DashItem.Type);
+                    GraphdataValues graphs = GetGraphData(persoonId[0], 10, tileZone.DashItem.Type);
 
                     int j = 0;
                     foreach (var graph in tileZone.DashItem.Graphdata)
@@ -331,32 +322,26 @@ namespace IP3_8IEN.BL
 
         public IEnumerable<DashItem> GetDashItems()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             //enkel 'DashItems' die niet zijn verwijderd teruggeven
-            IEnumerable<DashItem> dashItems = repo.ReadDashItems().Where(d => d.Active == true);
-            return dashItems;
+            return repo.ReadDashItems().Where(d => d.Active == true);
         }
 
-        public void AddTileZone(TileZone tile)
-        {
-            repo.AddTileZone(tile);
-        }
+        public void AddTileZone(TileZone tile) => repo.AddTileZone(tile);
 
         public Dashbord AddDashBord(string userId)
         {
-            initNonExistingRepo(true);
+            InitNonExistingRepo(true);
 
             gebruikerMgr = new GebruikerManager(uowManager);
             bool UoW = false;
             repo.setUnitofWork(UoW);
 
-            //De te associëren gebruiker wordt opgehaald
-            Gebruiker gebruiker = gebruikerMgr.GetGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
-
             Dashbord dashbord = new Dashbord
             {
-                User = gebruiker,
+                //De te associëren gebruiker wordt opgehaald
+                User = gebruikerMgr.GetGebruikers().FirstOrDefault(u => u.GebruikerId == userId),
                 TileZones = new Collection<TileZone>()
             };
             repo.AddDashBord(dashbord);
@@ -369,14 +354,13 @@ namespace IP3_8IEN.BL
 
         public Dashbord DashbordInitGraphs(int dashId)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             Dashbord dashbord = repo.ReadDashbord(dashId);
 
             //We halen vaste grafieken op (AdminGraphs) en koppelen deze aan de 
             //nieuw aangemaakte dashboard van de nieuwe gebruiker
-            IEnumerable<DashItem> dashItems = GetDashItems();
-            dashItems = dashItems.Where(d => d.AdminGraph == true);
+            IEnumerable<DashItem> dashItems = GetDashItems().Where(d => d.AdminGraph == true);
 
             if (dashbord.TileZones == null)
             {
@@ -398,17 +382,15 @@ namespace IP3_8IEN.BL
 
         public void InitializeDashbordNewUsers(string userId)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             //Dashbord aanmaken en associëren met user
-            Dashbord dashbord = AddDashBord(userId);
-
-            //Dashbord initialiseren met vaste grafieken
-            DashbordInitGraphs(dashbord.DashbordId);
+            //en initialiseren met vaste grafieken
+            DashbordInitGraphs(AddDashBord(userId).DashbordId);
         }
 
         public void RemoveDashItem(int id)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             DashItem dashItem = repo.ReadDashItem(id);
             dashItem.Active = false;
@@ -416,7 +398,7 @@ namespace IP3_8IEN.BL
         }
 
         //Unit of Work related
-        public void initNonExistingRepo(bool withUnitOfWork = false)
+        public void InitNonExistingRepo(bool withUnitOfWork = false)
         {
             // Als we een repo met UoW willen gebruiken en als er nog geen uowManager bestaat:
             // Dan maken we de uowManager aan en gebruiken we de context daaruit om de repo aan te maken.
@@ -426,7 +408,7 @@ namespace IP3_8IEN.BL
                 {
                     uowManager = new UnitOfWorkManager();
                 }
-                repo = new DAL.DashRepository(uowManager.UnitOfWork);
+                repo = new DashRepository(uowManager.UnitOfWork);
             }
             // Als we niet met UoW willen werken, dan maken we een repo aan als die nog niet bestaat.
             else
@@ -434,7 +416,7 @@ namespace IP3_8IEN.BL
                 //zien of repo al bestaat
                 if (repo == null)
                 {
-                    repo = new DAL.DashRepository();
+                    repo = new DashRepository();
                 }
                 else
                 {
@@ -442,7 +424,7 @@ namespace IP3_8IEN.BL
                     bool isUoW = repo.isUnitofWork();
                     if (isUoW)
                     {
-                        repo = new DAL.DashRepository();
+                        repo = new DashRepository();
                     }
                     else
                     {

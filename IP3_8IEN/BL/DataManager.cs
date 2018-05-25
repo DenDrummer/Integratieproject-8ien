@@ -11,7 +11,6 @@ using System.Net;
 using System.Web.Script.Serialization;
 using System.Net.Mail;
 using IP3_8IEN.BL.Domain.Dashboard;
-using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Text;
 
 namespace IP3_8IEN.BL
@@ -48,13 +47,10 @@ namespace IP3_8IEN.BL
                 httpWebRequest.Accept = "application/json; charset=utf-8";
                 httpWebRequest.Method = "POST";
 
-                string json;
-                string jsonReturn;
-
-                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                using (StreamWriter streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
                     //query opstellen : named parameters
-                    json = new JavaScriptSerializer().Serialize(new
+                    string json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
                         since = "29 Apr 2018 20:01",
@@ -65,14 +61,13 @@ namespace IP3_8IEN.BL
                     streamWriter.Write(json);
                 }
 
-                var serializer = new JsonSerializer();
+                JsonSerializer serializer = new JsonSerializer();
 
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                using (StreamReader streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 {
-                    jsonReturn = streamReader.ReadToEnd();
+                    AddMessages(streamReader.ReadToEnd());
                 }
-                AddMessages(jsonReturn);
             }
         }
 
@@ -91,9 +86,9 @@ namespace IP3_8IEN.BL
             dynamic tweets = JsonConvert.DeserializeObject(json);
 
             //initialisatie van velden voor array
-            string word1 = null, word2 = null, word3 = null, word4 = null, word5 = null;
-            string mention1 = null, mention2 = null, mention3 = null, mention4 = null, mention5 = null;
-            string url1 = null, url2 = null;
+            string word1 = null, word2 = null, word3 = null, word4 = null, word5 = null,
+                mention1 = null, mention2 = null, mention3 = null, mention4 = null, mention5 = null,
+                url1 = null, url2 = null;
 
             // Arrays die we gaan opvullen met arrayobjecten uit de dynamische json objecten
             // Dit zijn parameters waar geen afzonderlijke klasse voorzien is
@@ -177,8 +172,7 @@ namespace IP3_8IEN.BL
 
                 foreach (string hashtag in item.hashtags)
                 {
-                    Hashtag hasht = AddHashtag(hashtag);
-                    AddSubjectMessage(tweet, hasht);
+                    AddSubjectMessage(tweet, AddHashtag(hashtag));
                 }
 
                 repo.UpdateMessage();
@@ -195,9 +189,7 @@ namespace IP3_8IEN.BL
             Persoon persoon;
             IEnumerable<Persoon> personen = repo.ReadPersonen();
 
-            bool ifExists = personen.Any(x => x.Naam == naam);
-
-            if (ifExists == true)
+            if (personen.Any(x => x.Naam == naam))
             {
                 persoon = personen.FirstOrDefault(x => x.Naam == naam);
             }
@@ -226,9 +218,7 @@ namespace IP3_8IEN.BL
             Hashtag hasht;
             IEnumerable<Hashtag> hashtags = repo.ReadHashtags();
 
-            bool ifExists = hashtags.Any(x => x.HashtagString == hashtag);
-
-            if (ifExists == true)
+            if (hashtags.Any(x => x.HashtagString == hashtag))
             {
                 hasht = hashtags.FirstOrDefault(x => x.HashtagString == hashtag);
             }
@@ -259,8 +249,10 @@ namespace IP3_8IEN.BL
 
             if(persoon.SubjectMessages == null)
             {
-                persoon.SubjectMessages = new Collection<SubjectMessage>();
-                persoon.SubjectMessages.Add(subjMess);
+                persoon.SubjectMessages = new Collection<SubjectMessage>
+                {
+                    subjMess
+                };
             } else {
                 persoon.SubjectMessages.Add(subjMess);
             }
@@ -272,13 +264,12 @@ namespace IP3_8IEN.BL
         public void AddSubjectMessage(Message msg, Hashtag hashtag)
         {
             initNonExistingRepo();
-
-            SubjectMessage subjMess = new SubjectMessage()
+            
+            repo.AddSubjectMsg(new SubjectMessage()
             {
                 Msg = msg,
                 Hashtag = hashtag
-            };
-            repo.AddSubjectMsg(subjMess);
+            });
         }
 
         // We vragen adhv een methode in de repo een lijst in te laden
@@ -286,9 +277,8 @@ namespace IP3_8IEN.BL
         public IEnumerable<Onderwerp> ReadOnderwerpen()
         {
             initNonExistingRepo();
-
-            IEnumerable<Onderwerp> onderwerpen = repo.ReadSubjects();
-            return onderwerpen;
+            
+            return repo.ReadSubjects();
         }
 
         public Organisatie AddOrganisation(string naamOrganisatie)
@@ -298,9 +288,7 @@ namespace IP3_8IEN.BL
             Organisatie organisatie;
             IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
 
-            bool ifExists = organisaties.Any(x => x.Naam == naamOrganisatie);
-
-            if (ifExists == true)
+            if (organisaties.Any(x => x.Naam == naamOrganisatie))
             {
                 organisatie = organisaties.FirstOrDefault(x => x.Naam == naamOrganisatie);
             }
@@ -316,12 +304,7 @@ namespace IP3_8IEN.BL
             return organisatie;
         }
 
-        public void AddOrganisations(string filePath)
-        {
-            initNonExistingRepo();
-
-            // Json /CSV
-        }
+        public void AddOrganisations(string filePath) => initNonExistingRepo();// Json /CSV
 
         public void AddTewerkstelling(string naam, string naamOrganisatie)
         {
@@ -334,12 +317,8 @@ namespace IP3_8IEN.BL
             IEnumerable<Persoon> personen = repo.ReadPersonen();
             IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
 
-            //kijken of persoon en organisatie bestaan
-            bool ifExistsP = personen.Any(x => x.Naam == naam);
-            bool ifExistsO = organisaties.Any(x => x.Naam == naamOrganisatie);
-
-            //persoon & organisatie initialiseren
-            if (ifExistsP)
+            //persoon & organisatie initialiseren indien ze bestaan
+            if (personen.Any(x => x.Naam == naam))
             {
                 persoon = personen.FirstOrDefault(x => x.Naam == naam);
             }
@@ -347,7 +326,7 @@ namespace IP3_8IEN.BL
             {
                 throw new ArgumentException("Persoon '" + naam + "' not found!");
             }
-            if (ifExistsO)
+            if (organisaties.Any(x => x.Naam == naamOrganisatie))
             {
                 organisatie = organisaties.FirstOrDefault(x => x.Naam == naamOrganisatie);
             }
@@ -403,21 +382,16 @@ namespace IP3_8IEN.BL
             //Persoon persoon;
             Organisatie organisatie;
 
-            //lijst personen en organisaties opvragen
-            IEnumerable<Persoon> personen = repo.ReadPersonen();
+            //lijst organisaties opvragen
             IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
-
-            //kijken of persoon en organisatie bestaan
-            bool ifExistsP = personen.Any(x => x.Naam == persoon.Naam);
-            bool ifExistsO = organisaties.Any(x => x.Naam == naamOrganisatie);
-
+            
             //kijken of persoon bestaat 
-            if (!ifExistsP)
+            if (!repo.ReadPersonen().Any(x => x.Naam == persoon.Naam))
             {
                 throw new ArgumentException("Persoon '" + persoon.Naam + "' not found!");
             }
             //kijken of organisatie bestaat & initialiseren
-            if (ifExistsO)
+            if (organisaties.Any(x => x.Naam == naamOrganisatie))
             {
                 organisatie = organisaties.FirstOrDefault(x => x.Naam == naamOrganisatie);
             }
@@ -469,9 +443,8 @@ namespace IP3_8IEN.BL
         public void AddPersonen(string pathToJson)
         {
             initNonExistingRepo();
-
-            StreamReader r = new StreamReader(pathToJson);
-            string json = r.ReadToEnd();
+            
+            string json = new StreamReader(pathToJson).ReadToEnd();
             List<Message> messages = new List<Message>();
 
             dynamic persons = JsonConvert.DeserializeObject(json);
@@ -665,12 +638,12 @@ namespace IP3_8IEN.BL
 
 
 
-        public class zscore
+        public class ZScore
         {
             private string politician;
             private double score;
 
-            public zscore(string politician, double score)
+            public ZScore(string politician, double score)
             {
                 this.politician = politician;
                 this.score = score;
@@ -681,7 +654,7 @@ namespace IP3_8IEN.BL
         public void GetAlerts()
         {
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
-            List<zscore> zscores = new List<zscore>();
+            List<ZScore> zscores = new List<ZScore>();
             List<String> namen = new List<string>();
             int totaalTweets;
             double gemiddelde;
@@ -756,7 +729,7 @@ namespace IP3_8IEN.BL
 
                 System.Diagnostics.Debug.WriteLine("2 " + sd);
 
-                zscores.Add(new zscore(s, (tweetsPerDag.Last() - gemiddelde) / sd));
+                zscores.Add(new ZScore(s, (tweetsPerDag.Last() - gemiddelde) / sd));
                 System.Diagnostics.Debug.WriteLine((((double)tweetsPerDag.Last() - gemiddelde) / (gemiddelde * 100)));
                 System.Diagnostics.Debug.WriteLine(tweetsPerDag.Last());
                 System.Diagnostics.Debug.WriteLine(gemiddelde);
@@ -766,7 +739,7 @@ namespace IP3_8IEN.BL
                 System.Diagnostics.Debug.WriteLine(s);
             }
             System.Diagnostics.Debug.WriteLine("---");
-            foreach (zscore z in zscores)
+            foreach (ZScore z in zscores)
             {
                 System.Diagnostics.Debug.WriteLine(z.ToString());
             }
@@ -1472,7 +1445,7 @@ namespace IP3_8IEN.BL
                 string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
                 int count = 0;
                 IEnumerable<SubjectMessage> subjMsgs = persoon.SubjectMessages.Where(s => s.Msg.Date.Day == lastTweet.Date.Day).ToList();
-                //////////////////////////////////////////////////////////////////////////
+                
                 foreach (SubjectMessage s in subjMsgs)
                 {
                         count++;
@@ -1481,7 +1454,7 @@ namespace IP3_8IEN.BL
                 dashMgr.AddGraph(graph);
 
                 GraphDataList.Add(graph);
-                //////////////////////////////////////////////////////////////////////////
+                
                 lastTweet = lastTweet.AddDays(-1);
             }
             uowManager.Save();
@@ -1525,31 +1498,19 @@ namespace IP3_8IEN.BL
             {
                 string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
 
-                //////////////////////////////////////////////////////////////////////////
+                
                 int count = messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon)).Count();
 
                 GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon)).Count());
                 dashMgr.AddGraph(graph);
 
                 GraphDataList.Add(graph);
-                //////////////////////////////////////////////////////////////////////////
+                
                 lastTweet = lastTweet.AddDays(-1);
             }
             uowManager.Save();
             return GraphDataList;
         }
-
-        //public bool IsFromPersoon(Persoon persoon)
-        //{
-        //    foreach (SubjectMessage s in subjMsgs)
-        //    {
-        //        if (s.Persoon == persoon)
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
 
         public List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = false)
         {
@@ -1577,7 +1538,7 @@ namespace IP3_8IEN.BL
                 }
                 else
                 {
-                    GraphData graph = new GraphData(p.Naam, (double)CalculateChange(voorlaatstePeriode, laatstePeriode));
+                    GraphData graph = new GraphData(p.Naam, CalculateChange(voorlaatstePeriode, laatstePeriode));
                     ranking.Add(graph);
                 }
             }
@@ -1609,10 +1570,11 @@ namespace IP3_8IEN.BL
         {
             initNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
-            List<GraphData> data = new List<GraphData>();
-
-            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
-            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
+            List<GraphData> data = new List<GraphData>
+            {
+                new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()),
+                new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count())
+            };
 
             return data;
         }
@@ -1621,11 +1583,12 @@ namespace IP3_8IEN.BL
         {
             initNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
-            List<GraphData> data = new List<GraphData>();
-
-            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
-            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
-            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()));
+            List<GraphData> data = new List<GraphData>
+            {
+                new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()),
+                new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()),
+                new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count())
+            };
 
             return data;
         }
@@ -1634,12 +1597,13 @@ namespace IP3_8IEN.BL
         {
             initNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
-            List<GraphData> data = new List<GraphData>();
-
-            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
-            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
-            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()));
-            data.Add(new GraphData(p4.Naam, messages.Where(m => m.IsFromPersoon(p4)).Count()));
+            List<GraphData> data = new List<GraphData>
+            {
+                new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()),
+                new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()),
+                new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()),
+                new GraphData(p4.Naam, messages.Where(m => m.IsFromPersoon(p4)).Count())
+            };
 
             return data;
         }
@@ -1648,13 +1612,14 @@ namespace IP3_8IEN.BL
         {
             initNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
-            List<GraphData> data = new List<GraphData>();
-
-            data.Add(new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()));
-            data.Add(new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()));
-            data.Add(new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()));
-            data.Add(new GraphData(p4.Naam, messages.Where(m => m.IsFromPersoon(p4)).Count()));
-            data.Add(new GraphData(p5.Naam, messages.Where(m => m.IsFromPersoon(p5)).Count()));
+            List<GraphData> data = new List<GraphData>
+            {
+                new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()),
+                new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()),
+                new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()),
+                new GraphData(p4.Naam, messages.Where(m => m.IsFromPersoon(p4)).Count()),
+                new GraphData(p5.Naam, messages.Where(m => m.IsFromPersoon(p5)).Count())
+            };
 
             return data;
         }

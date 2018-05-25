@@ -58,7 +58,7 @@ namespace IP3_8IEN.DAL
 
         public IEnumerable<Gebruiker> ReadGebruikers()
         {
-            IEnumerable<Gebruiker> gebruikers = ctx.Gebruikers.ToList<Gebruiker>();
+            IEnumerable<Gebruiker> gebruikers = ctx.Gebruikers.ToList();
             return gebruikers;
         }
 
