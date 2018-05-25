@@ -719,7 +719,7 @@ namespace IP3_8IEN.BL
             foreach (Gebruiker g in gebruikers)
             {
                 sb.Clear();
-                sb.Append(@"<div id=""wrapper"" style=""width:600px;margin:0 auto; border:1px solid black; 
+                sb.Append(@"<img src='https://i.imgur.com/mxv6a2j.png' alt='Smiley face' style='width:620px;display:block;padding: 10px 10px 10px 10px;margin:0 auto;'> <div id=""wrapper"" style=""width:600px;margin:0 auto; border:1px solid black; 
                             overflow:hidden; padding: 10px 10px 10px 10px;"" ><p><i>");
                 // Voor- en Achternaam kunnen voorlopig leeg zijn
                 //sb.Append(g.Voornaam + " " + g.Naam);
