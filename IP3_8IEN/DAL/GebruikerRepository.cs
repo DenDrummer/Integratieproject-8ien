@@ -23,10 +23,10 @@ namespace IP3_8IEN.DAL
             //isUoW = true;
         }
 
-        public bool isUnitofWork()
+        public bool IsUnitofWork()
             => isUoW;
 
-        public void setUnitofWork(bool UoW) => isUoW = UoW;
+        public void SetUnitofWork(bool UoW) => isUoW = UoW;
 
         public void AddingAlertInstelling(AlertInstelling alertinstelling)
         {
@@ -107,8 +107,6 @@ namespace IP3_8IEN.DAL
         }
 
         public IEnumerable<Gebruiker> ReadUsers()
-        {
-            return ctx.Gebruikers.ToList();
-        }
+            => ctx.Gebruikers.ToList();
     }
 }

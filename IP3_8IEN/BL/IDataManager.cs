@@ -94,7 +94,7 @@ namespace IP3_8IEN.BL
         string GetImageString(string screenname);
         string GetBannerString(string screenname);
         Hashtag AddHashtag(string hashtag);
-        void initNonExistingRepo(bool withUnitOfWork);
+        void InitNonExistingRepo(bool withUnitOfWork);
         #endregion
     }
 }

@@ -25,9 +25,9 @@ namespace IP3_8IEN.DAL
             ctx = uow.Context;
         }
 
-        public bool isUnitofWork() => isUoW;
+        public bool IsUnitofWork() => isUoW;
 
-        public void setUnitofWork(bool UoW) => isUoW = UoW;
+        public void SetUnitofWork(bool UoW) => isUoW = UoW;
 
         public void AddingMessage(Message message)
         {

@@ -80,7 +80,7 @@ namespace IP3_8IEN.BL
 
             dataMgr = new DataManager(uowManager);
             bool UoW = false;
-            repo.setUnitofWork(UoW);
+            repo.SetUnitofWork(UoW);
 
             Follow follow = new Follow()
             {
@@ -92,7 +92,7 @@ namespace IP3_8IEN.BL
             uowManager.Save();
 
             UoW = true;
-            repo.setUnitofWork(UoW);
+            repo.SetUnitofWork(UoW);
 
             return follow;
         }
@@ -105,7 +105,7 @@ namespace IP3_8IEN.BL
 
             dataMgr = new DataManager(uowManager);
             bool UoW = false;
-            repo.setUnitofWork(UoW);
+            repo.SetUnitofWork(UoW);
             
             List<Persoon> listPersonen = new List<Persoon>();
 
@@ -122,7 +122,7 @@ namespace IP3_8IEN.BL
             uowManager.Save();
 
             UoW = true;
-            repo.setUnitofWork(UoW);
+            repo.SetUnitofWork(UoW);
 
             return follows;
         }
@@ -132,7 +132,7 @@ namespace IP3_8IEN.BL
             InitNonExistingRepo(true);
 
             bool UoW = false;
-            repo.setUnitofWork(UoW);
+            repo.SetUnitofWork(UoW);
 
             follow.DashItem.Follows = new Collection<Follow>
             {
@@ -154,7 +154,7 @@ namespace IP3_8IEN.BL
 
             uowManager.Save();
             UoW = true;
-            repo.setUnitofWork(UoW);
+            repo.SetUnitofWork(UoW);
 
             return follow.DashItem;
         }
@@ -164,7 +164,7 @@ namespace IP3_8IEN.BL
             InitNonExistingRepo(true);
 
             bool UoW = false;
-            repo.setUnitofWork(UoW);
+            repo.SetUnitofWork(UoW);
 
             TileZone tile = new TileZone()
             {
@@ -181,7 +181,7 @@ namespace IP3_8IEN.BL
 
             uowManager.Save();
             UoW = true;
-            repo.setUnitofWork(UoW);
+            repo.SetUnitofWork(UoW);
 
             return follows[0].DashItem;
         }
@@ -264,8 +264,8 @@ namespace IP3_8IEN.BL
             int i = 0;
             foreach(GraphData graph in graphs)
             {
-                graphsVals.values[i] = graph.value;
-                graphsVals.labels[i] = graph.label;
+                graphsVals.values[i] = graph.Value;
+                graphsVals.labels[i] = graph.Label;
                 i++;
             }
 
@@ -276,7 +276,7 @@ namespace IP3_8IEN.BL
         {
             InitNonExistingRepo(true);
             dataMgr = new DataManager(uowManager);
-            repo.setUnitofWork(false);
+            repo.SetUnitofWork(false);
 
             DateTime timeNow = DateTime.Now;
             foreach (TileZone tileZone in dashbord.TileZones)
@@ -304,8 +304,8 @@ namespace IP3_8IEN.BL
                     int j = 0;
                     foreach (var graph in tileZone.DashItem.Graphdata)
                     {
-                        graph.label = graphs.labels[j];
-                        graph.value = graphs.values[j];
+                        graph.Label = graphs.labels[j];
+                        graph.Value = graphs.values[j];
                         repo.UpdateGraphData(graph);
                         j++;
                     }
@@ -316,7 +316,7 @@ namespace IP3_8IEN.BL
                 repo.UpdateTileZone(tileZone);
                 uowManager.Save();
             }
-            repo.setUnitofWork(true);
+            repo.SetUnitofWork(true);
             return dashbord;
         }
 
@@ -336,7 +336,7 @@ namespace IP3_8IEN.BL
 
             gebruikerMgr = new GebruikerManager(uowManager);
             bool UoW = false;
-            repo.setUnitofWork(UoW);
+            repo.SetUnitofWork(UoW);
 
             Dashbord dashbord = new Dashbord
             {
@@ -346,7 +346,7 @@ namespace IP3_8IEN.BL
             };
             repo.AddDashBord(dashbord);
             uowManager.Save();
-            repo.setUnitofWork(true);
+            repo.SetUnitofWork(true);
 
             return dashbord;
         }
@@ -421,7 +421,7 @@ namespace IP3_8IEN.BL
                 else
                 {
                     //checken wat voor repo we hebben
-                    bool isUoW = repo.isUnitofWork();
+                    bool isUoW = repo.IsUnitofWork();
                     if (isUoW)
                     {
                         repo = new DashRepository();

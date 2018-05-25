@@ -125,9 +125,9 @@ namespace IP3_8IEN.DAL
         //    ctx = uow.Context;
         //}
 
-        public bool isUnitofWork()
+        public bool IsUnitofWork()
             => isUoW;
-        public void setUnitofWork(bool UoW)
+        public void SetUnitofWork(bool UoW)
             => isUoW = UoW;
     }
 }

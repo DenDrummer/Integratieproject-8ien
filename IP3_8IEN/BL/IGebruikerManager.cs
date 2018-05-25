@@ -11,7 +11,7 @@ namespace IP3_8IEN.BL
         
         void AddAlerts(string filePath);
         void AddAlert(string alertContent, int alertInstelling);
-        void initNonExistingRepo(bool withUnitOfWork);
+        void InitNonExistingRepo(bool withUnitOfWork);
         
         IEnumerable<Alert> GetAlerts();
         

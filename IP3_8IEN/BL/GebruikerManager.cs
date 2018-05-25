@@ -37,20 +37,20 @@ namespace IP3_8IEN.BL
         // We zoeken een gebruiker op basis van 'Username'
         public Gebruiker FindUser(string username)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             return repo.ReadGebruikers().FirstOrDefault(x => x.Username == username);
         }
         public void DeleteGebruiker(string username)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             repo.DeleteGebruiker(repo.ReadGebruikers().FirstOrDefault(x => x.Username == username));
 
         }
 
         public IEnumerable<Gebruiker> GetGebruikers()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             return repo.ReadGebruikers();
         }
 
@@ -58,7 +58,7 @@ namespace IP3_8IEN.BL
         // omdat we informatie uit de data package nodig hebben
         public void AddAlertInstelling(string filePath)
         {
-            initNonExistingRepo(true);
+            InitNonExistingRepo(true);
 
             //sourceUrl /relatief path
             string json = new StreamReader(filePath).ReadToEnd();
@@ -81,7 +81,7 @@ namespace IP3_8IEN.BL
             //We laten de transactie eve denken dat we geen 'UoW' gebruiken zodat er niet
             //van repo gewisseld wordt bij het aanroepen van een nieuwe methode
             bool UoW = false;
-            repo.setUnitofWork(UoW);
+            repo.SetUnitofWork(UoW);
 
             IEnumerable<Onderwerp> onderwerpen = dataMgr.ReadOnderwerpen();
 
@@ -138,7 +138,7 @@ namespace IP3_8IEN.BL
             }
             //we zetten 'UoW' boolian terug op true
             UoW = true;
-            repo.setUnitofWork(UoW);
+            repo.SetUnitofWork(UoW);
         }
 
         // We initialiseren een 'Alert' met het toewijzen van een 'AlertInstelling' adhv een 'Id' 
@@ -148,7 +148,7 @@ namespace IP3_8IEN.BL
 
         public void AddAlert(string alertContent, int alertInstellingId)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             IEnumerable<AlertInstelling> fluctuations = repo.ReadValueFluctuations();
             List<AlertInstelling> Ais = fluctuations.ToList();
@@ -185,7 +185,7 @@ namespace IP3_8IEN.BL
         // Alerts inlezen via json bestand
         public void AddAlerts(string filePath)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             StreamReader r = new StreamReader(filePath);
             string json = r.ReadToEnd();
@@ -207,13 +207,13 @@ namespace IP3_8IEN.BL
 
         public IEnumerable<Alert> GetAlerts()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             return repo.ReadAlerts();
         }
 
         public Alert GetAlert(int alertId)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             Alert alert = repo.ReadAlert(alertId);
             return alert;
@@ -221,7 +221,7 @@ namespace IP3_8IEN.BL
 
         public void AddGebruiker(string userName, string userId, string naam, string voornaam, string role = "User")
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             Gebruiker gebruiker = new Gebruiker
             {
@@ -242,14 +242,14 @@ namespace IP3_8IEN.BL
 
         public void UpdateGebruiker(Gebruiker gebruiker)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             repo.UpdateGebruiker(gebruiker);
         }
 
         public void DeleteUser(string userId)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             //IdentityUser wordt verwijderd, data gebruiker wordt overschreven
             Gebruiker user = repo.ReadGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
@@ -268,14 +268,14 @@ namespace IP3_8IEN.BL
 
         public IEnumerable<Gebruiker> GetUsers()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             return repo.ReadUsers();
         }
 
         public IEnumerable<ApplicationUser> GetUsersInRoles(IEnumerable<ApplicationUser> appUsers, string role)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             List<ApplicationUser> appUsersInRole = new List<ApplicationUser>();
             IEnumerable<Gebruiker> users = repo.ReadGebruikers().Where(u => u.Role == role && u.Active == true);
@@ -287,7 +287,7 @@ namespace IP3_8IEN.BL
         }
 
         //Unit of Work related
-        public void initNonExistingRepo(bool withUnitOfWork = false)
+        public void InitNonExistingRepo(bool withUnitOfWork = false)
         {
             // Als we een repo met UoW willen gebruiken en als er nog geen uowManager bestaat:
             // Dan maken we de uowManager aan en gebruiken we de context daaruit om de repo aan te maken.
@@ -310,7 +310,7 @@ namespace IP3_8IEN.BL
                 else
                 {
                     //checken wat voor repo we hebben
-                    bool isUoW = repo.isUnitofWork();
+                    bool isUoW = repo.IsUnitofWork();
                     if (isUoW)
                     {
                         repo = new DAL.GebruikerRepository();
@@ -327,7 +327,7 @@ namespace IP3_8IEN.BL
         public void GetAlertHogerLagers()
         {
             System.Diagnostics.Debug.WriteLine("HL started");
-            initNonExistingRepo();
+            InitNonExistingRepo();
             dataMgr = new DataManager();
 
             List<HogerLager> hogerLagers = repo.ReadHogerLagers().ToList();
@@ -408,7 +408,7 @@ namespace IP3_8IEN.BL
         public void GetAlertValueFluctuations()
         {
             System.Diagnostics.Debug.WriteLine("VF Started");
-            initNonExistingRepo();
+            InitNonExistingRepo();
             dataMgr = new DataManager();
 
             List<ValueFluctuation> valueFluctuations = repo.ReadValueFluctuations().ToList();
@@ -452,7 +452,7 @@ namespace IP3_8IEN.BL
         public void GetAlertPositiefNegatiefs()
         {
             System.Diagnostics.Debug.WriteLine("PN started");
-            initNonExistingRepo();
+            InitNonExistingRepo();
             dataMgr = new DataManager();
             double total = 1;
 
@@ -535,7 +535,7 @@ namespace IP3_8IEN.BL
 
         double CalculateZscore(Onderwerp onderwerp)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             int totaalTweets = 0;
             //totaalTweets = messages.Where(Message => Message.Politician == s).Count();
             bool test;
@@ -545,9 +545,8 @@ namespace IP3_8IEN.BL
             double gemiddelde;
             DateTime laatsteTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
 
-            if (onderwerp is Persoon)
+            if (onderwerp is Persoon p)
             {
-                Persoon p = (Persoon)onderwerp;
                 foreach (Message m in messages)
                 {
                     test = false;
@@ -652,7 +651,7 @@ namespace IP3_8IEN.BL
 
         public void WeeklyReview()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Gebruiker> gebruikers = new List<Gebruiker>();
             gebruikers = repo.ReadGebruikersWithAlertInstellingen().ToList();
             List<Alert> dezeWeek = new List<Alert>();
@@ -695,7 +694,7 @@ namespace IP3_8IEN.BL
 
         public List<HogerLager> GetHogerLagersByUser()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             //List<HogerLager> hogerLagers = repo.ReadHogerLagers().ToList();
             //hogerLagers = hogerLagers.Where(hl => hl.Gebruiker == gebruiker).ToList();
@@ -705,7 +704,7 @@ namespace IP3_8IEN.BL
 
         public List<ValueFluctuation> GetValueFluctuationsByUser()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             //List<ValueFluctuation> valueFluctuations = repo.ReadValueFluctuations().ToList();
             //valueFluctuations = valueFluctuations.Where(vf => vf.Gebruiker == gebruiker).ToList();
@@ -715,7 +714,7 @@ namespace IP3_8IEN.BL
 
         public List<PositiefNegatief> GetPositiefNegatiefsByUser()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             //List<PositiefNegatief> positiefNegatiefs = repo.ReadPositiefNegatiefs().ToList();
             //positiefNegatiefs = positiefNegatiefs.Where(pn => pn.Gebruiker == gebruiker).ToList();
@@ -725,7 +724,7 @@ namespace IP3_8IEN.BL
 
         public List<Alert> GetAlertsByUser(Gebruiker gebruiker)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             List<Alert> alerts = repo.ReadAlerts().ToList();
 

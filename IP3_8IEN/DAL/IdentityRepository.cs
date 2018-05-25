@@ -6,8 +6,6 @@ using System.Linq;
 
 namespace IP3_8IEN.DAL
 {
-    // Dit stond in UI_MVC_S -> Bad Practice
-    // Repositories horen thuis in DAL
     // IdentityRepository geeft toegang tot de Authenticatiegegevens in de DB
     public class IdentityRepository : UserStore<ApplicationUser>
     {
@@ -22,7 +20,8 @@ namespace IP3_8IEN.DAL
         }
 
         // Er mogen geen nieuwe SuperAdmin's aangemaakt worden -> niet beschikbaar!
-        public IList<IdentityRole> ReadRoles() => ctx.Roles.Where(u => !u.Name.Contains("SuperAdmin")).ToList();
+        public IList<IdentityRole> ReadRoles()
+            => ctx.Roles.Where(u => !u.Name.Contains("SuperAdmin")).ToList();
 
         // Alle gebruikers behalve de administrator ophalen
         public IEnumerable<ApplicationUser> ReadUsers()
@@ -35,7 +34,8 @@ namespace IP3_8IEN.DAL
         }
 
         // Specifieke gebruiker ophalen obv. id
-        public ApplicationUser ReadUser(string id) => ctx.Users.SingleOrDefault(u => u.Id == id);
+        public ApplicationUser ReadUser(string id)
+            => ctx.Users.SingleOrDefault(u => u.Id == id);
 
         // Gebruiker verwijderen obv. id
         public void DeleteUser(string id)
@@ -49,6 +49,7 @@ namespace IP3_8IEN.DAL
         }
 
         // DbContext beschikbaar maken voor BL klasses
-        public ApplicationDbContext GetContext() => ctx;
+        public ApplicationDbContext GetContext()
+            => ctx;
     }
 }

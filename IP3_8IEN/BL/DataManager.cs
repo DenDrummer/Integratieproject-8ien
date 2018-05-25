@@ -75,7 +75,7 @@ namespace IP3_8IEN.BL
         // Aangesproken klasse zijn : 'Message', 'Onderwerp', 'Persoon' & 'Hashtag' 
         public void AddMessages(string json) //(string sourceUrl) <-- voor json
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             ////gebruik deze voor het inladen van een json file 
             ////    (vb: sourceUrl = path naar testdata.json)
@@ -184,7 +184,7 @@ namespace IP3_8IEN.BL
         // Zonee: Een nieuwe 'Persoon' wordt geïnitialiseerd en meegegeven
         public Persoon AddPersoon(string naam)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             Persoon persoon;
             IEnumerable<Persoon> personen = repo.ReadPersonen();
@@ -213,7 +213,7 @@ namespace IP3_8IEN.BL
         // Zonee: Een nieuwe 'Hashtag' wordt geïnitialiseerd en meegegeven
         public Hashtag AddHashtag(string hashtag)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             Hashtag hasht;
             IEnumerable<Hashtag> hashtags = repo.ReadHashtags();
@@ -238,7 +238,7 @@ namespace IP3_8IEN.BL
         // Toevoegen van een SubjectMessage adhv een 'Message' en een 'Persoon'
         public SubjectMessage AddSubjectMessage(Message msg, Persoon persoon)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             SubjectMessage subjMess = new SubjectMessage()
             {
@@ -263,7 +263,7 @@ namespace IP3_8IEN.BL
         // Toevoegen van een SubjectMessage adhv een 'Message' en een 'Hashtag'
         public void AddSubjectMessage(Message msg, Hashtag hashtag)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             
             repo.AddSubjectMsg(new SubjectMessage()
             {
@@ -276,14 +276,14 @@ namespace IP3_8IEN.BL
         // Deze methode wordt aangesproken in de 'GebruikerManager'
         public IEnumerable<Onderwerp> ReadOnderwerpen()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             
             return repo.ReadSubjects();
         }
 
         public Organisatie AddOrganisation(string naamOrganisatie)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             Organisatie organisatie;
             IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
@@ -304,11 +304,11 @@ namespace IP3_8IEN.BL
             return organisatie;
         }
 
-        public void AddOrganisations(string filePath) => initNonExistingRepo();// Json /CSV
+        public void AddOrganisations(string filePath) => InitNonExistingRepo();// Json /CSV
 
         public void AddTewerkstelling(string naam, string naamOrganisatie)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             Persoon persoon;
             Organisatie organisatie;
@@ -377,7 +377,7 @@ namespace IP3_8IEN.BL
 
         public void AddTewerkstelling(Persoon persoon, string naamOrganisatie)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             //Persoon persoon;
             Organisatie organisatie;
@@ -442,7 +442,7 @@ namespace IP3_8IEN.BL
 
         public void AddPersonen(string pathToJson)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             
             string json = new StreamReader(pathToJson).ReadToEnd();
             List<Message> messages = new List<Message>();
@@ -494,7 +494,7 @@ namespace IP3_8IEN.BL
 
         public int CountSubjMsgsPersoon(Onderwerp onderwerp)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             int countedTweets = 0;
 
@@ -529,7 +529,7 @@ namespace IP3_8IEN.BL
 
         public IEnumerable<Message> ReadMessagesWithSubjMsgs()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             IEnumerable<Message> messages = repo.ReadMessages(true);
 
@@ -538,7 +538,7 @@ namespace IP3_8IEN.BL
 
         public Persoon GetPersoon(int persoonId)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             Persoon persoon = repo.ReadPersoon(persoonId);
             return persoon;
@@ -546,7 +546,7 @@ namespace IP3_8IEN.BL
 
         public Organisatie GetOrganisatie(int organisatieId)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             Organisatie organisatie = repo.ReadOrganisatie(organisatieId);
             return organisatie;
@@ -554,33 +554,33 @@ namespace IP3_8IEN.BL
 
         public IEnumerable<Persoon> GetPersonen()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             IEnumerable<Persoon> personen = repo.ReadPersonen();
             return personen;
         }
 
         public IEnumerable<Organisatie> GetOrganisaties()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             IEnumerable<Organisatie> organisaties = repo.ReadOrganisaties();
             return organisaties;
         }
 
         public void ChangeOrganisation(Organisatie organisatie)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             repo.EditOrganisation(organisatie);
         }
 
         public void ChangePersoon(Persoon persoon)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             repo.EditPersoon(persoon);
         }
 
         public Persoon GetPersoon(string naam)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             Persoon persoon = repo.ReadPersoon(naam);
 
             return persoon;
@@ -588,19 +588,19 @@ namespace IP3_8IEN.BL
 
         public Persoon GetPersoonWithTewerkstelling(string naam)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             Persoon personen = repo.ReadPersoonWithTewerkstelling(naam);
             return personen;
         }
         public Persoon GetPersoonWithTewerkstelling(int id)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             Persoon personen = repo.ReadPersoonWithTewerkstelling(id);
             return personen;
         }
 
         //Unit of Work related
-        public void initNonExistingRepo(bool withUnitOfWork = false)
+        public void InitNonExistingRepo(bool withUnitOfWork = false)
         {
             // Als we een repo met UoW willen gebruiken en als er nog geen uowManager bestaat:
             // Dan maken we de uowManager aan en gebruiken we de context daaruit om de repo aan te maken.
@@ -623,7 +623,7 @@ namespace IP3_8IEN.BL
                 else
                 {
                     //checken wat voor repo we hebben
-                    bool isUoW = repo.isUnitofWork();
+                    bool isUoW = repo.IsUnitofWork();
                     if (isUoW)
                     {
                         repo = new DAL.MessageRepository();
@@ -830,7 +830,7 @@ namespace IP3_8IEN.BL
 
         public int GetNumber(Persoon persoon, int laatsteAantalUren = 0)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = repo.ReadMessages(true).ToList();
             DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
             int aantal;
@@ -849,7 +849,7 @@ namespace IP3_8IEN.BL
 
         public List<GraphData2> GetTweetsPerDag2(Persoon persoon1, Persoon persoon2, Persoon persoon3, Persoon persoon4, Persoon persoon5, int aantalDagenTerug = 0)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
             DateTime stop = new DateTime();
@@ -890,7 +890,7 @@ namespace IP3_8IEN.BL
 
             foreach (var v in GraphDataList)
             {
-                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value);
+                System.Diagnostics.Debug.WriteLine(v.Label + " " + v.Value);
             }
 
 
@@ -948,8 +948,8 @@ namespace IP3_8IEN.BL
             HttpWebRequest avatarRequest = (HttpWebRequest)WebRequest.Create(avatarUrl);
             var timelineHeaderFormat = "{0} {1}";
             avatarRequest.Headers.Add("Authorization",
-                                        string.Format(timelineHeaderFormat, twitAuthResponse.token_type,
-                                                      twitAuthResponse.access_token));
+                                        string.Format(timelineHeaderFormat, twitAuthResponse.TokenType,
+                                                      twitAuthResponse.AccesToken));
             avatarRequest.Method = "Get";
             WebResponse timeLineResponse = avatarRequest.GetResponse();
 
@@ -994,7 +994,7 @@ namespace IP3_8IEN.BL
 
         public double GetPolarityByPerson(Persoon persoon)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             double totalPolarity = 0;
 
@@ -1010,7 +1010,7 @@ namespace IP3_8IEN.BL
 
         public double GetPolarityByPerson(Persoon persoon, DateTime start)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             double totalPolarity = 0;
 
@@ -1026,7 +1026,7 @@ namespace IP3_8IEN.BL
 
         public double GetPolarityByPerson(Persoon persoon, DateTime start, DateTime stop)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             double totalPolarity = 0;
 
@@ -1042,7 +1042,7 @@ namespace IP3_8IEN.BL
 
         public double GetObjectivityByPerson(Persoon persoon)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             double totalObjectivity = 0;
 
@@ -1058,7 +1058,7 @@ namespace IP3_8IEN.BL
 
         public double GetObjectivityByPerson(Persoon persoon, DateTime start)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             double totalObjectivity = 0;
 
@@ -1074,7 +1074,7 @@ namespace IP3_8IEN.BL
 
         public double GetObjectivityByPerson(Persoon persoon, DateTime start, DateTime stop)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             double totalObjectivity = 0;
 
@@ -1090,7 +1090,7 @@ namespace IP3_8IEN.BL
 
         public int GetMentionCountByName(string naam)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             int counter = 0;
 
@@ -1106,7 +1106,7 @@ namespace IP3_8IEN.BL
 
         public int GetMentionCountByName(string naam, DateTime start)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             int counter = 0;
             messages = messages.Where(m => m.Date > start).ToList();
@@ -1123,7 +1123,7 @@ namespace IP3_8IEN.BL
 
         public int GetMentionCountByName(string naam, DateTime start, DateTime stop)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             int counter = 0;
 
@@ -1141,7 +1141,7 @@ namespace IP3_8IEN.BL
 
         public List<GraphData> GetTopWordsCount()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<string> words = new List<string>();
             List<GraphData> data = new List<GraphData>();
@@ -1172,13 +1172,13 @@ namespace IP3_8IEN.BL
                 }
             }
 
-            data = data.OrderByDescending(d => d.value).ToList();
+            data = data.OrderByDescending(d => d.Value).ToList();
             return data;
         }
 
         public List<GraphData> GetTopWordsCount(int aantal)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<string> words = new List<string>();
             List<GraphData> data = new List<GraphData>();
@@ -1209,13 +1209,13 @@ namespace IP3_8IEN.BL
                 }
             }
 
-            data = data.OrderByDescending(d => d.value).ToList();
+            data = data.OrderByDescending(d => d.Value).ToList();
             return data.GetRange(0, aantal);
         }
 
         public List<GraphData> GetTopWordsCount(int aantal, DateTime start)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<string> words = new List<string>();
             List<GraphData> data = new List<GraphData>();
@@ -1248,13 +1248,13 @@ namespace IP3_8IEN.BL
                 }
             }
 
-            data = data.OrderByDescending(d => d.value).ToList();
+            data = data.OrderByDescending(d => d.Value).ToList();
             return data.GetRange(0, aantal);
         }
 
         public List<GraphData> GetTopWordsCount(int aantal, DateTime start, DateTime stop)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<string> words = new List<string>();
             List<GraphData> data = new List<GraphData>();
@@ -1287,13 +1287,13 @@ namespace IP3_8IEN.BL
                 }
             }
 
-            data = data.OrderByDescending(d => d.value).ToList();
+            data = data.OrderByDescending(d => d.Value).ToList();
             return data.GetRange(0, aantal);
         }
 
         public List<GraphData> GetTopWordsCount(DateTime start, DateTime stop)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<string> words = new List<string>();
             List<GraphData> data = new List<GraphData>();
@@ -1326,13 +1326,13 @@ namespace IP3_8IEN.BL
                 }
             }
 
-            data = data.OrderByDescending(d => d.value).ToList();
+            data = data.OrderByDescending(d => d.Value).ToList();
             return data;
         }
 
         public int GetWordCountByName(string name)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             int counter = 0;
 
@@ -1348,7 +1348,7 @@ namespace IP3_8IEN.BL
 
         public int GetWordCountByName(string name, DateTime start)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             int counter = 0;
 
@@ -1366,7 +1366,7 @@ namespace IP3_8IEN.BL
 
         public int GetWordCountByName(string name, DateTime start, DateTime stop)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             int counter = 0;
 
@@ -1385,7 +1385,7 @@ namespace IP3_8IEN.BL
         //Sam
         public List<GraphData> GetTweetsPerDagList(Persoon persoon, int aantalDagenTerug = 0)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
             DateTime stop = new DateTime();
@@ -1412,7 +1412,7 @@ namespace IP3_8IEN.BL
 
             foreach (var v in GraphDataList)
             {
-                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value);
+                System.Diagnostics.Debug.WriteLine(v.Label + " " + v.Value);
             }
             return GraphDataList;
         }
@@ -1420,7 +1420,7 @@ namespace IP3_8IEN.BL
 
         public List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0)
         {
-            initNonExistingRepo(true);
+            InitNonExistingRepo(true);
 
             dashMgr = new DashManager();
 
@@ -1475,7 +1475,7 @@ namespace IP3_8IEN.BL
 
         public List<GraphData> GetTweetsPerDag2(Persoon persoon, int aantalDagenTerug = 0)
         {
-            initNonExistingRepo(true);
+            InitNonExistingRepo(true);
 
             dashMgr = new DashManager();
 
@@ -1514,7 +1514,7 @@ namespace IP3_8IEN.BL
 
         public List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = false)
         {
-            initNonExistingRepo(true);
+            InitNonExistingRepo(true);
             dashMgr = new DashManager();
 
             List<Persoon> personen = repo.ReadPersonen().ToList();
@@ -1542,7 +1542,7 @@ namespace IP3_8IEN.BL
                     ranking.Add(graph);
                 }
             }
-            ranking = ranking.OrderByDescending(r => r.value).ToList();
+            ranking = ranking.OrderByDescending(r => r.Value).ToList();
             ranking = ranking.GetRange(0, aantal);
 
             foreach(GraphData graph in ranking)
@@ -1561,14 +1561,14 @@ namespace IP3_8IEN.BL
             List<int> ListPersoonId = new List<int>();
             foreach(GraphData graph in graphDataList)
             {
-                ListPersoonId.Add(personen.FirstOrDefault(p => p.Naam == graph.label).OnderwerpId);
+                ListPersoonId.Add(personen.FirstOrDefault(p => p.Naam == graph.Label).OnderwerpId);
             }
             return ListPersoonId;
         }
 
         public List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<GraphData> data = new List<GraphData>
             {
@@ -1581,7 +1581,7 @@ namespace IP3_8IEN.BL
 
         public List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<GraphData> data = new List<GraphData>
             {
@@ -1595,7 +1595,7 @@ namespace IP3_8IEN.BL
 
         public List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3, Persoon p4)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<GraphData> data = new List<GraphData>
             {
@@ -1610,7 +1610,7 @@ namespace IP3_8IEN.BL
 
         public List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<GraphData> data = new List<GraphData>
             {
@@ -1626,7 +1626,7 @@ namespace IP3_8IEN.BL
 
         public List<GraphData> GetTopStoryCount()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<string> stories = new List<string>();
             List<GraphData> data = new List<GraphData>();
@@ -1656,13 +1656,13 @@ namespace IP3_8IEN.BL
                 }
             }
 
-            data = data.OrderByDescending(d => d.value).ToList();
+            data = data.OrderByDescending(d => d.Value).ToList();
             return data;
         }
 
         public List<GraphData> GetTopStoryCount(int aantal)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<string> stories = new List<string>();
             List<GraphData> data = new List<GraphData>();
@@ -1692,13 +1692,13 @@ namespace IP3_8IEN.BL
                 }
             }
 
-            data = data.OrderByDescending(d => d.value).ToList();
+            data = data.OrderByDescending(d => d.Value).ToList();
             return data.GetRange(0, aantal);
         }
 
         public List<GraphData> GetTopStoryCount(int aantal, DateTime start)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<string> stories = new List<string>();
             List<GraphData> data = new List<GraphData>();
@@ -1728,13 +1728,13 @@ namespace IP3_8IEN.BL
                 }
             }
 
-            data = data.OrderByDescending(d => d.value).ToList();
+            data = data.OrderByDescending(d => d.Value).ToList();
             return data.GetRange(0, aantal);
         }
 
         public List<GraphData> GetTopStoryCount(int aantal, DateTime start, DateTime stop)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<string> stories = new List<string>();
             List<GraphData> data = new List<GraphData>();
@@ -1764,13 +1764,13 @@ namespace IP3_8IEN.BL
                 }
             }
 
-            data = data.OrderByDescending(d => d.value).ToList();
+            data = data.OrderByDescending(d => d.Value).ToList();
             return data.GetRange(0, aantal);
         }
 
         public List<GraphData> GetTopStoryCount(DateTime start, DateTime stop)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<string> stories = new List<string>();
             List<GraphData> data = new List<GraphData>();
@@ -1800,13 +1800,13 @@ namespace IP3_8IEN.BL
                 }
             }
 
-            data = data.OrderByDescending(d => d.value).ToList();
+            data = data.OrderByDescending(d => d.Value).ToList();
             return data;
         }
 
         public List<GraphData> GetTopStoryByPolitician(Persoon persoon)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<string> stories = new List<string>();
             List<GraphData> data = new List<GraphData>();
@@ -1839,13 +1839,13 @@ namespace IP3_8IEN.BL
                 }
             }
 
-            data = data.OrderByDescending(d => d.value).ToList();
+            data = data.OrderByDescending(d => d.Value).ToList();
             return data;
 
         }
         public List<GraphData2> GetComparisonPersonNumberOfTweetsOverTime(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<GraphData2> data = new List<GraphData2>();
 
@@ -1869,7 +1869,7 @@ namespace IP3_8IEN.BL
 
         public List<GraphData> GetTopMentions(int aantal)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             List<string> mentions = new List<string>();
             List<GraphData> data = new List<GraphData>();
@@ -1902,7 +1902,7 @@ namespace IP3_8IEN.BL
                 }
             }
 
-            data = data.OrderByDescending(d => d.value).ToList();
+            data = data.OrderByDescending(d => d.Value).ToList();
             return data.GetRange(0, aantal);
         }
     }
