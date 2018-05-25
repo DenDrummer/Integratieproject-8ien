@@ -1,15 +1,6 @@
 {
   "records": [
     {
-      "Username": "Jos",
-      "Voornaam": "Jos",
-      "Achternaam": "Janssens",
-      "email": "",
-      "Geboortedatum": "",
-      "Password": "0000",
-      "Role": "User"
-    },
-    {
       "Username": "ivaylo.deshev@student.kdg.be",
       "Voornaam": "Ivaylo",
       "Achternaam": "Deshev",
