@@ -148,5 +148,10 @@ namespace IP3_8IEN.BL
                 _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName);
             }
         }
+
+        public Task<IdentityResult> AddPasswordAsync(string v, object newPassword)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

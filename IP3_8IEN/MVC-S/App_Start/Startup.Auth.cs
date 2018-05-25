@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OAuth;
 using Owin;
 using IP3_8IEN.BL;
 using MVC_S.SignIn;
@@ -42,6 +43,7 @@ namespace MVC_S
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
+
             //// Facebook Authentication toevoegen
             app.UseFacebookAuthentication(
             appId: "786425028220021",
@@ -58,6 +60,8 @@ namespace MVC_S
             app.UseGoogleAuthentication(
             clientId: "405673408772-6jao4f265fi7ma5em94ha9aagp7r7rf2.apps.googleusercontent.com",
             clientSecret: "s5SLDGpe7yxRep217lP_Tdsk");
+
+            
         }
     }
 }
