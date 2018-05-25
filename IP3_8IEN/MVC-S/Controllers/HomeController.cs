@@ -33,20 +33,21 @@ namespace MVC_S.Controllers
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
-
+            
+            ////Probably not best practice to periodically execute methods but it works
             //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
-            //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
+            HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
         }
 
         private async Task RetrieveAPIData(IDataManager dMgr)
         {
             while (true)
             {
+                Thread.Sleep(10800000);
                 await Task.Run(() =>
                 {
-                    dMgr.ApiRequestToJson();
+                    dMgr.ApiRequestToJson(true);
                 });
-                Thread.Sleep(10800000);
             }
         }
 
@@ -54,11 +55,11 @@ namespace MVC_S.Controllers
         {
             while (true)
             {
+                Thread.Sleep(604800000);
                 await Task.Run(() =>
                 {
                     gMgr.WeeklyReview();
                 });
-                Thread.Sleep(10800000);
             }
         }
 

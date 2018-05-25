@@ -13,6 +13,7 @@ using System.Net.Mail;
 using IP3_8IEN.BL.Domain.Dashboard;
 using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Text;
+using System.Globalization;
 
 namespace IP3_8IEN.BL
 {
@@ -37,7 +38,7 @@ namespace IP3_8IEN.BL
         }
 
         //httpWebRequest POST naar 'textgain' api --> output doorgegeven aan 'AddMessages'
-        public void ApiRequestToJson()
+        public void ApiRequestToJson(bool isReCheck = false)
         {
             {
                 string url = "https://kdg.textgain.com/query";
@@ -54,13 +55,26 @@ namespace IP3_8IEN.BL
                 using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
                     //query opstellen : named parameters
-                    json = new JavaScriptSerializer().Serialize(new
+                    if (isReCheck)
                     {
-                        //name = "Annick De Ridder",
-                        since = "24 May 2018 23:31",
-                        //until weglaten --> last scraping
-                       // until = "30 Apr 2018 00:01",
-                    });
+                        json = new JavaScriptSerializer().Serialize(new
+                        {
+                            //name = "Annick De Ridder",
+                            since = ReadMessagesWithSubjMsgs().ToList().OrderByDescending(m => m.Date).First().Date.ToString("dd MMM yyyy hh:mm", new CultureInfo("en-GB")),
+                            //until weglaten --> last scraping
+                            // until = "30 Apr 2018 00:01",
+                        });
+                    }
+                    else
+                    {
+                        json = new JavaScriptSerializer().Serialize(new
+                        {
+                            //name = "Annick De Ridder",
+                            since = "24 May 2018 23:31",
+                            //until weglaten --> last scraping
+                            // until = "30 Apr 2018 00:01",
+                        });
+                    }
 
                     streamWriter.Write(json);
                 }

@@ -30,7 +30,7 @@ namespace IP3_8IEN.BL
         void AddTewerkstelling(string naam, string organisatieNaam);
 
         //6 apr 2018 : Stephane
-        void ApiRequestToJson();
+        void ApiRequestToJson(bool isReCheck = false);
 
         //16 apr 2018 : Stephane
         void AddMessages(string json);
