@@ -139,7 +139,8 @@ namespace MVC_S.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register() => View();
+        public ActionResult Register()
+            => View();
 
         //
         // POST: /Account/Register
@@ -224,12 +225,14 @@ namespace MVC_S.Controllers
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation() => View();
+        public ActionResult ForgotPasswordConfirmation()
+            => View();
 
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
-        public ActionResult ResetPassword(string code) => code == null ? View("Error") : View();
+        public ActionResult ResetPassword(string code)
+            => code == null ? View("Error") : View();
 
         //
         // POST: /Account/ResetPassword
@@ -260,7 +263,8 @@ namespace MVC_S.Controllers
         //
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation() => View();
+        public ActionResult ResetPasswordConfirmation()
+            => View();
 
         //
         // POST: /Account/ExternalLogin

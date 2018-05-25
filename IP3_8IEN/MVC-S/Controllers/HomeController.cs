@@ -17,6 +17,7 @@ using System.Text;
 using Newtonsoft.Json;
 using System;
 using System.Web.Hosting;
+using System.Web.Security;
 
 namespace MVC_S.Controllers
 {   /*[RequireHttps]*/
@@ -96,7 +97,7 @@ namespace MVC_S.Controllers
 
             return View(persoon);
         }
-        public ActionResult Personen(int onderwerpId = 231)
+        public ActionResult Personen(int onderwerpId = 1)
         {
             Persoon persoon = dMgr.GetPersoonWithTewerkstelling(onderwerpId);
 
@@ -255,9 +256,17 @@ namespace MVC_S.Controllers
 
         public ActionResult InitializeAdmins()
         {
-            aMgr.CreateRolesandUsers();
-            aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
-            return View();
+            try
+            {
+                //Aanmaken Roles en initialisatie 'SuperAdmin'
+                aMgr.CreateRolesandUsers();
+                aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
+                return View();
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         public ActionResult Initialize()
@@ -289,24 +298,10 @@ namespace MVC_S.Controllers
             ViewBag.NUMMER1 = aantalTweets;
             ViewBag.naam1 = persoon.Naam;
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
-            string init = "[0,1,2,3,4,5,6,7,8,9]";
+            int[] init = { 0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
             //ViewData["init"] = init;
-
-            List<GraphData> data = dMgr.GetTweetsPerDag(persoon, 20);
-            ViewBag.DATA = data;
-
-
-            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            string userName = currUser.UserName;
-            Gebruiker user = gMgr.FindUser(userName);
-
-
-            Dashbord dash = dashMgr.GetDashboardWithFollows(user);
-            ViewBag.INIT = dash.ZonesOrder;
-
-            //GraphDataViewModel model = new GraphDataViewModel { dash = dash,
-            //};
-            return View(dash);
+            ViewBag.INIT = init;
+            return View();
         }
 
         public ActionResult GetData(int id)
@@ -354,10 +349,8 @@ namespace MVC_S.Controllers
 
         public ActionResult DashItem(int id)
         {
-            Persoon persoon = dMgr.GetPersoon(170);
-            List<GraphData> data = dMgr.GetTweetsPerDag(persoon, 20);
-            ViewBag.DATA = data;
-            //IEnumerable<DashItem> dashItem = dashMgr.GetDashItems();
+            // Check user provided credentials with database and if matches write this
+            FormsAuthentication.SetAuthCookie(model.Id, false);
             return View();
         }
 

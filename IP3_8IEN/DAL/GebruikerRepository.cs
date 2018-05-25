@@ -23,9 +23,10 @@ namespace IP3_8IEN.DAL
             //isUoW = true;
         }
 
-        public bool isUnitofWork() => isUoW;
+        public bool IsUnitofWork()
+            => isUoW;
 
-        public void setUnitofWork(bool UoW) => isUoW = UoW;
+        public void SetUnitofWork(bool UoW) => isUoW = UoW;
 
         public void AddingAlertInstelling(AlertInstelling alertinstelling)
         {
@@ -42,8 +43,7 @@ namespace IP3_8IEN.DAL
         public Gebruiker ReadGebruiker(string userId)
         {
             IEnumerable<Gebruiker> users = ctx.Gebruikers.Include("Dashboards").ToList();
-            Gebruiker gebruiker = users.FirstOrDefault(u => u.GebruikerId == userId);
-            return gebruiker;
+            return users.FirstOrDefault(u => u.GebruikerId == userId);
         }
 
         //Deze moet nog ge-update worden
@@ -57,10 +57,7 @@ namespace IP3_8IEN.DAL
         }
 
         public IEnumerable<Gebruiker> ReadGebruikers()
-        {
-            IEnumerable<Gebruiker> gebruikers = ctx.Gebruikers.ToList<Gebruiker>();
-            return gebruikers;
-        }
+            => ctx.Gebruikers.ToList();
 
         public AlertInstelling ReadAlertInstelling(int alertInstellingId) => ctx.AlertInstellingen.Find(alertInstellingId);
 
@@ -70,20 +67,20 @@ namespace IP3_8IEN.DAL
             ctx.SaveChanges();
         }
 
-        public IEnumerable<Alert> ReadAlerts() => ctx.Alerts.ToList();
+        public IEnumerable<Alert> ReadAlerts()
+            => ctx.Alerts.ToList();
 
-        public void UpdateAlertInstelling(AlertInstelling alertInstelling) => ctx.SaveChanges();
-        
+        public void UpdateAlertInstelling(AlertInstelling alertInstelling)
+            => ctx.SaveChanges();
+
         public IEnumerable<Gebruiker> ReadGebruikersWithAlertInstellingen()
-        {
-            IEnumerable<Gebruiker> gebruikers = ctx.Gebruikers.Include("AlertInstellingen").Include("AlertInstellingen.Alerts");
-            return gebruikers;
-        }
+            => ctx.Gebruikers
+            .Include("AlertInstellingen")
+            .Include("AlertInstellingen.Alerts");
+
         public Alert ReadAlert(int alertId)
-        {
-            Alert alert = ctx.Alerts.Find(alertId);
-            return alert;
-        }
+            => ctx.Alerts.Find(alertId);
+
         public IEnumerable<ValueFluctuation> ReadValueFluctuations()
         {
             IEnumerable<ValueFluctuation> valueFluctuations = ctx.Fluctuations.Include("Alerts").Include("Gebruiker").Include("Onderwerp");
@@ -91,16 +88,17 @@ namespace IP3_8IEN.DAL
         }
 
         public IEnumerable<HogerLager> ReadHogerLagers()
-        {
-            IEnumerable<HogerLager> hogerLagers = ctx.HogerLagers.Include("Onderwerp").Include("Onderwerp2").Include("Gebruiker").Include("Onderwerp");
-            return hogerLagers;
-        }
+            => ctx.HogerLagers
+            .Include("Onderwerp")
+            .Include("Onderwerp2")
+            .Include("Gebruiker")
+            .Include("Onderwerp");
 
         public IEnumerable<PositiefNegatief> ReadPositiefNegatiefs()
-        {
-            IEnumerable<PositiefNegatief> positiefNegatiefs = ctx.PositiefNegatiefs.Include("Alerts").Include("Gebruiker").Include("Onderwerp");
-            return positiefNegatiefs;
-        }
+            => ctx.PositiefNegatiefs
+            .Include("Alerts")
+            .Include("Gebruiker")
+            .Include("Onderwerp");
 
         public void UpdateGebruiker(Gebruiker gebruiker)
         {
@@ -109,8 +107,6 @@ namespace IP3_8IEN.DAL
         }
 
         public IEnumerable<Gebruiker> ReadUsers()
-        {
-            return ctx.Gebruikers.ToList();
-        }
+            => ctx.Gebruikers.ToList();
     }
 }

@@ -3,44 +3,42 @@
 @Scripts.Render("~/scripts/charts")
 
 <link rel="stylesheet" href="~/Content/creategrafiek.css" />
-<script src="~/Scripts/morris-scripts.js"></script>
-
 <script src="~/Scripts/grafiekaanmaken.js"></script>
 <script type="text/javascript">
-    $(function () {
-        /** This code runs when everything has been loaded on the page */
-        /* Inline sparklines take their values from the contents of the tag */
-        $('.inlinesparkline').sparkline();
+        $(function () {
+            /** This code runs when everything has been loaded on the page */
+            /* Inline sparklines take their values from the contents of the tag */
+            $('.inlinesparkline').sparkline();
 
-        /* Sparklines can also take their values from the first argument
-        passed to the sparkline() function */
-        var myvalues = [10, 8, 5, 7, 4, 4, 1];
-        $('.dynamicsparkline').sparkline(myvalues);
+            /* Sparklines can also take their values from the first argument
+            passed to the sparkline() function */
+            var myvalues = [10, 8, 5, 7, 4, 4, 1];
+            $('.dynamicsparkline').sparkline(myvalues);
 
-        /* The second argument gives options such as chart type */
-        $('.dynamicbar').sparkline(myvalues, { type: 'bar', barColor: 'green' });
+            /* The second argument gives options such as chart type */
+            $('.dynamicbar').sparkline(myvalues, { type: 'bar', barColor: 'green' });
 
-        /* Use 'html' instead of an array of values to pass options
-        to a sparkline with data in the tag */
-        $('.inlinebar').sparkline('html', { type: 'bar', barColor: 'red' });
-    });
-</script>
+            /* Use 'html' instead of an array of values to pass options
+            to a sparkline with data in the tag */
+            $('.inlinebar').sparkline('html', { type: 'bar', barColor: 'red' });
+        });
+    </script>
 
-<p>
-    Inline Sparkline: <span class="inlinesparkline">1,4,4,7,5,9,10</span>.
-</p>
-<p>
-    Sparkline with dynamic data: <span class="dynamicsparkline">Loading..</span>
-</p>
-<p>
-    Bar chart with dynamic data: <span class="dynamicbar">Loading..</span>
-</p>
-<p>
-    Bar chart with inline data: <span class="inlinebar">1,3,4,5,3,5</span>
-</p>
+    <p>
+        Inline Sparkline: <span class="inlinesparkline">1,4,4,7,5,9,10</span>.
+    </p>
+    <p>
+        Sparkline with dynamic data: <span class="dynamicsparkline">Loading..</span>
+    </p>
+    <p>
+        Bar chart with dynamic data: <span class="dynamicbar">Loading..</span>
+    </p>
+    <p>
+        Bar chart with inline data: <span class="inlinebar">1,3,4,5,3,5</span>
+    </p>
 
 
-<button type="button" id="button">load</button>
+    <button type="button" id="button">load</button>
 
 <ul>
     <div id="sortable"></div>
@@ -57,7 +55,6 @@
             <div class="panel-body">
                 <div id="chart#:data#">
                     @*<canvas id="canvas#:data#"></canvas>*@
-
                 </div>
             </div>
             <!-- /.panel-body -->
@@ -68,51 +65,39 @@
 </script>
 
 <script>
-    var init = @Html.Raw(Json.Encode(ViewBag.INIT));
-    var ZonesOrder = "@Model.ZonesOrder";
-    var initialData = JSON.parse(init),
-            order,
+        var initialData = @Html.Raw(Json.Encode(ViewBag.INIT));
+            //(int[])ViewData["init"];
+                    //[0, 5, 2, 6, 4, 8, 3, 7, 1], //initial items order (used if there is no saved data
+                   var localStorageSupport = (('localStorage' in window && window['localStorage'] !== null)),
+            data,
             html;
 
-        if (@Model.ZonesOrder) {
+        if (localStorageSupport) {
             //retrieve local storage data if such is available, else use the default order
-            order =  JSON.parse("@Model.ZonesOrder") || initialData;
+            data = /*JSON.parse(localStorage.getItem("sortableData")) ||*/ initialData;
         } else {
-            alert("your Database does not have zones saved");
-                order = initialData;
+            alert("your browser does not support local storage");
+                data = initialData;
         }
 
-            html = kendo.render(kendo.template($("#tmp").html()), order); //render the HTML with the data
+            html = kendo.render(kendo.template($("#tmp").html()), data); //render the HTML with the data
         $("#sortable").html(html); //append the HTML to the Sortable container
 
         $("#sortable").kendoSortable({ //initialize the sortable widget
             filter: ".sortable",
             change: function (e) {
-                    var item = order.splice(e.oldIndex, 1)[0]; //remove the item that has changed its order
-                    order.splice(e.newIndex, 0, item); //add the item back using the newIndex
-                    //localStorage.setItem("sortableData", kendo.stringify(data)); //set the updated data in the local storage
-                    @*@Model.ZonesOrder = kendo.stringify(data);*@
-            }
-    });
+                    var item = data.splice(e.oldIndex, 1)[0]; //remove the item that has changed its order
+                    data.splice(e.newIndex, 0, item); //add the item back using the newIndex
 
-    
+                    localStorage.setItem("sortableData", kendo.stringify(data)); //set the updated data in the local storage
+                }
+            });
+
 </script>
 
 
-@foreach (var t in Model.TileZones)
-{
 
-    //var list = t.DashItem.Graphdata;
-    int dashItemId = t.DashItem.DashItemId;
-    string elementId = "chart" + dashItemId;
-    //int kl = 170;
-    <script type="text/javascript">
-        @*console.log("json string hopefully: " + JSON.stringify(@list1));*@
-        @*console.log("json string hopefully: "+@dashItemId);*@
-        custChart(@dashItemId,@elementId);
-    </script>
-   
-}
+
 
 @*
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
@@ -122,23 +107,21 @@
 
 
 <!-- A link to the NodeBox JavaScript API  -->
-@*<script src="https://nodebox.live/api/v1/ndbx.js"></script>
-    <script src="@Url.Content("~/Scripts/morris-data.js")"></script>
-    <script type="text/javascript">
+<script src="https://nodebox.live/api/v1/ndbx.js"></script>
+<script src="@Url.Content("~/Scripts/morris-data.js")"></script>
+<script type="text/javascript">
 
-        var number = @Html.Raw(Json.Encode(ViewBag.NUMMER1));
-        var name = @Html.Raw(Json.Encode(ViewBag.NAAM1));
-        console.log(number);
-        //document.getElementById("chart7").innerHTML = number;
-        //$("#chart7").append("<p>This is a paragraph</p>");
+    var number = @Html.Raw(Json.Encode(ViewBag.NUMMER1));
+    var name = @Html.Raw(Json.Encode(ViewBag.NAAM1));
+    console.log(number);
+    //document.getElementById("chart7").innerHTML = number;
+    //$("#chart7").append("<p>This is a paragraph</p>");
 
-        var mydiv = document.getElementById("chart7");
-        var mycontent = document.createElement("p");
-        mycontent.appendChild(document.createTextNode(name+" heeft: "+number+" tweets"));
-        mydiv.appendChild(mycontent);
-    </script>*@
-
-
+    var mydiv = document.getElementById("chart7");
+    var mycontent = document.createElement("p");
+    mycontent.appendChild(document.createTextNode(name+" heeft: "+number+" tweets"));
+    mydiv.appendChild(mycontent);
+</script>
 
 
 <!--Get Data for Graph-->
@@ -146,74 +129,74 @@
     $(document).ready(function() {
         $.get('@Url.Action("GetData","Home",new {id = 231})', function (result) {
 
-                Morris.Area({
-                    // ID of the element in which to draw the chart.
-                    element: 'chart4',
-                    // Chart data records -- each entry in this array corresponds to a point on
-                    // the chart.
-                    data: result,
-                    // The name of the data record attribute that contains x-values.
-                    xkey: 'label',
-                    ykeys: ['value'],
-                    labels: ['aantal tweets Van Verhofstad'],
-                    pointSize: 2,
-                    hideHover: 'auto',
-                    resize: true
-                });
-            });
-
-
-
-
-        });
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-
-            $.get('@Url.Action("GetData","Home",new {id = 170})', function (result) {
-
-                Morris.Line({
-                    // ID of the element in which to draw the chart.
-                    element: 'chart1',
-                    // Chart data records -- each entry in this array corresponds to a point on
-                    // the chart.
-                    data: result,
-                    // The name of the data record attribute that contains x-values.
-                    xkey: 'label',
-                    ykeys: ['value'],
-                    labels: ['aantal tweets van Bart De Wever'],
-                    pointSize: 2,
-                    hideHover: 'auto',
-                    resize: true
-                });
+            Morris.Area({
+                // ID of the element in which to draw the chart.
+                element: 'chart4',
+                // Chart data records -- each entry in this array corresponds to a point on
+                // the chart.
+                data: result,
+                // The name of the data record attribute that contains x-values.
+                xkey: 'label',
+                ykeys: ['value'],
+                labels: ['aantal tweets Van Verhofstad'],
+                pointSize: 2,
+                hideHover: 'auto',
+                resize: true
             });
         });
-    </script>
 
-    <script type="text/javascript">
-        $(document).ready(function() {
 
-           $.get('@Url.Action("GetRank","Home",new {aantal = 5})', function (result) {
 
-                Morris.Donut({
-                    // ID of the element in which to draw the chart.
-                    element: 'chart2',
-                    // Chart data records -- each entry in this array corresponds to a point on
-                    // the chart.
-                    data: result,
-                    // The name of the data record attribute that contains x-values.
 
-                    hideHover: 'auto',
-                    resize: true
-                });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $.get('@Url.Action("GetData","Home",new {id = 170})', function (result) {
+
+            Morris.Line({
+                // ID of the element in which to draw the chart.
+                element: 'chart1',
+                // Chart data records -- each entry in this array corresponds to a point on
+                // the chart.
+                data: result,
+                // The name of the data record attribute that contains x-values.
+                xkey: 'label',
+                ykeys: ['value'],
+                labels: ['aantal tweets van Bart De Wever'],
+                pointSize: 2,
+                hideHover: 'auto',
+                resize: true
             });
-            });
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function() {
+        });
+    });
+</script>
 
-           $.get('@Url.Action("GetData2","Home",new {persoon1 = 1, persoon2 = 3, persoon3 = 5, persoon4 = 7, persoon5 = 9})', function (result) {
+<script type="text/javascript">
+    $(document).ready(function() {
+
+       $.get('@Url.Action("GetRank","Home",new {aantal = 5})', function (result) {
+
+            Morris.Donut({
+                // ID of the element in which to draw the chart.
+                element: 'chart2',
+                // Chart data records -- each entry in this array corresponds to a point on
+                // the chart.
+                data: result,
+                // The name of the data record attribute that contains x-values.
+
+                hideHover: 'auto',
+                resize: true
+            });
+        });
+        });
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+       $.get('@Url.Action("GetData2","Home",new {persoon1 = 1, persoon2 = 3, persoon3 = 5, persoon4 = 7, persoon5 = 9})', function (result) {
 
            Morris.Line({
                 // ID of the element in which to draw the chart.

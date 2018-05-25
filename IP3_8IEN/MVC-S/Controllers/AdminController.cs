@@ -46,10 +46,7 @@ namespace MVC_S.Controllers
 
         [HttpGet]
         public ActionResult EditUser(string id)
-        {
-            ApplicationUser user = _userManager.FindById(id);
-            return View(user);
-        }
+            => View(_userManager.FindById(id));
 
         // HTTPPOST Controller action to edit user
         [HttpPost]
@@ -69,15 +66,12 @@ namespace MVC_S.Controllers
             //add user to the datacontext (database) and save changes
             _userManager.Update(user);
 
-            return RedirectToAction("index");
+            return RedirectToAction("User");
         }
 
         [HttpGet]
         public ActionResult DeleteUser(string id)
-        {
-            ApplicationUser user = _userManager.FindById(id);
-            return View(user);
-        }
+            => View(_userManager.FindById(id));
 
         [HttpPost]
         public ActionResult DeleteUser(string id, FormCollection collection)
@@ -91,7 +85,7 @@ namespace MVC_S.Controllers
                 //  niet echt deleten maar overschrijven met anonieme data
                 _gebrManager.DeleteUser(id);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("User");
             }
             catch
             {
@@ -101,31 +95,19 @@ namespace MVC_S.Controllers
 
         [HttpGet]
         public ActionResult DetailsUser(string id)
-        {
-            ApplicationUser user = _userManager.FindById(id);
-            return View(user);
-        }
+            => View(_userManager.FindById(id));
 
         [HttpGet]
         public ActionResult Persoon()
-        {
-            IEnumerable<Persoon> personen = _dataManager.GetPersonen();
-            return View(personen);
-        }
+            => View(_dataManager.GetPersonen());
 
         [HttpGet]
         public ActionResult DetailsPersoon(int id = 1)
-        {
-            Persoon persoon = _dataManager.GetPersoon(id);
-            return View(persoon);
-        }
+            => View(_dataManager.GetPersoon(id));
 
         [HttpGet]
         public ActionResult EditPersoon(int id)
-        {
-            Persoon persoon = _dataManager.GetPersoon(id);
-            return View(persoon);
-        }
+            => View(_dataManager.GetPersoon(id));
 
         [HttpPost]
         public ActionResult EditPersoon(int id, Persoon persoon)
@@ -134,7 +116,7 @@ namespace MVC_S.Controllers
             {
                 _dataManager.ChangePersoon(persoon);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Persoon");
             }
 
             return View();
@@ -142,24 +124,15 @@ namespace MVC_S.Controllers
 
         [HttpGet]
         public ActionResult Organisatie()
-        {
-            IEnumerable<Organisatie> organisaties = _dataManager.GetOrganisaties();
-            return View(organisaties);
-        }
+            => View(_dataManager.GetOrganisaties());
 
         [HttpGet]
         public ActionResult DetailsOrganisatie(int id)
-        {
-            Organisatie organisatie = _dataManager.GetOrganisatie(id);
-            return View(organisatie);
-        }
+            => View(_dataManager.GetOrganisatie(id));
 
         [HttpGet]
         public ActionResult EditOrganisatie(int id)
-        {
-            Organisatie organisatie = _dataManager.GetOrganisatie(id);
-            return View(organisatie);
-        }
+            => View(_dataManager.GetOrganisatie(id));
 
         [HttpPost]
         public ActionResult EditOrganisatie(int id, Organisatie organisatie)
@@ -168,7 +141,7 @@ namespace MVC_S.Controllers
             {
                 _dataManager.ChangeOrganisation(organisatie);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Organisatie");
             }
 
             return View();
@@ -206,7 +179,7 @@ namespace MVC_S.Controllers
             try
             {
                 _dashManager.RemoveDashItem(id);
-                return RedirectToAction("Index");
+                return RedirectToAction("Grafiek");
             }
             catch
             {
