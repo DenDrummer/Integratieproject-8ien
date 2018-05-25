@@ -15,6 +15,7 @@ using Microsoft.Ajax.Utilities;
 using MVC_S.Models;
 using System.Text;
 using Newtonsoft.Json;
+using System;
 
 namespace MVC_S.Controllers
 {   /*[RequireHttps]*/
@@ -276,8 +277,8 @@ namespace MVC_S.Controllers
             // >>>>>>>>> InitializeAdmins() hierboven eerst uitvoeren <<<<<<<<< //
 
             #region initialisatie blok databank
-            //dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
-            //dMgr.ApiRequestToJson();
+            dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
+            dMgr.ApiRequestToJson();
             gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
             gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
             #endregion
@@ -355,9 +356,9 @@ namespace MVC_S.Controllers
 
                 return Content(list, "application/json");
             }
-            catch
+            catch (Exception ex)
             {
-                return Json("error", JsonRequestBehavior.AllowGet);
+                return Json("error" + ex, JsonRequestBehavior.AllowGet);
 
             }
         }
@@ -393,7 +394,6 @@ namespace MVC_S.Controllers
             List<GraphData> list = dashMgr.ExtractGraphList(id);
             var json = Json(list, JsonRequestBehavior.AllowGet);
             return json;
-            return null;
         }
 
         public ActionResult GetTweets(int persoonId,int aantaldagen )
@@ -404,5 +404,6 @@ namespace MVC_S.Controllers
             //////////////
             return Json(dMgr.GetTweetsPerDag(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
         }
+
     }
 }
