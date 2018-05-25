@@ -544,6 +544,13 @@
     <Content Include="Views\Alert\ListValueFluctuations.cshtml" />
     <Content Include="Views\Admin\CreateRankingInput.cshtml" />
     <Content Include="Views\Admin\CreateRanking.cshtml" />
+    <Content Include="Views\Superadmin\Index.cshtml" />
+    <Content Include="Views\Superadmin\EditAdmin.cshtml" />
+    <Content Include="Views\Superadmin\DetailsAdmin.cshtml" />
+    <Content Include="Views\Superadmin\DeleteUser.cshtml" />
+    <Content Include="Views\Superadmin\DeleteAdmin.cshtml" />
+    <Content Include="Views\Admin\DetailsGrafiek.cshtml" />
+    <Content Include="Views\Admin\DeleteGrafiek.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

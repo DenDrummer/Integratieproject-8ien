@@ -1,13 +1,13 @@
 ﻿@model IP3_8IEN.BL.Domain.Gebruikers.ApplicationUser
 
 @{
-    ViewBag.Title = "DetailsUser";
+    ViewBag.Title = "DeleteAdmin";
 }
 
-<h2>DetailsUser</h2>
+<h2>DeleteAdmin</h2>
 
 <div>
-    <h4>Ticket</h4>
+    <h4>User</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -50,10 +50,23 @@
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
 
-        <p>
-            @Html.ActionLink("Edit", "EditUser", new { id = Model.Id }) |
-            @Html.ActionLink("Back to List", "Index")
-        </p>
+        <dt>
+            @Html.DisplayNameFor(model => model.Geboortedatum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Geboortedatum)
+        </dd>
 
     </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
 </div>
