@@ -311,7 +311,7 @@ namespace MVC_S.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateLineChart(string politicus,int aantalDagenTerug=0)
+        public ActionResult CreateChartAantalTweetsPerDag(string politicus,string type,int aantalDagenTerug)
         {
             ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             string userName = currUser.UserName;
@@ -320,33 +320,14 @@ namespace MVC_S.Controllers
             string naam = politicus;
             Persoon p = dMgr.GetPersoon(naam);
 
-            List<GraphData> graphDataList = dMgr.GetTweetsPerDag(p, user, aantalDagenTerug);
-            DashItem newDashItem = dashMgr.CreateDashitem(false);
+            List<GraphData> graphDataList = dMgr.GetTweetsPerDag(p, aantalDagenTerug);
+            DashItem newDashItem = dashMgr.CreateDashitem(false, type, naam);
             Follow follow = dashMgr.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
             DashItem dashItem = dashMgr.SetupDashItem(user, follow);
             dashMgr.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
 
             return RedirectToAction("Grafiektest2");
+
         }
-
-        [HttpPost]
-        public ActionResult CreateAreaChart(string politicus, int aantalDagenTerug = 0)
-        {
-            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            string userName = currUser.UserName;
-            Gebruiker user = gMgr.FindUser(userName);
-
-            string naam = politicus;
-            Persoon p = dMgr.GetPersoon(naam);
-
-            List<GraphData> graphDataList = dMgr.GetTweetsPerDag(p, user, aantalDagenTerug);
-            DashItem newDashItem = dashMgr.CreateDashitem(false);
-            Follow follow = dashMgr.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
-            DashItem dashItem = dashMgr.SetupDashItem(user, follow);
-            dashMgr.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
-
-            return RedirectToAction("Grafiektest2");
-        }
-
     }
 }

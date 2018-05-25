@@ -76,59 +76,22 @@ function grafiekForm() {
     $(".modal-backdrop").remove();
     myModal.hide();
     myModal.modal('toggle');
+    createChartAantalTweetsPerDag();
+}
+
+
+
+function createChartAantalTweetsPerDag() {
     var selectedType = $("#type option:selected").val();
-    console.log(selectedType);
-    selectType(selectedType);
-}
-
-function selectType(type) {
-    switch (type) {
-    case "bar":
-        maakBarChartAan();
-        break;
-    case "line":
-        maakLineChartAan();
-        break;
-    case "doughnut":
-        maakDoughnutAan();
-        break;
-    case "area":
-        maakAreaAan();
-        break;
-    }
-}
-
-function maakBarChartAan() {
-
-}
-
-function maakDoughnutAan() {
-    alert("dougnut");
-}
-
-function maakLineChartAan() {
-    politicus = $("#automplete-1").val();
-    dagen = parseInt($("#aantalDagenTerug option:selected").val());
-    $.ajax({
-        url: "/Home/CreateLineChart",
-        data: { 'politicus': politicus, 'aantalDagenTerug': dagen },
-        type: "POST",
-        error: function() {
-            inloggenMsg();
-
-        }
-    });
-}
-
-function maakAreaAan() {
     politicus = $(".automplete-1").val();
     dagen = parseInt($("#aantalDagenTerug option:selected").val());
     $.ajax({
-        url: "/Home/CreateAreaChart",
-        data: { 'politicus': politicus, 'aantalDagenTerug': dagen },
+        url: "/Home/CreateChartAantalTweetsPerDag",
+        data: { 'politicus': politicus, 'type': selectedType, 'aantalDagenTerug': dagen },
         type: "POST",
         error: function() {
             inloggenMsg();
+
         }
     });
 }
