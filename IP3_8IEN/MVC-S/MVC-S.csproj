@@ -211,6 +211,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Home\About.css" />
+    <Content Include="Content\Home\AdminCRUD.css" />
+    <Content Include="Content\Home\AdminOmgeving.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -557,6 +560,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Account\" />
+    <Folder Include="Content\Admin\" />
+    <Folder Include="Content\Alert\" />
+    <Folder Include="Content\Shared\" />
+    <Folder Include="Content\Superadmin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
