@@ -11,6 +11,7 @@ using IP3_8IEN.BL.Domain.Dashboard;
 using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Text;
+using System.Web.Security;
 
 namespace MVC_S.Controllers
 {   /*[RequireHttps]*/
@@ -302,5 +303,13 @@ namespace MVC_S.Controllers
             Persoon persoon5 = dMgr.GetPersoon(id5);
             return Json(dMgr.GetComparisonPersonNumberOfTweetsOverTime(persoon1, persoon2, persoon3, persoon4, persoon5), JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Login(ApplicationUser model)
+        {
+            // Check user provided credentials with database and if matches write this
+            FormsAuthentication.SetAuthCookie(model.Id, false);
+            return View();
+        }
+
     }
 }
