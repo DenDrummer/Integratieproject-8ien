@@ -166,7 +166,7 @@ namespace IP3_8IEN.BL
                 CreateUserWithRoleAsync(gebruiker, passw, role);
 
                 // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken
-                _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName, role);
+                _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName, gebruiker.Email, role);
             }
         }
     }

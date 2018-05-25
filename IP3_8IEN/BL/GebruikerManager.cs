@@ -274,7 +274,7 @@ namespace IP3_8IEN.BL
             return alert;
         }
 
-        public void AddGebruiker(string userName, string userId, string naam, string voornaam, string role = "User")
+        public void AddGebruiker(string userName, string userId, string naam, string voornaam, string email, string role = "User")
         {
             initNonExistingRepo();
 
@@ -285,6 +285,7 @@ namespace IP3_8IEN.BL
                 Voornaam = voornaam,
                 Naam = naam,
                 Role = role,
+                Email = email,
                 Active = true
             };
             repo.AddingGebruiker(gebruiker);
@@ -728,7 +729,7 @@ namespace IP3_8IEN.BL
                             u volgt. Indien u op de hoogte gehouden wilt worden van nog meer onderwerpen, kan u 
                             </br> steeds extra onderwerpen volgen op <a href=""www.8ien.be""> Weekly Reviews </a>. </p>
                             <h3>Personen</h3> <div style=""margin: 0px;""> <p>Naam : Bart De Wever </p> <ul>");
-                if (g.AlertInstellingen != null) {
+                if (g.AlertInstellingen.Count() != 0) {
                 foreach (AlertInstelling al in g.AlertInstellingen)
                 {
                     if (al.Alerts != null) {

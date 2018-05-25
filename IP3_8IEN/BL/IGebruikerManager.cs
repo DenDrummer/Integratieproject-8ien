@@ -40,7 +40,7 @@ namespace IP3_8IEN.BL
         //void AddApplicationGebruikers(string filePath); <-- verhuist naar ApplicationUserManager()
 
         //10 mei 2018 : Stephane
-        void AddGebruiker(string userName, string id, string naam, string voornaam, string role);
+        void AddGebruiker(string userName, string id, string naam, string voornaam, string email, string role);
         void UpdateGebruiker(Gebruiker gebruiker);
 
         //21 mei 2018 : Stephane

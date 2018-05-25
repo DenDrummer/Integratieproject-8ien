@@ -16,6 +16,7 @@ using MVC_S.Models;
 using System.Text;
 using Newtonsoft.Json;
 using System;
+using System.Web.Hosting;
 
 namespace MVC_S.Controllers
 {   /*[RequireHttps]*/
@@ -33,7 +34,7 @@ namespace MVC_S.Controllers
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
 
-            //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
+            HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
             //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
         }
 
