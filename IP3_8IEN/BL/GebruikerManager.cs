@@ -158,7 +158,6 @@ namespace IP3_8IEN.BL
                         ThresholdValue = item.Threshold
                     };
                     repo.AddingAlertInstelling(vf);
-                    System.Diagnostics.Debug.WriteLine("jah");
                 }else if (item.OnderwerpId2 != null) {
                     HogerLager hl = new HogerLager()
                     {
@@ -171,7 +170,6 @@ namespace IP3_8IEN.BL
                         Onderwerp2 = onderwerpen.FirstOrDefault(x => x.OnderwerpId == (int)item.OnderwerpId2)
                     };
                     repo.AddingAlertInstelling(hl);
-                    System.Diagnostics.Debug.WriteLine("jah");
                 }else
                 { 
                     PositiefNegatief pn = new PositiefNegatief()
@@ -185,7 +183,6 @@ namespace IP3_8IEN.BL
                         negatief = (bool)item.Negatief
                     };
                     repo.AddingAlertInstelling(pn);
-                    System.Diagnostics.Debug.WriteLine("jah");
                 }
                 
                 
@@ -382,7 +379,6 @@ namespace IP3_8IEN.BL
 
         public void GetAlertHogerLagers()
         {
-            System.Diagnostics.Debug.WriteLine("HL started");
             initNonExistingRepo();
             dataMgr = new DataManager();
 
@@ -405,7 +401,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = hl,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One HL added");
                         }
                     }
                     else
@@ -420,7 +415,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = hl,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One HL added");
                         }
                     }
                 }
@@ -439,7 +433,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = hl,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One HL added");
                         }
                     }
                     else
@@ -454,7 +447,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = hl,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One HL added");
                         }
                     }
                 }
@@ -463,7 +455,6 @@ namespace IP3_8IEN.BL
         
         public void GetAlertValueFluctuations()
         {
-            System.Diagnostics.Debug.WriteLine("VF Started");
             initNonExistingRepo();
             dataMgr = new DataManager();
 
@@ -484,7 +475,6 @@ namespace IP3_8IEN.BL
                             AlertInstelling = vf,
                             CreatedOn = DateTime.Now
                         });
-                        System.Diagnostics.Debug.WriteLine("One VF added");
                     }
                 }
                 else
@@ -499,7 +489,6 @@ namespace IP3_8IEN.BL
                             AlertInstelling = vf,
                             CreatedOn = DateTime.Now
                         });
-                        System.Diagnostics.Debug.WriteLine("One VF added");
                     }
                 }
             }
@@ -507,7 +496,6 @@ namespace IP3_8IEN.BL
 
         public void GetAlertPositiefNegatiefs()
         {
-            System.Diagnostics.Debug.WriteLine("PN started");
             initNonExistingRepo();
             dataMgr = new DataManager();
             double total = 1;
@@ -533,7 +521,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = pn,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One PN added");
                         }
                     }
                     else
@@ -547,7 +534,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = pn,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One PN added");
                         }
                     }
                 }
@@ -567,7 +553,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = pn,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One PN added");
                         }
                     }
                     else
@@ -581,7 +566,6 @@ namespace IP3_8IEN.BL
                                 AlertInstelling = pn,
                                 CreatedOn = DateTime.Now
                             });
-                            System.Diagnostics.Debug.WriteLine("One PN added");
                         }
                     }
                 }
@@ -642,7 +626,6 @@ namespace IP3_8IEN.BL
 
 
                 double average = tweetsPerDag.Average();
-                System.Diagnostics.Debug.WriteLine(average);
                 double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
                 double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
 
@@ -698,7 +681,6 @@ namespace IP3_8IEN.BL
 
 
                 double average = tweetsPerDag.Average();
-                System.Diagnostics.Debug.WriteLine(average);
                 double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
                 double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
 
@@ -818,7 +800,7 @@ namespace IP3_8IEN.BL
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Mail says no");
+                System.Diagnostics.Debug.WriteLine("Mail did not send" + ex);
             }
         }
 
@@ -846,7 +828,7 @@ namespace IP3_8IEN.BL
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Mail says no");
+                System.Diagnostics.Debug.WriteLine("Mail did not send" + ex);
             }
         }
     }

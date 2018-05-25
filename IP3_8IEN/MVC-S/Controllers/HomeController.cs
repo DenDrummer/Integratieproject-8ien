@@ -35,7 +35,7 @@ namespace MVC_S.Controllers
             gMgr = new GebruikerManager();
             
             ////Probably not best practice to periodically execute methods but it works
-            //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
+            HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
             HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
         }
 

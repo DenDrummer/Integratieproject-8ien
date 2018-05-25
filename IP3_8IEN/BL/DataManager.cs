@@ -748,47 +748,24 @@ namespace IP3_8IEN.BL
                     tweetsPerDag.Add(ms.Where(m => m.Date.Date == start.Date).Count());
                     //tweetsPerDag.Add(messages.Where(Message => Message.Politician == s).Where(Message => Message.Date.Date == start).Count());
                     start = start.AddDays(1);
-                    System.Diagnostics.Debug.WriteLine(start);
                 } while (start <= laatsteTweet);
                 double totaal = 0;
                 foreach (int i in tweetsPerDag)
                 {
                     totaal = totaal + i;
                 }
-                System.Diagnostics.Debug.WriteLine("got here 1");
-                System.Diagnostics.Debug.WriteLine("1 " + totaal);
                 gemiddelde = totaal / tweetsPerDag.Count();
-                System.Diagnostics.Debug.WriteLine("1.1 " + gemiddelde + " " + tweetsPerDag.Count());
-                //tweetsPerDag.ForEach(i => System.Diagnostics.Debug.Write("{0}\n", i));
-                System.Diagnostics.Debug.WriteLine("got here 2");
 
                 double average = tweetsPerDag.Average();
-                System.Diagnostics.Debug.WriteLine(average);
                 double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
                 double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
-                System.Diagnostics.Debug.WriteLine("got here 3");
-
-                System.Diagnostics.Debug.WriteLine("2 " + sd);
+                
 
                 zscores.Add(new zscore(s, (tweetsPerDag.Last() - gemiddelde) / sd));
-                System.Diagnostics.Debug.WriteLine((((double)tweetsPerDag.Last() - gemiddelde) / (gemiddelde * 100)));
-                System.Diagnostics.Debug.WriteLine(tweetsPerDag.Last());
-                System.Diagnostics.Debug.WriteLine(gemiddelde);
-                System.Diagnostics.Debug.WriteLine("---");
-                System.Diagnostics.Debug.WriteLine(tweetsPerDag.Count());
-                System.Diagnostics.Debug.WriteLine(totaal);
-                System.Diagnostics.Debug.WriteLine(s);
             }
-            System.Diagnostics.Debug.WriteLine("---");
-            foreach (zscore z in zscores)
-            {
-                System.Diagnostics.Debug.WriteLine(z.ToString());
-            }
-
-            System.Diagnostics.Debug.WriteLine("got here 4");
+            
 
             GetTweetsPerDagList(repo.ReadPersonen().ToList().Where(p => p.Naam == "Jan Jambon").First());
-            System.Diagnostics.Debug.WriteLine(repo.ReadMessages().ToList().Count());
         }
 
         public void SendMail()
@@ -811,7 +788,7 @@ namespace IP3_8IEN.BL
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Mail says no" + ex);
+                System.Diagnostics.Debug.WriteLine("Mail was not send" + ex);
             }
         }
 
@@ -928,12 +905,7 @@ namespace IP3_8IEN.BL
                 GraphDataList.Add(new GraphData2(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon1)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon2)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon3)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon4)).Count(), messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon5)).Count()));
                 lastTweet = lastTweet.AddDays(-1);
             }
-
-            foreach (var v in GraphDataList)
-            {
-                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value);
-            }
-
+            
 
             return GraphDataList;
         }
@@ -1450,11 +1422,7 @@ namespace IP3_8IEN.BL
                 GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date.Day == lastTweet.Date.Day && m.IsFromPersoon(persoon)).Count()));
                 lastTweet = lastTweet.AddDays(-1);
             }
-
-            foreach (var v in GraphDataList)
-            {
-                System.Diagnostics.Debug.WriteLine(v.label + " " + v.value);
-            }
+            
             return GraphDataList;
         }
 
