@@ -44,10 +44,5 @@ namespace IP3_8IEN.BL
         List<Follow> CreateFollow(int dashId, List<int> listPersoonId);
         DashItem SetupDashItem(Gebruiker user, List<Follow> follows);
         void RemoveDashItem(int id);
-
-        //Sam 
-        DashItem GetDashItemWithGraph(int id);
-        List<GraphData> ExtractGraphList(int id);
-        void updateTilezonesOrderDashboard(int dashId, string zonesOrder);
     }
 }

@@ -19,8 +19,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44365</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>
     </IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>
@@ -204,7 +203,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\GraphDataViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RankViewModel.cs" />
@@ -372,7 +370,6 @@
     <Content Include="DataTables\Scroller-1.4.4\css\scroller.semanticui.min.css" />
     <Content Include="DataTables\Scroller-1.4.4\js\dataTables.scroller.js" />
     <Content Include="DataTables\Scroller-1.4.4\js\dataTables.scroller.min.js" />
-    <Content Include="Fotos\allDone.jpg" />
     <Content Include="Fotos\banner.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -434,12 +431,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\kendo.all.min.js" />
-    <Content Include="Scripts\kendoUiUpdate.js" />
     <Content Include="Scripts\kendo_ui.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\morris-onderwerpPagina.js" />
-    <Content Include="Scripts\morris-scripts.js" />
     <Content Include="Scripts\morris\morris-chart-settings.min.js" />
     <Content Include="Scripts\morris\morris.min.js" />
     <Content Include="Scripts\morris\raphael.min.js" />
@@ -560,8 +554,6 @@
     <Content Include="Views\Superadmin\DeleteAdmin.cshtml" />
     <Content Include="Views\Admin\DetailsGrafiek.cshtml" />
     <Content Include="Views\Admin\DeleteGrafiek.cshtml" />
-    <Content Include="Views\Home\DashItem.cshtml" />
-    <Content Include="Views\Home\grafiektest3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

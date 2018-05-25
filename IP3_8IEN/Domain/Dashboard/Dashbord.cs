@@ -9,7 +9,7 @@ namespace IP3_8IEN.BL.Domain.Dashboard
     {
         [Key]
         public int DashbordId { get; set; }
-        public string ZonesOrder { get; set; }
+
         public Deelplatform Deelplatform { get; set; }
         public Gebruiker User { get; set; }
         public ICollection<TileZone> TileZones { get; set; }

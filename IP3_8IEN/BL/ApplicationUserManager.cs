@@ -63,7 +63,7 @@ namespace IP3_8IEN.BL
                 role.Name = "SuperAdmin";
                 roleManager.Create(role);
 
-        //        // Administrator aanmaken
+                // Administrator aanmaken
 
                 var user = new ApplicationUser();
                 user.UserName = "AdminQwerty@mail.com";

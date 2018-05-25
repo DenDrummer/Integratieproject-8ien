@@ -77,11 +77,7 @@ namespace IP3_8IEN.DAL
             DashItem dashItem = ctx.DashItems.Find(dashId);
             return dashItem;
         }
-        public DashItem ReadDashItemWithGraph(int dashId)
-        {
-            DashItem dashItem = ctx.DashItems.Include("Graphdata").FirstOrDefault(d=>d.DashItemId == dashId);
-            return dashItem;
-        }
+
         public void UpdateFollow(Follow follow)
         {
             ctx.Entry(follow).State = System.Data.Entity.EntityState.Modified;
@@ -115,12 +111,6 @@ namespace IP3_8IEN.DAL
         public Dashbord ReadDashbord(int dashId)
         {
             Dashbord dashbord = ctx.Dashbords.Include("User").FirstOrDefault(d => d.DashbordId == dashId);
-            return dashbord;
-        }
-        //sam
-        public Dashbord ReadDashbordWithFollows(int dashId)
-        {
-            Dashbord dashbord = ctx.Dashbords.Include("User").Include("TileZones").Include("TileZones.DashItem").Include("TileZones.DashItem.Graphdata").Include("TileZones.DashItem.Follows").Include("TileZones.DashItem.Follows.Onderwerp").FirstOrDefault(d => d.DashbordId == dashId);
             return dashbord;
         }
 

@@ -11,9 +11,6 @@ using IP3_8IEN.BL.Domain.Dashboard;
 using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Text;
-using System.Web.Helpers;
-using Microsoft.Ajax.Utilities;
-using MVC_S.Models;
 using System.Web.Security;
 
 namespace MVC_S.Controllers
@@ -91,7 +88,7 @@ namespace MVC_S.Controllers
 
             return View(persoon);
         }
-        public ActionResult Personen(int onderwerpId = 231)
+        public ActionResult Personen(int onderwerpId = 1)
         {
             Persoon persoon = dMgr.GetPersoonWithTewerkstelling(onderwerpId);
 
@@ -284,39 +281,10 @@ namespace MVC_S.Controllers
             ViewBag.NUMMER1 = aantalTweets;
             ViewBag.naam1 = persoon.Naam;
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
-            string init = "[0,1,2,3,4,5,6,7,8,9]";
+            int[] init = { 0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
             //ViewData["init"] = init;
-
-            List<GraphData> data = dMgr.GetTweetsPerDag(persoon, 20);
-            ViewBag.DATA = data;
-
-
-            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-
-            Dashbord dash;
-                       if (currUser != null)
-            {
-                string userName = currUser.UserName;
-                Gebruiker user = gMgr.FindUser(userName);
-                dash = dashMgr.GetDashboardWithFollows(user);
-                            }
-            else
-                            {
-                //not jet ready
-                //have to add defaultdash
-                string userName = currUser.UserName;
-                Gebruiker user = gMgr.FindUser(userName);
-                dash = dashMgr.GetDashboardWithFollows(user);
-            }
-            
-            
-            ViewBag.INIT = dash.ZonesOrder;
-            dashMgr.GetDashItems().Where(d => d.AdminGraph == true);
-            ViewBag.AANTAL = dashMgr.GetDashItems().Where(d => d.AdminGraph == true).Count();
-
-            //GraphDataViewModel model = new GraphDataViewModel { dash = dash,
-            //};
-            return View(dash);
+            ViewBag.INIT = init;
+            return View();
         }
 
         public ActionResult GetData(int id)
@@ -343,55 +311,5 @@ namespace MVC_S.Controllers
             return View();
         }
 
-
-        public ActionResult DashItem(int id)
-        {
-            Persoon persoon = dMgr.GetPersoon(170);
-            List<GraphData> data = dMgr.GetTweetsPerDag(persoon, 20);
-            ViewBag.DATA = data;
-            //IEnumerable<DashItem> dashItem = dashMgr.GetDashItems();
-            return View();
-        }
-
-        public ActionResult GetJson(List<GraphData> data)
-        {
-            string bla = null;
-            JsonResult d = Json(data, JsonRequestBehavior.AllowGet);
-            return Json(data, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult Grafiektest3()
-        {
-            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            string userName = currUser.UserName;
-            Gebruiker user = gMgr.FindUser(userName);
-            Dashbord dash = dashMgr.GetDashboardWithFollows(user);
-            return View(dash);
-        }
-
-        public ActionResult GetJsonFromGraphData(int id)
-        {
-            //IEnumerable<GraphData> list2 = dashMgr.GetDashItemWithGraph(id).Graphdata;
-            List<GraphData> list = dashMgr.ExtractGraphList(id);
-            var json = Json(list, JsonRequestBehavior.AllowGet);
-            return json;
-            return null;
-        }
-
-        public ActionResult GetTweets(int persoonId,int aantaldagen )
-        {
-            Persoon persoon = dMgr.GetPersoon(persoonId);
-            //test debug//
-            List<GraphData> lijst = dMgr.GetTweetsPerDag(persoon, aantaldagen);
-            //////////////
-            return Json(dMgr.GetTweetsPerDag(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public ActionResult SaveTilezonesOrder(int dashId,string zonesorder)
-        {
-            dashMgr.updateTilezonesOrderDashboard(dashId, zonesorder);
-            return RedirectToAction("Grafiektest2");
-        }
     }
 }
