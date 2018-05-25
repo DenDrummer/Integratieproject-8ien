@@ -43,6 +43,7 @@ namespace MVC_S.Controllers
         {
             while (true)
             {
+                //wait 3h and get new data from textgain
                 Thread.Sleep(10800000);
                 await Task.Run(() =>
                 {
@@ -55,6 +56,7 @@ namespace MVC_S.Controllers
         {
             while (true)
             {
+                //wait 1w and send out weekly review
                 Thread.Sleep(604800000);
                 await Task.Run(() =>
                 {
