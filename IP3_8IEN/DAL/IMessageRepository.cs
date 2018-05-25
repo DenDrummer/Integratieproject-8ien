@@ -51,5 +51,7 @@ namespace IP3_8IEN.DAL
         void EditPersoon(Persoon persoon);
 
         Persoon ReadPersoon(string naam);
+        Persoon ReadPersoonWithTewerkstelling(string naam);
+        Persoon ReadPersoonWithTewerkstelling(int id);
     }
 }

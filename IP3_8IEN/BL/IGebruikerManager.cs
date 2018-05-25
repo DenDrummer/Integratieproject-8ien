@@ -46,6 +46,6 @@ namespace IP3_8IEN.BL
         //21 mei 2018 : Stephane
         void DeleteUser(string userId);
         IEnumerable<Gebruiker> GetUsers();
-        IEnumerable<ApplicationUser> GetUsersInRoles(IEnumerable<ApplicationUser> appUsers);
+        IEnumerable<ApplicationUser> GetUsersInRoles(IEnumerable<ApplicationUser> appUsers, string role);
     }
 }

@@ -6,8 +6,6 @@ using System.Linq;
 
 namespace IP3_8IEN.DAL
 {
-    //1 apr 2018 : Stephane
-
     // Dit stond in UI_MVC_S -> Bad Practice
     // Repositories horen thuis in DAL
     // IdentityRepository geeft toegang tot de Authenticatiegegevens in de DB
@@ -23,8 +21,8 @@ namespace IP3_8IEN.DAL
 
         }
 
-        // Er mogen geen nieuwe Admin's aangemaakt worden -> niet beschikbaar!
-        public IList<IdentityRole> ReadRoles() => ctx.Roles.Where(u => !u.Name.Contains("Admin")).ToList();
+        // Er mogen geen nieuwe SuperAdmin's aangemaakt worden -> niet beschikbaar!
+        public IList<IdentityRole> ReadRoles() => ctx.Roles.Where(u => !u.Name.Contains("SuperAdmin")).ToList();
 
         // Alle gebruikers behalve de administrator ophalen
         public IEnumerable<ApplicationUser> ReadUsers()

@@ -284,7 +284,8 @@ namespace IP3_8IEN.BL
                 Username = userName,
                 Voornaam = voornaam,
                 Naam = naam,
-                Role = role
+                Role = role,
+                Active = true
             };
             repo.AddingGebruiker(gebruiker);
 
@@ -313,6 +314,9 @@ namespace IP3_8IEN.BL
             user.Voornaam = "Deleted";
             user.Email = "Deleted";
             user.Geboortedatum = DateTime.Now;
+            user.Role = "User";
+            //We geven aan dat de account 'inactive' is
+            user.Active = false;
 
             UpdateGebruiker(user);
         }
@@ -324,10 +328,12 @@ namespace IP3_8IEN.BL
             return repo.ReadUsers();
         }
 
-        public IEnumerable<ApplicationUser> GetUsersInRoles(IEnumerable<ApplicationUser> appUsers)
+        public IEnumerable<ApplicationUser> GetUsersInRoles(IEnumerable<ApplicationUser> appUsers, string role)
         {
+            initNonExistingRepo();
+
             List<ApplicationUser> appUsersInRole = new List<ApplicationUser>();
-            IEnumerable<Gebruiker> users = repo.ReadGebruikers().Where(u => u.Role == "Admin");
+            IEnumerable<Gebruiker> users = repo.ReadGebruikers().Where(u => u.Role == role && u.Active == true);
             foreach(Gebruiker user in users)
             {
                 appUsersInRole.Add(appUsers.FirstOrDefault(u => u.Id == user.GebruikerId));

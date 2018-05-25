@@ -14,7 +14,6 @@ namespace IP3_8IEN.BL
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        IdentityRepository repo = new IdentityRepository();
         private IGebruikerManager _gebruikerMgr;
 
         public ApplicationUserManager()
@@ -42,25 +41,16 @@ namespace IP3_8IEN.BL
             DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
             MaxFailedAccessAttemptsBeforeLockout = 5;
 
-            // Role bij een gebruiker toevoegen
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(repo.GetContext()));
-
-            ///////////////////////////////////////////////////////////
-            // Bij initialisatie van het systeem wordt Admin aangemaakt
-            if (!roleManager.RoleExists("SuperAdmin"))
-            {
-                CreateRolesandUsers();
-            }
-            ///////////////////////////////////////////////////////////
+            //CreateRolesandUsers();
         }
 
         // Roles in ASP.Identity
-        private void CreateRolesandUsers()
+        public void CreateRolesandUsers()
         {
-            _gebruikerMgr = new GebruikerManager();
             // Context moet opgehaald worden uit de repository!
             // ApplicationDbContext repo = (ApplicationDbContext)(((IdentityRepository)Store).Context);
-            //IdentityRepository repo = new IdentityRepository();
+            _gebruikerMgr = new GebruikerManager();
+            IdentityRepository repo = new IdentityRepository();
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(repo.GetContext()));
 
@@ -132,7 +122,23 @@ namespace IP3_8IEN.BL
             return t;
         }
 
-        
+        public void AddApplicationGebruikers(string username, string voornaam, string achternaam, 
+            string email, DateTime geboortedatum, string password, string role)
+        {
+            ApplicationUser gebruiker = new ApplicationUser()
+            {
+                UserName = username,
+                VoorNaam = voornaam,
+                AchterNaam = achternaam,
+                Email = email,
+                Geboortedatum = geboortedatum
+            };
+            string passw = password;
+            CreateUserWithRoleAsync(gebruiker, passw, role);
+
+            // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken
+            _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName, role);
+        }
 
         ////inladen vanuit json formaat
         public void AddApplicationGebruikers(string filePath)
@@ -156,10 +162,11 @@ namespace IP3_8IEN.BL
                     Geboortedatum = item.Geboortedatum
                 };
                 string passw = item.Password;
-                CreateUserWithRoleAsync(gebruiker, passw, "Admin");
+                string role = item.Role;
+                CreateUserWithRoleAsync(gebruiker, passw, role);
 
                 // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken
-                _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName,"Admin");
+                _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName, role);
             }
         }
     }
