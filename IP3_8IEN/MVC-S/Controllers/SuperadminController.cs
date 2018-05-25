@@ -1,13 +1,31 @@
-﻿using System;
+﻿using IP_8IEN.BL;
+using IP_8IEN.BL.Domain.Gebruikers;
+using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MVC_S.Controllers
+namespace IP_8IEN.UI.MVC_S.Controllers
 {
     public class SuperadminController : Controller
     {
+        private IDataManager _dataManager;
+        private IGebruikerManager _gebrManager;
+        private IDashManager _dashManager;
+        private ApplicationUserManager _userManager;
+
+
+        public SuperadminController()//(ApplicationUserManager userManager, HostingEnvironment environment)
+        {
+            // Inject the datacontext and userManager Dependencies
+            _userManager = new ApplicationUserManager();
+            _dataManager = new DataManager();
+            _gebrManager = new GebruikerManager();
+            _dashManager = new DashManager();
+        }
+
         // GET: Superadmin
         public ActionResult Index()
         {
@@ -16,12 +34,97 @@ namespace MVC_S.Controllers
 
         public ActionResult Adminlijst()
         {
+            IEnumerable<ApplicationUser> users = _userManager.GetUsers();
+            users = _gebrManager.GetUsersInRoles(users, "Admin");
+
+            return View(users);
+        }
+
+        [HttpGet]
+        public ActionResult EditAdmin(string id)
+        {
+            ApplicationUser user = _userManager.FindById(id);
+            return View(user);
+        }
+        // HTTPPOST Controller action to edit user
+        [HttpPost]
+        public ActionResult EditAdmin(ApplicationUser model)
+        {
+            //Get User by the Email passed in.
+            //It's better practice to find user by the Id, (without exposing the id to the view).
+            var user = _userManager.FindByEmail(model.Email);
+
+            //edit user: replace values of UserViewModel properties 
+            user.AchterNaam = model.AchterNaam;
+            user.VoorNaam = model.VoorNaam;
+            user.UserName = model.UserName;
+            user.Geboortedatum = model.Geboortedatum;
+            user.PhoneNumber = model.PhoneNumber;
+
+            //add user to the datacontext (database) and save changes
+            _userManager.Update(user);
+
+            return RedirectToAction("index");
+        }
+
+        [HttpGet]
+        public ActionResult DetailsAdmin(string id)
+        {
+            ApplicationUser user = _userManager.FindById(id);
+            return View(user);
+        }
+
+        [HttpGet]
+        public ActionResult DeleteAdmin(string id)
+        {
+            ApplicationUser user = _userManager.FindById(id);
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteAdmin(string id, FormCollection collection)
+        {
+            try
+            {
+                ApplicationUser user = _userManager.FindById(id);
+                _userManager.Delete(user);
+
+                // We gaan de gebruiker (gelinkt met objecten in de Db)
+                //  niet echt deleten maar overschrijven met anonieme data
+                _gebrManager.DeleteUser(id);
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public ActionResult CreateAdmin()
+        {
             return View();
         }
 
-        public ActionResult Inloggen()
+        [HttpPost]
+        public ActionResult CreateAdmin(string id, FormCollection collection)
         {
-            return View();
+            try
+            {
+                ApplicationUser user = _userManager.FindById(id);
+                _userManager.Delete(user);
+
+                // We gaan de gebruiker (gelinkt met objecten in de Db)
+                //  niet echt deleten maar overschrijven met anonieme data
+                _gebrManager.DeleteUser(id);
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         public ActionResult SMBeheren()

@@ -40,10 +40,12 @@ namespace IP_8IEN.BL
         //void AddApplicationGebruikers(string filePath); <-- verhuist naar ApplicationUserManager()
 
         //10 mei 2018 : Stephane
-        void AddGebruiker(string userName, string id, string naam, string voornaam);
+        void AddGebruiker(string userName, string id, string naam, string voornaam, string role);
         void UpdateGebruiker(Gebruiker gebruiker);
 
         //21 mei 2018 : Stephane
         void DeleteUser(string userId);
+        IEnumerable<Gebruiker> GetUsers();
+        IEnumerable<ApplicationUser> GetUsersInRoles(IEnumerable<ApplicationUser> appUsers, string role);
     }
 }

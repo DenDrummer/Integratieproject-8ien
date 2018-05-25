@@ -107,5 +107,10 @@ namespace IP_8IEN.DAL
             ctx.Entry(gebruiker).State = System.Data.Entity.EntityState.Modified;
             ctx.SaveChanges();
         }
+
+        public IEnumerable<Gebruiker> ReadUsers()
+        {
+            return ctx.Gebruikers.ToList();
+        }
     }
 }

@@ -37,5 +37,6 @@ namespace IP_8IEN.DAL
 
         //20 mei 2018 : Stephane
         Gebruiker ReadGebruiker(string userId);
+        IEnumerable<Gebruiker> ReadUsers();
     }
 }

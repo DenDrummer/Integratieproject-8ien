@@ -1,0 +1,43 @@
+﻿@model IP_8IEN.BL.Domain.Dashboard.DashItem
+@{
+    ViewBag.Title = "DetailsGrafiek";
+}
+
+<h2>DetailsGrafiek</h2>
+
+<div>
+    <h4>Persoon</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DashItemId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DashItemId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Naam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Naam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastModified)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastModified)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+    </dl>
+</div>

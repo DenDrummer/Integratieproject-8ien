@@ -104,8 +104,15 @@ namespace IP_8IEN.DAL
 
         public Persoon ReadPersoon(string naam)
         {
-            Persoon persoon = ctx.Personen.Include("SubjectMessages").Include("SubjectMessages.Msg").Where(p => p.Naam == naam).FirstOrDefault();
+            Persoon persoon = ctx.Personen.Include("SubjectMessages").Include("SubjectMessages.Msg").Include("Tewerkstellingen").Where(p => p.Naam == naam).FirstOrDefault();
             return persoon;
+        }
+        public Persoon ReadPersoonWithTewerkstelling(string naam) {
+            return ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie").FirstOrDefault(p => p.Naam == naam);
+        }
+        public Persoon ReadPersoonWithTewerkstelling(int id)
+        {
+            return ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie").FirstOrDefault(p => p.OnderwerpId == id);
         }
     }
 }

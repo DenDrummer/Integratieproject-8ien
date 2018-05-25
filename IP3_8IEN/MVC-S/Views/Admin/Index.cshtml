@@ -34,19 +34,22 @@
                     <i style="font-size:24px; color:#00295C;">Organisaties</i>
                 </a>
             </div>
+            <div class="col-lg-4">
+                <a href="@Url.Action("Grafiek","Admin")" class="btn btn-default" type="button" style="height:250px; width:250px; border: 2px solid #00295C">
+                    <i class="fas fa-sitemap" style="font-size: 85px; color:#00295C; padding-top:48px"></i>
+                    <br />
+                    <br />
+                    <i style="font-size:24px; color:#00295C;">Grafieken</i>
+                </a>
+            </div>
         </div>
     </div>
 </div>
 <table class="table">
-    <p>
-        @Html.ActionLink("Users", "User")
-        @Html.ActionLink("Personen", "Persoon")
-        @Html.ActionLink("Organisaties", "Organisatie")
-    </p>
-
     <tr>
         @Html.ActionLink("Nieuwe LineGrafiek", "CreateGrafiekInput")
     </tr>
+    <br />
     <tr>
         @Html.ActionLink("Nieuwe Ranking", "CreateRankingInput")
     </tr>
