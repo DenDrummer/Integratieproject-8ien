@@ -52,7 +52,7 @@ namespace IP3_8IEN.BL
             _gebruikerMgr = new GebruikerManager();
             IdentityRepository repo = new IdentityRepository();
 
-        //    var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(repo.GetContext()));
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(repo.GetContext()));
 
             // Bij initialisatie van het systeem wordt Admin aangemaakt
             if (!roleManager.RoleExists("SuperAdmin"))
