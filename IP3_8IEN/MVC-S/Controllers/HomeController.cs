@@ -249,6 +249,8 @@ namespace MVC_S.Controllers
 
         public ActionResult InitializeAdmins()
         {
+
+
             aMgr.CreateRolesandUsers();
             aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
             return View();

@@ -370,7 +370,7 @@ namespace IP3_8IEN.BL
             Dashbord dashbord = new Dashbord
             {
                 User = gebruiker,
-                ZonesOrder = SetTilezonesOrder(),
+                ZonesOrder = "[0,1,2,3,4,5,6,7]",
                 TileZones = new Collection<TileZone>(),
                 defaultDash = false
             };
@@ -384,7 +384,7 @@ namespace IP3_8IEN.BL
         {
             Dashbord dashbord = new Dashbord
             {
-                ZonesOrder = SetTilezonesOrder(),
+                ZonesOrder = "[0,1,2,3,4,5,6,7]",
                 TileZones = new Collection<TileZone>(),
                 defaultDash = true
             };
