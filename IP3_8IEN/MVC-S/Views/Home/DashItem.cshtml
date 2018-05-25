@@ -1,18 +1,16 @@
-﻿
-<script>
+﻿@model IP3_8IEN.BL.Domain.Dashboard.Dashbord
+@{
+    ViewBag.Title = "DashItem";
+}
 
-     var data = @Html.Raw(Json.Encode(ViewBag.DATA));
+<h2>DashItem</h2>
+<div id="dashi"></div>
+@Model.
+<script type="text/javascript">
+    var data = @Html.Raw(Json.Encode(ViewBag.DATA));
+
     $(document).ready(function () {
-        for (var i = 0; i < (@Model.TileZones.Count); i++) {
-            customChart("chart" + i, data);
-        }
-
-        @*@foreach (var t in Model.TileZones)
-        {
-            @: $.get('@Url.Action("GetJson","Home",new {data = t.DashItem.Graphdata })', customChart("chart1",result));*@
-            
-            @*@: customChart("chart1",@t.DashItem.Graphdata);*@
-        //}
+        customChart("dashi", data);
 
         $(window).resize(function () {
             window.customChart.redraw();

@@ -215,7 +215,19 @@ namespace IP3_8IEN.BL
             repo.AddGraph(graph);
         }
 
-        
+        //public Dashbord AddDashBord(Gebruiker gebruiker)
+        //{
+        //    initNonExistingRepo(true);
+
+        //    Dashbord dashbord = new Dashbord
+        //    {
+        //        User = gebruiker,
+        //        ZonesOrder = "[0,1,2,3,4,5,6,7,8,9]",
+        //        TileZones = new Collection<TileZone>()
+        //    };
+        //    repo.AddDashBord(dashbord);
+        //    return dashbord;
+        //}
 
         public void UpdateDashItem(DashItem dashItem)
         {
@@ -357,6 +369,7 @@ namespace IP3_8IEN.BL
             Dashbord dashbord = new Dashbord
             {
                 User = gebruiker,
+                ZonesOrder = "[0,1,2,3,4,5,6,7,8,9]",
                 TileZones = new Collection<TileZone>()
             };
             repo.AddDashBord(dashbord);
@@ -414,6 +427,33 @@ namespace IP3_8IEN.BL
             dashItem.Active = false;
             UpdateDashItem(dashItem);
         }
+        public DashItem GetDashItemWithGraph(int id)
+        {
+            initNonExistingRepo();
+
+            DashItem dashItem = repo.ReadDashItemWithGraph(id);
+            return dashItem;
+        }
+
+        public List<GraphData> ExtractGraphList(int id)
+        {
+            initNonExistingRepo();
+
+            DashItem dashItem = repo.ReadDashItemWithGraph(id);
+            List<GraphData> listData = new List<GraphData>();
+
+            foreach(GraphData graph in dashItem.Graphdata)
+            {
+                listData.Add(new GraphData
+                {
+                    //controleren duplicaten DB
+                    label = graph.label,
+                    value = graph.value
+                });
+            }
+
+            return listData;
+        }
 
         //Unit of Work related
         public void initNonExistingRepo(bool withUnitOfWork = false)
@@ -450,6 +490,15 @@ namespace IP3_8IEN.BL
                     }
                 }
             }
+        }
+
+        public void updateTilezonesOrderDashboard(int dashId, string zonesOrder)
+        {
+            initNonExistingRepo();
+            Dashbord dashbord = repo.ReadDashbordWithFollows(dashId);
+            dashbord.ZonesOrder = zonesOrder;
+
+            repo.UpdateDashboard(dashbord);
         }
     }
 }

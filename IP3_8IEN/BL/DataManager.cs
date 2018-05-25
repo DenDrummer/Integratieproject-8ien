@@ -59,7 +59,7 @@ namespace IP3_8IEN.BL
                         //name = "Annick De Ridder",
                         since = "29 Apr 2018 20:01",
                         //until weglaten --> last scraping
-                        until = "30 Apr 2018 10:01",
+                        until = "30 Apr 2018 00:01",
                     });
 
                     streamWriter.Write(json);
@@ -1528,7 +1528,7 @@ namespace IP3_8IEN.BL
                 //////////////////////////////////////////////////////////////////////////
                 int count = messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon)).Count();
 
-                GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date && m.IsFromPersoon(persoon)).Count());
+                GraphData graph = new GraphData(date, messages.Where(m => m.Date.Date == lastTweet.Date ).Count());
                 dashMgr.AddGraph(graph);
 
                 GraphDataList.Add(graph);
