@@ -1,21 +1,20 @@
 ﻿using System.Web.Mvc;
+using IP3_8IEN.BL;
+using IP3_8IEN.BL.Domain.Data;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using System.IO;
 using System.Web;
+using IP3_8IEN.BL.Domain.Dashboard;
 using Microsoft.AspNet.Identity;
 using System.Linq;
-using System.Web.Helpers;
-using Microsoft.Ajax.Utilities;
 using System.Text;
-using IP3_8IEN.BL;
-using IP3_8IEN.BL.Domain.Dashboard;
-using IP3_8IEN.BL.Domain.Data;
-using IP3_8IEN.BL.Domain.Gebruikers;
+using System.Web.Security;
 
 namespace MVC_S.Controllers
-{
+{   /*[RequireHttps]*/
     public class HomeController : Controller
     {
         private IDataManager dMgr = new DataManager();
@@ -25,11 +24,10 @@ namespace MVC_S.Controllers
 
         public HomeController()
         {
-            // initialisatie Admins zitten in InitializeAdmins()
-            // initialisatie methodes zitten in Initialize()
-
-            //string id = System.DateTime.Now.ToString();
-            //gMgr.AddGebruiker("testuser", id, "dummy", "plug");
+            // Hier wordt voorlopig wat testdata doorgegeven aan de 'Managers'
+            // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
+            dMgr = new DataManager();
+            gMgr = new GebruikerManager();
 
             //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
             //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
@@ -61,22 +59,6 @@ namespace MVC_S.Controllers
 
         public ActionResult Index() => View();
 
-        //Searchbar testing
-        //--> Deze werkt ook (direct in de db zoeken) : er gaat enkel nog iets mis in het weergeven
-        //      misschien een verkeerd gebruik van attributen
-        //[HttpPost]
-        //public JsonResult Index(string Prefix)
-        //{
-        //    //Note : you can bind same list from database  
-        //    IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
-
-        //    //Searching records from list using LINQ query  
-        //    var Names = (from N in ObjList
-        //                 where N.Naam.StartsWith(Prefix)
-        //                 select new { N.Naam });
-        //    return Json(Names, JsonRequestBehavior.AllowGet);
-        //}
-
 
         public ActionResult About()
         {
@@ -98,12 +80,7 @@ namespace MVC_S.Controllers
         [HttpPost]
         public ActionResult Personen(string automplete)
         {
-            //string naam = id;
-            Persoon persoon = dMgr.GetPersoon(automplete);
-            //string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
-            //string aantalT = "aantal tweets van " + persoon.Naam;
-            //ViewBag.TWITTER = twit;
-            //ViewBag.AANTALT = aantalT;
+            Persoon persoon = dMgr.GetPersoonWithTewerkstelling(automplete);
 
             string screenname = persoon.Twitter;
             ViewBag.TWITIMAGE = dMgr.GetImageString(screenname);
@@ -113,11 +90,7 @@ namespace MVC_S.Controllers
         }
         public ActionResult Personen(int onderwerpId = 1)
         {
-            Persoon persoon = dMgr.GetPersoon(onderwerpId);
-            //string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
-            //string aantalT = "aantal tweets van " + persoon.Naam;
-            //ViewBag.TWITTER = twit;
-            //ViewBag.AANTALT = aantalT;
+            Persoon persoon = dMgr.GetPersoonWithTewerkstelling(onderwerpId);
 
             ViewBag.TWITIMAGE = dMgr.GetImageString(persoon.Twitter);
             ViewBag.TWITBANNER = dMgr.GetBannerString(persoon.Twitter);
@@ -183,7 +156,6 @@ namespace MVC_S.Controllers
 
         public ActionResult WeeklyReview(int weeklyReviewId = 0)
         {
-            //WeeklyReview wr = xMgr.GetWeeklyReview(weeklyReviewId);
             WeeklyReview wr = new WeeklyReview()
             {
                 WeeklyReviewId = weeklyReviewId
@@ -194,6 +166,7 @@ namespace MVC_S.Controllers
         public ActionResult UserDashBoard()
         {
             //Dashbord van ingelogde gebruiker ophalen
+            //Hier zit voorlopig enkel update logica 
             try
             {
                 ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
@@ -272,15 +245,9 @@ namespace MVC_S.Controllers
             return View(ObjList);
         }
 
-        //[HttpGet]
-        //public ActionResult LijstPersonen(string search)
-        //{
-        //    IEnumerable<Persoon> ObjList = dMgr.GetPersonen().Where(p => p.Naam.Contains(search));
-        //    return View(ObjList);
-        //}
-
         public ActionResult InitializeAdmins()
         {
+            aMgr.CreateRolesandUsers();
             aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
             return View();
         }

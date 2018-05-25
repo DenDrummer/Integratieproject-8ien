@@ -1,8 +1,8 @@
-﻿using IP_8IEN.BL.Domain.Dashboard;
-using IP_8IEN.BL.Domain.Gebruikers;
+﻿using IP3_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
 
-namespace IP_8IEN.BL
+namespace IP3_8IEN.BL
 {
     public interface IDashManager
     {
@@ -19,7 +19,7 @@ namespace IP_8IEN.BL
         void UpdateDashItem(DashItem dashItem);
         DashItem SetupDashItem(/*DashItem dashItem, */Gebruiker user, Follow follow);
         void LinkGraphsToUser(List<GraphData> graphDataList, int dashId /*DashItem dashItem*/);
-        DashItem CreateDashitem(bool adminGraph);
+        DashItem CreateDashitem(bool adminGraph, string type, string naam);
         Follow CreateFollow(int dashId, int onderwerpid);
 
         //12 mei 2018 : Stephane
@@ -39,5 +39,10 @@ namespace IP_8IEN.BL
         //22 mei 2018 : Stephane
         Dashbord GetDashboardWithFollows(Gebruiker user);
         Dashbord UpdateDashboard(Dashbord dashbord);
+
+        //23 mei 2018 : Stephane
+        List<Follow> CreateFollow(int dashId, List<int> listPersoonId);
+        DashItem SetupDashItem(Gebruiker user, List<Follow> follows);
+        void RemoveDashItem(int id);
     }
 }

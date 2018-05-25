@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using IP_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.BL.Domain.Gebruikers;
 
-namespace IP_8IEN.DAL
+namespace IP3_8IEN.DAL
 {
     public interface IGebruikerRepository
     {
@@ -37,5 +37,6 @@ namespace IP_8IEN.DAL
 
         //20 mei 2018 : Stephane
         Gebruiker ReadGebruiker(string userId);
+        IEnumerable<Gebruiker> ReadUsers();
     }
 }

@@ -19,10 +19,13 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressSSLPort>44365</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -195,12 +198,14 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SuperadminController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\RankViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignIn\ApplicationSignInManager.cs" />
     <Compile Include="Startup.cs" />
@@ -375,6 +380,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Fotos\hashtag.svg" />
+    <Content Include="Fotos\homepagebanner.jpg" />
     <Content Include="Fotos\hslogo.png" />
     <Content Include="Fotos\NVA.jpg" />
     <Content Include="Fotos\unknownTwitter.jpg" />
@@ -535,10 +541,24 @@
     <Content Include="Views\Home\LijstPersonen.cshtml" />
     <Content Include="Views\Home\Faq.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
+    <Content Include="Views\Superadmin\Inloggen.cshtml" />
+    <Content Include="Views\Superadmin\Adminlijst.cshtml" />
+    <Content Include="Views\Superadmin\SMBeheren.cshtml" />
+    <Content Include="Views\Alert\ListPositiefNegatief.cshtml" />
+    <Content Include="Views\Alert\ListHogerLager.cshtml" />
+    <Content Include="Views\Alert\ListValueFluctuations.cshtml" />
+    <Content Include="Views\Admin\CreateRankingInput.cshtml" />
+    <Content Include="Views\Admin\CreateRanking.cshtml" />
+    <Content Include="Views\Superadmin\Index.cshtml" />
+    <Content Include="Views\Superadmin\EditAdmin.cshtml" />
+    <Content Include="Views\Superadmin\DetailsAdmin.cshtml" />
+    <Content Include="Views\Superadmin\DeleteUser.cshtml" />
+    <Content Include="Views\Superadmin\DeleteAdmin.cshtml" />
+    <Content Include="Views\Admin\DetailsGrafiek.cshtml" />
+    <Content Include="Views\Admin\DeleteGrafiek.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Alert\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -575,7 +595,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>61094</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

@@ -163,96 +163,184 @@
                             </span>
                         </div>
                         <!-- /input-group -->
-                    <li>
-                        <a href="@Url.Action("Grafiektest2", "Home")">
-                            <i class="fas fa-chart-bar"></i>
-                            Dashboard
-                        </a>
-                    </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                        <li>
+                            <a href="@Url.Action("Grafiektest2", "Home")">
+                                <i class="fas fa-chart-bar"></i>
+                                Dashboard
+                            </a>
+                        </li>
 
-                    <li>
-                        <a href="@Url.Action("LijstPersonen", "Home")">
-                            <i class="fas fa-user-alt" style="color:#00295C;"></i>
-                            Personen
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("LijstOrganisaties", "Home")">
-                            <i class="fas fa-handshake" style="color:#00295C;"></i>
-                            Organisaties
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Themas", "Home")">
-                            <i class="fas fa-street-view" style="color:#00295C;"></i>
-                            Themas
-                        </a>
-                    </li>
+                        <li>
+                            <a href="@Url.Action("LijstPersonen", "Home")">
+                                <i class="fas fa-user-alt" style="color:#00295C;"></i>
+                                Personen
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("LijstOrganisaties", "Home")">
+                                <i class="fas fa-handshake" style="color:#00295C;"></i>
+                                Organisaties
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("LijstThemas", "Home")">
+                                <i class="fas fa-street-view" style="color:#00295C;"></i>
+                                Themas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Zoeken", "Home")">
+                                <i class="fas fa-search" style="color:#00295C;"></i>
+                                Zoeken
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Alerts", "Home")">
+                                <i class="fas fa-bell" style="color:#00295C;"></i>
+                                Alerts
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("WeeklyReview", "Home")">
+                                <i class="fas fa-calendar-alt" style="color:#00295C;"></i>
+                                WeeklyReview
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Instellingen", "Home")">
+                                <i class="fas fa-cogs" style="color:#00295C;"></i>
+                                Instellingen
+                            </a>
+                        </li>
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li>
+                                <a href="@Url.Action("Grafiektest2", "Home")">
+                                    <i class="fas fa-chart-bar"></i>
+                                    Dashboard
+                                </a>
+                            </li>
 
-                    <li>
-                        <a href="@Url.Action("Alerts", "Home")">
-                            <i class="fas fa-bell" style="color:#00295C;"></i>
-                            Alerts
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("LijstThemas", "Home")">
-                            <i class="fas fa-bell" style="color:#00295C;"></i>
-                            Themas Lijst
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("WeeklyReview", "Home")">
-                            <i class="fas fa-calendar-alt" style="color:#00295C;"></i>
-                            WeeklyReview
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Instellingen", "Home")">
-                            <i class="fas fa-cogs" style="color:#00295C;"></i>
-                            Instellingen
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Zoeken", "Home")">
-                            <i class="fas fa-search" style="color:#00295C;"></i>
-                            Zoeken
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("AdminOmgeving", "Home")">
-                            <i class="fas fa-user-circle" style="color:#00295C;"></i>
-                            Admin Omgeving
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("AdminCRUD", "Home")">
-                            <i class="fas fa-minus-square" style="color:#00295C;"></i>
-                            AdminCRUD
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Superadmin", "Home")">
-                            <i class="fab fa-superpowers" style="color:#00295C;"></i>
-                            Superadmin
-                        </a>
-                    </li>
-                </ul>
+                            <li>
+                                <a href="@Url.Action("LijstPersonen", "Home")">
+                                    <i class="fas fa-user-alt" style="color:#00295C;"></i>
+                                    Personen
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("LijstOrganisaties", "Home")">
+                                    <i class="fas fa-handshake" style="color:#00295C;"></i>
+                                    Organisaties
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("LijstThemas", "Home")">
+                                    <i class="fas fa-street-view" style="color:#00295C;"></i>
+                                    Themas
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Zoeken", "Home")">
+                                    <i class="fas fa-search" style="color:#00295C;"></i>
+                                    Zoeken
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Alerts", "Home")">
+                                    <i class="fas fa-bell" style="color:#00295C;"></i>
+                                    Alerts
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("WeeklyReview", "Home")">
+                                    <i class="fas fa-calendar-alt" style="color:#00295C;"></i>
+                                    WeeklyReview
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Instellingen", "Home")">
+                                    <i class="fas fa-cogs" style="color:#00295C;"></i>
+                                    Instellingen
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("AdminOmgeving", "Home")">
+                                    <i class="fas fa-user-circle" style="color:#00295C;"></i>
+                                    Admin Omgeving
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("AdminCRUD", "Home")">
+                                    <i class="fas fa-minus-square" style="color:#00295C;"></i>
+                                    AdminCRUD
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Superadmin", "Home")">
+                                    <i class="fab fa-superpowers" style="color:#00295C;"></i>
+                                    Superadmin
+                                </a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="@Url.Action("Grafiektest2", "Home")">
+                                <i class="fas fa-chart-bar"></i>
+                                Dashboard
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("LijstPersonen", "Home")">
+                                <i class="fas fa-user-alt" style="color:#00295C;"></i>
+                                Personen
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("LijstOrganisaties", "Home")">
+                                <i class="fas fa-handshake" style="color:#00295C;"></i>
+                                Organisaties
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("LijstThemas", "Home")">
+                                <i class="fas fa-street-view" style="color:#00295C;"></i>
+                                Themas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Zoeken", "Home")">
+                                <i class="fas fa-search" style="color:#00295C;"></i>
+                                Zoeken
+                            </a>
+                        </li>
+
+                    }
+                    </ul>
+                </div>
             </div>
+
+
+
+
+
+        </nav>
+
+        <div id="page-wrapper" class="body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p style="color:#00295C">&copy; @DateTime.Now.Year - 8IEN. Politieke Barometer</p>
+                <p><a href="@Url.Action("Faq", "Home")">Veel gestelde vragen</a> - <a href="@Url.Action("Contact", "Home")"> Contacteer ons</a> - <a href="@Url.Action("Privacy", "Home")"> Privacy</a></p>
+            </footer>
+            <a href=""></a>
         </div>
 
-
-    </nav>
-
-    <div id="page-wrapper" class="body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - 8IEN. Productions</p>
-        </footer>
-    </div>
-
-</body>
+    </body>
 </html>
 
 
