@@ -41,7 +41,6 @@ namespace IP3_8IEN.BL
         Dashbord UpdateDashboard(Dashbord dashbord);
 
         //Sam 
-        DashItem GetDashItemWithGraph(int id);
         List<GraphData> ExtractGraphList(int id);
 
         //23 mei 2018 : Stephane

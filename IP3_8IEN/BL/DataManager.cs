@@ -57,7 +57,7 @@ namespace IP3_8IEN.BL
                     json = new JavaScriptSerializer().Serialize(new
                     {
                         //name = "Annick De Ridder",
-                        since = "20 May 2018 23:31",
+                        since = "23 May 2018 23:31",
                         //until weglaten --> last scraping
                        // until = "30 Apr 2018 00:01",
                     });
@@ -1471,20 +1471,24 @@ namespace IP3_8IEN.BL
             {
                 string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
                 int count = 0;
-                IEnumerable<SubjectMessage> subjMsgs = persoon.SubjectMessages.Where(s => s.Msg.Date.Day == lastTweet.Date.Day).ToList();
-                //////////////////////////////////////////////////////////////////////////
-                foreach (SubjectMessage s in subjMsgs)
+                if (persoon.SubjectMessages != null)
                 {
+                    IEnumerable<SubjectMessage> subjMsgs = persoon.SubjectMessages.Where(s => s.Msg.Date.Day == lastTweet.Date.Day).ToList();
+                    //////////////////////////////////////////////////////////////////////////
+                    foreach (SubjectMessage s in subjMsgs)
+                    {
                         count++;
-                }
-                GraphData graph = new GraphData(date, count);
-                dashMgr.AddGraph(graph);
+                    }
+                    GraphData graph = new GraphData(date, count);
+                    dashMgr.AddGraph(graph);
 
-                GraphDataList.Add(graph);
-                //////////////////////////////////////////////////////////////////////////
-                lastTweet = lastTweet.AddDays(-1);
-            }
-            uowManager.Save();
+                    GraphDataList.Add(graph);
+                    //////////////////////////////////////////////////////////////////////////
+                    lastTweet = lastTweet.AddDays(-1);
+
+                    uowManager.Save();
+                } else { }
+            }                
             return GraphDataList;
         }
 
