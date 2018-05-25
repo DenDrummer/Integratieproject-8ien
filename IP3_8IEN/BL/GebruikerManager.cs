@@ -34,81 +34,23 @@ namespace IP3_8IEN.BL
             repo = new GebruikerRepository(uowManager.UnitOfWork);
         }
 
-        ////inladen vanuit json formaat
-        //public void AddApplicationGebruikers(string filePath)
-        //{
-        //    initNonExistingRepo();
-
-        //    appUserMgr = new ApplicationUserManager();
-
-        //    //sourceUrl /relatief path
-        //    StreamReader r = new StreamReader(filePath);
-        //    string json = r.ReadToEnd();
-        //    List<Message> gebruikers = new List<Message>();
-
-        //    dynamic users = JsonConvert.DeserializeObject(json);
-
-        //    foreach (var item in users.records)
-        //    {
-        //        Domain.ApplicationUser gebruiker = new Domain.ApplicationUser()
-        //        {
-        //            UserName = item.Username,
-        //            VoorNaam = item.Voornaam,
-        //            AchterNaam = item.Achternaam,
-        //            Email = item.email,
-        //            Geboortedatum = item.Geboortedatum
-        //        };
-        //        string passw = item.Password;
-        //        appUserMgr.CreateAsync(gebruiker, passw);
-        //    }
-        //}
-
-        //inladen vanuit json formaat
-        //public void AddGebruikers(string filePath)
-        //{
-        //    initNonExistingRepo();
-
-        //    //sourceUrl /relatief path
-        //    StreamReader r = new StreamReader(filePath);
-        //    string json = r.ReadToEnd();
-
-        //    dynamic users = JsonConvert.DeserializeObject(json);
-
-        //    foreach (var item in users.records)
-        //    {
-        //        Gebruiker gebruiker = new Gebruiker()
-        //        {
-        //            Username = item.Username,
-        //            Voornaam = item.Voornaam,
-        //            Naam = item.Achternaam,
-        //            Email = item.email,
-        //            Geboortedatum = item.Geboortedatum
-        //        };
-        //        repo.AddingGebruiker(gebruiker);
-        //    }
-        //}
-
         // We zoeken een gebruiker op basis van 'Username'
         public Gebruiker FindUser(string username)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
-            IEnumerable<Gebruiker> users = repo.ReadGebruikers();
-            Gebruiker user = users.FirstOrDefault(x => x.Username == username);
-            return user;
+            return repo.ReadGebruikers().FirstOrDefault(x => x.Username == username);
         }
         public void DeleteGebruiker(string username)
         {
-            initNonExistingRepo();
-            IEnumerable<Gebruiker> users = repo.ReadGebruikers();
-            Gebruiker user = users.FirstOrDefault(x => x.Username == username);
-            repo.DeleteGebruiker(user);
+            InitNonExistingRepo();
+            repo.DeleteGebruiker(repo.ReadGebruikers().FirstOrDefault(x => x.Username == username));
 
         }
 
         public IEnumerable<Gebruiker> GetGebruikers()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             return repo.ReadGebruikers();
         }
 
@@ -116,37 +58,37 @@ namespace IP3_8IEN.BL
         // omdat we informatie uit de data package nodig hebben
         public void AddAlertInstelling(string filePath)
         {
-            initNonExistingRepo(true);
+            InitNonExistingRepo(true);
 
             //sourceUrl /relatief path
-            StreamReader r = new StreamReader(filePath);
-            string json = r.ReadToEnd();
+            string json = new StreamReader(filePath).ReadToEnd();
             List<Message> alertConfigs = new List<Message>();
 
             dynamic alertInstellingen = JsonConvert.DeserializeObject(json);
 
-            string user = null;
-            bool notificationWeb;
-            bool email;
-            bool mobileNotification;
-            bool state;
-            int onderwerpId;
-            int onderwerpId2;
-            int thresh;
-            bool negatief;
+            //string user = null;
+            //bool notificationWeb;
+            //bool email;
+            //bool mobileNotification;
+            //bool state;
+            //int onderwerpId;
+            //int onderwerpId2;
+            //int thresh;
+            //bool negatief;
 
 
             dataMgr = new DataManager(uowManager);
             //We laten de transactie eve denken dat we geen 'UoW' gebruiken zodat er niet
             //van repo gewisseld wordt bij het aanroepen van een nieuwe methode
             bool UoW = false;
-            repo.setUnitofWork(UoW);
+            repo.SetUnitofWork(UoW);
 
             IEnumerable<Onderwerp> onderwerpen = dataMgr.ReadOnderwerpen();
 
             foreach (var item in alertInstellingen.records)
             {
-                if (item.Threshold != null) {
+                if (item.Threshold != null)
+                {
                     ValueFluctuation vf = new ValueFluctuation()
                     {
                         Gebruiker = FindUser((String)item.Username),
@@ -159,7 +101,9 @@ namespace IP3_8IEN.BL
                     };
                     repo.AddingAlertInstelling(vf);
                     System.Diagnostics.Debug.WriteLine("jah");
-                }else if (item.OnderwerpId2 != null) {
+                }
+                else if (item.OnderwerpId2 != null)
+                {
                     HogerLager hl = new HogerLager()
                     {
                         Gebruiker = FindUser((String)item.Username),
@@ -172,8 +116,9 @@ namespace IP3_8IEN.BL
                     };
                     repo.AddingAlertInstelling(hl);
                     System.Diagnostics.Debug.WriteLine("jah");
-                }else
-                { 
+                }
+                else
+                {
                     PositiefNegatief pn = new PositiefNegatief()
                     {
                         Gebruiker = FindUser((String)item.Username),
@@ -187,13 +132,13 @@ namespace IP3_8IEN.BL
                     repo.AddingAlertInstelling(pn);
                     System.Diagnostics.Debug.WriteLine("jah");
                 }
-                
-                
+
+
                 uowManager.Save();
             }
             //we zetten 'UoW' boolian terug op true
             UoW = true;
-            repo.setUnitofWork(UoW);
+            repo.SetUnitofWork(UoW);
         }
 
         // We initialiseren een 'Alert' met het toewijzen van een 'AlertInstelling' adhv een 'Id' 
@@ -203,7 +148,7 @@ namespace IP3_8IEN.BL
 
         public void AddAlert(string alertContent, int alertInstellingId)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             IEnumerable<AlertInstelling> fluctuations = repo.ReadValueFluctuations();
             List<AlertInstelling> Ais = fluctuations.ToList();
@@ -240,7 +185,7 @@ namespace IP3_8IEN.BL
         // Alerts inlezen via json bestand
         public void AddAlerts(string filePath)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             StreamReader r = new StreamReader(filePath);
             string json = r.ReadToEnd();
@@ -262,13 +207,13 @@ namespace IP3_8IEN.BL
 
         public IEnumerable<Alert> GetAlerts()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             return repo.ReadAlerts();
         }
 
         public Alert GetAlert(int alertId)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             Alert alert = repo.ReadAlert(alertId);
             return alert;
@@ -276,7 +221,7 @@ namespace IP3_8IEN.BL
 
         public void AddGebruiker(string userName, string userId, string naam, string voornaam, string role = "User")
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             Gebruiker gebruiker = new Gebruiker
             {
@@ -297,14 +242,14 @@ namespace IP3_8IEN.BL
 
         public void UpdateGebruiker(Gebruiker gebruiker)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             repo.UpdateGebruiker(gebruiker);
         }
-        
+
         public void DeleteUser(string userId)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             //IdentityUser wordt verwijderd, data gebruiker wordt overschreven
             Gebruiker user = repo.ReadGebruikers().FirstOrDefault(u => u.GebruikerId == userId);
@@ -323,18 +268,18 @@ namespace IP3_8IEN.BL
 
         public IEnumerable<Gebruiker> GetUsers()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             return repo.ReadUsers();
         }
 
         public IEnumerable<ApplicationUser> GetUsersInRoles(IEnumerable<ApplicationUser> appUsers, string role)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             List<ApplicationUser> appUsersInRole = new List<ApplicationUser>();
             IEnumerable<Gebruiker> users = repo.ReadGebruikers().Where(u => u.Role == role && u.Active == true);
-            foreach(Gebruiker user in users)
+            foreach (Gebruiker user in users)
             {
                 appUsersInRole.Add(appUsers.FirstOrDefault(u => u.Id == user.GebruikerId));
             }
@@ -342,7 +287,7 @@ namespace IP3_8IEN.BL
         }
 
         //Unit of Work related
-        public void initNonExistingRepo(bool withUnitOfWork = false)
+        public void InitNonExistingRepo(bool withUnitOfWork = false)
         {
             // Als we een repo met UoW willen gebruiken en als er nog geen uowManager bestaat:
             // Dan maken we de uowManager aan en gebruiken we de context daaruit om de repo aan te maken.
@@ -365,7 +310,7 @@ namespace IP3_8IEN.BL
                 else
                 {
                     //checken wat voor repo we hebben
-                    bool isUoW = repo.isUnitofWork();
+                    bool isUoW = repo.IsUnitofWork();
                     if (isUoW)
                     {
                         repo = new DAL.GebruikerRepository();
@@ -382,12 +327,12 @@ namespace IP3_8IEN.BL
         public void GetAlertHogerLagers()
         {
             System.Diagnostics.Debug.WriteLine("HL started");
-            initNonExistingRepo();
+            InitNonExistingRepo();
             dataMgr = new DataManager();
 
             List<HogerLager> hogerLagers = repo.ReadHogerLagers().ToList();
 
-            foreach(HogerLager hl in hogerLagers)
+            foreach (HogerLager hl in hogerLagers)
             {
                 //Check if onderwerp is een peroon
                 if (hl.Onderwerp is Persoon && hl.Onderwerp2 is Persoon)
@@ -459,17 +404,17 @@ namespace IP3_8IEN.BL
                 }
             }
         }
-        
+
         public void GetAlertValueFluctuations()
         {
             System.Diagnostics.Debug.WriteLine("VF Started");
-            initNonExistingRepo();
+            InitNonExistingRepo();
             dataMgr = new DataManager();
 
             List<ValueFluctuation> valueFluctuations = repo.ReadValueFluctuations().ToList();
             List<Message> messages = dataMgr.ReadMessagesWithSubjMsgs().ToList();
 
-            foreach(ValueFluctuation vf in valueFluctuations)
+            foreach (ValueFluctuation vf in valueFluctuations)
             {
                 if (vf.Onderwerp is Persoon)
                 {
@@ -507,7 +452,7 @@ namespace IP3_8IEN.BL
         public void GetAlertPositiefNegatiefs()
         {
             System.Diagnostics.Debug.WriteLine("PN started");
-            initNonExistingRepo();
+            InitNonExistingRepo();
             dataMgr = new DataManager();
             double total = 1;
 
@@ -590,7 +535,7 @@ namespace IP3_8IEN.BL
 
         double CalculateZscore(Onderwerp onderwerp)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             int totaalTweets = 0;
             //totaalTweets = messages.Where(Message => Message.Politician == s).Count();
             bool test;
@@ -600,9 +545,8 @@ namespace IP3_8IEN.BL
             double gemiddelde;
             DateTime laatsteTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
 
-            if (onderwerp is Persoon)
+            if (onderwerp is Persoon p)
             {
-                Persoon p = (Persoon)onderwerp;
                 foreach (Message m in messages)
                 {
                     test = false;
@@ -625,7 +569,7 @@ namespace IP3_8IEN.BL
                 tweetsPerDag.Clear();
                 do
                 {
-                    tweetsPerDag.Add(ms.Where(m => m.Date.Date == start.Date).Count());
+                    tweetsPerDag.Add(ms.Where(m => m.Date.Date.Equals(start.Date)).Count());
                     //tweetsPerDag.Add(messages.Where(Message => Message.Politician == s).Where(Message => Message.Date.Date == start).Count());
                     start = start.AddDays(1);
 
@@ -645,8 +589,7 @@ namespace IP3_8IEN.BL
                 double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
                 double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
 
-                double test2 = ((tweetsPerDag.Last() - gemiddelde) / sd);
-                return test2;
+                return ((tweetsPerDag.Last() - gemiddelde) / sd);
             }
             else
             {
@@ -659,7 +602,7 @@ namespace IP3_8IEN.BL
                         bool test3 = false;
                         foreach (Tewerkstelling t in sm.Persoon.Tewerkstellingen)
                         {
-                            if(t.Organisatie.Afkorting == o.Afkorting)
+                            if (t.Organisatie.Afkorting == o.Afkorting)
                             {
                                 test3 = true;
                             }
@@ -689,7 +632,7 @@ namespace IP3_8IEN.BL
                 double totaal = 0;
                 foreach (int i in tweetsPerDag)
                 {
-                    totaal = totaal + i;
+                    totaal += i;
                 }
 
                 gemiddelde = totaal / tweetsPerDag.Count();
@@ -701,15 +644,14 @@ namespace IP3_8IEN.BL
                 double sumOfSquaresOfDifferences = tweetsPerDag.Select(val => (val - average) * (val - average)).Sum();
                 double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
 
-                double test2 = ((tweetsPerDag.Last() - gemiddelde) / sd);
-                return test2;
+                return ((tweetsPerDag.Last() - gemiddelde) / sd);
             }
-            
+
         }
 
         public void WeeklyReview()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             List<Gebruiker> gebruikers = new List<Gebruiker>();
             gebruikers = repo.ReadGebruikersWithAlertInstellingen().ToList();
             List<Alert> dezeWeek = new List<Alert>();
@@ -728,64 +670,65 @@ namespace IP3_8IEN.BL
                             u volgt. Indien u op de hoogte gehouden wilt worden van nog meer onderwerpen, kan u 
                             </br> steeds extra onderwerpen volgen op <a href=""www.8ien.be""> Weekly Reviews </a>. </p>
                             <h3>Personen</h3> <div style=""margin: 0px;""> <p>Naam : Bart De Wever </p> <ul>");
-                if (g.AlertInstellingen != null) {
-                foreach (AlertInstelling al in g.AlertInstellingen)
+                if (g.AlertInstellingen != null)
                 {
-                    if (al.Alerts != null) {
-                    foreach (Alert a in al.Alerts)
+                    foreach (AlertInstelling al in g.AlertInstellingen)
                     {
-                        if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
+                        if (al.Alerts != null)
                         {
-                            dezeWeek.Add(a);
-                                    sb.Append("<li>" +  a.ToString() + "</li>");
+                            foreach (Alert a in al.Alerts)
+                            {
+                                if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
+                                {
+                                    dezeWeek.Add(a);
+                                    sb.Append("<li>" + a.ToString() + "</li>");
+                                }
+                            }
                         }
                     }
-                    }
-                }
                 }
                 sb.Append(@"</ul></div></div>");
                 SendMail(dezeWeek, g.Email, sb.ToString());
             }
-         }
+        }
 
         public List<HogerLager> GetHogerLagersByUser()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
-            List<HogerLager> hogerLagers = repo.ReadHogerLagers().ToList();
+            //List<HogerLager> hogerLagers = repo.ReadHogerLagers().ToList();
             //hogerLagers = hogerLagers.Where(hl => hl.Gebruiker == gebruiker).ToList();
 
-            return hogerLagers;
+            return repo.ReadHogerLagers().ToList();
         }
 
         public List<ValueFluctuation> GetValueFluctuationsByUser()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
-            List<ValueFluctuation> valueFluctuations = repo.ReadValueFluctuations().ToList();
+            //List<ValueFluctuation> valueFluctuations = repo.ReadValueFluctuations().ToList();
             //valueFluctuations = valueFluctuations.Where(vf => vf.Gebruiker == gebruiker).ToList();
 
-            return valueFluctuations;
+            return repo.ReadValueFluctuations().ToList();
         }
 
         public List<PositiefNegatief> GetPositiefNegatiefsByUser()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
-            List<PositiefNegatief> positiefNegatiefs = repo.ReadPositiefNegatiefs().ToList();
+            //List<PositiefNegatief> positiefNegatiefs = repo.ReadPositiefNegatiefs().ToList();
             //positiefNegatiefs = positiefNegatiefs.Where(pn => pn.Gebruiker == gebruiker).ToList();
 
-            return positiefNegatiefs;
+            return repo.ReadPositiefNegatiefs().ToList();
         }
 
         public List<Alert> GetAlertsByUser(Gebruiker gebruiker)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             List<Alert> alerts = repo.ReadAlerts().ToList();
-            alerts = alerts.Where(a => a.AlertInstelling.Gebruiker == gebruiker).ToList();
 
-            return alerts;
+            return alerts.Where(a => a.AlertInstelling.Gebruiker == gebruiker).ToList();
         }
 
         bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
@@ -794,7 +737,7 @@ namespace IP3_8IEN.BL
             var d1 = date1.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date1));
             var d2 = date2.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date2));
 
-            return d1 == d2;
+            return d1.Equals(d2);
         }
         void SendMail(List<Alert> alerts, string email, string body)
         {
