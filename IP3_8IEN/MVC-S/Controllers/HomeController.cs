@@ -292,11 +292,24 @@ namespace MVC_S.Controllers
 
 
             ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            string userName = currUser.UserName;
-            Gebruiker user = gMgr.FindUser(userName);
 
-
-            Dashbord dash = dashMgr.GetDashboardWithFollows(user);
+            Dashbord dash;
+                       if (currUser != null)
+            {
+                string userName = currUser.UserName;
+                Gebruiker user = gMgr.FindUser(userName);
+                dash = dashMgr.GetDashboardWithFollows(user);
+                            }
+            else
+                            {
+                //not jet ready
+                //have to add defaultdash
+                string userName = currUser.UserName;
+                Gebruiker user = gMgr.FindUser(userName);
+                dash = dashMgr.GetDashboardWithFollows(user);
+            }
+            
+            
             ViewBag.INIT = dash.ZonesOrder;
             dashMgr.GetDashItems().Where(d => d.AdminGraph == true);
             ViewBag.AANTAL = dashMgr.GetDashItems().Where(d => d.AdminGraph == true).Count();
