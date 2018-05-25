@@ -14,7 +14,7 @@ namespace IP3_8IEN.BL
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        private IGebruikerManager _gebruikerMgr;
+        private IGebruikerManager _gebruikerMgr = new GebruikerManager();
 
         public ApplicationUserManager()
             : base(new IdentityRepository())
@@ -126,8 +126,8 @@ namespace IP3_8IEN.BL
             this.AddToRole(user.Id, role);
             return t;
         }
-
-        public void AddApplicationGebruikers(string username, string voornaam, string achternaam, 
+        
+        public void AddApplicationGebruiker(string username, string voornaam, string achternaam, 
             string email, DateTime geboortedatum, string password, string role)
         {
             ApplicationUser gebruiker = new ApplicationUser()
@@ -148,7 +148,7 @@ namespace IP3_8IEN.BL
         ////inladen vanuit json formaat
         public void AddApplicationGebruikers(string filePath)
         {
-            _gebruikerMgr = new GebruikerManager();
+            /*_gebruikerMgr = new GebruikerManager()*/;
 
             //sourceUrl /relatief path
             StreamReader r = new StreamReader(filePath);
