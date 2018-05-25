@@ -308,6 +308,10 @@ namespace MVC_S.Controllers
 
         public ActionResult Grafiektest2()
         {
+            IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
+            List<string> names = ObjList.Select(p => p.Naam).ToList();
+            ViewData["names"] = names;
+
             Persoon persoon = dMgr.GetPersoon(170);
             int aantalTweets = dMgr.GetNumber(persoon);
             //int aantalTweets = 69;
@@ -327,6 +331,8 @@ namespace MVC_S.Controllers
         }
         public ActionResult GetRank(int aantal) => Json(dMgr.GetRanking(aantal, 100), JsonRequestBehavior.AllowGet);
 
+
+
         public ActionResult GetData2(int id1, int id2, int id3, int id4, int id5)
         {
             Persoon persoon1 = dMgr.GetPersoon(id1);
@@ -336,5 +342,44 @@ namespace MVC_S.Controllers
             Persoon persoon5 = dMgr.GetPersoon(id5);
             return Json(dMgr.GetComparisonPersonNumberOfTweetsOverTime(persoon1, persoon2, persoon3, persoon4, persoon5), JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult CreateLineChart(string politicus,int aantalDagenTerug=0)
+        {
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = gMgr.FindUser(userName);
+
+            string naam = politicus;
+            Persoon p = dMgr.GetPersoon(naam);
+
+            List<GraphData> graphDataList = dMgr.GetTweetsPerDag(p, user, aantalDagenTerug);
+            DashItem newDashItem = dashMgr.CreateDashitem(false);
+            Follow follow = dashMgr.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
+            DashItem dashItem = dashMgr.SetupDashItem(user, follow);
+            dashMgr.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+
+            return RedirectToAction("Grafiektest2");
+        }
+
+        [HttpPost]
+        public ActionResult CreateAreaChart(string politicus, int aantalDagenTerug = 0)
+        {
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = gMgr.FindUser(userName);
+
+            string naam = politicus;
+            Persoon p = dMgr.GetPersoon(naam);
+
+            List<GraphData> graphDataList = dMgr.GetTweetsPerDag(p, user, aantalDagenTerug);
+            DashItem newDashItem = dashMgr.CreateDashitem(false);
+            Follow follow = dashMgr.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
+            DashItem dashItem = dashMgr.SetupDashItem(user, follow);
+            dashMgr.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+
+            return RedirectToAction("Grafiektest2");
+        }
+
     }
 }
