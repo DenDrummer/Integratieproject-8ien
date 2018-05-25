@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using static MVC_S.FilterConfig;
+using static IP3_8IEN.UI.MVC_S.FilterConfig;
 
-namespace MVC_S.Controllers
+namespace IP3_8IEN.UI.MVC_S.Controllers
 {
     [NoDirectAccess] // Kijk naar FilterConfig.cs
     public class ErrorController : Controller

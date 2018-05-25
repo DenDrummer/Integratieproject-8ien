@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace MVC_S
+namespace IP3_8IEN.UI.MVC_S
 {
     public class FilterConfig
     {

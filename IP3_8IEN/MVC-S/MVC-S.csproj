@@ -14,8 +14,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MVC_S</RootNamespace>
-    <AssemblyName>MVC-S</AssemblyName>
+    <RootNamespace>IP_8IEN.UI.MVC_S</RootNamespace>
+    <AssemblyName>IP_8IEN.UI.MVC-S</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -459,7 +459,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -544,6 +546,13 @@
     <Content Include="Views\Alert\ListValueFluctuations.cshtml" />
     <Content Include="Views\Admin\CreateRankingInput.cshtml" />
     <Content Include="Views\Admin\CreateRanking.cshtml" />
+    <Content Include="Views\Superadmin\Index.cshtml" />
+    <Content Include="Views\Superadmin\EditAdmin.cshtml" />
+    <Content Include="Views\Superadmin\DetailsAdmin.cshtml" />
+    <Content Include="Views\Superadmin\DeleteUser.cshtml" />
+    <Content Include="Views\Superadmin\DeleteAdmin.cshtml" />
+    <Content Include="Views\Admin\DetailsGrafiek.cshtml" />
+    <Content Include="Views\Admin\DeleteGrafiek.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Text;
 
-namespace MVC_S.Controllers
+namespace IP3_8IEN.UI.MVC_S.Controllers
 {   /*[RequireHttps]*/
     public class HomeController : Controller
     {
@@ -79,12 +79,7 @@ namespace MVC_S.Controllers
         [HttpPost]
         public ActionResult Personen(string automplete)
         {
-            //string naam = id;
-            Persoon persoon = dMgr.GetPersoon(automplete);
-            //string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
-            //string aantalT = "aantal tweets van " + persoon.Naam;
-            //ViewBag.TWITTER = twit;
-            //ViewBag.AANTALT = aantalT;
+            Persoon persoon = dMgr.GetPersoonWithTewerkstelling(automplete);
 
             string screenname = persoon.Twitter;
             ViewBag.TWITIMAGE = dMgr.GetImageString(screenname);
@@ -94,11 +89,7 @@ namespace MVC_S.Controllers
         }
         public ActionResult Personen(int onderwerpId = 1)
         {
-            Persoon persoon = dMgr.GetPersoon(onderwerpId);
-            //string twit = "https://twitter.com/" + persoon.Twitter + "?ref_src=twsrc%5Etfw";
-            //string aantalT = "aantal tweets van " + persoon.Naam;
-            //ViewBag.TWITTER = twit;
-            //ViewBag.AANTALT = aantalT;
+            Persoon persoon = dMgr.GetPersoonWithTewerkstelling(onderwerpId);
 
             ViewBag.TWITIMAGE = dMgr.GetImageString(persoon.Twitter);
             ViewBag.TWITBANNER = dMgr.GetBannerString(persoon.Twitter);
@@ -164,7 +155,6 @@ namespace MVC_S.Controllers
 
         public ActionResult WeeklyReview(int weeklyReviewId = 0)
         {
-            //WeeklyReview wr = xMgr.GetWeeklyReview(weeklyReviewId);
             WeeklyReview wr = new WeeklyReview()
             {
                 WeeklyReviewId = weeklyReviewId
@@ -175,6 +165,7 @@ namespace MVC_S.Controllers
         public ActionResult UserDashBoard()
         {
             //Dashbord van ingelogde gebruiker ophalen
+            //Hier zit voorlopig enkel update logica 
             try
             {
                 ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
@@ -253,15 +244,9 @@ namespace MVC_S.Controllers
             return View(ObjList);
         }
 
-        //[HttpGet]
-        //public ActionResult LijstPersonen(string search)
-        //{
-        //    IEnumerable<Persoon> ObjList = dMgr.GetPersonen().Where(p => p.Naam.Contains(search));
-        //    return View(ObjList);
-        //}
-
         public ActionResult InitializeAdmins()
         {
+            aMgr.CreateRolesandUsers();
             aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
             return View();
         }

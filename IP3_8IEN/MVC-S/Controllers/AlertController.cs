@@ -3,7 +3,7 @@ using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace MVC_S.Controllers
+namespace IP3_8IEN.UI.MVC_S.Controllers
 {
     public class AlertController : Controller
     {

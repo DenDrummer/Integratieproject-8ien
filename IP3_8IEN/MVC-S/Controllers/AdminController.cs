@@ -7,9 +7,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using IP3_8IEN.BL.Domain.Dashboard;
 using System.Linq;
-using MVC_S.Models;
+using IP3_8IEN.UI.MVC_S.Models;
 
-namespace MVC_S.Controllers
+namespace IP3_8IEN.UI.MVC_S.Controllers
 {
     //[Authorize(Roles = "Admin")]
     public class AdminController : Controller
@@ -39,6 +39,8 @@ namespace MVC_S.Controllers
         public ActionResult User()
         {
             IEnumerable<ApplicationUser> users = _userManager.GetUsers();
+            users = _gebrManager.GetUsersInRoles(users, "User");
+
             return View(users);
         }
 
@@ -177,9 +179,39 @@ namespace MVC_S.Controllers
         {
             // enkel grafieken aangemaakt in de AdminController opvragen
             //TODO: implementatie Details, Edit, Delete
-            IEnumerable<Follow> follows = _dashManager.GetFollows(true);
+            IEnumerable<DashItem> dashItems = _dashManager.GetDashItems().Where(d => d.AdminGraph == true);
 
-            return View(follows);
+            return View(dashItems);
+        }
+
+        [HttpGet]
+        public ActionResult DetailsGrafiek(int id)
+        {
+            DashItem dashItem = _dashManager.GetDashItems().FirstOrDefault(d => d.DashItemId == id);
+
+            return View(dashItem);
+        }
+
+        [HttpGet]
+        public ActionResult DeleteGrafiek(int id)
+        {
+            DashItem dashItem = _dashManager.GetDashItems().FirstOrDefault(d => d.DashItemId == id);
+
+            return View(dashItem);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteGrafiek(int id, FormCollection collection)
+        {
+            try
+            {
+                _dashManager.RemoveDashItem(id);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         [HttpGet]
@@ -208,10 +240,10 @@ namespace MVC_S.Controllers
             int nDagen = 10; // <-- voorlopig default
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-            List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen);
-            IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true);
-            IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
-            IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+            List<GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen);
+            DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam);
+            Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
+            DashItem dashItem = _dashManager.SetupDashItem(user, follow);
             _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
             // ================================================================================ //
 
@@ -226,22 +258,26 @@ namespace MVC_S.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateRankingInput(int aantal, int interval/*, RankViewModel rankModel*/)
+        public ActionResult CreateRankingInput(string naam, int aantal, int interval)
         {
-            RankViewModel rankModel = new RankViewModel();
-            rankModel.Aantal = aantal;
-            rankModel.interval = interval;
+            RankViewModel rankModel = new RankViewModel()
+            {
+                Naam = naam,
+                Aantal = aantal,
+                interval = interval
+            };
 
             TempData["rankModel"] = rankModel;
 
-            return RedirectToAction("CreateRanking"/*, rankModel*/);
+            return RedirectToAction("CreateRanking");
         }
 
         [HttpGet]
-        public ActionResult CreateRanking(/*RankViewModel rankModel*/)
+        public ActionResult CreateRanking()
         {
             RankViewModel rankModel = TempData["rankModel"] as RankViewModel;
 
+            string naam = rankModel.Naam;
             int aantal = rankModel.Aantal;
             int interval = rankModel.interval;
 
@@ -253,7 +289,7 @@ namespace MVC_S.Controllers
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
             List<GraphData> graphDataList = _dataManager.GetRanking(aantal,interval,true);
-            DashItem newDashItem = _dashManager.CreateDashitem(true);
+            DashItem newDashItem = _dashManager.CreateDashitem(true, "Rank", naam);
             List<int> arrayPersoonId = _dataManager.ExtractListPersoonId(graphDataList);
             List<Follow> follows = _dashManager.CreateFollow(newDashItem.DashItemId, arrayPersoonId);
             DashItem dashItem = _dashManager.SetupDashItem(user, follows);

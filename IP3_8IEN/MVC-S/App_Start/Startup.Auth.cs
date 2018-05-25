@@ -5,10 +5,10 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using IP3_8IEN.BL;
-using MVC_S.SignIn;
+using IP3_8IEN.UI.MVC_S.SignIn;
 using IP3_8IEN.BL.Domain.Gebruikers;
 
-namespace MVC_S
+namespace IP3_8IEN.UI.MVC_S
 {
     public partial class Startup
     {
