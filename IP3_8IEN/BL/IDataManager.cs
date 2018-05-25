@@ -56,7 +56,8 @@ namespace IP3_8IEN.BL
         int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
         //Sam
         List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0); //Edit 18 mei 2018 : Stephane
- 
+        List<GraphData> GetTweetsPerDagList(Persoon persoon, int aantalDagenTerug = 0);
+
         List<GraphData2> GetTweetsPerDag2(Persoon persoon1, Persoon persoon2, Persoon persoon3, Persoon persoon4,
             Persoon persoon5, int aantalDagenTerug = 0);
 
@@ -81,6 +82,8 @@ namespace IP3_8IEN.BL
 
         //23 mei 2018 : Stephane
         List<int> ExtractListPersoonId(IEnumerable<GraphData> graphDataList);
+        Persoon GetPersoonWithTewerkstelling(string naam);
+        Persoon GetPersoonWithTewerkstelling(int id);
 
         //VIC
         double GetPolarityByPerson(Persoon persoon);

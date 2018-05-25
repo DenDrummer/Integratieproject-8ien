@@ -140,11 +140,11 @@
 
 
 
-@*
-    <!--Get Data for Graph-->
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $.get('@Url.Action("GetData","Home",new {id = 231})', function (result) {
+
+<!--Get Data for Graph-->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.get('@Url.Action("GetData","Home",new {id = 231})', function (result) {
 
                 Morris.Area({
                     // ID of the element in which to draw the chart.
@@ -215,20 +215,20 @@
 
            $.get('@Url.Action("GetData2","Home",new {persoon1 = 1, persoon2 = 3, persoon3 = 5, persoon4 = 7, persoon5 = 9})', function (result) {
 
-               Morris.Line({
-                    // ID of the element in which to draw the chart.
-                    element: 'chart3',
-                    // Chart data records -- each entry in this array corresponds to a point on
-                    // the chart.
-                    data: result,
-                    // The name of the data record attribute that contains x-values.
-                   xkey: 'label',
-                   ykeys: ['value1', 'value2', 'value3', 'value4', 'value5'],
-                   labels: ['aantal tweets', 'aantal tweets', 'aantal tweets', 'aantal tweets', 'aantal tweets'],
-                   pointSize: 2,
-                    hideHover: 'auto',
-                    resize: true
-                });
+           Morris.Line({
+                // ID of the element in which to draw the chart.
+                element: 'chart3',
+                // Chart data records -- each entry in this array corresponds to a point on
+                // the chart.
+                data: result,
+                // The name of the data record attribute that contains x-values.
+               xkey: 'label',
+               ykeys: ['value1', 'value2', 'value3', 'value4', 'value5'],
+               labels: ['aantal tweets', 'aantal tweets', 'aantal tweets', 'aantal tweets', 'aantal tweets'],
+               pointSize: 2,
+                hideHover: 'auto',
+                resize: true
             });
-            });
-    </script>*@
+        });
+        });
+</script>

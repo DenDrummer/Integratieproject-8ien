@@ -52,12 +52,12 @@ namespace IP3_8IEN.BL
             return dash;
         }
 
-        public DashItem CreateDashitem(bool adminGraph)
+        public DashItem CreateDashitem(bool adminGraph, string type, string naam = "usergraph")
         {
             initNonExistingRepo();
 
             DashItem dashItem;
-            dashItem = new DashItem() { LastModified = System.DateTime.Now };
+            dashItem = new DashItem() { LastModified = System.DateTime.Now, Type = type, Naam = naam, Active = true };
 
             if (adminGraph)
             {
@@ -254,13 +254,27 @@ namespace IP3_8IEN.BL
             public string[] labels;
         }
 
-        public GraphdataValues getGraphData(int persoonId, int aantalDagen)
+        public GraphdataValues getGraphData(int persoonId, int aantalDagen, string type)
         {
             initNonExistingRepo();
 
             dataMgr = new DataManager();
             Persoon persoon = dataMgr.GetPersoon(persoonId);
-            List<GraphData> graphs = dataMgr.GetTweetsPerDag(persoon, 10);
+
+            List<GraphData> graphs = dataMgr.GetTweetsPerDagList(persoon, aantalDagen);
+
+            if (type == "Line")
+            {
+                //List<GraphData> graphs = dataMgr.GetTweetsPerDagList(persoon, aantalDagen);
+            }
+            else if(type == "Rank")
+            {
+                //TODO
+            }
+            else
+            {
+                //TODO
+            }
 
             GraphdataValues graphsVals = new GraphdataValues()
             {
@@ -289,7 +303,7 @@ namespace IP3_8IEN.BL
             foreach (TileZone tileZone in dashbord.TileZones)
             {
                 double hours = (timeNow - tileZone.DashItem.LastModified).TotalHours;
-                if (hours > 3)
+                if (hours > 0.0001)
                 {
                     int i = 0;
                     //deze array verwijst naar de personen in GraphData
@@ -306,7 +320,7 @@ namespace IP3_8IEN.BL
 
                     }
 
-                    GraphdataValues graphs = getGraphData(persoonId[0],10/*Hier moet aantalDagen uit DashItem*/);
+                    GraphdataValues graphs = getGraphData(persoonId[0], 10, tileZone.DashItem.Type);
 
                     int j = 0;
                     foreach (var graph in tileZone.DashItem.Graphdata)
@@ -327,11 +341,12 @@ namespace IP3_8IEN.BL
             return dashbord;
         }
 
-
-
         public IEnumerable<DashItem> GetDashItems()
         {
-            IEnumerable<DashItem> dashItems = repo.ReadDashItems();
+            initNonExistingRepo();
+
+            //enkel 'DashItems' die niet zijn verwijderd teruggeven
+            IEnumerable<DashItem> dashItems = repo.ReadDashItems().Where(d => d.Active == true);
             return dashItems;
         }
 
@@ -404,32 +419,13 @@ namespace IP3_8IEN.BL
             DashbordInitGraphs(dashbord.DashbordId);
         }
 
-        public DashItem GetDashItemWithGraph(int id)
+        public void RemoveDashItem(int id)
         {
             initNonExistingRepo();
 
-            DashItem dashItem = repo.ReadDashItemWithGraph(id);
-            return dashItem;
-        }
-
-        public List<GraphData> ExtractGraphList(int id)
-        {
-            initNonExistingRepo();
-
-            DashItem dashItem = repo.ReadDashItemWithGraph(id);
-            List<GraphData> listData = new List<GraphData>();
-
-            foreach(GraphData graph in dashItem.Graphdata)
-            {
-                listData.Add(new GraphData
-                {
-                    //controleren duplicaten DB
-                    label = graph.label,
-                    value = graph.value
-                });
-            }
-
-            return listData;
+            DashItem dashItem = repo.ReadDashItem(id);
+            dashItem.Active = false;
+            UpdateDashItem(dashItem);
         }
 
         //Unit of Work related
