@@ -1437,11 +1437,12 @@ namespace IP3_8IEN.BL
                     GraphData graph = new GraphData(date, count);
                     dashMgr.AddGraph(graph);
 
-                GraphDataList.Add(graph);
-                
-                lastTweet = lastTweet.AddDays(-1);
+                    GraphDataList.Add(graph);
+
+                    lastTweet = lastTweet.AddDays(-1);
+                }
+                uowManager.Save();
             }
-            uowManager.Save();
             return GraphDataList;
         }
 
