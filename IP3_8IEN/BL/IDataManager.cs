@@ -53,7 +53,6 @@ namespace IP3_8IEN.BL
 
         #region (Subject)Messages
         IEnumerable<Message> ReadMessagesWithSubjMsgs();
-        void AddMessages(string json);
         void AddSubjectMessage(Message msg, Hashtag hashtag);
         SubjectMessage AddSubjectMessage(Message msg, Persoon persoon);
         //void AddMessages(string sourceUrl);
@@ -88,7 +87,6 @@ namespace IP3_8IEN.BL
         List<GraphData> GetTopStoryByPolitician(Persoon persoon);
         List<GraphData2> GetComparisonPersonNumberOfTweetsOverTime(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5);
         List<GraphData> GetTopMentions(int aantal);
-        void ApiRequestToJson();
         void SendMail();
         List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
         int GetNumber(Persoon persoon, int laatsteAantalUren = 0);

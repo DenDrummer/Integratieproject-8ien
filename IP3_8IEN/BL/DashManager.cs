@@ -330,7 +330,7 @@ namespace IP3_8IEN.BL
 
         public List<GraphData> ExtractGraphList(int id)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             DashItem dashItem = repo.ReadDashItemWithGraph(id);
             List<GraphData> listData = new List<GraphData>();

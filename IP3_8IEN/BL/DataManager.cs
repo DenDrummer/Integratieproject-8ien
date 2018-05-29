@@ -48,6 +48,8 @@ namespace IP3_8IEN.BL
                 httpWebRequest.Accept = "application/json; charset=utf-8";
                 httpWebRequest.Method = "POST";
 
+                string json;
+
                 using (StreamWriter streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
                     //query opstellen : named parameters
@@ -68,7 +70,7 @@ namespace IP3_8IEN.BL
                             //name = "Annick De Ridder",
                             since = "24 May 2018 23:31",
                             //until weglaten --> last scraping
-                            // until = "30 Apr 2018 00:01",
+                            until = "30 Apr 2018 00:01",
                         });
                     }
 
@@ -84,6 +86,7 @@ namespace IP3_8IEN.BL
                 }
             }
         }
+
 
         // Hier worden tweets uit een json file naar zijn juiste klasse weggeschreven en gesynchroniseerd
         // Aangesproken klasse zijn : 'Message', 'Onderwerp', 'Persoon' & 'Hashtag' 
@@ -734,7 +737,7 @@ namespace IP3_8IEN.BL
                 double sd = Math.Sqrt(sumOfSquaresOfDifferences / tweetsPerDag.Count());
                 
 
-                zscores.Add(new zscore(s, (tweetsPerDag.Last() - gemiddelde) / sd));
+                zscores.Add(new ZScore(s, (tweetsPerDag.Last() - gemiddelde) / sd));
             }
             
 
