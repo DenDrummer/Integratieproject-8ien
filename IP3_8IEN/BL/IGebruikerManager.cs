@@ -37,5 +37,7 @@ namespace IP3_8IEN.BL
         void DeleteUser(string userId);
         IEnumerable<Gebruiker> GetUsers();
         IEnumerable<ApplicationUser> GetUsersInRoles(IEnumerable<ApplicationUser> appUsers, string role);
+        string ExportToCSV(IEnumerable<Gebruiker> gebruikers);
+
     }
 }

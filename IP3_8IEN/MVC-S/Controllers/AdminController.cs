@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity;
 using IP3_8IEN.BL.Domain.Dashboard;
 using System.Linq;
 using MVC_S.Models;
+using System.IO;
+using System.Web;
 
 namespace MVC_S.Controllers
 {
@@ -277,6 +279,43 @@ namespace MVC_S.Controllers
         public ActionResult CreateGrafiekDonut()
         {
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult ExportToCSV()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ExportToCSV(bool checkUsers = false, bool checkPersons = false)
+        {
+            if(checkUsers == true)
+            {
+                IEnumerable<Gebruiker> gebruikers = _gebrManager.GetUsers();
+                string json = _gebrManager.ExportToCSV(gebruikers);
+                //string name = "gebruikers " + System.DateTime.Now.Day.ToString();
+
+                System.IO.File.WriteAllText(Server.MapPath("~/App_Data/users.json"), json);
+            }
+            if (checkPersons == true)
+            {
+                IEnumerable<Persoon> personen = _dataManager.GetPersonen();
+                _dataManager.ExportToCSV(personen);
+                string json = _dataManager.ExportToCSV(personen);
+
+                System.IO.File.WriteAllText(Server.MapPath("~/App_Data/users.json"), json);
+            }
+
+            return View();
+        }
+
+        public FileStreamResult CreateFile(string json, string name)
+        {
+            var byteArray = System.Text.Encoding.ASCII.GetBytes(json);
+            var stream = new MemoryStream(byteArray);
+
+            return File(stream, "text/plain", "your_file_name.txt");
         }
     }
 }

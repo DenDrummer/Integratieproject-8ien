@@ -29,6 +29,7 @@ namespace IP3_8IEN.BL
         IEnumerable<Persoon> GetPersonen();
         //6 apr 2018 : Stephane
         void ApiRequestToJson(bool isReCheck = false);
+        string ExportToCSV(IEnumerable<Persoon> personen);
 
         //16 apr 2018 : Stephane
         void AddMessages(string json);

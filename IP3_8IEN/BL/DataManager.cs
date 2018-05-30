@@ -509,6 +509,12 @@ namespace IP3_8IEN.BL
             }
         }
 
+        public string ExportToCSV(IEnumerable<Persoon> personen)
+        {
+            string json = JsonConvert.SerializeObject(personen, Formatting.Indented);
+            return json;
+        }
+
         public int CountSubjMsgsPersoon(Onderwerp onderwerp)
         {
             InitNonExistingRepo();
