@@ -64,6 +64,8 @@ namespace IP3_8IEN.BL
         void AddTewerkstelling(string naam, string organisatieNaam);
         #endregion
 
+        IEnumerable<Hashtag> GetHashtags();
+
         #region Unsorted
         int GetMentionCountByName(string naam);
         int GetMentionCountByName(string naam, DateTime start);

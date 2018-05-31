@@ -567,6 +567,9 @@
     <Content Include="Views\Admin\DeleteGrafiek.cshtml" />
     <Content Include="Views\Superadmin\CreateAdmin.cshtml" />
     <Content Include="Views\Admin\ExportToCSV.cshtml" />
+    <Content Include="Views\Admin\CreateDonutInput.cshtml" />
+    <Content Include="Views\Admin\Themas.cshtml" />
+    <Content Include="Views\Shared\Hashtag.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

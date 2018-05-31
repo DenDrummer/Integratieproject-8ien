@@ -68,9 +68,9 @@ namespace IP3_8IEN.BL
                         json = new JavaScriptSerializer().Serialize(new
                         {
                             //name = "Annick De Ridder",
-                            since = "29 Apr 2018 23:31",
+                            since = "29 Apr 2018 10:31",
                             //until weglaten --> last scraping
-                            until = "30 Apr 2018 00:01",
+                            until = "29 Apr 2018 14:01",
                         });
                     }
 
@@ -620,6 +620,13 @@ namespace IP3_8IEN.BL
             InitNonExistingRepo();
             Persoon personen = repo.ReadPersoonWithTewerkstelling(id);
             return personen;
+        }
+
+        public IEnumerable<Hashtag> GetHashtags()
+        {
+            InitNonExistingRepo();
+            IEnumerable<Hashtag> hashtags = repo.ReadHashtags().ToList();
+            return hashtags;
         }
 
         //Unit of Work related

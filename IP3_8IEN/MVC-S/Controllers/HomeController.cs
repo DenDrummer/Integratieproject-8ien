@@ -107,7 +107,7 @@ namespace MVC_S.Controllers
             return View(persoon);
         }
 
-        public ActionResult Themas(int onderwerpId = 500)
+            public ActionResult Themas(int onderwerpId = 500)
         {
             //Thema thema = xMgr.GetThema(onderwerpId);
             /*  verwijder onderstaande region
