@@ -111,13 +111,6 @@ namespace MVC_S.Controllers
         }
 
         [HttpGet]
-        public ActionResult ThemasLijst()
-        {
-            IEnumerable<Hashtag> hashtags = dMgr.GetHashtags().Where(h => h.Thema == true);
-            return View(hashtags);
-        }
-
-        [HttpGet]
         public ActionResult Themas()
         {
             return View();

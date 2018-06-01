@@ -1,4 +1,4 @@
-﻿@model IP3_8IEN.BL.Domain.Data.Hashtag
+﻿@model IP3_8IEN.BL.Domain.Data.Thema
 
 @{
     ViewBag.Title = Model.Naam;
@@ -56,7 +56,7 @@
                                 <div>
                                     <div>
                                         <table>
-                                            @*<tr>
+                                            <tr>
                                                 <td valign="top"><b>@Html.DisplayNameFor(m => m.Hashtags): </b></td>
                                                 <td>
                                                     @{
@@ -75,7 +75,7 @@
                                                     }
                                                     @Html.DisplayFor(m => hashes)
                                                 </td>
-                                            </tr>*@
+                                            </tr>
                                             <tr>
                                                 <td valign="top"><b>Aantal Mentions: </b></td>
                                                 <td>@Html.DisplayFor(m => m.SubjectMessages.Count)@*6586*@</td>

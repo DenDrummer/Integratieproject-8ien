@@ -386,7 +386,7 @@ namespace MVC_S.Controllers
         [HttpGet]
         public ActionResult ThemasCRUD()
         {
-            ////// Deze heb je nodig om Themas uit te lezen in ee view //////
+            ////// Deze heb je nodig om Themas uit te lezen in de view //////
             IEnumerable<Thema> themas = _dataManager.GetThemas().ToList();
             
             foreach(Thema theme in themas)
