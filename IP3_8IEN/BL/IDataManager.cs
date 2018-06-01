@@ -65,6 +65,11 @@ namespace IP3_8IEN.BL
         #endregion
 
         IEnumerable<Hashtag> GetHashtags();
+        void UpdateHashtags(IEnumerable<Hashtag> hashtags);
+        void CreateTheme(string naam, string beschrijving, IEnumerable<Hashtag> hashForTheme);
+        IEnumerable<Thema> GetThemas();
+        void UpdateThema(Thema thema);
+
 
         #region Unsorted
         int GetMentionCountByName(string naam);

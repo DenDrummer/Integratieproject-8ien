@@ -117,5 +117,26 @@ namespace IP3_8IEN.DAL
         {
             return ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie").FirstOrDefault(p => p.OnderwerpId == id);
         }
+
+        public void UpdateHashtag(Hashtag hashtag)
+        {
+            ctx.Entry(hashtag).State = EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
+        public void CreateTheme(Thema theme)
+        {
+            ctx.Themas.Add(theme);
+            ctx.SaveChanges();
+        }
+        public IEnumerable<Thema> ReadThemas()
+        {
+            return ctx.Themas.ToList();
+        }
+        public void UpdateTheme(Thema theme)
+        {
+            ctx.Entry(theme).State = EntityState.Modified;
+            ctx.SaveChanges();
+        }
     }
 }

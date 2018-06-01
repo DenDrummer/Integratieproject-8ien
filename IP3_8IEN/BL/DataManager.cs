@@ -629,6 +629,76 @@ namespace IP3_8IEN.BL
             return hashtags;
         }
 
+        public void UpdateHashtags(IEnumerable<Hashtag> hashtags)
+        {
+            InitNonExistingRepo();
+
+            foreach(Hashtag hash in hashtags)
+            {
+                repo.UpdateHashtag(hash);
+            }
+        }
+
+        public void CreateTheme(string naam, string beschrijving, IEnumerable<Hashtag> hashForTheme)
+        {
+            InitNonExistingRepo();
+            List<string> hashtags = new List<string>();
+
+            foreach(Hashtag hash in hashForTheme)
+            {
+                hashtags.Add(hash.HashtagString);
+            }
+
+            Thema theme = new Thema
+            {
+                Naam = naam,
+                Beschrijving = beschrijving
+            };
+            repo.CreateTheme(theme);
+
+            int count = hashForTheme.Count();
+
+            switch (count)
+            {
+                case 0:
+                    break;
+                case 1:
+                    theme.Hashtag1 = hashtags[0];
+                    break;
+                case 2:
+                    theme.Hashtag1 = hashtags[0];
+                    theme.Hashtag2 = hashtags[1];
+                    break;
+                case 3:
+                    theme.Hashtag1 = hashtags[0];
+                    theme.Hashtag2 = hashtags[1];
+                    theme.Hashtag3 = hashtags[2];
+                    break;
+                case 4:
+                    theme.Hashtag1 = hashtags[0];
+                    theme.Hashtag2 = hashtags[1];
+                    theme.Hashtag3 = hashtags[2];
+                    theme.Hashtag4 = hashtags[3];
+                    break;
+                default:
+                    break;
+            }
+
+            repo.UpdateTheme(theme);
+        }
+
+        public IEnumerable<Thema> GetThemas()
+        {
+            InitNonExistingRepo();
+            return repo.ReadThemas();
+        }
+
+        public void UpdateThema(Thema thema)
+        {
+            InitNonExistingRepo();
+            repo.UpdateTheme(thema);
+        }
+
         //Unit of Work related
         public void InitNonExistingRepo(bool withUnitOfWork = false)
         {

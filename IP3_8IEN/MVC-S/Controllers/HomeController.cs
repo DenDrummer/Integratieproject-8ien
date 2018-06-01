@@ -85,7 +85,7 @@ namespace MVC_S.Controllers
 
         public ActionResult Dashboard() => View();
 
-        //Get: Persoon/1
+        //Get:
         [HttpPost]
         public ActionResult Personen(string automplete)
         {
@@ -97,7 +97,10 @@ namespace MVC_S.Controllers
 
             return View(persoon);
         }
-        public ActionResult Personen(int onderwerpId = 1)
+
+
+
+        public ActionResult Personen(int onderwerpId)
         {
             Persoon persoon = dMgr.GetPersoonWithTewerkstelling(onderwerpId);
 
@@ -107,6 +110,19 @@ namespace MVC_S.Controllers
             return View(persoon);
         }
 
+        [HttpGet]
+        public ActionResult ThemasLijst()
+        {
+            IEnumerable<Hashtag> hashtags = dMgr.GetHashtags().Where(h => h.Thema == true);
+            return View(hashtags);
+        }
+
+        [HttpGet]
+        public ActionResult Themas()
+        {
+            return View();
+        }
+
             public ActionResult Themas(int onderwerpId = 500)
         {
             //Thema thema = xMgr.GetThema(onderwerpId);
@@ -114,41 +130,40 @@ namespace MVC_S.Controllers
              *      zodra er via bovenstaande methode
              *      een thema kan binnengehaald worden
              *      en vervang de xMgr met de correcte mgr*/
-            #region create default thema
-            Thema thema = new Thema()
-            {
-                OnderwerpId = onderwerpId,
-                Naam = "het nieuws",
-                ThemaString = "het nieuws",
-                Beschrijving = "wat er in het nieuws over wordt gesproken",
-                Hashtags = new List<string>()
-                {
-                    "vtmnieuws",
-                    "vrtjournaal"
-                },
-                SubjectMessages = new List<SubjectMessage>()
-                {
-                    new SubjectMessage()
-                    {
-                        SubjectMsgId = 10000
-                    }
-                }
-            };
-            #endregion
-            #region create searchstring
-            StringBuilder searchString = new StringBuilder();
-            searchString.Append("https://twitter.com/search?q=");
-            for (int i = 0; i < thema.Hashtags.Count; i++)
-            {
-                if (i > 0)
-                {
-                    searchString.Append(" OR ");
-                }
-                searchString.Append($"%23{thema.Hashtags.ElementAt(i)}");
-            }
-            ViewBag.SearchString = searchString.ToString();
-            #endregion
-            return View(thema);
+            //Thema thema = new Thema()
+            //{
+            //    OnderwerpId = onderwerpId,
+            //    Naam = "het nieuws",
+            //    ThemaString = "het nieuws",
+            //    Beschrijving = "wat er in het nieuws over wordt gesproken",
+            //    Hashtags = new List<string>()
+            //    {
+            //        "vtmnieuws",
+            //        "vrtjournaal"
+            //    },
+            //    SubjectMessages = new List<SubjectMessage>()
+            //    {
+            //        new SubjectMessage()
+            //        {
+            //            SubjectMsgId = 10000
+            //        }
+            //    }
+            //    };
+            //    #endregion
+            //    #region create searchstring
+            //    StringBuilder searchString = new StringBuilder();
+            //    searchString.Append("https://twitter.com/search?q=");
+            //    for (int i = 0; i < thema.Hashtags.Count; i++)
+            //    {
+            //        if (i > 0)
+            //        {
+            //            searchString.Append(" OR ");
+            //        }
+            //        searchString.Append($"%23{thema.Hashtags.ElementAt(i)}");
+            //    }
+            //    ViewBag.SearchString = searchString.ToString();
+            //    #endregion
+            return View(/*thema*/);
         }
 
         public ActionResult Organisatie(int onderwerpId = 22)
@@ -225,25 +240,25 @@ namespace MVC_S.Controllers
 
         public ActionResult LijstThemas() => View(new List<Thema>()
         {
-            new Thema()
-            {
-                OnderwerpId = 500,
-                Naam = "het nieuws",
-                ThemaString = "het nieuws",
-                Beschrijving = "wat er in het nieuws over wordt gesproken",
-                Hashtags = new List<string>()
-                {
-                    "vtmnieuws",
-                    "vrtjournaal"
-                },
-                SubjectMessages = new List<SubjectMessage>()
-                {
-                    new SubjectMessage()
-                    {
-                        SubjectMsgId = 10000
-                    }
-                }
-            }
+            //new Thema()
+            //{
+            //    OnderwerpId = 500,
+            //    Naam = "het nieuws",
+            //    ThemaString = "het nieuws",
+            //    Beschrijving = "wat er in het nieuws over wordt gesproken",
+            //    Hashtags = new List<string>()
+            //    {
+            //        "vtmnieuws",
+            //        "vrtjournaal"
+            //    },
+            //    SubjectMessages = new List<SubjectMessage>()
+            //    {
+            //        new SubjectMessage()
+            //        {
+            //            SubjectMsgId = 10000
+            //        }
+            //    }
+            //}
         });
 
         public ActionResult LijstOrganisaties() => View(dMgr.GetOrganisaties());

@@ -570,6 +570,9 @@
     <Content Include="Views\Admin\CreateDonutInput.cshtml" />
     <Content Include="Views\Admin\Themas.cshtml" />
     <Content Include="Views\Shared\Hashtag.cshtml" />
+    <Content Include="Views\Home\ThemasLijst.cshtml" />
+    <Content Include="Views\Admin\NieuwThema.cshtml" />
+    <Content Include="Views\Admin\ThemasCRUD.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

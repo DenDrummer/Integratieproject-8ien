@@ -1,0 +1,39 @@
+﻿@model IEnumerable<IP3_8IEN.BL.Domain.Data.Thema>
+
+@{
+    ViewBag.Title = "ThemasCRUD";
+}
+
+<h2>ThemasCRUD</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Naam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Beschrijving)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Naam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Beschrijving)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.OnderwerpId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.OnderwerpId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.OnderwerpId })
+        </td>
+    </tr>
+}
+
+</table>

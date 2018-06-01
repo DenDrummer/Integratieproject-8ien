@@ -1,6 +1,8 @@
 ﻿@model IList<IP3_8IEN.BL.Domain.Data.Hashtag>
 
 @{
+    /**/
+
     ViewBag.Title = "Themas";
 }
 
@@ -10,6 +12,15 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Thema</h4>
+        <hr />
+        <p>Naam Thema</p>
+        <input name="naam" type="text" />
+        <p>Beschrijving Thema</p>
+        <input name="beschrijving" type="text" />
+    </div>
 
     <div class="row">
         <div class="col-lg-12">
@@ -29,8 +40,8 @@
                                     <td>
                                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                         @Html.HiddenFor(x => x[i].OnderwerpId)
+                                        @Html.HiddenFor(x => x[i].HashtagString)
                                         @Html.DisplayFor(x => x[i].HashtagString, new { htmlAttributes = new { @class = "form-control" } })
-
                                     </td>
                                     <td>
                                         @Html.EditorFor(x => x[i].Thema, new { htmlAttributes = new { @class = "form-control" } })
