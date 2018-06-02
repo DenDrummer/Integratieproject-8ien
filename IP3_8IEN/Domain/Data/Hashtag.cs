@@ -3,5 +3,6 @@
     public class Hashtag : Onderwerp
     {
         public string HashtagString { get; set; }
+        public bool Thema { get; set; }
     }
 }

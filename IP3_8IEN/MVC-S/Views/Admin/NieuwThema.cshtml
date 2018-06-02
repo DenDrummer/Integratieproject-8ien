@@ -1,25 +1,20 @@
-﻿@model MVC_S.Models.RankViewModel
-
+﻿
 @{
-    ViewBag.Title = "CreateRankingInput";
+    ViewBag.Title = "NieuwThema";
 }
+
+<h2>NieuwThema</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Ranking</h4>
-    <hr />
-
-    <p>Naam grafiek</p>
-    <input name="naam" type="text" />
-    <p>Aantal</p>
-    <input name="aantal" type="text" />
-    <p>Interval</p>
-    <input name="interval" type="text" />
-
-</div>
+    <div class="form-horizontal">
+        <h4>Thema</h4>
+        <hr />
+        <p>Naam Thema</p>
+        <input name="naam" type="text" />
+    </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">

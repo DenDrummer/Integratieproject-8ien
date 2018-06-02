@@ -1,7 +1,7 @@
 {
   "records": [
     {
-      "Username": "Ivaylo",
+      "Username": "ivaylo.deshev@student.kdg.be",
       "NotificationWeb": "true",
       "Email": "true",
       "MobileNotification" :  "true",
@@ -9,7 +9,7 @@
       "Threshold": "20"
     },
     {
-      "Username": "Sam",
+      "Username": "sam.laureys@student.kdg.be",
       "NotificationWeb": "true",
       "Email": "true",
       "MobileNotification": "true",
@@ -17,7 +17,7 @@
       "OnderwerpId2": "1"
     },
     {
-      "Username": "Jorden",
+      "Username": "jorden.laureyssens@student.kdg.be",
       "NotificationWeb": "true",
       "Email": "true",
       "MobileNotification": "true",
@@ -25,7 +25,7 @@
       "Threshold": "20"
     },
     {
-      "Username": "Stephane",
+      "Username": "stephane.boogaerts@student.kdg.be",
       "NotificationWeb": "true",
       "Email": "true",
       "MobileNotification": "true",
@@ -34,7 +34,7 @@
       "OnderwerpId2": "19"
     },
     {
-      "Username": "Thomas",
+      "Username": "thomas.dewitte@student.kdg.be",
       "NotificationWeb": "true",
       "Email": "true",
       "MobileNotification": "true",
@@ -42,7 +42,7 @@
       "Threshold": "20"
     },
     {
-      "Username": "Victor",
+      "Username": "victor.declercq@student.kdg.be",
       "NotificationWeb": "true",
       "Email": "true",
       "MobileNotification": "true",

@@ -7,7 +7,7 @@ namespace IP3_8IEN.BL.Domain.Dashboard
     {
         [Key]
         public int DeelplatformId { get; set; }
-        public string databron { get; set; }
+        public string Databron { get; set; }
 
         public ICollection<Dashbord> Dashboards { get; set; }
     }

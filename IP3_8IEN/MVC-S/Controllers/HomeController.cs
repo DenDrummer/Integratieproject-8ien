@@ -10,7 +10,13 @@ using System.Web;
 using IP3_8IEN.BL.Domain.Dashboard;
 using Microsoft.AspNet.Identity;
 using System.Linq;
+using System.Web.Helpers;
+using Microsoft.Ajax.Utilities;
+using MVC_S.Models;
 using System.Text;
+using Newtonsoft.Json;
+using System;
+using System.Web.Hosting;
 using System.Web.Security;
 
 namespace MVC_S.Controllers
@@ -28,20 +34,22 @@ namespace MVC_S.Controllers
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
-
-            //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
-            //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
+            
+            ////Probably not best practice to periodically execute methods but it works
+            HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
+            HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
         }
 
         private async Task RetrieveAPIData(IDataManager dMgr)
         {
             while (true)
             {
+                //wait 3h and get new data from textgain
+                Thread.Sleep(10800000);
                 await Task.Run(() =>
                 {
-                    dMgr.ApiRequestToJson();
+                    dMgr.ApiRequestToJson(true);
                 });
-                Thread.Sleep(10800000);
             }
         }
 
@@ -49,11 +57,12 @@ namespace MVC_S.Controllers
         {
             while (true)
             {
+                //wait 1w and send out weekly review
+                Thread.Sleep(604800000);
                 await Task.Run(() =>
                 {
                     gMgr.WeeklyReview();
                 });
-                Thread.Sleep(10800000);
             }
         }
 
@@ -76,7 +85,7 @@ namespace MVC_S.Controllers
 
         public ActionResult Dashboard() => View();
 
-        //Get: Persoon/1
+        //Get:
         [HttpPost]
         public ActionResult Personen(string automplete)
         {
@@ -88,7 +97,10 @@ namespace MVC_S.Controllers
 
             return View(persoon);
         }
-        public ActionResult Personen(int onderwerpId = 1)
+
+
+
+        public ActionResult Personen(int onderwerpId)
         {
             Persoon persoon = dMgr.GetPersoonWithTewerkstelling(onderwerpId);
 
@@ -98,48 +110,53 @@ namespace MVC_S.Controllers
             return View(persoon);
         }
 
-        public ActionResult Themas(int onderwerpId = 500)
+        [HttpGet]
+        public ActionResult Themas()
+        {
+            return View();
+        }
+
+            public ActionResult Themas(int onderwerpId = 500)
         {
             //Thema thema = xMgr.GetThema(onderwerpId);
             /*  verwijder onderstaande region
              *      zodra er via bovenstaande methode
              *      een thema kan binnengehaald worden
              *      en vervang de xMgr met de correcte mgr*/
-            #region create default thema
-            Thema thema = new Thema()
-            {
-                OnderwerpId = onderwerpId,
-                Naam = "het nieuws",
-                ThemaString = "het nieuws",
-                Beschrijving = "wat er in het nieuws over wordt gesproken",
-                Hashtags = new List<string>()
-                {
-                    "vtmnieuws",
-                    "vrtjournaal"
-                },
-                SubjectMessages = new List<SubjectMessage>()
-                {
-                    new SubjectMessage()
-                    {
-                        SubjectMsgId = 10000
-                    }
-                }
-            };
-            #endregion
-            #region create searchstring
-            StringBuilder searchString = new StringBuilder();
-            searchString.Append("https://twitter.com/search?q=");
-            for (int i = 0; i < thema.Hashtags.Count; i++)
-            {
-                if (i > 0)
-                {
-                    searchString.Append(" OR ");
-                }
-                searchString.Append($"%23{thema.Hashtags.ElementAt(i)}");
-            }
-            ViewBag.SearchString = searchString.ToString();
-            #endregion
-            return View(thema);
+            //Thema thema = new Thema()
+            //{
+            //    OnderwerpId = onderwerpId,
+            //    Naam = "het nieuws",
+            //    ThemaString = "het nieuws",
+            //    Beschrijving = "wat er in het nieuws over wordt gesproken",
+            //    Hashtags = new List<string>()
+            //    {
+            //        "vtmnieuws",
+            //        "vrtjournaal"
+            //    },
+            //    SubjectMessages = new List<SubjectMessage>()
+            //    {
+            //        new SubjectMessage()
+            //        {
+            //            SubjectMsgId = 10000
+            //        }
+            //    }
+            //    };
+            //    #endregion
+            //    #region create searchstring
+            //    StringBuilder searchString = new StringBuilder();
+            //    searchString.Append("https://twitter.com/search?q=");
+            //    for (int i = 0; i < thema.Hashtags.Count; i++)
+            //    {
+            //        if (i > 0)
+            //        {
+            //            searchString.Append(" OR ");
+            //        }
+            //        searchString.Append($"%23{thema.Hashtags.ElementAt(i)}");
+            //    }
+            //    ViewBag.SearchString = searchString.ToString();
+            //    #endregion
+            return View(/*thema*/);
         }
 
         public ActionResult Organisatie(int onderwerpId = 22)
@@ -197,7 +214,18 @@ namespace MVC_S.Controllers
             }
         }
 
-        public ActionResult Superadmin() => View();
+        public ActionResult Superadmin()
+        {
+            // note : deze 'if else' kun je gebruiken voor authorisatie
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Superadmin");
+            }
+            else
+            {
+                return RedirectToAction("NotAllowed", "Error");
+            }
+        }
 
         public ActionResult Instellingen() => View();
 
@@ -205,25 +233,25 @@ namespace MVC_S.Controllers
 
         public ActionResult LijstThemas() => View(new List<Thema>()
         {
-            new Thema()
-            {
-                OnderwerpId = 500,
-                Naam = "het nieuws",
-                ThemaString = "het nieuws",
-                Beschrijving = "wat er in het nieuws over wordt gesproken",
-                Hashtags = new List<string>()
-                {
-                    "vtmnieuws",
-                    "vrtjournaal"
-                },
-                SubjectMessages = new List<SubjectMessage>()
-                {
-                    new SubjectMessage()
-                    {
-                        SubjectMsgId = 10000
-                    }
-                }
-            }
+            //new Thema()
+            //{
+            //    OnderwerpId = 500,
+            //    Naam = "het nieuws",
+            //    ThemaString = "het nieuws",
+            //    Beschrijving = "wat er in het nieuws over wordt gesproken",
+            //    Hashtags = new List<string>()
+            //    {
+            //        "vtmnieuws",
+            //        "vrtjournaal"
+            //    },
+            //    SubjectMessages = new List<SubjectMessage>()
+            //    {
+            //        new SubjectMessage()
+            //        {
+            //            SubjectMsgId = 10000
+            //        }
+            //    }
+            //}
         });
 
         public ActionResult LijstOrganisaties() => View(dMgr.GetOrganisaties());
@@ -241,15 +269,23 @@ namespace MVC_S.Controllers
         public ActionResult Zoeken(string search)
         {
             IEnumerable<Persoon> ObjList = dMgr.GetPersonen().Where(p => p.Naam.Contains(search));
-            
+
             return View(ObjList);
         }
 
         public ActionResult InitializeAdmins()
         {
-            aMgr.CreateRolesandUsers();
-            aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
-            return View();
+            try
+            {
+                //Aanmaken Roles en initialisatie 'SuperAdmin'
+                aMgr.CreateRolesandUsers();
+                aMgr.AddApplicationGebruikers(Path.Combine(HttpRuntime.AppDomainAppPath, "AddApplicationGebruikers.Json"));
+                return View();
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         public ActionResult Initialize()
@@ -260,8 +296,8 @@ namespace MVC_S.Controllers
             #region initialisatie blok databank
             dMgr.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, "politici.Json"));
             dMgr.ApiRequestToJson();
-            //gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
-            //gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
+            gMgr.AddAlertInstelling(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlertInstelling.json"));
+            gMgr.AddAlerts(Path.Combine(HttpRuntime.AppDomainAppPath, "AddAlerts.json"));
             #endregion
             #region test methodes
             //dMgr.AddMessages(Path.Combine(HttpRuntime.AppDomainAppPath, "textgaintest2.Json"));
@@ -310,6 +346,64 @@ namespace MVC_S.Controllers
             return Json(dMgr.GetComparisonPersonNumberOfTweetsOverTime(persoon1, persoon2, persoon3, persoon4, persoon5), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult UserDashBoardById(string name)
+        {
+            //Dashbord van ingelogde gebruiker ophalen
+            try
+            {
+                //ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
+                //string userName = appUser.UserName;
+                Gebruiker user = gMgr.FindUser(name);
+
+                Dashbord dashbord = dashMgr.GetDashboardWithFollows(user);
+                dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem minstens 3h up-to-date is
+
+                var list = JsonConvert.SerializeObject(dashbord,Formatting.None,new JsonSerializerSettings()
+                {
+                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+
+                return Content(list, "application/json");
+            }
+            catch (Exception ex)
+            {
+                return Json("error" + ex, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
+        //public ActionResult DashItem(int id)
+        //{
+        //    // Check user provided credentials with database and if matches write this
+        //    FormsAuthentication.SetAuthCookie(model.Id, false);
+        //    return View();
+        //}
+
+        public ActionResult GetJson(List<GraphData> data)
+        {
+            string bla = null;
+            JsonResult d = Json(data, JsonRequestBehavior.AllowGet);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Grafiektest3()
+        {
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = gMgr.FindUser(userName);
+            Dashbord dash = dashMgr.GetDashboardWithFollows(user);
+            return View(dash);
+        }
+
+        public ActionResult GetJsonFromGraphData(int id)
+        {
+            //IEnumerable<GraphData> list2 = dashMgr.GetDashItemWithGraph(id).Graphdata;
+            List<GraphData> list = dashMgr.ExtractGraphList(id);
+            var json = Json(list, JsonRequestBehavior.AllowGet);
+            return json;
+        }
+
+        public ActionResult GetTweets(int persoonId,int aantaldagen )
         [HttpPost]
         public ActionResult CreateChartAantalTweetsPerDag(string politicus,string type,int aantalDagenTerug)
         {
@@ -328,6 +422,11 @@ namespace MVC_S.Controllers
 
             return RedirectToAction("Grafiektest2");
 
+            Persoon persoon = dMgr.GetPersoon(persoonId);
+            //test debug//
+            List<GraphData> lijst = dMgr.GetTweetsPerDag(persoon, aantaldagen);
+            //////////////
+            return Json(dMgr.GetTweetsPerDag(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
         }
     }
 }

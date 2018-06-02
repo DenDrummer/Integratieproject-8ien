@@ -8,6 +8,9 @@ using Microsoft.AspNet.Identity;
 using IP3_8IEN.BL.Domain.Dashboard;
 using System.Linq;
 using MVC_S.Models;
+using System.IO;
+using System.Web;
+using System.Collections.ObjectModel;
 
 namespace MVC_S.Controllers
 {
@@ -46,10 +49,7 @@ namespace MVC_S.Controllers
 
         [HttpGet]
         public ActionResult EditUser(string id)
-        {
-            ApplicationUser user = _userManager.FindById(id);
-            return View(user);
-        }
+            => View(_userManager.FindById(id));
 
         // HTTPPOST Controller action to edit user
         [HttpPost]
@@ -69,15 +69,12 @@ namespace MVC_S.Controllers
             //add user to the datacontext (database) and save changes
             _userManager.Update(user);
 
-            return RedirectToAction("index");
+            return RedirectToAction("User");
         }
 
         [HttpGet]
         public ActionResult DeleteUser(string id)
-        {
-            ApplicationUser user = _userManager.FindById(id);
-            return View(user);
-        }
+            => View(_userManager.FindById(id));
 
         [HttpPost]
         public ActionResult DeleteUser(string id, FormCollection collection)
@@ -91,7 +88,7 @@ namespace MVC_S.Controllers
                 //  niet echt deleten maar overschrijven met anonieme data
                 _gebrManager.DeleteUser(id);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("User");
             }
             catch
             {
@@ -101,31 +98,19 @@ namespace MVC_S.Controllers
 
         [HttpGet]
         public ActionResult DetailsUser(string id)
-        {
-            ApplicationUser user = _userManager.FindById(id);
-            return View(user);
-        }
+            => View(_userManager.FindById(id));
 
         [HttpGet]
         public ActionResult Persoon()
-        {
-            IEnumerable<Persoon> personen = _dataManager.GetPersonen();
-            return View(personen);
-        }
+            => View(_dataManager.GetPersonen());
 
         [HttpGet]
         public ActionResult DetailsPersoon(int id = 1)
-        {
-            Persoon persoon = _dataManager.GetPersoon(id);
-            return View(persoon);
-        }
+            => View(_dataManager.GetPersoon(id));
 
         [HttpGet]
         public ActionResult EditPersoon(int id)
-        {
-            Persoon persoon = _dataManager.GetPersoon(id);
-            return View(persoon);
-        }
+            => View(_dataManager.GetPersoon(id));
 
         [HttpPost]
         public ActionResult EditPersoon(int id, Persoon persoon)
@@ -134,7 +119,7 @@ namespace MVC_S.Controllers
             {
                 _dataManager.ChangePersoon(persoon);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Persoon");
             }
 
             return View();
@@ -142,24 +127,15 @@ namespace MVC_S.Controllers
 
         [HttpGet]
         public ActionResult Organisatie()
-        {
-            IEnumerable<Organisatie> organisaties = _dataManager.GetOrganisaties();
-            return View(organisaties);
-        }
+            => View(_dataManager.GetOrganisaties());
 
         [HttpGet]
         public ActionResult DetailsOrganisatie(int id)
-        {
-            Organisatie organisatie = _dataManager.GetOrganisatie(id);
-            return View(organisatie);
-        }
+            => View(_dataManager.GetOrganisatie(id));
 
         [HttpGet]
         public ActionResult EditOrganisatie(int id)
-        {
-            Organisatie organisatie = _dataManager.GetOrganisatie(id);
-            return View(organisatie);
-        }
+            => View(_dataManager.GetOrganisatie(id));
 
         [HttpPost]
         public ActionResult EditOrganisatie(int id, Organisatie organisatie)
@@ -168,7 +144,7 @@ namespace MVC_S.Controllers
             {
                 _dataManager.ChangeOrganisation(organisatie);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Organisatie");
             }
 
             return View();
@@ -206,7 +182,7 @@ namespace MVC_S.Controllers
             try
             {
                 _dashManager.RemoveDashItem(id);
-                return RedirectToAction("Index");
+                return RedirectToAction("Grafiek");
             }
             catch
             {
@@ -301,9 +277,130 @@ namespace MVC_S.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateGrafiekDonut()
+        public ActionResult CreateDonutInput()
+        {
+            IEnumerable<Persoon> ObjList = _dataManager.GetPersonen().ToList();
+            List<string> names = ObjList.Select(p => p.Naam).ToList();
+            ViewData["names"] = names;
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult CreateGrafiekDonut(string automplete)
+        {
+            string naam = automplete;
+            Persoon p = _dataManager.GetPersoon(naam);
+
+            ViewBag.naam = automplete;
+
+            //Zie dat je bent ingelogd
+            ApplicationUser currUser = _userManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = _gebrManager.FindUser(userName);
+
+            int nDagen = 10; // <-- voorlopig default
+
+            // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+            List<GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen);
+            DashItem newDashItem = _dashManager.CreateDashitem(true, "Donut", naam);
+            Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
+            DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+            _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+            // ================================================================================ //
+
+            Dashbord dash = _dashManager.GetDashboardWithFollows(user);
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ExportToCSV()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult ExportToCSV(bool checkUsers = false, bool checkPersons = false)
+        {
+            if(checkUsers == true)
+            {
+                IEnumerable<Gebruiker> gebruikers = _gebrManager.GetUsers();
+                string json = _gebrManager.ExportToCSV(gebruikers);
+                //string name = "gebruikers " + System.DateTime.Now.Day.ToString();
+
+                System.IO.File.WriteAllText(Server.MapPath("~/App_Data/users.json"), json);
+            }
+            if (checkPersons == true)
+            {
+                IEnumerable<Persoon> personen = _dataManager.GetPersonen();
+                _dataManager.ExportToCSV(personen);
+                string json = _dataManager.ExportToCSV(personen);
+
+                System.IO.File.WriteAllText(Server.MapPath("~/App_Data/users.json"), json);
+            }
+
+            return View();
+        }
+
+        public FileStreamResult CreateFile(string json, string name)
+        {
+            var byteArray = System.Text.Encoding.ASCII.GetBytes(json);
+            var stream = new MemoryStream(byteArray);
+
+            return File(stream, "text/plain", "your_file_name.txt");
+        }
+        
+        [HttpGet]
+        public ActionResult Themas()
+        {
+            //Thema's komen eerst te staan
+            //IList<Hashtag> hashtags = _dataManager.GetHashtags().OrderBy(e => e.Thema == false).ToList();
+            IList<Hashtag> hashtags = _dataManager.GetHashtags().ToList();
+            
+            return View(hashtags);
+        }
+
+        [HttpPost]
+        public ActionResult Themas(string naam, string beschrijving, IList<Hashtag> hashtags)
+        {
+            //Note : View per 10 -> geeft 3 objecten terug voor update
+
+            IEnumerable<Hashtag> hashForTheme = hashtags.Where(h => h.Thema == true).ToList();
+
+            if (hashForTheme.Count() <= 4)
+            {
+                _dataManager.CreateTheme(naam, beschrijving, hashForTheme);
+            } else
+            {
+                return RedirectToAction("Themas");
+            }
+
+            //Update :
+            //      Theme -> name +hashtag ICollection
+            //      New List Theme for Admin
+            //      Undo changes LijstThemas
+
+            return RedirectToAction("Themas");
+        }
+
+        [HttpGet]
+        public ActionResult ThemasCRUD()
+        {
+            ////// Deze heb je nodig om Themas uit te lezen in de view //////
+            IEnumerable<Thema> themas = _dataManager.GetThemas().ToList();
+            
+            foreach(Thema theme in themas)
+            {
+                theme.Hashtags = new Collection<string>();
+
+                theme.Hashtags.Add(theme.Hashtag1);
+                theme.Hashtags.Add(theme.Hashtag2);
+                theme.Hashtags.Add(theme.Hashtag3);
+                theme.Hashtags.Add(theme.Hashtag4);
+            }
+
+            return View(themas);
+            /////////////////////////////////////////////////////////////////
         }
     }
 }
