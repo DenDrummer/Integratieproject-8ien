@@ -968,13 +968,13 @@ namespace IP3_8IEN.BL
 
             return GraphDataList;
         }
-        
+
         public string UseApiTwitter(string screenname)
         {
             var oAuthConsumerKey = "dCmrMXgbBJmlac5MWoNy9lrPK";
             var oAuthConsumerSecret = "IiWOQV6SL1KwGMzZY8IgYOH2k9rbPfci3JYwhiNOYjBPWO3cm8";
             var oAuthUrl = "https://api.twitter.com/oauth2/token";
-            
+
 
             // Do the Authenticate
             var authHeaderFormat = "Basic {0}";
@@ -1002,7 +1002,7 @@ namespace IP3_8IEN.BL
 
             WebResponse authResponse = authRequest.GetResponse();
             //deserialize into an object
-           TwitAuthenticateResponse twitAuthResponse;
+            TwitAuthenticateResponse twitAuthResponse;
             using (authResponse)
             {
                 using (var reader = new StreamReader(authResponse.GetResponseStream()))
@@ -1021,7 +1021,7 @@ namespace IP3_8IEN.BL
             var timelineHeaderFormat = "{0} {1}";
             avatarRequest.Headers.Add("Authorization",
                                         string.Format(timelineHeaderFormat, twitAuthResponse.token_type,
-                                                      twitAuthResponse.acces_token));
+                                                      twitAuthResponse.access_token));
             avatarRequest.Method = "Get";
             WebResponse timeLineResponse = avatarRequest.GetResponse();
 
@@ -1045,7 +1045,7 @@ namespace IP3_8IEN.BL
                 dynamic items = JsonConvert.DeserializeObject(avatarJson);
                 string image = items.profile_image_url_https;
                 imageBig = image.Replace("_normal", "");
-            } 
+            }
             //System.Diagnostics.Debug.WriteLine("de avatar string: " + imageBig);
             return imageBig;
         }
@@ -1061,6 +1061,8 @@ namespace IP3_8IEN.BL
             //System.Diagnostics.Debug.WriteLine("de banner string: " + banner);
             return banner;
         }
+
+
 
         //VIC
 

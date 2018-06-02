@@ -180,21 +180,23 @@
 //        }
 //    });
 
-//    document.getElementById("button").onclick = loadPerson()
+    
 
-//    function loadPersn() {
-//        window.player.setValue('number1', 'v', e.value);
-//    }
+    function loadPersn() {
+        window.player.setValue('number1', 'v', e.value);
+    }
         
 
 //    function newNumber(number) {
 //        document.getElementById("chart7").innerHTML = number;
 //    }
 
-//    var icon = document.createElement("i");
-//    icon.className = "fa fa-area-chart";
-//    icon.style = "font-size:200px;color:green;"
-//    $("#chart0").append(icon);
+    var icon = document.createElement("i");
+    icon.className = "glyphicon glyphicon-plus glyphicon-center";
+    icon.style = "font-size:100px;color:green";
+    icon.setAttribute("data-toggle", "modal");
+    icon.setAttribute("data-target", "#myModal");
+    $("#chart1").append(icon);
   
 
 
