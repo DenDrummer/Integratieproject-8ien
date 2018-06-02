@@ -436,9 +436,9 @@ namespace MVC_S.Controllers
         {
             Persoon persoon = dMgr.GetPersoon(persoonId);
             //test debug//
-            List<GraphData> lijst = dMgr.GetTweetsPerDag(persoon, aantaldagen);
+            List<DataChart> lijst = dMgr.GetTweetsPerDagDataChart(persoon, aantaldagen);
             //////////////
-            return Json(dMgr.GetTweetsPerDag(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
+            return Json(dMgr.GetTweetsPerDagDataChart(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult SaveTilezonesOrder(int dashId, string zonesorder)

@@ -453,6 +453,7 @@
     <Content Include="Scripts\kendo_ui.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\morris-onderwerpenPagina.js" />
     <Content Include="Scripts\morris-ontwerpPagina.js" />
     <Content Include="Scripts\morris-scripts.js" />
     <Content Include="Scripts\morris\morris-chart-settings.min.js" />

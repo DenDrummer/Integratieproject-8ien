@@ -13,6 +13,7 @@ using System.Net.Mail;
 using IP3_8IEN.BL.Domain.Dashboard;
 using System.Text;
 using System.Globalization;
+using IP_8IEN.BL.Domain.Dashboard;
 
 namespace IP3_8IEN.BL
 {
@@ -1457,6 +1458,37 @@ namespace IP3_8IEN.BL
         }
 
         //Sam
+
+        public List<DataChart> GetTweetsPerDagDataChart(Persoon persoon, int aantalDagenTerug = 0)
+        {
+            InitNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            DateTime stop = new DateTime();
+
+            if (aantalDagenTerug == 0)
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().First().Date;
+            }
+            else
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                stop.AddDays(aantalDagenTerug * -1);
+            }
+            List<DataChart> GraphDataList = new List<DataChart>();
+
+            for (int i = 0; i < aantalDagenTerug + 1; i++)
+            {
+                //Sam
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                //Sam
+                GraphDataList.Add(new DataChart(date, messages.Where(m => m.Date.Date.Day == lastTweet.Date.Day && m.IsFromPersoon(persoon)).Count()));
+                lastTweet = lastTweet.AddDays(-1);
+            }
+
+            return GraphDataList;
+        }
+
         public List<GraphData> GetTweetsPerDagList(Persoon persoon, int aantalDagenTerug = 0)
         {
             InitNonExistingRepo();
