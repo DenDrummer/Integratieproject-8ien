@@ -6,7 +6,7 @@ using System.Linq;
 using System.Resources;
 using System.Web.Hosting;
 
-namespace IP_8IEN.UI.MVC_S.App_Code
+namespace IP3_8IEN.UI.MVC_S.App_Code
 {
     public sealed class ResourceHandler //: ResourceManager
     {

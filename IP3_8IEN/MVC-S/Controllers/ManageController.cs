@@ -5,11 +5,11 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using IP_8IEN.UI.MVC_S.Models;
-using IP_8IEN.UI.MVC_S.SignIn;
-using IP_8IEN.BL;
+using IP3_8IEN.UI.MVC_S.Models;
+using IP3_8IEN.UI.MVC_S.SignIn;
+using IP3_8IEN.BL;
 
-namespace IP_8IEN.UI.MVC_S.Controllers
+namespace IP3_8IEN.UI.MVC_S.Controllers
 {
     [Authorize]
     public class ManageController : Controller

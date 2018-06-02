@@ -8,7 +8,7 @@ using System.Resources;
 using System.Runtime.InteropServices;
 using System.Web;
 
-namespace IP_8IEN.UI.MVC_S.App_Code
+namespace IP3_8IEN.UI.MVC_S.App_Code
 {
     [ComVisible(true)]
     public class ResourceHandler2 : ResourceManager

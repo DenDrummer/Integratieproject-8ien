@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 
-using IP_8IEN.BL;
-using IP_8IEN.UI.MVC_S.SignIn;
+using IP3_8IEN.BL;
+using IP3_8IEN.UI.MVC_S.SignIn;
 
-namespace IP_8IEN.UI.MVC_S
+namespace IP3_8IEN.UI.MVC_S
 {
     /*
     ApplicationUserManager maakt gebruik van DAL -> Hoort thuis in BL!!!
@@ -21,7 +21,7 @@ namespace IP_8IEN.UI.MVC_S
             {
                 manager.UserTokenProvider =
                     //new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
-                    new DataProtectorTokenProvider<IP_8IEN.BL.Domain.Gebruikers.ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                    new DataProtectorTokenProvider<IP3_8IEN.BL.Domain.Gebruikers.ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
 
             return manager;

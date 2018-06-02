@@ -1,11 +1,11 @@
-﻿using IP_8IEN.BL;
-using IP_8IEN.BL.Domain.Gebruikers;
+﻿using IP3_8IEN.BL;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace IP_8IEN.UI.MVC_S.SignIn
+namespace IP3_8IEN.UI.MVC_S.SignIn
 {
     // Vroeger stond dit in IdentityConfig
     // Normaal gezien moet dit in BL -> OWIN mag niet in BL

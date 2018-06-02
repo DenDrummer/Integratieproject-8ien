@@ -3,12 +3,12 @@ using System.IO;
 using System.Linq;
 using System.Resources;
 
-namespace IP_8IEN.UI.ConsoleTesting
+namespace IP3_8IEN.UI.ConsoleTesting
 {
     public sealed class ResourceHandler :IResourceHandler
     {
 
-        public static IResourceHandler Instance { get; } = new ResourceHandler();
+        public static ResourceHandler Instance { get; } = new ResourceHandler();
 
         private int currentResource;
         private int defaultResource;
@@ -16,10 +16,7 @@ namespace IP_8IEN.UI.ConsoleTesting
         private string resourceFolder;
 
         #region constructors
-        static ResourceHandler()
-        {
-            //hier moet denk ik niets
-        }
+        static ResourceHandler() { } //doe niets
         private ResourceHandler()
         {
             string defaultResourceString = "Resources";
@@ -44,10 +41,10 @@ namespace IP_8IEN.UI.ConsoleTesting
         }
         #endregion
 
-        public void WriteString(string key, string stringValue)
+        public void WriteString(string key, string value)
         {
             ResXResourceWriter rw = new ResXResourceWriter(ConvertToPath(GetResource(currentResource)));
-            rw.AddResource(key, stringValue);
+            rw.AddResource(key, value);
             rw.Close();
         }
 
@@ -90,6 +87,11 @@ namespace IP_8IEN.UI.ConsoleTesting
         {
             string path = $"{resourceFolder}{resource}.resx";
             return path;
+        }
+
+        public void WriteStrings(List<KeyValuePair<string, string>> kvpList)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

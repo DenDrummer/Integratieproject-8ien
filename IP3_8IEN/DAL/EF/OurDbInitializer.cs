@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 
-namespace IP_8IEN.DAL.EF
+namespace IP3_8IEN.DAL.EF
 {
     class OurDbInitializer : CreateDatabaseIfNotExists<OurDbContext>
     //DropCreateDatabaseIfModelChanges
@@ -15,7 +15,7 @@ namespace IP_8IEN.DAL.EF
             //DataManager aanspreken met locatie /url
             //DataManager dm = new DataManager();
 
-            /*StreamReader r = new StreamReader($"c:\\Users\\Nathan\\documents\\visual studio 2015\\Projects\\IP_8IEN\\BL\\textgaindump.json");
+            /*StreamReader r = new StreamReader($"c:\\Users\\Nathan\\documents\\visual studio 2015\\Projects\\IP3_8IEN\\BL\\textgaindump.json");
             string json = r.ReadToEnd();
             List<Message> messages = new List<Message>();
 

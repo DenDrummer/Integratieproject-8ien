@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IP_8IEN.BL.Domain.Dashboard
+namespace IP3_8IEN.BL.Domain.Dashboard
 {
     public class GraphData2 : GraphData
     {

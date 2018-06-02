@@ -1,15 +1,15 @@
-﻿using IP_8IEN.BL;
-using IP_8IEN.BL.Domain.Data;
-using IP_8IEN.BL.Domain.Gebruikers;
+﻿using IP3_8IEN.BL;
+using IP3_8IEN.BL.Domain.Data;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using IP_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Dashboard;
 using System.Linq;
-using IP_8IEN.UI.MVC_S.Models;
+using IP3_8IEN.UI.MVC_S.Models;
 
-namespace IP_8IEN.UI.MVC_S.Controllers
+namespace IP3_8IEN.UI.MVC_S.Controllers
 {
     //[Authorize(Roles = "Admin")]
     public class AdminController : Controller
@@ -240,10 +240,10 @@ namespace IP_8IEN.UI.MVC_S.Controllers
             int nDagen = 10; // <-- voorlopig default
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-            List<IP_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen);
-            IP_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam);
-            IP_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
-            IP_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+            List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam);
+            IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
             _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
             // ================================================================================ //
 

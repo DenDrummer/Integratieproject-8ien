@@ -1,10 +1,10 @@
-﻿using IP_8IEN.BL.Domain.Gebruikers;
-using IP_8IEN.DAL.EF;
+﻿using IP3_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.DAL.EF;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace IP_8IEN.DAL
+namespace IP3_8IEN.DAL
 {
     // Dit stond in UI_MVC_S -> Bad Practice
     // Repositories horen thuis in DAL

@@ -1,18 +1,18 @@
 ﻿using System.Web.Mvc;
-using IP_8IEN.BL;
-using IP_8IEN.BL.Domain.Data;
+using IP3_8IEN.BL;
+using IP3_8IEN.BL.Domain.Data;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using IP_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using System.IO;
 using System.Web;
-using IP_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Dashboard;
 using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Text;
 
-namespace IP_8IEN.UI.MVC_S.Controllers
+namespace IP3_8IEN.UI.MVC_S.Controllers
 {
     /*[RequireHttps]*/
     public class HomeController : Controller

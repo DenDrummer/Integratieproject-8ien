@@ -7,8 +7,8 @@
     <ProjectGuid>{DE311856-1985-40A0-BC77-DEC1479ADE9F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IP_8IEN.DAL</RootNamespace>
-    <AssemblyName>IP_8IEN.DAL</AssemblyName>
+    <RootNamespace>IP3_8IEN.DAL</RootNamespace>
+    <AssemblyName>IP3_8IEN.DAL</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

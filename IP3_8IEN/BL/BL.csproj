@@ -7,8 +7,8 @@
     <ProjectGuid>{42F753BF-5D11-40E0-B447-E4D7F1810A37}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IP_8IEN.BL</RootNamespace>
-    <AssemblyName>IP_8IEN.BL</AssemblyName>
+    <RootNamespace>IP3_8IEN.BL</RootNamespace>
+    <AssemblyName>IP3_8IEN.BL</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

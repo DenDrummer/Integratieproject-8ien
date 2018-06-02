@@ -1,5 +1,5 @@
-﻿using IP_8IEN.BL;
-using IP_8IEN.BL.Domain.Gebruikers;
+﻿using IP3_8IEN.BL;
+using IP3_8IEN.BL.Domain.Gebruikers;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace IP_8IEN.UI.MVC_S.Controllers
+namespace IP3_8IEN.UI.MVC_S.Controllers
 {
     public class SuperadminController : Controller
     {

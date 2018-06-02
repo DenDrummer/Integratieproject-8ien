@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{33C13728-7419-47B2-80F9-1CD4541B2E60}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>IP_8IEN.UI.ConsoleTesting</RootNamespace>
-    <AssemblyName>IP_8IEN.UI.ConsoleTesting</AssemblyName>
+    <RootNamespace>IP3_8IEN.UI.ConsoleTesting</RootNamespace>
+    <AssemblyName>IP3_8IEN.UI.ConsoleTesting</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

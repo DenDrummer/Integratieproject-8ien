@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Resources;
 using System.Threading;
 
-namespace IP_8IEN.UI.ConsoleTesting
+namespace IP3_8IEN.UI.ConsoleTesting
 {
     class Program
     {
@@ -25,7 +25,7 @@ namespace IP_8IEN.UI.ConsoleTesting
 
         private static void Versie2()
         {
-            throw new NotImplementedException();
+
         }
 
         static void Test()
