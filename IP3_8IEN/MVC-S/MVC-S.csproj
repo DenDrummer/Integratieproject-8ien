@@ -19,8 +19,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44365</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>
     </IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>
@@ -384,6 +383,10 @@
     <Content Include="DataTables\Scroller-1.4.4\css\scroller.semanticui.min.css" />
     <Content Include="DataTables\Scroller-1.4.4\js\dataTables.scroller.js" />
     <Content Include="DataTables\Scroller-1.4.4\js\dataTables.scroller.min.js" />
+    <Content Include="Fotos\400errorpage.png" />
+    <Content Include="Fotos\403errorpage.png" />
+    <Content Include="Fotos\404errorpage.png" />
+    <Content Include="Fotos\500errorpage.png" />
     <Content Include="Fotos\allDone.jpg" />
     <Content Include="Fotos\banner.png" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -486,7 +489,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
@@ -584,6 +586,10 @@
     <Content Include="Views\Home\ThemasLijst.cshtml" />
     <Content Include="Views\Admin\NieuwThema.cshtml" />
     <Content Include="Views\Admin\ThemasCRUD.cshtml" />
+    <Content Include="Views\Error\Internal.cshtml" />
+    <Content Include="Views\Error\NotAllowed.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\BadRequest.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

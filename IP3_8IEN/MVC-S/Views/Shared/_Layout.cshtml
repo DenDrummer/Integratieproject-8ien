@@ -47,100 +47,142 @@
         </div>
 
         <ul class="nav navbar-top-links navbar-right">
-            <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" href="" data-toggle="dropdown">
-                    <i class="fa fa-bell fa-fw" style="color:#00295C;"></i> <i class="fa fa-caret-down" style="color:#00295C;"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-alerts">
-                    <li>
-                        <a href="">
-                            <div>
 
-                                <p>
-                                    <strong>Task 2</strong>
-                                    <span class="pull-right text-muted">20% Complete</span>
-                                </p>
-                                <i class="fa fa-comment fa-fw"></i> New Comment
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="">
-                            <div>
-                                <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                <span class="pull-right text-muted small">12 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="">
-                            <div>
-                                <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="" data-toggle="dropdown">
+                        <i class="fa fa-bell fa-fw" style="color:#00295C;"></i> <i class="fa fa-caret-down" style="color:#00295C;"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="">
+                                <div>
 
-                    <li class="divider"></li>
-                    <li>
-                        <a class="text-center" href="" style="margin-left: auto; margin-right: auto;">
-                            <strong>@Html.ActionLink("Bekijk alle alerts", "Alerts", "Home")</strong>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-alerts -->
-            </li>
+                                    <p>
+                                        <strong>Task 2</strong>
+                                        <span class="pull-right text-muted">20% Complete</span>
+                                    </p>
+                                    <i class="fa fa-comment fa-fw"></i> New Comment
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="">
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="">
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
 
-            <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                    <i class="fas fa-users-cog" style="color:#00295C;"></i> <i class="fa fa-caret-down" style="color:#00295C;"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li>
-                        <a href="">@Html.ActionLink("Gebruikersprofiel", "Instellingen", "Home")</a>
-                    </li>
-                    <li>
-                        <a href=""> @Html.ActionLink("Instellingen", "Instellingen", "Home")</a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-user -->
-            </li>
-            <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                    <i class="fas fa-sign-out-alt" style="color:#00295C;"></i> <i class="fa fa-caret-down" style="color:#00295C;"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    @using Microsoft.AspNet.Identity
-                    @if (Request.IsAuthenticated)
-                    {
-                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="" style="margin-left: auto; margin-right: auto;">
+                                <strong>@Html.ActionLink("Bekijk alle alerts", "Alerts", "Home")</strong>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                        <i class="fas fa-users-cog" style="color:#00295C;"></i> <i class="fa fa-caret-down" style="color:#00295C;"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a href="">@Html.ActionLink("Gebruikersprofiel", "Instellingen", "Home")</a>
+                        </li>
+                        <li>
+                            <a href=""> @Html.ActionLink("Instellingen", "Instellingen", "Home")</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                        <i class="fas fa-sign-out-alt" style="color:#00295C;"></i> <i class="fa fa-caret-down" style="color:#00295C;"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        @using Microsoft.AspNet.Identity
+                        @if (Request.IsAuthenticated)
                         {
-                            @Html.AntiForgeryToken()
+                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                            {
+                                @Html.AntiForgeryToken()
 
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li>
+                                        @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                                    </li>
+                                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                                </ul>
+                            }
+                        }
+                        else
+                        {
                             <ul class="nav navbar-nav navbar-right">
-                                <li>
-                                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                                </li>
-                                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                                <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                                <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
                             </ul>
                         }
-                    }
-                    else
-                    {
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-                            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-                        </ul>
-                    }
-                </ul>
-                <!-- /.dropdown-user -->
-            </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown-alerts -->
+
+                if (User.IsInRole("Admin"))
+                {
+
+                }
+            }
+            else
+            {
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                        <i class="fas fa-sign-out-alt" style="color:#00295C;"></i> <i class="fa fa-caret-down" style="color:#00295C;"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        @using Microsoft.AspNet.Identity
+                        @if (Request.IsAuthenticated)
+                        {
+                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li>
+                                        @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                                    </li>
+                                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                                </ul>
+                            }
+                        }
+                        else
+                        {
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                                <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                            </ul>
+                        }
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+            }
+            <!-- /.dropdown -->
+            <!-- /.dropdown -->
+            <!-- /.dropdown -->
             <!-- /.dropdown -->
         </ul>
 
@@ -216,55 +258,6 @@
                         </li>
                         if (User.IsInRole("Admin"))
                         {
-                            <li>
-                                <a href="@Url.Action("Grafiektest2", "Home")">
-                                    <i class="fas fa-chart-bar"></i>
-                                    Dashboard
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="@Url.Action("LijstPersonen", "Home")">
-                                    <i class="fas fa-user-alt" style="color:#00295C;"></i>
-                                    Personen
-                                </a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("LijstOrganisaties", "Home")">
-                                    <i class="fas fa-handshake" style="color:#00295C;"></i>
-                                    Organisaties
-                                </a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("LijstThemas", "Home")">
-                                    <i class="fas fa-street-view" style="color:#00295C;"></i>
-                                    Themas
-                                </a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Zoeken", "Home")">
-                                    <i class="fas fa-search" style="color:#00295C;"></i>
-                                    Zoeken
-                                </a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Alerts", "Home")">
-                                    <i class="fas fa-bell" style="color:#00295C;"></i>
-                                    Alerts
-                                </a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("WeeklyReview", "Home")">
-                                    <i class="fas fa-calendar-alt" style="color:#00295C;"></i>
-                                    WeeklyReview
-                                </a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Instellingen", "Home")">
-                                    <i class="fas fa-cogs" style="color:#00295C;"></i>
-                                    Instellingen
-                                </a>
-                            </li>
                             <li>
                                 <a href="@Url.Action("AdminOmgeving", "Home")">
                                     <i class="fas fa-user-circle" style="color:#00295C;"></i>
