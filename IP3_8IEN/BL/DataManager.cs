@@ -2010,5 +2010,65 @@ namespace IP3_8IEN.BL
             data = data.OrderByDescending(d => d.Value).ToList();
             return data.GetRange(0, aantal);
         }
+        
+        public IEnumerable<string> FrequenteWoorden(ICollection<SubjectMessage> subjMsgs, int ammount)
+        {
+            Dictionary<string, int> woorden = new Dictionary<string, int>();
+            List<string> woordStrings = new List<string>();
+            foreach (SubjectMessage subjMsg in subjMsgs)
+            {
+                #region add all words to temporary list
+                foreach (string woord in GetMessageWords(subjMsg.Msg))
+                {
+                    woordStrings.Add(woord);
+                }
+                #endregion
+            }
+            foreach (string woord in woordStrings)
+            {
+                if (woorden.ContainsKey(woord))
+                {
+                    woorden.Add(woord, 1);
+                }
+                else
+                {
+                    int value;
+                    woorden.TryGetValue(woord, out value);
+                    woorden.Remove(woord);
+                    woorden.Add(woord, value++);
+                }
+            }
+            woorden.ToList().Sort(delegate (KeyValuePair<string, int> kvp1, KeyValuePair<string, int> kvp2)
+            {
+                return kvp1.Value.CompareTo(kvp2.Value);
+            });
+            return woorden.Keys.ToList().Take(ammount);
+        }
+
+        public IEnumerable<string> GetMessageWords(Message msg)
+        {
+            List<string> words = new List<string>();
+            if (msg.Word1 != null && !msg.Word1.Equals(""))
+            {
+                words.Add(msg.Word1);
+            }
+            if (msg.Word2 != null && !msg.Word2.Equals(""))
+            {
+                words.Add(msg.Word2);
+            }
+            if (msg.Word3 != null && !msg.Word3.Equals(""))
+            {
+                words.Add(msg.Word3);
+            }
+            if (msg.Word4 != null && !msg.Word4.Equals(""))
+            {
+                words.Add(msg.Word4);
+            }
+            if (msg.Word5 != null && !msg.Word5.Equals(""))
+            {
+                words.Add(msg.Word5);
+            }
+            return words;
+        }
     }
 }
