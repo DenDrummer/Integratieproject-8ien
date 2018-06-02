@@ -19,13 +19,11 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44365</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -425,6 +423,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="AddApplicationGebruikers.Json" />
+    <Content Include="App_Data\users.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\grafiekaanmaken.js" />
     <Content Include="Scripts\flot-data.js" />
@@ -567,10 +566,15 @@
     <Content Include="Views\Admin\DetailsGrafiek.cshtml" />
     <Content Include="Views\Admin\DeleteGrafiek.cshtml" />
     <Content Include="Views\Superadmin\CreateAdmin.cshtml" />
+    <Content Include="Views\Admin\ExportToCSV.cshtml" />
+    <Content Include="Views\Admin\CreateDonutInput.cshtml" />
+    <Content Include="Views\Admin\Themas.cshtml" />
+    <Content Include="Views\Shared\Hashtag.cshtml" />
+    <Content Include="Views\Home\ThemasLijst.cshtml" />
+    <Content Include="Views\Admin\NieuwThema.cshtml" />
+    <Content Include="Views\Admin\ThemasCRUD.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />

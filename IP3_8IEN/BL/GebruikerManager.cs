@@ -281,6 +281,12 @@ namespace IP3_8IEN.BL
             return appUsersInRole;
         }
 
+        public string ExportToCSV(IEnumerable<Gebruiker> gebruikers)
+        {
+            string json = JsonConvert.SerializeObject(gebruikers, Formatting.Indented);
+            return json;
+        }
+
         //Unit of Work related
         public void InitNonExistingRepo(bool withUnitOfWork = false)
         {

@@ -29,6 +29,7 @@ namespace IP3_8IEN.BL
         IEnumerable<Persoon> GetPersonen();
         //6 apr 2018 : Stephane
         void ApiRequestToJson(bool isReCheck = false);
+        string ExportToCSV(IEnumerable<Persoon> personen);
 
         //16 apr 2018 : Stephane
         void AddMessages(string json);
@@ -62,6 +63,13 @@ namespace IP3_8IEN.BL
         void AddTewerkstelling(Persoon persoon, string organisatie);
         void AddTewerkstelling(string naam, string organisatieNaam);
         #endregion
+
+        IEnumerable<Hashtag> GetHashtags();
+        void UpdateHashtags(IEnumerable<Hashtag> hashtags);
+        void CreateTheme(string naam, string beschrijving, IEnumerable<Hashtag> hashForTheme);
+        IEnumerable<Thema> GetThemas();
+        void UpdateThema(Thema thema);
+
 
         #region Unsorted
         int GetMentionCountByName(string naam);

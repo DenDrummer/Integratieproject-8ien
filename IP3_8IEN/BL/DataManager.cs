@@ -68,9 +68,9 @@ namespace IP3_8IEN.BL
                         json = new JavaScriptSerializer().Serialize(new
                         {
                             //name = "Annick De Ridder",
-                            since = "29 Apr 2018 23:31",
+                            since = "29 Apr 2018 10:31",
                             //until weglaten --> last scraping
-                            until = "30 Apr 2018 00:01",
+                            until = "29 Apr 2018 14:01",
                         });
                     }
 
@@ -509,6 +509,12 @@ namespace IP3_8IEN.BL
             }
         }
 
+        public string ExportToCSV(IEnumerable<Persoon> personen)
+        {
+            string json = JsonConvert.SerializeObject(personen, Formatting.Indented);
+            return json;
+        }
+
         public int CountSubjMsgsPersoon(Onderwerp onderwerp)
         {
             InitNonExistingRepo();
@@ -614,6 +620,83 @@ namespace IP3_8IEN.BL
             InitNonExistingRepo();
             Persoon personen = repo.ReadPersoonWithTewerkstelling(id);
             return personen;
+        }
+
+        public IEnumerable<Hashtag> GetHashtags()
+        {
+            InitNonExistingRepo();
+            IEnumerable<Hashtag> hashtags = repo.ReadHashtags().ToList();
+            return hashtags;
+        }
+
+        public void UpdateHashtags(IEnumerable<Hashtag> hashtags)
+        {
+            InitNonExistingRepo();
+
+            foreach(Hashtag hash in hashtags)
+            {
+                repo.UpdateHashtag(hash);
+            }
+        }
+
+        public void CreateTheme(string naam, string beschrijving, IEnumerable<Hashtag> hashForTheme)
+        {
+            InitNonExistingRepo();
+            List<string> hashtags = new List<string>();
+
+            foreach(Hashtag hash in hashForTheme)
+            {
+                hashtags.Add(hash.HashtagString);
+            }
+
+            Thema theme = new Thema
+            {
+                Naam = naam,
+                Beschrijving = beschrijving
+            };
+            repo.CreateTheme(theme);
+
+            int count = hashForTheme.Count();
+
+            switch (count)
+            {
+                case 0:
+                    break;
+                case 1:
+                    theme.Hashtag1 = hashtags[0];
+                    break;
+                case 2:
+                    theme.Hashtag1 = hashtags[0];
+                    theme.Hashtag2 = hashtags[1];
+                    break;
+                case 3:
+                    theme.Hashtag1 = hashtags[0];
+                    theme.Hashtag2 = hashtags[1];
+                    theme.Hashtag3 = hashtags[2];
+                    break;
+                case 4:
+                    theme.Hashtag1 = hashtags[0];
+                    theme.Hashtag2 = hashtags[1];
+                    theme.Hashtag3 = hashtags[2];
+                    theme.Hashtag4 = hashtags[3];
+                    break;
+                default:
+                    break;
+            }
+
+            repo.UpdateTheme(theme);
+        }
+
+        public IEnumerable<Thema> GetThemas()
+        {
+            InitNonExistingRepo();
+            return repo.ReadThemas();
+        }
+
+        public void UpdateThema(Thema thema)
+        {
+            InitNonExistingRepo();
+            repo.UpdateTheme(thema);
         }
 
         //Unit of Work related

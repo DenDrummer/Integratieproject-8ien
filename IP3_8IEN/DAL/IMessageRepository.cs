@@ -42,5 +42,10 @@ namespace IP3_8IEN.DAL
         Persoon ReadPersoon(string naam);
         Persoon ReadPersoonWithTewerkstelling(string naam);
         Persoon ReadPersoonWithTewerkstelling(int id);
+
+        void UpdateHashtag(Hashtag hashtag);
+        void CreateTheme(Thema theme);
+        IEnumerable<Thema> ReadThemas();
+        void UpdateTheme(Thema theme);
     }
 }

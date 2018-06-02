@@ -1,0 +1,37 @@
+﻿@model IEnumerable<IP3_8IEN.BL.Domain.Data.Hashtag>
+
+@{
+    ViewBag.Title = "ThemaLijst";
+}
+
+<h2>ThemasLijst</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.HashtagString)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Beschrijving)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.HashtagString)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Beschrijving)
+        </td>
+        <td>
+            @Html.ActionLink("Meer informatie", "Themas", new { id = item.OnderwerpId })
+        </td>
+    </tr>
+}
+
+</table>

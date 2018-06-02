@@ -8,6 +8,9 @@ using Microsoft.AspNet.Identity;
 using IP3_8IEN.BL.Domain.Dashboard;
 using System.Linq;
 using MVC_S.Models;
+using System.IO;
+using System.Web;
+using System.Collections.ObjectModel;
 
 namespace MVC_S.Controllers
 {
@@ -274,9 +277,130 @@ namespace MVC_S.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateGrafiekDonut()
+        public ActionResult CreateDonutInput()
+        {
+            IEnumerable<Persoon> ObjList = _dataManager.GetPersonen().ToList();
+            List<string> names = ObjList.Select(p => p.Naam).ToList();
+            ViewData["names"] = names;
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult CreateGrafiekDonut(string automplete)
+        {
+            string naam = automplete;
+            Persoon p = _dataManager.GetPersoon(naam);
+
+            ViewBag.naam = automplete;
+
+            //Zie dat je bent ingelogd
+            ApplicationUser currUser = _userManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = _gebrManager.FindUser(userName);
+
+            int nDagen = 10; // <-- voorlopig default
+
+            // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+            List<GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen);
+            DashItem newDashItem = _dashManager.CreateDashitem(true, "Donut", naam);
+            Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
+            DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+            _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+            // ================================================================================ //
+
+            Dashbord dash = _dashManager.GetDashboardWithFollows(user);
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ExportToCSV()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult ExportToCSV(bool checkUsers = false, bool checkPersons = false)
+        {
+            if(checkUsers == true)
+            {
+                IEnumerable<Gebruiker> gebruikers = _gebrManager.GetUsers();
+                string json = _gebrManager.ExportToCSV(gebruikers);
+                //string name = "gebruikers " + System.DateTime.Now.Day.ToString();
+
+                System.IO.File.WriteAllText(Server.MapPath("~/App_Data/users.json"), json);
+            }
+            if (checkPersons == true)
+            {
+                IEnumerable<Persoon> personen = _dataManager.GetPersonen();
+                _dataManager.ExportToCSV(personen);
+                string json = _dataManager.ExportToCSV(personen);
+
+                System.IO.File.WriteAllText(Server.MapPath("~/App_Data/users.json"), json);
+            }
+
+            return View();
+        }
+
+        public FileStreamResult CreateFile(string json, string name)
+        {
+            var byteArray = System.Text.Encoding.ASCII.GetBytes(json);
+            var stream = new MemoryStream(byteArray);
+
+            return File(stream, "text/plain", "your_file_name.txt");
+        }
+        
+        [HttpGet]
+        public ActionResult Themas()
+        {
+            //Thema's komen eerst te staan
+            //IList<Hashtag> hashtags = _dataManager.GetHashtags().OrderBy(e => e.Thema == false).ToList();
+            IList<Hashtag> hashtags = _dataManager.GetHashtags().ToList();
+            
+            return View(hashtags);
+        }
+
+        [HttpPost]
+        public ActionResult Themas(string naam, string beschrijving, IList<Hashtag> hashtags)
+        {
+            //Note : View per 10 -> geeft 3 objecten terug voor update
+
+            IEnumerable<Hashtag> hashForTheme = hashtags.Where(h => h.Thema == true).ToList();
+
+            if (hashForTheme.Count() <= 4)
+            {
+                _dataManager.CreateTheme(naam, beschrijving, hashForTheme);
+            } else
+            {
+                return RedirectToAction("Themas");
+            }
+
+            //Update :
+            //      Theme -> name +hashtag ICollection
+            //      New List Theme for Admin
+            //      Undo changes LijstThemas
+
+            return RedirectToAction("Themas");
+        }
+
+        [HttpGet]
+        public ActionResult ThemasCRUD()
+        {
+            ////// Deze heb je nodig om Themas uit te lezen in de view //////
+            IEnumerable<Thema> themas = _dataManager.GetThemas().ToList();
+            
+            foreach(Thema theme in themas)
+            {
+                theme.Hashtags = new Collection<string>();
+
+                theme.Hashtags.Add(theme.Hashtag1);
+                theme.Hashtags.Add(theme.Hashtag2);
+                theme.Hashtags.Add(theme.Hashtag3);
+                theme.Hashtags.Add(theme.Hashtag4);
+            }
+
+            return View(themas);
+            /////////////////////////////////////////////////////////////////
         }
     }
 }
