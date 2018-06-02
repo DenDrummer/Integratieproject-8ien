@@ -1488,6 +1488,35 @@ namespace IP3_8IEN.BL
 
             return GraphDataList;
         }
+        public List<DataChart> GetTweetsPerDagDataChartO(Organisatie organisatie, int aantalDagenTerug = 0)
+        {
+            InitNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            DateTime stop = new DateTime();
+
+            if (aantalDagenTerug == 0)
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().First().Date;
+            }
+            else
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                stop.AddDays(aantalDagenTerug * -1);
+            }
+            List<DataChart> GraphDataList = new List<DataChart>();
+
+            for (int i = 0; i < aantalDagenTerug + 1; i++)
+            {
+                //Sam
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                //Sam
+                GraphDataList.Add(new DataChart(date, messages.Where(m => m.Date.Date.Day == lastTweet.Date.Day && m.IsFromOrganisatie(organisatie)).Count()));
+                lastTweet = lastTweet.AddDays(-1);
+            }
+
+            return GraphDataList;
+        }
 
         public List<GraphData> GetTweetsPerDagList(Persoon persoon, int aantalDagenTerug = 0)
         {

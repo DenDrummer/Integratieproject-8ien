@@ -108,6 +108,7 @@ namespace IP3_8IEN.BL
         Hashtag AddHashtag(string hashtag);
         void InitNonExistingRepo(bool withUnitOfWork);
         List<DataChart> GetTweetsPerDagDataChart(Persoon persoon, int aantalDagenTerug = 0);
+        List<DataChart> GetTweetsPerDagDataChartO(Organisatie organisatie, int aantalDagenTerug = 0);
         #endregion
     }
 }

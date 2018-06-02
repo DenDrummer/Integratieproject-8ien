@@ -455,6 +455,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\morris-onderwerpenPagina.js" />
     <Content Include="Scripts\morris-ontwerpPagina.js" />
+    <Content Include="Scripts\morris-organisatiePagina.js" />
     <Content Include="Scripts\morris-scripts.js" />
     <Content Include="Scripts\morris\morris-chart-settings.min.js" />
     <Content Include="Scripts\morris\morris.min.js" />

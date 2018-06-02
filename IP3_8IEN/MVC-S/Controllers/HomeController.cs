@@ -440,6 +440,14 @@ namespace MVC_S.Controllers
             //////////////
             return Json(dMgr.GetTweetsPerDagDataChart(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
         }
+        public ActionResult GetTweetsO(int Id, int aantaldagen)
+        {
+            Organisatie organisatie = dMgr.GetOrganisatie(Id);
+            //test debug//
+            List<DataChart> lijst = dMgr.GetTweetsPerDagDataChartO(organisatie, aantaldagen);
+            //////////////
+            return Json(dMgr.GetTweetsPerDagDataChartO(organisatie, aantaldagen), JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         public ActionResult SaveTilezonesOrder(int dashId, string zonesorder)
         {
