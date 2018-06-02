@@ -330,7 +330,7 @@ namespace IP3_8IEN.BL
 
         public List<GraphData> ExtractGraphList(int id)
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
 
             DashItem dashItem = repo.ReadDashItemWithGraph(id);
             List<GraphData> listData = new List<GraphData>();
@@ -340,8 +340,8 @@ namespace IP3_8IEN.BL
                 listData.Add(new GraphData
                 {
                     //controleren duplicaten DB
-                    label = graph.label,
-                    value = graph.value
+                    Label = graph.Label,
+                    Value = graph.Value
                 });
             }
 

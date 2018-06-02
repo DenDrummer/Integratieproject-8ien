@@ -206,7 +206,18 @@ namespace MVC_S.Controllers
             }
         }
 
-        public ActionResult Superadmin() => View();
+        public ActionResult Superadmin()
+        {
+            // note : deze 'if else' kun je gebruiken voor authorisatie
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Superadmin");
+            }
+            else
+            {
+                return RedirectToAction("NotAllowed", "Error");
+            }
+        }
 
         public ActionResult Instellingen() => View();
 
@@ -347,12 +358,12 @@ namespace MVC_S.Controllers
             }
         }
 
-        public ActionResult DashItem(int id)
-        {
-            // Check user provided credentials with database and if matches write this
-            FormsAuthentication.SetAuthCookie(model.Id, false);
-            return View();
-        }
+        //public ActionResult DashItem(int id)
+        //{
+        //    // Check user provided credentials with database and if matches write this
+        //    FormsAuthentication.SetAuthCookie(model.Id, false);
+        //    return View();
+        //}
 
         public ActionResult GetJson(List<GraphData> data)
         {

@@ -321,7 +321,7 @@ namespace IP3_8IEN.BL
 
         public void GetAlertHogerLagers()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             dataMgr = new DataManager();
 
             List<HogerLager> hogerLagers = repo.ReadHogerLagers().ToList();
@@ -397,7 +397,7 @@ namespace IP3_8IEN.BL
 
         public void GetAlertValueFluctuations()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             dataMgr = new DataManager();
 
             List<ValueFluctuation> valueFluctuations = repo.ReadValueFluctuations().ToList();
@@ -438,7 +438,7 @@ namespace IP3_8IEN.BL
 
         public void GetAlertPositiefNegatiefs()
         {
-            initNonExistingRepo();
+            InitNonExistingRepo();
             dataMgr = new DataManager();
             double total = 1;
 
