@@ -311,6 +311,10 @@ namespace MVC_S.Controllers
 
         public ActionResult Grafiektest2()
         {
+            IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
+            List<string> names = ObjList.Select(p => p.Naam).ToList();
+            ViewData["names"] = names;
+
             Persoon persoon = dMgr.GetPersoon(170);
             int aantalTweets = dMgr.GetNumber(persoon);
             //int aantalTweets = 69;
@@ -329,6 +333,8 @@ namespace MVC_S.Controllers
             return Json(dMgr.GetTweetsPerDag(persoon, 20), JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetRank(int aantal) => Json(dMgr.GetRanking(aantal, 100), JsonRequestBehavior.AllowGet);
+
+
 
         public ActionResult GetData2(int id1, int id2, int id3, int id4, int id5)
         {
@@ -380,14 +386,14 @@ namespace MVC_S.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Grafiektest3()
-        {
-            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            string userName = currUser.UserName;
-            Gebruiker user = gMgr.FindUser(userName);
-            Dashbord dash = dashMgr.GetDashboardWithFollows(user);
-            return View(dash);
-        }
+        //public ActionResult Grafiektest3()
+        //{
+        //    ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+        //    string userName = currUser.UserName;
+        //    Gebruiker user = gMgr.FindUser(userName);
+        //    Dashbord dash = dashMgr.GetDashboardWithFollows(user);
+        //    return View(dash);
+        //}
 
         public ActionResult GetJsonFromGraphData(int id)
         {
@@ -397,7 +403,7 @@ namespace MVC_S.Controllers
             return json;
         }
 
-        public ActionResult GetTweets(int persoonId,int aantaldagen )
+        public ActionResult GetTweets(int persoonId, int aantaldagen)
         {
             Persoon persoon = dMgr.GetPersoon(persoonId);
             //test debug//
@@ -406,5 +412,25 @@ namespace MVC_S.Controllers
             return Json(dMgr.GetTweetsPerDag(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult CreateChartAantalTweetsPerDag(string politicus,string type,int aantalDagenTerug)
+        {
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = gMgr.FindUser(userName);
+
+            string naam = politicus;
+            Persoon p = dMgr.GetPersoon(naam);
+
+            List<GraphData> graphDataList = dMgr.GetTweetsPerDag(p, aantalDagenTerug);
+            DashItem newDashItem = dashMgr.CreateDashitem(false, type, naam);
+            Follow follow = dashMgr.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
+            DashItem dashItem = dashMgr.SetupDashItem(user, follow);
+            dashMgr.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+
+            return RedirectToAction("Grafiektest2");
+
+            
+        }
     }
 }
