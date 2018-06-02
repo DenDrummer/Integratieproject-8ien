@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Dashboard;
 
 namespace IP3_8IEN.BL
 {
@@ -106,6 +107,7 @@ namespace IP3_8IEN.BL
         string GetBannerString(string screenname);
         Hashtag AddHashtag(string hashtag);
         void InitNonExistingRepo(bool withUnitOfWork);
+        List<DataChart> GetTweetsPerDagDataChart(Persoon persoon, int aantalDagenTerug = 0);
         #endregion
     }
 }
