@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 
 namespace IP3_8IEN.BL
 {
@@ -384,6 +385,24 @@ namespace IP3_8IEN.BL
 
             repo.UpdateDashboard(dashbord);
         }
+
+        public void InitializeTileZoneOrder(int DashbordId)
+        {
+            InitNonExistingRepo();
+            Dashbord dashbord = repo.ReadDashbordWithFollows(DashbordId);
+            dashbord.TileZones.Count();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("[0");
+            int i;
+            for (i=1;i<= dashbord.TileZones.Count(); i++)
+            {
+                stringBuilder.Append(",");
+                stringBuilder.Append(i);
+            }
+            stringBuilder.Append("]");
+            dashbord.ZonesOrder = stringBuilder.ToString();
+            repo.UpdateDashboard(dashbord);
+        }
     public Dashbord DashbordInitGraphs(int dashId)
         {
             InitNonExistingRepo();
@@ -417,7 +436,9 @@ namespace IP3_8IEN.BL
             InitNonExistingRepo();
             //Dashbord aanmaken en associëren met user
             //en initialiseren met vaste grafieken
-            DashbordInitGraphs(AddDashBord(userId).DashbordId);
+            int dashbordId = AddDashBord(userId).DashbordId;
+            DashbordInitGraphs(dashbordId);
+            InitializeTileZoneOrder(dashbordId);
         }
 
         public void RemoveDashItem(int id)
