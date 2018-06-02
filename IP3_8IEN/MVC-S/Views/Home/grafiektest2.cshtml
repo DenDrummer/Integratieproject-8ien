@@ -5,7 +5,7 @@
 @Scripts.Render("~/scripts/charts")
 <script src="~/Scripts/addGrafiek.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="~/Content/grafiekformsheet.css"/>
+<link rel="stylesheet" href="~/Content/grafiekformsheet.css" />
 <script src="~/Scripts/grafiekaanmaken.js"></script>
 <script src="~/Scripts/kendoUiUpdate.js"></script>
 <script src="~/Scripts/morris-scripts.js"></script>
@@ -44,7 +44,7 @@
 
 
 <button type="button" id="button">load</button>
-
+<div id="newChart"></div>
 <ul>
     <div id="sortable"></div>
 </ul>
@@ -99,6 +99,20 @@
             });
 
 </script>
+
+@foreach (var t in Model.TileZones)
+{
+    //var list = t.DashItem.Graphdata;
+    int dashItemId = t.DashItem.DashItemId;
+    string elementId = "chart" + dashItemId;
+    //int kl = 170;
+    <script type="text/javascript">
+     @*console.log("json string hopefully: " + JSON.stringify(@list1));*@
+     @*console.log("json string hopefully: "+@dashItemId);*@
+    custChart(@dashItemId, @elementId);
+    </script>
+
+}
 
 <div class="container">
     @*    <i class="glyphicon glyphicon-plus glyphicon-center" data-toggle="modal" data-target="#myModal"*@
@@ -227,8 +241,7 @@
                         </div>
 
 
-@foreach (var t in Model.TileZones)
-    {
+
 
                         <div class="row dagenTerug" style="display: none">
                             <div class="row vertical-align">
@@ -276,17 +289,6 @@
         </div>
     </div>
 
-        //var list = t.DashItem.Graphdata;
-    int dashItemId = t.DashItem.DashItemId;
-    string elementId = "chart" + dashItemId;
-        //int kl = 170;
-        <script type = "text/javascript" >
-     @*console.log("json string hopefully: " + JSON.stringify(@list1));*@
-     @*console.log("json string hopefully: "+@dashItemId);*@
-    custChart(@dashItemId, @elementId);
-       </script>
-   
-   }
 </div>
 
 <div class="modal fade" id="inloggenForm" role="dialog">
@@ -308,9 +310,9 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2"></div>
-                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})</button>
+                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</button>
                     <div class="col-md-2"></div>
-                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</button>
+                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</button>
                     <div class="col-md-2"></div>
 
                 </div>
@@ -343,95 +345,95 @@
 
 <!--Get Data for Graph-->
 @*<script type="text/javascript">
-    $(document).ready(function() {
-        $.get('@Url.Action("GetData", "Home", new {id = 231})',
-            function(result) {
+        $(document).ready(function() {
+            $.get('@Url.Action("GetData", "Home", new {id = 231})',
+                function(result) {
 
-                Morris.Area({
-                    // ID of the element in which to draw the chart.
-                    element: 'chart4',
-                    // Chart data records -- each entry in this array corresponds to a point on
-                    // the chart.
-                    data: result,
-                    // The name of the data record attribute that contains x-values.
-                    xkey: 'label',
-                    ykeys: ['value'],
-                    labels: ['aantal tweets Van Verhofstad'],
-                    pointSize: 2,
-                    hideHover: 'auto',
-                    resize: true
+                    Morris.Area({
+                        // ID of the element in which to draw the chart.
+                        element: 'chart4',
+                        // Chart data records -- each entry in this array corresponds to a point on
+                        // the chart.
+                        data: result,
+                        // The name of the data record attribute that contains x-values.
+                        xkey: 'label',
+                        ykeys: ['value'],
+                        labels: ['aantal tweets Van Verhofstad'],
+                        pointSize: 2,
+                        hideHover: 'auto',
+                        resize: true
+                    });
                 });
-            });
 
 
-    });
-</script>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-
-        $.get('@Url.Action("GetData", "Home", new {id = 170})',
-            function(result) {
-
-                Morris.Line({
-                    // ID of the element in which to draw the chart.
-                    element: 'chart1',
-                    // Chart data records -- each entry in this array corresponds to a point on
-                    // the chart.
-                    data: result,
-                    // The name of the data record attribute that contains x-values.
-                    xkey: 'label',
-                    ykeys: ['value'],
-                    labels: ['aantal tweets van Bart De Wever'],
-                    pointSize: 2,
-                    hideHover: 'auto',
-                    resize: true
-                });
-            });
-    });
-</script>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-
-        $.get('@Url.Action("GetRank", "Home", new {aantal = 5})',
-            function(result) {
-
-                Morris.Donut({
-                    // ID of the element in which to draw the chart.
-                    element: 'chart2',
-                    // Chart data records -- each entry in this array corresponds to a point on
-                    // the chart.
-                    data: result,
-                    // The name of the data record attribute that contains x-values.
-
-                    hideHover: 'auto',
-                    resize: true
-                });
-            });
-    });
-</script>
-<script type="text/javascript">
-    $(document).ready(function() {
-
-        $.get(
-            '@Url.Action("GetData2", "Home", new {persoon1 = 1, persoon2 = 3, persoon3 = 5, persoon4 = 7, persoon5 = 9})',
-            function(result) {
-
-           Morris.Line({
-                // ID of the element in which to draw the chart.
-                element: 'chart3',
-                // Chart data records -- each entry in this array corresponds to a point on
-                // the chart.
-                data: result,
-                // The name of the data record attribute that contains x-values.
-               xkey: 'label',
-               ykeys: ['value1', 'value2', 'value3', 'value4', 'value5'],
-               labels: ['aantal tweets', 'aantal tweets', 'aantal tweets', 'aantal tweets', 'aantal tweets'],
-               pointSize: 2,
-                hideHover: 'auto',
-                resize: true
-            });
         });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $.get('@Url.Action("GetData", "Home", new {id = 170})',
+                function(result) {
+
+                    Morris.Line({
+                        // ID of the element in which to draw the chart.
+                        element: 'chart1',
+                        // Chart data records -- each entry in this array corresponds to a point on
+                        // the chart.
+                        data: result,
+                        // The name of the data record attribute that contains x-values.
+                        xkey: 'label',
+                        ykeys: ['value'],
+                        labels: ['aantal tweets van Bart De Wever'],
+                        pointSize: 2,
+                        hideHover: 'auto',
+                        resize: true
+                    });
+                });
         });
-</script>*@
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $.get('@Url.Action("GetRank", "Home", new {aantal = 5})',
+                function(result) {
+
+                    Morris.Donut({
+                        // ID of the element in which to draw the chart.
+                        element: 'chart2',
+                        // Chart data records -- each entry in this array corresponds to a point on
+                        // the chart.
+                        data: result,
+                        // The name of the data record attribute that contains x-values.
+
+                        hideHover: 'auto',
+                        resize: true
+                    });
+                });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $.get(
+                '@Url.Action("GetData2", "Home", new {persoon1 = 1, persoon2 = 3, persoon3 = 5, persoon4 = 7, persoon5 = 9})',
+                function(result) {
+
+               Morris.Line({
+                    // ID of the element in which to draw the chart.
+                    element: 'chart3',
+                    // Chart data records -- each entry in this array corresponds to a point on
+                    // the chart.
+                    data: result,
+                    // The name of the data record attribute that contains x-values.
+                   xkey: 'label',
+                   ykeys: ['value1', 'value2', 'value3', 'value4', 'value5'],
+                   labels: ['aantal tweets', 'aantal tweets', 'aantal tweets', 'aantal tweets', 'aantal tweets'],
+                   pointSize: 2,
+                    hideHover: 'auto',
+                    resize: true
+                });
+            });
+            });
+    </script>*@

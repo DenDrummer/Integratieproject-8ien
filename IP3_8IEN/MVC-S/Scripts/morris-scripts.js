@@ -19,8 +19,8 @@
                                 // the chart.
                                 data: result,
                                 // The name of the data record attribute that contains x-values.
-                                xkey: 'label',
-                                ykeys: ['value'],
+                                xkey: 'Label',
+                                ykeys: ['Value'],
                                 labels: ['aantal tweets Van Verhofstad'],
                                 pointSize: 2,
                                 hideHover: 'auto',

@@ -1,4 +1,5 @@
-﻿using IP3_8IEN.BL.Domain.Dashboard;
+﻿using IP_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Dashboard;
 using IP3_8IEN.BL.Domain.Gebruikers;
 using System.Collections.Generic;
 
@@ -34,7 +35,7 @@ namespace IP3_8IEN.BL
         Dashbord UpdateDashboard(Dashbord dashbord);
 
         //Sam 
-        List<GraphData> ExtractGraphList(int id);
+        List<DataChart> ExtractGraphList(int id);
         void updateTilezonesOrder(int dashId, string zonesOrder);
 
         //23 mei 2018 : Stephane

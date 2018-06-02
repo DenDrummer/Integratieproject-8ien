@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using System;
 using System.Web.Hosting;
 using System.Web.Security;
+using IP_8IEN.BL.Domain.Dashboard;
 
 namespace MVC_S.Controllers
 {   /*[RequireHttps]*/
@@ -426,7 +427,7 @@ namespace MVC_S.Controllers
         public ActionResult GetJsonFromGraphData(int id)
         {
             //IEnumerable<GraphData> list2 = dashMgr.GetDashItemWithGraph(id).Graphdata;
-            List<GraphData> list = dashMgr.ExtractGraphList(id);
+            List<DataChart> list = dashMgr.ExtractGraphList(id);
             var json = Json(list, JsonRequestBehavior.AllowGet);
             return json;
         }

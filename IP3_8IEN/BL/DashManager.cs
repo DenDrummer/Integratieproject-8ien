@@ -1,4 +1,5 @@
-﻿using IP3_8IEN.BL.Domain.Dashboard;
+﻿using IP_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Dashboard;
 using IP3_8IEN.BL.Domain.Data;
 using IP3_8IEN.BL.Domain.Gebruikers;
 using IP3_8IEN.DAL;
@@ -328,16 +329,16 @@ namespace IP3_8IEN.BL
             return repo.ReadDashItems().Where(d => d.Active == true);
         }
 
-        public List<GraphData> ExtractGraphList(int id)
+        public List<DataChart> ExtractGraphList(int id)
         {
             InitNonExistingRepo();
 
             DashItem dashItem = repo.ReadDashItemWithGraph(id);
-            List<GraphData> listData = new List<GraphData>();
+            List<DataChart> listData = new List<DataChart>();
 
             foreach (GraphData graph in dashItem.Graphdata)
             {
-                listData.Add(new GraphData
+                listData.Add(new DataChart
                 {
                     //controleren duplicaten DB
                     Label = graph.Label,
