@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Globalization;
-using System.Resources;
-using System.Threading;
+using System.Collections;
 
 namespace IP3_8IEN.UI.ConsoleTesting
 {
@@ -25,20 +23,21 @@ namespace IP3_8IEN.UI.ConsoleTesting
 
         private static void Versie2()
         {
+            ResourceHandler2 rh = ResourceHandler2.Instance;
+            //rh.Initialize();
 
-        }
-
-        static void Test()
-        {
-            CultureAndRegionInfoBuilder builder = new CultureAndRegionInfoBuilder("nl-BE-brand1", CultureAndRegionModifiers.None);
-            CultureInfo parentCI = new CultureInfo("en-US");
-            RegionInfo parentRI = new RegionInfo("en-US");
-            builder.LoadDataFromCultureInfo(parentCI);
-            builder.LoadDataFromRegionInfo(parentRI);
-            builder.Parent = parentCI;
-            // set other properties of the custom culture (CultureEnglishName, CultureNativeName, possibly other ones)
-            // ...
-            builder.Register();
+            Console.WriteLine("PolitiekeBarometer");
+            foreach (DictionaryEntry de in rh.ReadExistingEntries())
+            {
+                Console.WriteLine($"-{(string)de.Key}: {(string)de.Value}");
+            }
+            rh.ChangeResource("PolitiekeBarometer");
+            Console.WriteLine();
+            Console.WriteLine("Resources");
+            foreach (DictionaryEntry de in rh.ReadExistingEntries())
+            {
+                Console.WriteLine($"-{(string)de.Key}: {(string)de.Value}");
+            }
         }
     }
 }

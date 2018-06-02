@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Resources;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IP3_8IEN.UI.ConsoleTesting
 {
@@ -13,9 +9,13 @@ namespace IP3_8IEN.UI.ConsoleTesting
     {
         public static ResourceHandler2 Instance { get; } = new ResourceHandler2();
 
+        //folder
+        private string ResourceFolder = @"..\..\Resources";
+        //deelplatform
         private string CurrentResource;
         private readonly string DefaultResource = "Resources";
-        private string ResourceFolder = @".";
+        //taal
+        //private string CurrentCulture;
 
         private List<string> ResourceStrings = new List<string>();
 
@@ -33,7 +33,7 @@ namespace IP3_8IEN.UI.ConsoleTesting
         {
             string path = ConvertToPath(CurrentResource);
             #region read existing entries
-            List<DictionaryEntry> entries = ReadExistingEntries(path);
+            List<DictionaryEntry> entries = ReadExistingEntries();
             #endregion
 
             using (ResXResourceWriter rw = new ResXResourceWriter(path))
@@ -54,15 +54,23 @@ namespace IP3_8IEN.UI.ConsoleTesting
             }
         }
 
-        private static List<DictionaryEntry> ReadExistingEntries(string path)
+        public List<DictionaryEntry> ReadExistingEntries()
         {
+            string path = ConvertToPath(CurrentResource);
             List<DictionaryEntry> entries = new List<DictionaryEntry>();
-            using (ResXResourceReader rr = new ResXResourceReader(path))
+            try
             {
-                foreach (DictionaryEntry de in rr)
+                using (ResXResourceReader rr = new ResXResourceReader(path))
                 {
-                    entries.Add(de);
+                    foreach (DictionaryEntry de in rr)
+                    {
+                        entries.Add(de);
+                    }
                 }
+            }
+            catch(FileNotFoundException fnfe)
+            {
+
             }
 
             return entries;
@@ -72,19 +80,30 @@ namespace IP3_8IEN.UI.ConsoleTesting
         {
             try
             {
+                string value;
                 using (ResXResourceSet rs = new ResXResourceSet(ConvertToPath(CurrentResource)))
                 {
-
+                    value = rs.GetString(key);
                 }
-                return null;
+                if ((value == null || value.Equals("")) && !CurrentResource.Equals(DefaultResource))
+                {
+                    using (ResXResourceSet rs = new ResXResourceSet(ConvertToPath(DefaultResource)))
+                    {
+                        value = rs.GetString(key);
+                    }
+                }
+                return value;
             }
-            catch(FileNotFoundException fnfe)
+            catch (FileNotFoundException fnfe)
             {
-                return null;
+                using (ResXResourceSet rs = new ResXResourceSet(ConvertToPath(DefaultResource)))
+                {
+                    return rs.GetString(key);
+                }
             }
         }
 
-        public void ChangeResource(string resource)
+        public void ChangeResource(string resource = "Resources")
         {
             if (!ResourceStrings.Exists(r => r.Equals(resource)))
             {
@@ -103,7 +122,7 @@ namespace IP3_8IEN.UI.ConsoleTesting
         {
             string path = ConvertToPath(CurrentResource);
             #region read existing entries
-            List<DictionaryEntry> entries = ReadExistingEntries(path);
+            List<DictionaryEntry> entries = ReadExistingEntries();
             #endregion
 
             using (ResXResourceWriter rw = new ResXResourceWriter(path))
@@ -128,6 +147,35 @@ namespace IP3_8IEN.UI.ConsoleTesting
                 }
                 #endregion
             }
+        }
+
+        public string GetCurrentResource() => CurrentResource;
+
+        public void Initialize()
+        {
+            string currentResource = CurrentResource;
+            ChangeResource();
+            List<KeyValuePair<string, string>> resources = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("Personen","Personen"),
+                new KeyValuePair<string, string>("Persoon","Persoon"),
+                new KeyValuePair<string, string>("District","District"),
+                new KeyValuePair<string, string>("Organisatie","Organisatie"),
+                new KeyValuePair<string, string>("Organisaties","Organisaties")
+            };
+            WriteStrings(resources);
+
+            ChangeResource("PolitiekeBarometer");
+            List<KeyValuePair<string, string>> politiekeBarometer = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("Personen","Politici"),
+                new KeyValuePair<string, string>("Persoon","Politicus"),
+                new KeyValuePair<string, string>("District","Kieskring"),
+                new KeyValuePair<string, string>("Organisatie","Partij"),
+                new KeyValuePair<string, string>("Organisaties","Partijen")
+            };
+            WriteStrings(politiekeBarometer);
+            ChangeResource(currentResource);
         }
     }
 }

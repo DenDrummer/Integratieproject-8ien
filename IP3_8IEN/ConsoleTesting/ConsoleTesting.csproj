@@ -74,5 +74,10 @@
       <Name>MVC-S</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\PolitiekeBarometer.resx" />
+    <EmbeddedResource Include="Resources\Resources.resx" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
