@@ -386,14 +386,14 @@ namespace MVC_S.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Grafiektest3()
-        {
-            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            string userName = currUser.UserName;
-            Gebruiker user = gMgr.FindUser(userName);
-            Dashbord dash = dashMgr.GetDashboardWithFollows(user);
-            return View(dash);
-        }
+        //public ActionResult Grafiektest3()
+        //{
+        //    ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+        //    string userName = currUser.UserName;
+        //    Gebruiker user = gMgr.FindUser(userName);
+        //    Dashbord dash = dashMgr.GetDashboardWithFollows(user);
+        //    return View(dash);
+        //}
 
         public ActionResult GetJsonFromGraphData(int id)
         {
@@ -403,7 +403,15 @@ namespace MVC_S.Controllers
             return json;
         }
 
-        public ActionResult GetTweets(int persoonId,int aantaldagen )
+        public ActionResult GetTweets(int persoonId, int aantaldagen)
+        {
+            Persoon persoon = dMgr.GetPersoon(persoonId);
+            //test debug//
+            List<GraphData> lijst = dMgr.GetTweetsPerDag(persoon, aantaldagen);
+            //////////////
+            return Json(dMgr.GetTweetsPerDag(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public ActionResult CreateChartAantalTweetsPerDag(string politicus,string type,int aantalDagenTerug)
         {
@@ -422,11 +430,7 @@ namespace MVC_S.Controllers
 
             return RedirectToAction("Grafiektest2");
 
-            Persoon persoon = dMgr.GetPersoon(persoonId);
-            //test debug//
-            List<GraphData> lijst = dMgr.GetTweetsPerDag(persoon, aantaldagen);
-            //////////////
-            return Json(dMgr.GetTweetsPerDag(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
+            
         }
     }
 }
