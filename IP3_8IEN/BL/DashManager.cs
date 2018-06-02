@@ -365,6 +365,7 @@ namespace IP3_8IEN.BL
             {
                 //De te associëren gebruiker wordt opgehaald
                 User = gebruikerMgr.GetGebruikers().FirstOrDefault(u => u.GebruikerId == userId),
+                ZonesOrder = "[0,1,2,3,4,5,6,7,8,9]",
                 TileZones = new Collection<TileZone>()
             };
             repo.AddDashBord(dashbord);
@@ -374,8 +375,15 @@ namespace IP3_8IEN.BL
             return dashbord;
         }
 
+        public void updateTilezonesOrder(int dashId,string zonesOrder)
+        {
+            InitNonExistingRepo();
+            Dashbord dashbord = repo.ReadDashbordWithFollows(dashId);
+            dashbord.ZonesOrder = zonesOrder;
 
-        public Dashbord DashbordInitGraphs(int dashId)
+            repo.UpdateDashboard(dashbord);
+        }
+    public Dashbord DashbordInitGraphs(int dashId)
         {
             InitNonExistingRepo();
 
@@ -419,6 +427,8 @@ namespace IP3_8IEN.BL
             dashItem.Active = false;
             UpdateDashItem(dashItem);
         }
+
+
 
         //Unit of Work related
         public void InitNonExistingRepo(bool withUnitOfWork = false)

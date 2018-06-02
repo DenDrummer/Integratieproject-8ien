@@ -971,8 +971,8 @@ namespace IP3_8IEN.BL
         
         public string UseApiTwitter(string screenname)
         {
-            var oAuthConsumerKey = "Fj6y59d4rcEHpslGnthlxfv62";
-            var oAuthConsumerSecret = "wI1uwbfOeEqdTNfH1cAyCMtRHklOOq9YiYyiOjbptScCbdwujx";
+            var oAuthConsumerKey = "dCmrMXgbBJmlac5MWoNy9lrPK";
+            var oAuthConsumerSecret = "IiWOQV6SL1KwGMzZY8IgYOH2k9rbPfci3JYwhiNOYjBPWO3cm8";
             var oAuthUrl = "https://api.twitter.com/oauth2/token";
             
 
@@ -1020,8 +1020,8 @@ namespace IP3_8IEN.BL
             HttpWebRequest avatarRequest = (HttpWebRequest)WebRequest.Create(avatarUrl);
             var timelineHeaderFormat = "{0} {1}";
             avatarRequest.Headers.Add("Authorization",
-                                        string.Format(timelineHeaderFormat, twitAuthResponse.TokenType,
-                                                      twitAuthResponse.AccesToken));
+                                        string.Format(timelineHeaderFormat, twitAuthResponse.token_type,
+                                                      twitAuthResponse.acces_token));
             avatarRequest.Method = "Get";
             WebResponse timeLineResponse = avatarRequest.GetResponse();
 
