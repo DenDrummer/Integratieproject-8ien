@@ -5,10 +5,10 @@ using System.Resources;
 
 namespace IP_8IEN.UI.ConsoleTesting
 {
-    public sealed class ResourceHandler //: ResourceManager
+    public sealed class ResourceHandler :IResourceHandler
     {
 
-        public static ResourceHandler Instance { get; } = new ResourceHandler();
+        public static IResourceHandler Instance { get; } = new ResourceHandler();
 
         private int currentResource;
         private int defaultResource;
@@ -46,7 +46,7 @@ namespace IP_8IEN.UI.ConsoleTesting
 
         public void WriteString(string key, string stringValue)
         {
-            ResourceWriter rw = new ResourceWriter(ConvertToPath(GetResource(currentResource)));
+            ResXResourceWriter rw = new ResXResourceWriter(ConvertToPath(GetResource(currentResource)));
             rw.AddResource(key, stringValue);
             rw.Close();
         }
