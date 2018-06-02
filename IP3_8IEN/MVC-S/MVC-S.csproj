@@ -395,6 +395,7 @@
     <Content Include="Content\sb-admin-2.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Fotos\donut.svg" />
     <Content Include="Fotos\hashtag.svg" />
     <Content Include="Fotos\homepagebanner.jpg" />
     <Content Include="Fotos\hslogo.png" />
