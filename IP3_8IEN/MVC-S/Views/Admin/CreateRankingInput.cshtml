@@ -6,34 +6,26 @@
 
 <div style="padding-top:10px; padding-bottom:10px">
     <i class="fas fa-user-circle" style="font-size: 28px; color:#00295C; display:inline"></i><h2 style="color:#00295C; display: inline;">@Html.ActionLink("  Admin Omgeving", "Index")</h2> <h3 style="color:#00295C; display: inline;"> > Nieuwe Ranking</h3>
+    <hr />
 </div>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <hr />
-
-    <p>Naam grafiek</p>
-    <input name="naam" type="text" />
-    <p>Aantal</p>
-    <input name="aantal" type="text" />
-    <p>Interval</p>
-    <input name="interval" type="text" />
-
-</div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create Ranking" class="btn btn-default" />
-        </div>
+    <div class="span3">
+        <form>
+            <label>Naam grafiek</label>
+            <input type="text" name="naam" class="span3">
+            <label>Aantal</label>
+            <input type="text" name="aantal" class="span3">
+            <label>Interval</label>
+            <input type="email" name="interval" class="span3"><br /><br />
+            <input type="submit" value="Create Ranking" class="btn btn-default" style="width:180px;">
+            <div class="clearfix"></div>
+        </form>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to Index", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
