@@ -25,10 +25,10 @@ namespace IP3_8IEN.DAL
         }
 
         public Dashbord ReadDashbord(Gebruiker user)
-        {
-            Dashbord dashbord = ctx.Dashbords.Include("TileZones").Include("TileZones.DashItem").FirstOrDefault(u => u.User.GebruikerId == user.GebruikerId);
-            return dashbord;
-        }
+            => ctx.Dashbords
+            .Include("TileZones")
+            .Include("TileZones.DashItem")
+            .FirstOrDefault(u => u.User.GebruikerId == user.GebruikerId);
 
         public void AddFollow(Follow follow)
         {
@@ -73,15 +73,8 @@ namespace IP3_8IEN.DAL
         }
 
         public DashItem ReadDashItem(int dashId)
-        {
-            DashItem dashItem = ctx.DashItems.Find(dashId);
-            return dashItem;
-        }
-        public DashItem ReadDashItemWithGraph(int dashId)
-        {
-            DashItem dashItem = ctx.DashItems.Include("Graphdata").FirstOrDefault(d=>d.DashItemId == dashId);
-            return dashItem;
-        }
+            => ctx.DashItems.Find(dashId);
+
         public void UpdateFollow(Follow follow)
         {
             ctx.Entry(follow).State = System.Data.Entity.EntityState.Modified;
@@ -89,10 +82,10 @@ namespace IP3_8IEN.DAL
         }
 
         public IEnumerable<Follow> ReadFollows()
-        {
-            IEnumerable<Follow> follows = ctx.Follows.Include("DashItem").Include("Onderwerp").ToList();
-            return follows;
-        }
+            => ctx.Follows
+            .Include("DashItem")
+            .Include("Onderwerp")
+            .ToList();
 
         public void UpdateDashboard(Dashbord dashbord)
         {
@@ -101,33 +94,38 @@ namespace IP3_8IEN.DAL
         }
 
         public IEnumerable<TileZone> ReadTileZones()
-        {
-            IEnumerable<TileZone> tileZones = ctx.TileZones;
-            return tileZones;
-        }
+            => ctx.TileZones;
 
         public IEnumerable<DashItem> ReadDashItems()
-        {
-            IEnumerable<DashItem> dashItems = ctx.DashItems.ToList();
-            return dashItems;
-        }
+            => ctx.DashItems.ToList();
 
         public Dashbord ReadDashbord(int dashId)
-        {
-            Dashbord dashbord = ctx.Dashbords.Include("User").FirstOrDefault(d => d.DashbordId == dashId);
-            return dashbord;
-        }
-        //sam
-        public Dashbord ReadDashbordWithFollows(int dashId)
-        {
-            Dashbord dashbord = ctx.Dashbords.Include("User").Include("TileZones").Include("TileZones.DashItem").Include("TileZones.DashItem.Graphdata").Include("TileZones.DashItem.Follows").Include("TileZones.DashItem.Follows.Onderwerp").FirstOrDefault(d => d.DashbordId == dashId);
-            return dashbord;
-        }
+            => ctx.Dashbords
+            .Include("User")
+            .FirstOrDefault(d => d.DashbordId == dashId);
 
         public Dashbord ReadDashbordWithFollows(Gebruiker user)
+            => ctx.Dashbords
+            .Include("TileZones")
+            .Include("TileZones.DashItem")
+            .Include("TileZones.DashItem.Graphdata")
+            .Include("TileZones.DashItem.Follows")
+            .Include("TileZones.DashItem.Follows.Onderwerp")
+            .FirstOrDefault(u => u.User.GebruikerId == user.GebruikerId);
+
+        public Dashbord ReadDashbordWithFollows(int dashId)
+           => ctx.Dashbords
+            .Include("User")
+           .Include("TileZones")
+           .Include("TileZones.DashItem")
+           .Include("TileZones.DashItem.Graphdata")
+           .Include("TileZones.DashItem.Follows")
+           .Include("TileZones.DashItem.Follows.Onderwerp")
+           .FirstOrDefault(d => d.DashbordId == dashId);
+
+        public DashItem ReadDashItemWithGraph(int id)
         {
-            Dashbord dashbord = ctx.Dashbords.Include("TileZones").Include("TileZones.DashItem").Include("TileZones.DashItem.Graphdata").Include("TileZones.DashItem.Follows").Include("TileZones.DashItem.Follows.Onderwerp").FirstOrDefault(u => u.User.GebruikerId == user.GebruikerId);
-            return dashbord;
+            return ctx.DashItems.Include("Graphdata").FirstOrDefault(d => d.DashItemId == id);
         }
 
         public void UpdateTileZone(TileZone tileZone)
@@ -147,13 +145,10 @@ namespace IP3_8IEN.DAL
         //{
         //    ctx = uow.Context;
         //}
-        public bool isUnitofWork()
-        {
-            return isUoW;
-        }
-        public void setUnitofWork(bool UoW)
-        {
-            isUoW = UoW;
-        }
+
+        public bool IsUnitofWork()
+            => isUoW;
+        public void SetUnitofWork(bool UoW)
+            => isUoW = UoW;
     }
 }

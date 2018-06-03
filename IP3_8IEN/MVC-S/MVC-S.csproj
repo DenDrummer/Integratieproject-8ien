@@ -124,6 +124,9 @@
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.0\lib\net45\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -133,6 +136,12 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.6\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.6\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
@@ -193,6 +202,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AlertController.cs" />
@@ -200,19 +210,21 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SuperadminController.cs" />
+    <Compile Include="Controllers\WebAPIController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\GraphDataViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RankViewModel.cs" />
+    <Compile Include="Models\UserVIewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignIn\ApplicationSignInManager.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\grafiekformsheet.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -372,6 +384,11 @@
     <Content Include="DataTables\Scroller-1.4.4\css\scroller.semanticui.min.css" />
     <Content Include="DataTables\Scroller-1.4.4\js\dataTables.scroller.js" />
     <Content Include="DataTables\Scroller-1.4.4\js\dataTables.scroller.min.js" />
+    <Content Include="Fotos\400errorpage.png" />
+    <Content Include="Fotos\403errorpage.png" />
+    <Content Include="Fotos\404errorpage.png" />
+    <Content Include="Fotos\500errorpage.png" />
+    <Content Include="Fotos\allDone.jpg" />
     <Content Include="Fotos\banner.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -380,14 +397,18 @@
     <Content Include="Content\sb-admin-2.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Fotos\donut.svg" />
     <Content Include="Fotos\hashtag.svg" />
+    <Content Include="Fotos\homepagebanner.jpg" />
     <Content Include="Fotos\hslogo.png" />
     <Content Include="Fotos\NVA.jpg" />
+    <Content Include="Fotos\thankYou.gif" />
     <Content Include="Fotos\unknownTwitter.jpg" />
     <Content Include="Fotos\unknownAvatar.png" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Google.DataTable.Net.Wrapper.XML" />
+    <Content Include="Scripts\addGrafiek.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="AddAlertInstelling.json" />
@@ -414,6 +435,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="AddApplicationGebruikers.Json" />
+    <Content Include="App_Data\users.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\grafiekaanmaken.js" />
     <Content Include="Scripts\flot-data.js" />
@@ -436,7 +458,8 @@
     <Content Include="Scripts\kendo_ui.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\morris-onderwerpPagina.js" />
+    <Content Include="Scripts\morris-onderwerpenPagina.js" />
+    <Content Include="Scripts\morris-ontwerpPagina.js" />
     <Content Include="Scripts\morris-scripts.js" />
     <Content Include="Scripts\morris\morris-chart-settings.min.js" />
     <Content Include="Scripts\morris\morris.min.js" />
@@ -469,7 +492,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
@@ -536,7 +558,6 @@
     <Content Include="Views\Home\InitializeAdmins.cshtml" />
     <Content Include="Views\Home\UserDashBoard.cshtml" />
     <Content Include="Views\Home\Grafiektest2.cshtml" />
-    <Content Include="Views\Home\ListHogerLager.cshtml" />
     <Content Include="Views\Admin\CreateGrafiekAutoComplete.cshtml" />
     <Content Include="Views\Admin\CreateGrafiekInput.cshtml" />
     <Content Include="Views\Home\LijstThemas.cshtml" />
@@ -544,6 +565,7 @@
     <Content Include="Views\Home\LijstPersonen.cshtml" />
     <Content Include="Views\Home\Faq.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
+    <Content Include="Views\Home\DashItem.cshtml" />
     <Content Include="Views\Superadmin\Inloggen.cshtml" />
     <Content Include="Views\Superadmin\Adminlijst.cshtml" />
     <Content Include="Views\Superadmin\SMBeheren.cshtml" />
@@ -559,12 +581,22 @@
     <Content Include="Views\Superadmin\DeleteAdmin.cshtml" />
     <Content Include="Views\Admin\DetailsGrafiek.cshtml" />
     <Content Include="Views\Admin\DeleteGrafiek.cshtml" />
-    <Content Include="Views\Home\DashItem.cshtml" />
-    <Content Include="Views\Home\grafiektest3.cshtml" />
+    <Content Include="Views\Superadmin\CreateAdmin.cshtml" />
+    <Content Include="Views\Admin\ExportToCSV.cshtml" />
+    <Content Include="Views\Admin\CreateDonutInput.cshtml" />
+    <Content Include="Views\Admin\Themas.cshtml" />
+    <Content Include="Views\Shared\Hashtag.cshtml" />
+    <Content Include="Views\Home\ThemasLijst.cshtml" />
+    <Content Include="Views\Admin\NieuwThema.cshtml" />
+    <Content Include="Views\Admin\ThemasCRUD.cshtml" />
+    <Content Include="Views\Error\Internal.cshtml" />
+    <Content Include="Views\Error\NotAllowed.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\BadRequest.cshtml" />
+    <Content Include="Views\Admin\CreateCijferInput.cshtml" />
+    <Content Include="Views\Admin\CreateCijfer.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />

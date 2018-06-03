@@ -2,96 +2,80 @@
 using System;
 using System.Collections.Generic;
 using IP3_8IEN.BL.Domain.Dashboard;
-using IP3_8IEN.BL.Domain.Gebruikers;
+using IP_8IEN.BL.Domain.Dashboard;
 
 namespace IP3_8IEN.BL
 {
     public interface IDataManager
     {
-        //16 mrt 2018 : Stephane
-        //void AddMessages(string sourceUrl);
+        #region Alerts
+        void GetAlerts();
+        #endregion
 
-        //25 mrt 2018 : Stephane
-        SubjectMessage AddSubjectMessage(Message msg, Persoon persoon);
-
-        //28 mrt 2018 : Stephane
-        Hashtag AddHashtag(string hashtag);
-        void AddSubjectMessage(Message msg, Hashtag hashtag);
-
-        //30 mrt 2018 : Stephane
+        #region Onderwerpen
         IEnumerable<Onderwerp> ReadOnderwerpen();
 
-        //31 mrt 2018 : Stephane
-        void initNonExistingRepo(bool withUnitOfWork);
-
-        //2 apr 2018 : Stephane
+        #region Organisaties
+        Organisatie GetOrganisatie(int organisatieId);
+        IEnumerable<Organisatie> GetOrganisaties();
+        void ChangeOrganisation(Organisatie organisatie);
         Organisatie AddOrganisation(string naamOrganisatie);
         void AddOrganisations(string filePath);
-        void AddTewerkstelling(string naam, string organisatieNaam);
+        #endregion
 
+        #region Personen
+        void ChangePersoon(Persoon persoon);
+        Persoon GetPersoon(string naam);
+        Persoon GetPersoon(int persoonId);
+        IEnumerable<Persoon> GetPersonen();
         //6 apr 2018 : Stephane
-        void ApiRequestToJson();
+        void ApiRequestToJson(bool isReCheck = false);
+        string ExportToCSV(IEnumerable<Persoon> personen);
 
         //16 apr 2018 : Stephane
         void AddMessages(string json);
         Persoon AddPersoon(string naam);
-
-
-        //22 apr 2018 : Stephane
         void AddPersonen(string path);
-        void AddTewerkstelling(Persoon persoon, string organisatie);
-        int CountSubjMsgsPersoon(Onderwerp onderwerp); //Onderwerp onderwerp
-
-
-        //23 apr 2018 : Stephane
-        IEnumerable<Message> ReadMessagesWithSubjMsgs();
-
-        //24 apr 2018 : Victor
-        void GetAlerts();
-
-        //27 apr 2018 : Victor
-        void SendMail();
-        //Sam
-        List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = true); //Edit 24 mei 2018 : Stephane
-        int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
-        //Sam
-        List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0); //Edit 18 mei 2018 : Stephane
-        List<GraphData> GetTweetsPerDagList(Persoon persoon, int aantalDagenTerug = 0);
-
-        List<GraphData2> GetTweetsPerDag2(Persoon persoon1, Persoon persoon2, Persoon persoon3, Persoon persoon4,
-            Persoon persoon5, int aantalDagenTerug = 0);
-
-        //3 mei 2018 : Stephane
-        Persoon GetPersoon(int persoonId);
-        Organisatie GetOrganisatie(int organisatieId);
-
-        //8 mei 2018 : Stephane
-        IEnumerable<Persoon> GetPersonen();
-        IEnumerable<Organisatie> GetOrganisaties();
-
-        //10 mei 2018 : Stephane
-        void ChangeOrganisation(Organisatie organisatie);
-        void ChangePersoon(Persoon persoon);
-
-        //18 mei 2018 : Stephane
-        Persoon GetPersoon(string naam);
-
-        //Sam 15 mei
-        string GetImageString(string screenname);
-        string GetBannerString(string screenname);
-
-        //23 mei 2018 : Stephane
-        List<int> ExtractListPersoonId(IEnumerable<GraphData> graphDataList);
         Persoon GetPersoonWithTewerkstelling(string naam);
         Persoon GetPersoonWithTewerkstelling(int id);
-
-        //VIC
+        List<int> ExtractListPersoonId(IEnumerable<GraphData> graphDataList);
         double GetPolarityByPerson(Persoon persoon);
         double GetPolarityByPerson(Persoon persoon, DateTime start);
         double GetPolarityByPerson(Persoon persoon, DateTime start, DateTime stop);
         double GetObjectivityByPerson(Persoon persoon);
         double GetObjectivityByPerson(Persoon persoon, DateTime start);
         double GetObjectivityByPerson(Persoon persoon, DateTime start, DateTime stop);
+        int CountSubjMsgsPersoon(Onderwerp onderwerp); //Onderwerp onderwerp
+        #endregion
+
+        #region Themas
+        //WIP in de ThemaMethodes branch op de github
+        #endregion
+        #endregion
+
+        #region (Subject)Messages
+        IEnumerable<Message> ReadMessagesWithSubjMsgs();
+        void AddSubjectMessage(Message msg, Hashtag hashtag);
+        SubjectMessage AddSubjectMessage(Message msg, Persoon persoon);
+        //void AddMessages(string sourceUrl);
+        #endregion
+
+        #region Tewerkstellingen
+        void AddTewerkstelling(Persoon persoon, string organisatie);
+        void AddTewerkstelling(string naam, string organisatieNaam);
+        #endregion
+
+        IEnumerable<Hashtag> GetHashtags();
+        void UpdateHashtags(IEnumerable<Hashtag> hashtags);
+        void CreateTheme(string naam, string beschrijving, IEnumerable<Hashtag> hashForTheme);
+        IEnumerable<Thema> GetThemas();
+        void UpdateThema(Thema thema);
+        List<GraphData> GetTweetsPerDag(Organisatie organisatie, int aantalDagenTerug);
+        List<GraphData> GetNumberGraph(Persoon persoon, int laatsteAantalUren);
+        List<GraphData> GetNumberGraph(Organisatie organisatie, int laatsteAantalUren);
+
+
+        #region Unsorted
         int GetMentionCountByName(string naam);
         int GetMentionCountByName(string naam, DateTime start);
         int GetMentionCountByName(string naam, DateTime start, DateTime stop);
@@ -115,5 +99,18 @@ namespace IP3_8IEN.BL
         List<GraphData> GetTopStoryByPolitician(Persoon persoon);
         List<GraphData2> GetComparisonPersonNumberOfTweetsOverTime(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5);
         List<GraphData> GetTopMentions(int aantal);
+        void SendMail();
+        List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
+        int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
+        List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
+        List<GraphData> GetTweetsPerDagList(Persoon persoon, int aantalDagenTerug = 0);
+        List<GraphData2> GetTweetsPerDag2(Persoon persoon1, Persoon persoon2, Persoon persoon3, Persoon persoon4,
+            Persoon persoon5, int aantalDagenTerug = 0);
+        string GetImageString(string screenname);
+        string GetBannerString(string screenname);
+        Hashtag AddHashtag(string hashtag);
+        void InitNonExistingRepo(bool withUnitOfWork);
+        List<DataChart> GetTweetsPerDagDataChart(Persoon persoon, int aantalDagenTerug = 0);
+        #endregion
     }
 }

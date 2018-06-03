@@ -25,9 +25,9 @@ namespace IP3_8IEN.DAL
             ctx = uow.Context;
         }
 
-        public bool isUnitofWork() => isUoW;
+        public bool IsUnitofWork() => isUoW;
 
-        public void setUnitofWork(bool UoW) => isUoW = UoW;
+        public void SetUnitofWork(bool UoW) => isUoW = UoW;
 
         public void AddingMessage(Message message)
         {
@@ -87,6 +87,14 @@ namespace IP3_8IEN.DAL
                 return ReadMessages();
             }
         }
+
+        //public IEnumerable<Message> ReadMessagesWithOrg()
+        //{
+        //    IEnumerable<Message> messages = ctx.Messages.Include("SubjectMessages").Include("SubjectMessages.Persoon").
+        //        Include("SubjectMessages.Persoon.Tewerkstellingen").Include("SubjectMessages.Persoon.Tewerkstellingen");
+        //    return messages;
+        //}
+
         public Organisatie ReadOrganisatie(int organisatieId)
         {
             IEnumerable<Organisatie> organisaties = ctx.Organisaties.Include("Tewerkstellingen").Include("Tewerkstellingen.Persoon");
@@ -116,6 +124,31 @@ namespace IP3_8IEN.DAL
         public Persoon ReadPersoonWithTewerkstelling(int id)
         {
             return ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie").FirstOrDefault(p => p.OnderwerpId == id);
+        }
+        public IEnumerable<Persoon> ReadPersonenWithTewerkstelling()
+        {
+            return ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie").Include("SubjectMessages").ToList();
+        }
+
+        public void UpdateHashtag(Hashtag hashtag)
+        {
+            ctx.Entry(hashtag).State = EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
+        public void CreateTheme(Thema theme)
+        {
+            ctx.Themas.Add(theme);
+            ctx.SaveChanges();
+        }
+        public IEnumerable<Thema> ReadThemas()
+        {
+            return ctx.Themas.ToList();
+        }
+        public void UpdateTheme(Thema theme)
+        {
+            ctx.Entry(theme).State = EntityState.Modified;
+            ctx.SaveChanges();
         }
     }
 }

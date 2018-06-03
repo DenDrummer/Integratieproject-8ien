@@ -12,8 +12,8 @@ namespace IP3_8IEN.BL.Domain.Dashboard
     {
         public GraphData(string label, double value)
         {
-            this.label = label;
-            this.value = value;
+            this.Label = label;
+            this.Value = value;
         }
 
         public GraphData()
@@ -22,8 +22,8 @@ namespace IP3_8IEN.BL.Domain.Dashboard
 
         [Key]
         public int GraphDataId { get; set; }
-        public string label { get; set; }
-        public double value { get; set; }
+        public string Label { get; set; }
+        public double Value { get; set; }
 
         public DashItem DashItem { get; set; }
     }

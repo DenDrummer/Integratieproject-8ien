@@ -1,9 +1,9 @@
 ﻿@model IP3_8IEN.BL.Domain.Data.Persoon
-<script src="~/Scripts/morris-onderwerpPagina.js"></script>
+
 @{
     ViewBag.Title = Model.Naam;
 }
-
+<script src="~/Scripts/morris-onderwerpenPagina.js"></script>
 <br />
 <div class="row">
     <div class="col-lg-12">
@@ -152,51 +152,48 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-lg-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Aantal tweets van @Model.Naam
+                                        <div class="col-lg-6">
+                                                <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                                Aantal tweets van @Model.Naam
+                                
                             </div>
-                            <div class="panel-body">
-                                <div id="persoon-chart1"></div>
+                                                        <div class="panel-body">
+                                                                <div id="persoon-chart1"></div>
+                                
                             </div>
-                            <label for="aantaldagen1">Hoeveel dagen terug: </label>
-                            <input type="text" id="aantaldagen1" name="aantaldagen1" value="5" />
-                            <label for="message1">label voor de chart: </label>
-                            <input type="text" id="message1" name="message1" value="aantal tweets: " />
-                            <button id="buttonReload1">herlaad</button>
-                            <button id="buttonSave1">opslaan naar dashboard</button>
-                            <button id="buttonAxe1">verander assen</button>
+                                                        <label for="aantaldagen1">Hoeveel dagen terug: </label>
+                                                        <input type="text" id="aantaldagen1" name="aantaldagen1" value="5" />
+                                                        <label for="message1">label voor de chart: </label>
+                                                        <input type="text" id="message1" name="message1" value="aantal tweets: " />
+                                                        <button id="buttonReload1">herlaad</button>
+                                                        <button id="buttonSave1">opslaan naar dashboard</button>
+                                                        <button id="buttonAxe1">verander assen</button>
+                            
                         </div>
+                        
                     </div>
-                    <div class="col-lg-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Aantal tweets van @Model.Naam
+                                        <div class="col-lg-6">
+                                                <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                               Aantal tweets van @Model.Naam
+                                
                             </div>
-                            <div class="panel-body">
-                                <div id="persoon-chart2"></div>
+                                                        <div class="panel-body">
+                                                                <div id="persoon-chart2"></div>
+                                
                             </div>
-                            <label for="aantaldagen2">Hoeveel dagen terug: </label>
-                            <input type="text" id="aantaldagen2" name="aantaldagen2" value="5" />
-                            <label for="message2">label voor de chart: </label>
-                            <input type="text" id="message2" name="message2" value="aantal tweets: " />
-                            <button id="buttonReload2">herlaad</button>
-                            <button id="buttonSave2">opslaan naar dashboard</button>
+                                                        <label for="aantaldagen2">Hoeveel dagen terug: </label>
+                                                        <input type="text" id="aantaldagen2" name="aantaldagen2" value="5" />
+                                                        <label for="message2">label voor de chart: </label>
+                                                        <input type="text" id="message2" name="message2" value="aantal tweets: " />
+                                                        <button id="buttonReload2">herlaad</button>
+                                                        <button id="buttonSave2">opslaan naar dashboard</button>
+                            
                         </div>
+                        
                     </div>
                 </div>
-                
-
-
-                @*<div id="myfirstchart" style="height: 250px;"></div>
-                <button id="convert">Convert to Png</button>
-                <canvas id="canvas" width="800px" height="600px"></canvas>
-                <div id="imgBinary">
-                </div>*@
-
-
-
             </div>
         </div>
 
