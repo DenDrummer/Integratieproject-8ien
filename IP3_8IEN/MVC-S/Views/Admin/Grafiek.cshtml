@@ -14,9 +14,6 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.DashItemId)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Naam)
         </th>
         <th>
@@ -32,16 +29,13 @@
     {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.DashItemId)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Naam)
         </td>
         <th>
-            @Html.DisplayNameFor(model => model.LastModified)
+            @Html.DisplayFor(modelItem => item.LastModified)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Type)
+            @Html.DisplayFor(modelItem => item.Type)
         </th>
         <td>
             @Html.ActionLink("Details", "DetailsGrafiek", new { id = item.DashItemId }) |

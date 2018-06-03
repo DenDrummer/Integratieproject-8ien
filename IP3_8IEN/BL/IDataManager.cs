@@ -70,6 +70,9 @@ namespace IP3_8IEN.BL
         void CreateTheme(string naam, string beschrijving, IEnumerable<Hashtag> hashForTheme);
         IEnumerable<Thema> GetThemas();
         void UpdateThema(Thema thema);
+        List<GraphData> GetTweetsPerDag(Organisatie organisatie, int aantalDagenTerug);
+        List<GraphData> GetNumberGraph(Persoon persoon, int laatsteAantalUren);
+        List<GraphData> GetNumberGraph(Organisatie organisatie, int laatsteAantalUren);
 
 
         #region Unsorted

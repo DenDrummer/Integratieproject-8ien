@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using System;
 using System.Web.Hosting;
 using System.Web.Security;
+using System.Collections.ObjectModel;
 using IP_8IEN.BL.Domain.Dashboard;
 
 namespace MVC_S.Controllers
@@ -112,52 +113,30 @@ namespace MVC_S.Controllers
         }
 
         [HttpGet]
-        public ActionResult Themas()
+            public ActionResult Themas(int id)
         {
-            return View();
-        }
+            Thema theme = dMgr.GetThemas().FirstOrDefault(t => t.OnderwerpId == id);
 
-            public ActionResult Themas(int onderwerpId = 500)
-        {
-            //Thema thema = xMgr.GetThema(onderwerpId);
-            /*  verwijder onderstaande region
-             *      zodra er via bovenstaande methode
-             *      een thema kan binnengehaald worden
-             *      en vervang de xMgr met de correcte mgr*/
-            //Thema thema = new Thema()
-            //{
-            //    OnderwerpId = onderwerpId,
-            //    Naam = "het nieuws",
-            //    ThemaString = "het nieuws",
-            //    Beschrijving = "wat er in het nieuws over wordt gesproken",
-            //    Hashtags = new List<string>()
-            //    {
-            //        "vtmnieuws",
-            //        "vrtjournaal"
-            //    },
-            //    SubjectMessages = new List<SubjectMessage>()
-            //    {
-            //        new SubjectMessage()
-            //        {
-            //            SubjectMsgId = 10000
-            //        }
-            //    }
-            //    };
-            //    #endregion
-            //    #region create searchstring
-            //    StringBuilder searchString = new StringBuilder();
-            //    searchString.Append("https://twitter.com/search?q=");
-            //    for (int i = 0; i < thema.Hashtags.Count; i++)
-            //    {
-            //        if (i > 0)
-            //        {
-            //            searchString.Append(" OR ");
-            //        }
-            //        searchString.Append($"%23{thema.Hashtags.ElementAt(i)}");
-            //    }
-            //    ViewBag.SearchString = searchString.ToString();
-            //    #endregion
-            return View(/*thema*/);
+            theme.Hashtags = new Collection<string>();
+
+            theme.Hashtags.Add(theme.Hashtag1);
+            theme.Hashtags.Add(theme.Hashtag2);
+            theme.Hashtags.Add(theme.Hashtag3);
+            theme.Hashtags.Add(theme.Hashtag4);
+
+            StringBuilder searchString = new StringBuilder();
+            searchString.Append("https://twitter.com/search?q=");
+            for (int i = 0; i < theme.Hashtags.Count; i++)
+            {
+                if (i > 0)
+                {
+                    searchString.Append(" OR ");
+                }
+                searchString.Append($"%23{theme.Hashtags.ElementAt(i)}");
+            }
+            ViewBag.SearchString = searchString.ToString();
+
+            return View(theme);
         }
 
         public ActionResult Organisatie(int onderwerpId = 22)
@@ -232,28 +211,22 @@ namespace MVC_S.Controllers
 
         public ActionResult LijstPersonen() => View(dMgr.GetPersonen());
 
-        public ActionResult LijstThemas() => View(new List<Thema>()
+        public ActionResult LijstThemas()
         {
-            //new Thema()
-            //{
-            //    OnderwerpId = 500,
-            //    Naam = "het nieuws",
-            //    ThemaString = "het nieuws",
-            //    Beschrijving = "wat er in het nieuws over wordt gesproken",
-            //    Hashtags = new List<string>()
-            //    {
-            //        "vtmnieuws",
-            //        "vrtjournaal"
-            //    },
-            //    SubjectMessages = new List<SubjectMessage>()
-            //    {
-            //        new SubjectMessage()
-            //        {
-            //            SubjectMsgId = 10000
-            //        }
-            //    }
-            //}
-        });
+            List<Thema> themes = dMgr.GetThemas().ToList();
+
+            foreach(Thema theme in themes)
+            {
+                theme.Hashtags = new Collection<string>();
+
+                theme.Hashtags.Add(theme.Hashtag1);
+                theme.Hashtags.Add(theme.Hashtag2);
+                theme.Hashtags.Add(theme.Hashtag3);
+                theme.Hashtags.Add(theme.Hashtag4);
+            }
+
+            return View(themes);
+        }
 
         public ActionResult LijstOrganisaties() => View(dMgr.GetOrganisaties());
 
