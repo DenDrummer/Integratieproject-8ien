@@ -217,7 +217,7 @@ namespace MVC_S.Controllers
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
             List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen);
-            IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", nDagen, naam);
             IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
             IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
             _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
@@ -265,7 +265,7 @@ namespace MVC_S.Controllers
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
             List<GraphData> graphDataList = _dataManager.GetRanking(aantal,interval,true);
-            DashItem newDashItem = _dashManager.CreateDashitem(true, "Rank", naam);
+            DashItem newDashItem = _dashManager.CreateDashitem(true, "Rank", aantal, naam);
             List<int> arrayPersoonId = _dataManager.ExtractListPersoonId(graphDataList);
             List<Follow> follows = _dashManager.CreateFollow(newDashItem.DashItemId, arrayPersoonId);
             DashItem dashItem = _dashManager.SetupDashItem(user, follows);
@@ -303,7 +303,7 @@ namespace MVC_S.Controllers
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
             List<GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen);
-            DashItem newDashItem = _dashManager.CreateDashitem(true, "Donut", naam);
+            DashItem newDashItem = _dashManager.CreateDashitem(true, "Donut",nDagen, naam);
             Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
             DashItem dashItem = _dashManager.SetupDashItem(user, follow);
             _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);

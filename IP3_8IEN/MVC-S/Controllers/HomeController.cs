@@ -423,14 +423,13 @@ namespace MVC_S.Controllers
             Persoon p = dMgr.GetPersoon(naam);
 
             List<GraphData> graphDataList = dMgr.GetTweetsPerDag(p, aantalDagenTerug);
-            DashItem newDashItem = dashMgr.CreateDashitem(false, type, naam);
+            DashItem newDashItem = dashMgr.CreateDashitem(false, type, aantalDagenTerug, naam);
             Follow follow = dashMgr.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
             DashItem dashItem = dashMgr.SetupDashItem(user, follow);
             dashMgr.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
 
             return RedirectToAction("Grafiektest2");
-
-            
         }
+
     }
 }

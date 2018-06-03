@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="~/Content/grafiekformsheet.css" />
 <script src="~/Scripts/grafiekaanmaken.js"></script>
-<i class="glyphicon glyphicon-plus glyphicon-center" style="font-size:100px;color:green;border-style: ridge;" data-toggle="modal" data-target="#myModal"></i>
+<i class="glyphicon glyphicon-plus glyphicon-center" style="font-size:100px;color:green;" data-toggle="modal" data-target="#myModal"></i>
 
 @*<script type="text/javascript">*@
 @*    $(function() {*@
@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select id="type" name="types">
-                                        <option value="" class="default" selected>(select type)</option>
+                                        <option value="" class="default" selected>(kies type)</option>
                                         <option name="type" value="number">Number</option>
                                         <option name="type" value="bar">Bar chart</option>
                                         <option name="type" value="donut">Donut chart</option>
@@ -136,12 +136,11 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select class="grafiekTypeInfo" name="grafiekTypes">
-                                        <option value="" class="default" selected>(select type)</option>
+                                        <option value="" class="default" selected>(kies type)</option>
                                         <option name="grafiekType" value="GetTweetsPerDag">Aantal tweets per dag</option>
                                         <option name="grafiekType" value="GetRanking">Trending politiekers</option>
                                     </select>
                                 </div>
-
                             </div>
                         </div>
 
@@ -152,6 +151,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select id="aantal" name="aantal">
+                                        <option name="aantal" value="0">(kies aantal)</option>
                                         <option name="aantal" value="1">1</option>
                                         <option name="aantal" value="2">2</option>
                                         <option name="aantal" value="3">3</option>
@@ -245,7 +245,7 @@
                                     <h4>Aantal top politici</h4>
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="text" name="automplete" id="aantalPolitici">
+                                    <input type="number" name="automplete" id="aantalPolitici">
                                 </div>
                             </div>
                         </div>
@@ -255,7 +255,7 @@
                                     <h4>Aantal uren terug</h4>
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="text" name="automplete" id="urenTerug">
+                                    <input type="number" name="automplete" id="urenTerug">
                                 </div>
                             </div>
                         </div>

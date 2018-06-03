@@ -49,7 +49,7 @@ namespace IP3_8IEN.BL
             return repo.ReadDashbordWithFollows(user);
         }
 
-        public DashItem CreateDashitem(bool adminGraph, string type, string naam = "usergraph")
+        public DashItem CreateDashitem(bool adminGraph, string type, int aantalDagenTerug = 10, string naam = "usergraph")
         {
             InitNonExistingRepo();
 
@@ -57,6 +57,7 @@ namespace IP3_8IEN.BL
                 LastModified = DateTime.Now,
                 Type = type,
                 Naam = naam,
+                AantalDagen = aantalDagenTerug,
                 Active = true
             };
 
