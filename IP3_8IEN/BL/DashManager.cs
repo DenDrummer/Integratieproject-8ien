@@ -1,11 +1,15 @@
-﻿using IP3_8IEN.BL.Domain.Dashboard;
+﻿using IP_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Dashboard;
 using IP3_8IEN.BL.Domain.Data;
 using IP3_8IEN.BL.Domain.Gebruikers;
 using IP3_8IEN.DAL;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 
 namespace IP3_8IEN.BL
 {
@@ -82,12 +86,24 @@ namespace IP3_8IEN.BL
             bool UoW = false;
             repo.SetUnitofWork(UoW);
 
-            Follow follow = new Follow()
+            Follow follow;
+            try
             {
-                DashItem = repo.ReadDashItem(dashId),
-                Onderwerp = dataMgr.GetPersoon(id)
-            };
-            repo.AddFollow(follow);
+                follow = new Follow()
+                {
+                    DashItem = repo.ReadDashItem(dashId),
+                    Onderwerp = dataMgr.GetPersoon(id)
+                };
+                repo.AddFollow(follow);
+            } catch
+            {
+                follow = new Follow()
+                {
+                    DashItem = repo.ReadDashItem(dashId),
+                    Onderwerp = dataMgr.GetOrganisatie(id)
+                };
+                repo.AddFollow(follow);
+            }
 
             uowManager.Save();
 
@@ -151,7 +167,7 @@ namespace IP3_8IEN.BL
             follow.DashItem.TileZones.Add(tile);
             repo.UpdateFollow(follow);
             //repo.UpdateDashItem(dashItem);
-
+            AddOneZonesOrder(dashbord);
             uowManager.Save();
             UoW = true;
             repo.SetUnitofWork(UoW);
@@ -328,16 +344,16 @@ namespace IP3_8IEN.BL
             return repo.ReadDashItems().Where(d => d.Active == true);
         }
 
-        public List<GraphData> ExtractGraphList(int id)
+        public List<DataChart> ExtractGraphList(int id)
         {
             InitNonExistingRepo();
 
             DashItem dashItem = repo.ReadDashItemWithGraph(id);
-            List<GraphData> listData = new List<GraphData>();
+            List<DataChart> listData = new List<DataChart>();
 
             foreach (GraphData graph in dashItem.Graphdata)
             {
-                listData.Add(new GraphData
+                listData.Add(new DataChart
                 {
                     //controleren duplicaten DB
                     Label = graph.Label,
@@ -365,6 +381,7 @@ namespace IP3_8IEN.BL
             {
                 //De te associëren gebruiker wordt opgehaald
                 User = gebruikerMgr.GetGebruikers().FirstOrDefault(u => u.GebruikerId == userId),
+                ZonesOrder = "[0,1,2,3,4,5,6,7,8,9]",
                 TileZones = new Collection<TileZone>()
             };
             repo.AddDashBord(dashbord);
@@ -374,7 +391,62 @@ namespace IP3_8IEN.BL
             return dashbord;
         }
 
+        public void updateTilezonesOrder(int dashId,string zonesOrder)
+        {
+            InitNonExistingRepo();
+            Dashbord dashbord = repo.ReadDashbordWithFollows(dashId);
+            dashbord.ZonesOrder = zonesOrder;
 
+            repo.UpdateDashboard(dashbord);
+        }
+
+        public void InitializeTileZoneOrder(int DashbordId)
+        {
+            InitNonExistingRepo();
+            Dashbord dashbord = repo.ReadDashbordWithFollows(DashbordId);
+            dashbord.TileZones.Count();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("[0");
+            int i;
+            for (i=1;i<= dashbord.TileZones.Count(); i++)
+            {
+                stringBuilder.Append(",");
+                stringBuilder.Append(i);
+            }
+            stringBuilder.Append("]");
+            dashbord.ZonesOrder = stringBuilder.ToString();
+            repo.UpdateDashboard(dashbord);
+        }
+
+        public void AddOneZonesOrder(Dashbord dashbord)
+        {
+            InitNonExistingRepo();
+            string zones = dashbord.ZonesOrder;
+            JArray orde = JArray.Parse(zones);
+            int volgendeZone = orde.Count();
+            orde.Add(volgendeZone);
+            zones = JsonConvert.SerializeObject(orde);
+            dashbord.ZonesOrder = zones;
+            repo.UpdateDashboard(dashbord);
+        }
+        public void DeleteOneZonesOrder(Dashbord dashbord)
+        {
+            InitNonExistingRepo();
+            string zones = dashbord.ZonesOrder;
+            JArray orde = JArray.Parse(zones);
+            int verwijder = orde.Count()-1;
+            LinkedList<int> result = new LinkedList<int>();
+            foreach (int item in orde)
+            {
+                if (item != verwijder)
+                {
+                    result.AddLast(item);
+                }
+            }
+            zones = JsonConvert.SerializeObject(result);
+            dashbord.ZonesOrder = zones;
+            repo.UpdateDashboard(dashbord);
+        }
         public Dashbord DashbordInitGraphs(int dashId)
         {
             InitNonExistingRepo();
@@ -408,7 +480,9 @@ namespace IP3_8IEN.BL
             InitNonExistingRepo();
             //Dashbord aanmaken en associëren met user
             //en initialiseren met vaste grafieken
-            DashbordInitGraphs(AddDashBord(userId).DashbordId);
+            int dashbordId = AddDashBord(userId).DashbordId;
+            DashbordInitGraphs(dashbordId);
+            InitializeTileZoneOrder(dashbordId);
         }
 
         public void RemoveDashItem(int id)
@@ -418,7 +492,9 @@ namespace IP3_8IEN.BL
             DashItem dashItem = repo.ReadDashItem(id);
             dashItem.Active = false;
             UpdateDashItem(dashItem);
+            
         }
+
 
         //Unit of Work related
         public void InitNonExistingRepo(bool withUnitOfWork = false)

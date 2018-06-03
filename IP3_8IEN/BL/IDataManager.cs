@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Dashboard;
 
 namespace IP3_8IEN.BL
 {
@@ -69,6 +70,9 @@ namespace IP3_8IEN.BL
         void CreateTheme(string naam, string beschrijving, IEnumerable<Hashtag> hashForTheme);
         IEnumerable<Thema> GetThemas();
         void UpdateThema(Thema thema);
+        List<GraphData> GetTweetsPerDag(Organisatie organisatie, int aantalDagenTerug);
+        List<GraphData> GetNumberGraph(Persoon persoon, int laatsteAantalUren);
+        List<GraphData> GetNumberGraph(Organisatie organisatie, int laatsteAantalUren);
 
 
         #region Unsorted
@@ -106,6 +110,7 @@ namespace IP3_8IEN.BL
         string GetBannerString(string screenname);
         Hashtag AddHashtag(string hashtag);
         void InitNonExistingRepo(bool withUnitOfWork);
+        List<DataChart> GetTweetsPerDagDataChart(Persoon persoon, int aantalDagenTerug = 0);
         #endregion
     }
 }

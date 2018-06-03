@@ -18,6 +18,8 @@ using Newtonsoft.Json;
 using System;
 using System.Web.Hosting;
 using System.Web.Security;
+using System.Collections.ObjectModel;
+using IP_8IEN.BL.Domain.Dashboard;
 
 namespace MVC_S.Controllers
 {   /*[RequireHttps]*/
@@ -83,7 +85,52 @@ namespace MVC_S.Controllers
             return View();
         }
 
-        public ActionResult Dashboard() => View();
+        public ActionResult Dashboard()
+        {
+            IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
+            List<string> names = ObjList.Select(p => p.Naam).ToList();
+            ViewData["names"] = names;
+
+            Persoon persoon = dMgr.GetPersoon(170);
+            int aantalTweets = dMgr.GetNumber(persoon);
+            //int aantalTweets = 69;
+            ViewBag.NUMMER1 = aantalTweets;
+            ViewBag.naam1 = persoon.Naam;
+            //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
+            int[] init = { 0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
+            //ViewData["init"] = init;
+
+
+            List<GraphData> data = dMgr.GetTweetsPerDag(persoon, 20);
+            ViewBag.DATA = data;
+
+
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+            Dashbord dash;
+            if (currUser != null)
+            {
+                string userName = currUser.UserName;
+                Gebruiker user = gMgr.FindUser(userName);
+                dash = dashMgr.GetDashboardWithFollows(user);
+            }
+            else
+            {
+                //not jet ready
+                //have to add defaultdash
+                string userName = "sam.laureys@student.kdg.be";
+                Gebruiker user = gMgr.FindUser(userName);
+                dash = dashMgr.GetDashboardWithFollows(user);
+            }
+
+
+            ViewBag.INIT = dash.ZonesOrder;
+            dashMgr.GetDashItems().Where(d => d.AdminGraph == true);
+            ViewBag.AANTAL = dashMgr.GetDashItems().Where(d => d.AdminGraph == true).Count();
+            //GraphDataViewModel model = new GraphDataViewModel { dash = dash,
+            //};
+            return View(dash);
+        }
 
         //Get:
         [HttpPost]
@@ -111,52 +158,30 @@ namespace MVC_S.Controllers
         }
 
         [HttpGet]
-        public ActionResult Themas()
+            public ActionResult Themas(int id)
         {
-            return View();
-        }
+            Thema theme = dMgr.GetThemas().FirstOrDefault(t => t.OnderwerpId == id);
 
-            public ActionResult Themas(int onderwerpId = 500)
-        {
-            //Thema thema = xMgr.GetThema(onderwerpId);
-            /*  verwijder onderstaande region
-             *      zodra er via bovenstaande methode
-             *      een thema kan binnengehaald worden
-             *      en vervang de xMgr met de correcte mgr*/
-            //Thema thema = new Thema()
-            //{
-            //    OnderwerpId = onderwerpId,
-            //    Naam = "het nieuws",
-            //    ThemaString = "het nieuws",
-            //    Beschrijving = "wat er in het nieuws over wordt gesproken",
-            //    Hashtags = new List<string>()
-            //    {
-            //        "vtmnieuws",
-            //        "vrtjournaal"
-            //    },
-            //    SubjectMessages = new List<SubjectMessage>()
-            //    {
-            //        new SubjectMessage()
-            //        {
-            //            SubjectMsgId = 10000
-            //        }
-            //    }
-            //    };
-            //    #endregion
-            //    #region create searchstring
-            //    StringBuilder searchString = new StringBuilder();
-            //    searchString.Append("https://twitter.com/search?q=");
-            //    for (int i = 0; i < thema.Hashtags.Count; i++)
-            //    {
-            //        if (i > 0)
-            //        {
-            //            searchString.Append(" OR ");
-            //        }
-            //        searchString.Append($"%23{thema.Hashtags.ElementAt(i)}");
-            //    }
-            //    ViewBag.SearchString = searchString.ToString();
-            //    #endregion
-            return View(/*thema*/);
+            theme.Hashtags = new Collection<string>();
+
+            theme.Hashtags.Add(theme.Hashtag1);
+            theme.Hashtags.Add(theme.Hashtag2);
+            theme.Hashtags.Add(theme.Hashtag3);
+            theme.Hashtags.Add(theme.Hashtag4);
+
+            StringBuilder searchString = new StringBuilder();
+            searchString.Append("https://twitter.com/search?q=");
+            for (int i = 0; i < theme.Hashtags.Count; i++)
+            {
+                if (i > 0)
+                {
+                    searchString.Append(" OR ");
+                }
+                searchString.Append($"%23{theme.Hashtags.ElementAt(i)}");
+            }
+            ViewBag.SearchString = searchString.ToString();
+
+            return View(theme);
         }
 
         public ActionResult Organisatie(int onderwerpId = 22)
@@ -231,28 +256,22 @@ namespace MVC_S.Controllers
 
         public ActionResult LijstPersonen() => View(dMgr.GetPersonen());
 
-        public ActionResult LijstThemas() => View(new List<Thema>()
+        public ActionResult LijstThemas()
         {
-            //new Thema()
-            //{
-            //    OnderwerpId = 500,
-            //    Naam = "het nieuws",
-            //    ThemaString = "het nieuws",
-            //    Beschrijving = "wat er in het nieuws over wordt gesproken",
-            //    Hashtags = new List<string>()
-            //    {
-            //        "vtmnieuws",
-            //        "vrtjournaal"
-            //    },
-            //    SubjectMessages = new List<SubjectMessage>()
-            //    {
-            //        new SubjectMessage()
-            //        {
-            //            SubjectMsgId = 10000
-            //        }
-            //    }
-            //}
-        });
+            List<Thema> themes = dMgr.GetThemas().ToList();
+
+            foreach(Thema theme in themes)
+            {
+                theme.Hashtags = new Collection<string>();
+
+                theme.Hashtags.Add(theme.Hashtag1);
+                theme.Hashtags.Add(theme.Hashtag2);
+                theme.Hashtags.Add(theme.Hashtag3);
+                theme.Hashtags.Add(theme.Hashtag4);
+            }
+
+            return View(themes);
+        }
 
         public ActionResult LijstOrganisaties() => View(dMgr.GetOrganisaties());
 
@@ -323,8 +342,36 @@ namespace MVC_S.Controllers
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
             int[] init = { 0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
             //ViewData["init"] = init;
-            ViewBag.INIT = init;
-            return View();
+
+
+            List<GraphData> data = dMgr.GetTweetsPerDag(persoon, 20);
+            ViewBag.DATA = data;
+           
+            
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            
+            Dashbord dash;
+                if (currUser != null){
+                string userName = currUser.UserName;
+                Gebruiker user = gMgr.FindUser(userName);
+                dash = dashMgr.GetDashboardWithFollows(user);
+            }
+            else
+            {
+                //not jet ready
+                //have to add defaultdash
+                string userName = "sam.laureys@student.kdg.be";
+                Gebruiker user = gMgr.FindUser(userName);
+                dash = dashMgr.GetDashboardWithFollows(user);
+            }
+            
+            
+            ViewBag.INIT = dash.ZonesOrder;
+            dashMgr.GetDashItems().Where(d => d.AdminGraph == true);
+            ViewBag.AANTAL = dashMgr.GetDashItems().Where(d => d.AdminGraph == true).Count();
+            //GraphDataViewModel model = new GraphDataViewModel { dash = dash,
+            //};
+            return View(dash);
         }
 
         public ActionResult GetData(int id)
@@ -386,19 +433,11 @@ namespace MVC_S.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        //public ActionResult Grafiektest3()
-        //{
-        //    ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-        //    string userName = currUser.UserName;
-        //    Gebruiker user = gMgr.FindUser(userName);
-        //    Dashbord dash = dashMgr.GetDashboardWithFollows(user);
-        //    return View(dash);
-        //}
 
         public ActionResult GetJsonFromGraphData(int id)
         {
             //IEnumerable<GraphData> list2 = dashMgr.GetDashItemWithGraph(id).Graphdata;
-            List<GraphData> list = dashMgr.ExtractGraphList(id);
+            List<DataChart> list = dashMgr.ExtractGraphList(id);
             var json = Json(list, JsonRequestBehavior.AllowGet);
             return json;
         }
@@ -407,9 +446,15 @@ namespace MVC_S.Controllers
         {
             Persoon persoon = dMgr.GetPersoon(persoonId);
             //test debug//
-            List<GraphData> lijst = dMgr.GetTweetsPerDag(persoon, aantaldagen);
+            List<DataChart> lijst = dMgr.GetTweetsPerDagDataChart(persoon, aantaldagen);
             //////////////
-            return Json(dMgr.GetTweetsPerDag(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
+            return Json(dMgr.GetTweetsPerDagDataChart(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult SaveTilezonesOrder(int dashId, string zonesorder)
+        {
+            dashMgr.updateTilezonesOrder(dashId, zonesorder);
+            return RedirectToAction("Dashboard");
         }
 
         [HttpPost]
@@ -427,10 +472,49 @@ namespace MVC_S.Controllers
             Follow follow = dashMgr.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
             DashItem dashItem = dashMgr.SetupDashItem(user, follow);
             dashMgr.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+            
 
-            return RedirectToAction("Grafiektest2");
+            return RedirectToAction("Dashboard");
 
             
+        }
+        //[HttpGet]
+        //public ActionResult DeleteGrafiek(int id)
+        //{
+        //    DashItem dashItem = dashMgr.GetDashItems().FirstOrDefault(d => d.DashItemId == id);
+
+        //    return View(dashItem);
+        //}
+
+        [HttpGet]
+        public ActionResult DeleteGrafiek(int id)
+        {
+            try
+            {
+                ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+                Dashbord dash;
+                if (currUser != null)
+                {
+                    string userName = currUser.UserName;
+                    Gebruiker user = gMgr.FindUser(userName);
+                    dash = dashMgr.GetDashboardWithFollows(user);
+                    dashMgr.DeleteOneZonesOrder(dash);
+                    dashMgr.RemoveDashItem(id);
+                }
+                else
+                {
+                    //not jet ready
+                    //have to add defaultdash
+                    //default redirect to inlog or alert to log in
+                }
+                
+                return RedirectToAction("Dashboard");
+            }
+            catch
+            {
+                return View();
+            }
         }
     }
 }
