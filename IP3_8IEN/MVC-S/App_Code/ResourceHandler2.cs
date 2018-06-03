@@ -42,15 +42,15 @@ namespace IP3_8IEN.UI.MVC_S.App_Code
             foreach (FileInfo fi in files)
             {
                 //gebruik de methode ipv rechtstreeks om dubbele resources te vermijden
-                //ChangeResource(fi.Name);
+                ChangeResource(fi.Name);
             }
             #endregion
 
             //switch to default resource
-            //ChangeResource();
+            ChangeResource();
 
             InitializeDeelplatformen();
-            //ChangeResource();
+            ChangeResource();
         }
 
         private void InitializeDeelplatformen()
@@ -68,7 +68,7 @@ namespace IP3_8IEN.UI.MVC_S.App_Code
             #endregion
 
             #region Politieke Barometer
-            //ChangeResource("PolitiekeBarometer");
+            ChangeResource("PolitiekeBarometer");
             List<KeyValuePair<string, string>> politiekeBarometer = new List<KeyValuePair<string, string>>()
             {
                 new KeyValuePair<string, string>("Personen","Politici"),
@@ -82,21 +82,21 @@ namespace IP3_8IEN.UI.MVC_S.App_Code
         }
         #endregion
 
+        #region writing
         public void WriteString(string key, string value)
         {
-            //string path = ConvertToPath(CurrentResource);
+            string path = ConvertToPath(CurrentResource);
 
-            //using (ResXResourceWriter rw = new ResXResourceWriter(path))
+            using (ResXResourceWriter rw = new ResXResourceWriter(path))
             {
-                //rw.AddResource(key, value);
+                rw.AddResource(key, value);
 
                 #region write existing entries if they're not overwritten
-                //foreach (DictionaryEntry de in ReadExistingEntries())
+                foreach (DictionaryEntry de in ReadExistingEntries())
                 {
-                    bool exists = false;
-                    //if (!key.Equals((string)de.Key) && !exists)
+                    if (!key.Equals((string)de.Key))
                     {
-                        //rw.AddResource((string)de.Key, (string)de.Value);
+                        rw.AddResource((string)de.Key, (string)de.Value);
                     }
                 }
                 #endregion
@@ -105,11 +105,108 @@ namespace IP3_8IEN.UI.MVC_S.App_Code
 
         public void WriteStrings(List<KeyValuePair<string, string>> kvpList)
         {
-            //string path = ConverToPath(CurrentResource);
-            //using (ResXResourceWriter rw = new ResXResourceWriter)
+            string path = ConverToPath(CurrentResource);
+            using (ResXResourceWriter rw = new ResXResourceWriter)
+            {
+                #region write new entries
+                foreach (KeyValuePair<string, string> kvp in kvpList)
+                {
+                    rw.AddResource(kvp.Key, kvp.Value);
+                }
+                #endregion
+
+                #region write existing entries if they're not overwritten
+                foreach (DictionaryEntry de in ReadExistingEntries())
+                {
+                    bool exists = false;
+                    foreach (KeyValuePair<string, string> kvp in kvpList)
+                    {
+                        if (!kvp.Key.Equals((string)de.Key) && !exists)
+                        {
+                            exists = true;
+                        }
+                    }
+                    if (!exists)
+                    {
+                        rw.AddResource((string)de.Key, (string)de.Value);
+                    }
+                }
+                #endregion
+            }
+        }
+        #endregion
+
+        #region reading
+        public string ReadString(string key)
+        {
+            try
+            {
+                string value;
+                using (ResXResourceSet rs = new ResXResourceSet(ConvertToPath(CurrentResource)))
+                {
+                    value = rs.GetString(key);
+                }
+                if ((value == null || value.Equals("")) && !CurrentResource.Equals(DefaultResource))
+                {
+                    using (ResXResourceSet rs = new ResXResourceSet(ConvertToPath(DefaultResource)))
+                    {
+                        value = rs.GetString(key);
+                    }
+                }
+                return value;
+            }
+            catch (FileNotFoundException fnfe)
+            {
+                using (System.Resources.ResourceSet rs = new ResXResourceSet(ConvertToPath(DefaultResource)))
+                {
+                    return rs.GetString(key);
+                }
+            }
+        }
+
+        public List<DictionaryEntry> ReadExistingEntries()
+        {
+            string path = ConvertToPath(CurrentResource);
+            List<DictionaryEntry> entries = new List<DictionaryEntry>();
+            try
+            {
+                using (ResXResourceReader rr = new ResXResourceReader(path))
+                {
+                    foreach (DictionaryEntry de in rr)
+                    {
+                        entries.Add(de);
+                    }
+                }
+            }
+            catch (FileNotFoundException fnfe)
             {
 
             }
+
+            return entries;
         }
+        #endregion
+
+        #region helpers
+        public string GetCurrentResource()
+        {
+            return CurrentResource;
+        }
+
+        private string ConvertToPath(string resource)
+        {
+            string path = $@"{ResourceFolder}\{resource}.resx";
+            return path;
+        }
+
+        public void ChangeResource(string resource = "Resources")
+        {
+            if (!ResourceStrings.Exists(r => r.Equals(resource)))
+            {
+                ResourceStrings.Add(resource);
+            }
+            CurrentResource = resource;
+        }
+        #endregion
     }
 }

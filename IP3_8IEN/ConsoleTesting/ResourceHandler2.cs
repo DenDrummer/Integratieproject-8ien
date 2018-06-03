@@ -124,7 +124,7 @@ namespace IP3_8IEN.UI.ConsoleTesting
 
             using (ResXResourceWriter rw = new ResXResourceWriter(path))
             {
-                #region write new entry
+                #region write new entries
                 foreach (KeyValuePair<string, string> kvp in kvpList)
                 {
                     rw.AddResource(kvp.Key, kvp.Value);
