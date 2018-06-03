@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "CreateCijferInput";
+}
+
+<h2>CreateCijferInput</h2>
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>jQuery UI Autocomplete functionality</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+    <!-- Javascript -->
+    <script>
+        $(document).ready(function () {
+            @{List<string> listFromController = (List<string>)ViewData["names"];}
+                var Names = [
+                        @for (int i = 0; i < listFromController.Count; i++)
+                        {
+                            @: '@(listFromController[i])',
+                        }
+                    ]
+            $("#automplete-1").autocomplete({
+                minLength: 2,
+                source: Names
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <!-- HTML -->
+
+    @using (Html.BeginForm("CreateCijfer", "Admin"))
+    {
+        <div class="ui-widget">
+            <p>Search</p>
+            <label for="automplete-1">Naam: </label>
+            <input type="text" name="automplete" id="automplete-1">
+        </div>
+
+        <p>Sinds aantal uren</p>
+        <input name="uren" type="number" />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    }
+</body>
+</html>
