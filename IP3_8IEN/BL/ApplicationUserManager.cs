@@ -14,7 +14,7 @@ namespace IP3_8IEN.BL
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        private IGebruikerManager _gebruikerMgr;
+        private IGebruikerManager _gebruikerMgr = new GebruikerManager();
 
         public ApplicationUserManager()
             : base(new IdentityRepository())
@@ -59,18 +59,21 @@ namespace IP3_8IEN.BL
             {
 
                 // Aanmaken van de Admin role
-                var role = new IdentityRole();
-                role.Name = "SuperAdmin";
-                roleManager.Create(role);
+                roleManager.Create(new IdentityRole
+                {
+                    Name = "SuperAdmin"
+                });
 
-                // Administrator aanmaken
+        //        // Administrator aanmaken
 
-                var user = new ApplicationUser();
-                user.UserName = "AdminQwerty@mail.com";
-                user.Email = "AdminQwerty@mail.com";
-                user.VoorNaam = "Qwerty";
-                user.AchterNaam = "SuperAdmin";
-                
+                var user = new ApplicationUser
+                {
+                    UserName = "AdminQwerty@mail.com",
+                    Email = "AdminQwerty@mail.com",
+                    VoorNaam = "Qwerty",
+                    AchterNaam = "SuperAdmin"
+                };
+
 
                 string userPWD = "Password";
 
@@ -81,23 +84,25 @@ namespace IP3_8IEN.BL
                 {
                     var result1 = this.AddToRole(user.Id, "SuperAdmin");
                 }
-                _gebruikerMgr.AddGebruiker(user.UserName, user.Id, "Admin", "Qwerty", "SuperAdmin");
+                _gebruikerMgr.AddGebruiker(user.UserName, user.Id, "Admin", "Qwerty",user.Email, "SuperAdmin");
             }
 
             // Manager role aanmaken    
             if (!roleManager.RoleExists("Admin"))
             {
-                var role = new IdentityRole();
-                role.Name = "Admin";
-                roleManager.Create(role);
+                roleManager.Create(new IdentityRole
+                {
+                    Name = "Admin"
+                });
             }
 
             // Emloyee role aanmaken    
             if (!roleManager.RoleExists("User"))
             {
-                var role = new IdentityRole();
-                role.Name = "User";
-                roleManager.Create(role);
+                roleManager.Create(new IdentityRole
+                {
+                    Name = "User"
+                });
             }
         }
 
@@ -121,8 +126,8 @@ namespace IP3_8IEN.BL
             this.AddToRole(user.Id, role);
             return t;
         }
-
-        public void AddApplicationGebruikers(string username, string voornaam, string achternaam, 
+        
+        public void AddApplicationGebruiker(string username, string voornaam, string achternaam, 
             string email, DateTime geboortedatum, string password, string role)
         {
             ApplicationUser gebruiker = new ApplicationUser()
@@ -137,13 +142,13 @@ namespace IP3_8IEN.BL
             CreateUserWithRoleAsync(gebruiker, passw, role);
 
             // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken
-            _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName, role);
+            _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName,gebruiker.Email, role);
         }
 
         ////inladen vanuit json formaat
         public void AddApplicationGebruikers(string filePath)
         {
-            _gebruikerMgr = new GebruikerManager();
+            /*_gebruikerMgr = new GebruikerManager()*/;
 
             //sourceUrl /relatief path
             StreamReader r = new StreamReader(filePath);
@@ -166,7 +171,7 @@ namespace IP3_8IEN.BL
                 CreateUserWithRoleAsync(gebruiker, passw, role);
 
                 // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken
-                _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName, role);
+                _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName, gebruiker.Email, role);
             }
         }
     }

@@ -1,8 +1,10 @@
 ﻿using IP3_8IEN.BL;
 using IP3_8IEN.BL.Domain.Gebruikers;
 using Microsoft.AspNet.Identity;
+using MVC_S.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -64,7 +66,7 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
             //add user to the datacontext (database) and save changes
             _userManager.Update(user);
 
-            return RedirectToAction("index");
+            return RedirectToAction("AdminLijst");
         }
 
         [HttpGet]
@@ -104,27 +106,51 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
         [HttpGet]
         public ActionResult CreateAdmin()
         {
-            return View();
+            //kan ook gewone users aanmaken
+            UserVIewModel model = new UserVIewModel();
+            model.Roles = new List<SelectListItem>();
+            model.Roles.Add(new SelectListItem() { Text = "Admin", Value = "Admin" });
+            model.Roles.Add(new SelectListItem() { Text = "User", Value = "User" });
+
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult CreateAdmin(string id, FormCollection collection)
+        public ActionResult CreateAdmin(UserVIewModel user)
         {
             try
             {
-                ApplicationUser user = _userManager.FindById(id);
-                _userManager.Delete(user);
+                //Als username geven we default het emailadres mee
+                _userManager.AddApplicationGebruiker(user.Email, user.Voornaam, user.Naam,
+                    user.Email, DateTime.Now, user.Passw, user.Role);
 
-                // We gaan de gebruiker (gelinkt met objecten in de Db)
-                //  niet echt deleten maar overschrijven met anonieme data
-                _gebrManager.DeleteUser(id);
-
-                return RedirectToAction("Index");
+                return RedirectToAction("AdminLijst");
             }
             catch
             {
                 return View();
             }
+        }
+
+        [HttpGet]
+        public ActionResult InitializeDb()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult InsertOnderwerpen()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult InsertOnderwerpen(string file)
+        {
+            // voorbeeld : politici.json
+            // initialiseert automatisch personen, organisaties en tewerkstellingen
+            _dataManager.AddPersonen(Path.Combine(HttpRuntime.AppDomainAppPath, file));
+            return View();
         }
 
         public ActionResult SMBeheren()

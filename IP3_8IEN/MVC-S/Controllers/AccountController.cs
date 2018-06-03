@@ -139,7 +139,8 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register() => View();
+        public ActionResult Register()
+            => View();
 
         //
         // POST: /Account/Register
@@ -163,7 +164,7 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     _gebruikerMgr = new GebruikerManager();
-                    _gebruikerMgr.AddGebruiker(user.UserName, user.Id, user.AchterNaam, user.UserName);
+                    _gebruikerMgr.AddGebruiker(user.UserName, user.Id, user.AchterNaam, user.UserName,user.Email);
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -224,12 +225,14 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation() => View();
+        public ActionResult ForgotPasswordConfirmation()
+            => View();
 
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
-        public ActionResult ResetPassword(string code) => code == null ? View("Error") : View();
+        public ActionResult ResetPassword(string code)
+            => code == null ? View("Error") : View();
 
         //
         // POST: /Account/ResetPassword
@@ -260,7 +263,8 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
         //
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation() => View();
+        public ActionResult ResetPasswordConfirmation()
+            => View();
 
         //
         // POST: /Account/ExternalLogin

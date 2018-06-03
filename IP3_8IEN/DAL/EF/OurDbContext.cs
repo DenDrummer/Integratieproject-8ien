@@ -52,6 +52,8 @@ namespace IP3_8IEN.DAL.EF
         public DbSet<GraphData> Graphs { get; set; }
         public DbSet<GraphData2> Graphs2 { get; set; }
 
+        public DbSet<Thema> Themas { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

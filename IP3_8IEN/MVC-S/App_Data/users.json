@@ -1,0 +1,93 @@
+[
+  {
+    "GebruikerId": "0ef285b6-7d4a-44e2-b23f-b86a39510758",
+    "Username": "AdminQwerty@mail.com",
+    "Naam": "Admin",
+    "Voornaam": "Qwerty",
+    "Email": "AdminQwerty@mail.com",
+    "Geboortedatum": null,
+    "Role": "SuperAdmin",
+    "Active": true,
+    "WeeklyReviews": null,
+    "Dashboards": null,
+    "AlertInstellingen": null
+  },
+  {
+    "GebruikerId": "40fb3611-3f33-4d0e-97b5-6db7ac3bdb43",
+    "Username": "thomas.dewitte@student.kdg.be",
+    "Naam": "Dewitte",
+    "Voornaam": "thomas.dewitte@student.kdg.be",
+    "Email": "thomas.dewitte@student.kdg.be",
+    "Geboortedatum": null,
+    "Role": "Admin",
+    "Active": true,
+    "WeeklyReviews": null,
+    "Dashboards": null,
+    "AlertInstellingen": null
+  },
+  {
+    "GebruikerId": "5e10d681-8a67-43a1-b01e-aa0097f6ea39",
+    "Username": "sam.laureys@student.kdg.be",
+    "Naam": "Laureys",
+    "Voornaam": "sam.laureys@student.kdg.be",
+    "Email": "sam.laureys@student.kdg.be",
+    "Geboortedatum": null,
+    "Role": "Admin",
+    "Active": true,
+    "WeeklyReviews": null,
+    "Dashboards": null,
+    "AlertInstellingen": null
+  },
+  {
+    "GebruikerId": "65918c3c-3b95-4662-b4c4-0cf2367fea65",
+    "Username": "stephane.boogaerts@student.kdg.be",
+    "Naam": "Boogaerts",
+    "Voornaam": "stephane.boogaerts@student.kdg.be",
+    "Email": "stephane.boogaerts@student.kdg.be",
+    "Geboortedatum": null,
+    "Role": "Admin",
+    "Active": true,
+    "WeeklyReviews": null,
+    "Dashboards": null,
+    "AlertInstellingen": null
+  },
+  {
+    "GebruikerId": "8a7e1a34-58ff-467b-990c-0e1c00642d71",
+    "Username": "ivaylo.deshev@student.kdg.be",
+    "Naam": "Deshev",
+    "Voornaam": "ivaylo.deshev@student.kdg.be",
+    "Email": "ivaylo.deshev@student.kdg.be",
+    "Geboortedatum": null,
+    "Role": "Admin",
+    "Active": true,
+    "WeeklyReviews": null,
+    "Dashboards": null,
+    "AlertInstellingen": null
+  },
+  {
+    "GebruikerId": "cc46c824-3fb6-4d74-a878-c936877279ab",
+    "Username": "victor.declercq@student.kdg.be",
+    "Naam": "Declercq",
+    "Voornaam": "victor.declercq@student.kdg.be",
+    "Email": "victor.declercq@student.kdg.be",
+    "Geboortedatum": null,
+    "Role": "Admin",
+    "Active": true,
+    "WeeklyReviews": null,
+    "Dashboards": null,
+    "AlertInstellingen": null
+  },
+  {
+    "GebruikerId": "ef4ab9f4-c1aa-429b-9406-354d07358934",
+    "Username": "jorden.laureyssens@student.kdg.be",
+    "Naam": "Laureyssens",
+    "Voornaam": "jorden.laureyssens@student.kdg.be",
+    "Email": "jorden.laureyssens@student.kdg.be",
+    "Geboortedatum": null,
+    "Role": "Admin",
+    "Active": true,
+    "WeeklyReviews": null,
+    "Dashboards": null,
+    "AlertInstellingen": null
+  }
+]

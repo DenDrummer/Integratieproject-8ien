@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "ExportToCSV";
+}
+
+<h2>ExportToCSV</h2>
+
+@using (Html.BeginForm("ExportToCSV", "Admin"))
+{
+
+    <table style="width: 100%;" border="1">
+        <tbody>
+            <tr>
+                <td>Export gebruikers:</td>
+                <td><input id="users" name="checkUsers" value="true" type="checkbox" /> </td>
+            </tr>
+            <tr>
+                <td>Export personen:</td>
+                <td><input id="users" name="checkPersons" value="true" type="checkbox" /> </td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Export" id="ButtonSubmit" /></td>
+            </tr>
+        </tbody>
+    </table>
+}

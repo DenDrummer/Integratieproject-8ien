@@ -10,7 +10,7 @@ namespace IP3_8IEN.UI.MVC_S
         {
             filters.Add(new HandleErrorAttribute());
         }
-        
+
         // Zorgt ervoor dat je niet rechtstreeks een controller kan aanspreken
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
         public class NoDirectAccessAttribute : ActionFilterAttribute
@@ -18,10 +18,9 @@ namespace IP3_8IEN.UI.MVC_S
             public override void OnActionExecuting(ActionExecutingContext filterContext)
             {
                 if (filterContext.HttpContext.Request.UrlReferrer == null ||
-         filterContext.HttpContext.Request.Url.Host != filterContext.HttpContext.Request.UrlReferrer.Host)
+                    filterContext.HttpContext.Request.Url.Host != filterContext.HttpContext.Request.UrlReferrer.Host)
                 {
-                    filterContext.Result = new RedirectToRouteResult(new
-                                              RouteValueDictionary(new { controller = "Home", action = "Index" }));
+                    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "Index" }));
                 }
             }
         }

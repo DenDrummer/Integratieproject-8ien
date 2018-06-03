@@ -24,7 +24,7 @@
                         @foreach (var t in Model)
                         {
                             <tr class="odd gradeX">
-                                <td>@Html.ActionLink(t.ThemaString, "Themas", "Home", new { }, null)</td>
+                                <td>@Html.ActionLink(t.Naam, "Themas", new { id = t.OnderwerpId })</td>
                                 <td>
                                     <ul style="list-style:none;padding-left:0px">
                                         @foreach (string h in t.Hashtags)
@@ -52,6 +52,8 @@
 
     <script>
         $(document).ready(function () {
-            $('#themasTable').DataTable();
+            $('#themasTable').DataTable({
+                'iDisplayLength': 100000
+            });
         });</script>
 }

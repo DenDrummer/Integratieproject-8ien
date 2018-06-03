@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IP3_8IEN.BL.Domain.Gebruikers.ValueFluctuation>
+﻿@model IEnumerable<IP3_8IEN.BL.Domain.Gebruikers.HogerLager>
 
 @{
     ViewBag.Title = "LijstHogerLager";
@@ -12,25 +12,25 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Onderwerp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Onderwerp2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OneHigherThanTwo)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.AlertState)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.NotificationWeb)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.MobileNotification)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Type)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ThresholdValue)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CurrentValue)
+            @Html.DisplayNameFor(model => model.Email)
         </th>
         <th></th>
     </tr>
@@ -38,30 +38,30 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.Onderwerp.Naam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Onderwerp2.Naam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OneHigherThanTwo)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.AlertState)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.NotificationWeb)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.MobileNotification)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Type)
+            @Html.DisplayFor(modelItem => item.Email)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ThresholdValue)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CurrentValue)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AlertInstellingId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AlertInstellingId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AlertInstellingId })
+            @Html.ActionLink("Edit", "Edit", new { id = item.AlertInstellingId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.AlertInstellingId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.AlertInstellingId })
         </td>
     </tr>
 }

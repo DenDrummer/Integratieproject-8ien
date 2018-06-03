@@ -2,7 +2,8 @@
 using Microsoft.Owin;
 
 using IP3_8IEN.BL;
-using IP3_8IEN.UI.MVC_S.SignIn;
+using IP3_8IEN.BL.Domain.Gebruikers;
+using IP3_8IEN.MVC_S.SignIn;
 
 namespace IP3_8IEN.UI.MVC_S
 {
@@ -21,7 +22,7 @@ namespace IP3_8IEN.UI.MVC_S
             {
                 manager.UserTokenProvider =
                     //new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
-                    new DataProtectorTokenProvider<IP3_8IEN.BL.Domain.Gebruikers.ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
 
             return manager;

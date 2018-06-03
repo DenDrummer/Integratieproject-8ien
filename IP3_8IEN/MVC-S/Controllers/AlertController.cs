@@ -84,21 +84,21 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
         public ActionResult ListPositiefNegatief()
         {
             List<PositiefNegatief> pns = mgr.GetPositiefNegatiefsByUser();
-            return View(pns);
+            return PartialView(pns);
         }
 
         //Lijst met HogerLagers alertinstellingen
         public ActionResult ListHogerLager()
         {
             List<HogerLager> hls = mgr.GetHogerLagersByUser();
-            return View(hls);
+            return PartialView(hls);
         }
 
         //Lijst met PositiefNegatiefs alertinstellingen
         public ActionResult ListValueFluctuations()
         {
             List<ValueFluctuation> vfs = mgr.GetValueFluctuationsByUser();
-            return View(vfs);
+            return PartialView(vfs);
         }
     }
 }
