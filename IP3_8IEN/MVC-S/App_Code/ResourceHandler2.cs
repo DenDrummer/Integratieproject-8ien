@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Resources;
 
 namespace IP3_8IEN.UI.MVC_S.App_Code
 {
@@ -98,7 +99,7 @@ namespace IP3_8IEN.UI.MVC_S.App_Code
 
         public void WriteStrings(List<KeyValuePair<string, string>> kvpList)
         {
-            string path = ConverToPath(CurrentResource);
+            string path = ConvertToPath(CurrentResource);
             using (ResXResourceWriter rw = new ResXResourceWriter)
             {
                 #region write new entries
@@ -150,7 +151,7 @@ namespace IP3_8IEN.UI.MVC_S.App_Code
             }
             catch (FileNotFoundException fnfe)
             {
-                using (System.Resources.ResourceSet rs = new ResXResourceSet(ConvertToPath(DefaultResource)))
+                using (ResXResourceSet rs = new ResXResourceSet(ConvertToPath(DefaultResource)))
                 {
                     return rs.GetString(key);
                 }
