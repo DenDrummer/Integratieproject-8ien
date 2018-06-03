@@ -113,6 +113,16 @@ namespace IP3_8IEN.DAL
             .Include("TileZones.DashItem.Follows.Onderwerp")
             .FirstOrDefault(u => u.User.GebruikerId == user.GebruikerId);
 
+        public Dashbord ReadDashbordWithFollows(int dashId)
+           => ctx.Dashbords
+            .Include("User")
+           .Include("TileZones")
+           .Include("TileZones.DashItem")
+           .Include("TileZones.DashItem.Graphdata")
+           .Include("TileZones.DashItem.Follows")
+           .Include("TileZones.DashItem.Follows.Onderwerp")
+           .FirstOrDefault(d => d.DashbordId == dashId);
+
         public DashItem ReadDashItemWithGraph(int id)
         {
             return ctx.DashItems.Include("Graphdata").FirstOrDefault(d => d.DashItemId == id);

@@ -19,6 +19,7 @@ using System;
 using System.Web.Hosting;
 using System.Web.Security;
 using System.Collections.ObjectModel;
+using IP_8IEN.BL.Domain.Dashboard;
 
 namespace MVC_S.Controllers
 {   /*[RequireHttps]*/
@@ -296,8 +297,36 @@ namespace MVC_S.Controllers
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
             int[] init = { 0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
             //ViewData["init"] = init;
-            ViewBag.INIT = init;
-            return View();
+
+
+            List<GraphData> data = dMgr.GetTweetsPerDag(persoon, 20);
+            ViewBag.DATA = data;
+           
+            
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            
+            Dashbord dash;
+                if (currUser != null){
+                string userName = currUser.UserName;
+                Gebruiker user = gMgr.FindUser(userName);
+                dash = dashMgr.GetDashboardWithFollows(user);
+            }
+            else
+            {
+                //not jet ready
+                //have to add defaultdash
+                string userName = "sam.laureys@student.kdg.be";
+                Gebruiker user = gMgr.FindUser(userName);
+                dash = dashMgr.GetDashboardWithFollows(user);
+            }
+            
+            
+            ViewBag.INIT = dash.ZonesOrder;
+            dashMgr.GetDashItems().Where(d => d.AdminGraph == true);
+            ViewBag.AANTAL = dashMgr.GetDashItems().Where(d => d.AdminGraph == true).Count();
+            //GraphDataViewModel model = new GraphDataViewModel { dash = dash,
+            //};
+            return View(dash);
         }
 
         public ActionResult GetData(int id)
@@ -371,7 +400,7 @@ namespace MVC_S.Controllers
         public ActionResult GetJsonFromGraphData(int id)
         {
             //IEnumerable<GraphData> list2 = dashMgr.GetDashItemWithGraph(id).Graphdata;
-            List<GraphData> list = dashMgr.ExtractGraphList(id);
+            List<DataChart> list = dashMgr.ExtractGraphList(id);
             var json = Json(list, JsonRequestBehavior.AllowGet);
             return json;
         }
@@ -380,9 +409,15 @@ namespace MVC_S.Controllers
         {
             Persoon persoon = dMgr.GetPersoon(persoonId);
             //test debug//
-            List<GraphData> lijst = dMgr.GetTweetsPerDag(persoon, aantaldagen);
+            List<DataChart> lijst = dMgr.GetTweetsPerDagDataChart(persoon, aantaldagen);
             //////////////
-            return Json(dMgr.GetTweetsPerDag(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
+            return Json(dMgr.GetTweetsPerDagDataChart(persoon, aantaldagen), JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult SaveTilezonesOrder(int dashId, string zonesorder)
+        {
+            dashMgr.updateTilezonesOrder(dashId, zonesorder);
+            return RedirectToAction("Grafiektest2");
         }
 
         [HttpPost]
