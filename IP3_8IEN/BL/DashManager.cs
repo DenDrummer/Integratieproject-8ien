@@ -3,6 +3,8 @@ using IP3_8IEN.BL.Domain.Dashboard;
 using IP3_8IEN.BL.Domain.Data;
 using IP3_8IEN.BL.Domain.Gebruikers;
 using IP3_8IEN.DAL;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -153,7 +155,7 @@ namespace IP3_8IEN.BL
             follow.DashItem.TileZones.Add(tile);
             repo.UpdateFollow(follow);
             //repo.UpdateDashItem(dashItem);
-
+            AddOneZonesOrder(dashbord);
             uowManager.Save();
             UoW = true;
             repo.SetUnitofWork(UoW);
@@ -403,7 +405,37 @@ namespace IP3_8IEN.BL
             dashbord.ZonesOrder = stringBuilder.ToString();
             repo.UpdateDashboard(dashbord);
         }
-    public Dashbord DashbordInitGraphs(int dashId)
+
+        public void AddOneZonesOrder(Dashbord dashbord)
+        {
+            InitNonExistingRepo();
+            string zones = dashbord.ZonesOrder;
+            JArray orde = JArray.Parse(zones);
+            int volgendeZone = orde.Count();
+            orde.Add(volgendeZone);
+            zones = JsonConvert.SerializeObject(orde);
+            dashbord.ZonesOrder = zones;
+            repo.UpdateDashboard(dashbord);
+        }
+        public void DeleteOneZonesOrder(Dashbord dashbord)
+        {
+            InitNonExistingRepo();
+            string zones = dashbord.ZonesOrder;
+            JArray orde = JArray.Parse(zones);
+            int verwijder = orde.Count()-1;
+            LinkedList<int> result = new LinkedList<int>();
+            foreach (int item in orde)
+            {
+                if (item != verwijder)
+                {
+                    result.AddLast(item);
+                }
+            }
+            zones = JsonConvert.SerializeObject(result);
+            dashbord.ZonesOrder = zones;
+            repo.UpdateDashboard(dashbord);
+        }
+        public Dashbord DashbordInitGraphs(int dashId)
         {
             InitNonExistingRepo();
 
@@ -448,6 +480,7 @@ namespace IP3_8IEN.BL
             DashItem dashItem = repo.ReadDashItem(id);
             dashItem.Active = false;
             UpdateDashItem(dashItem);
+            
         }
 
 

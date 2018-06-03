@@ -54,7 +54,9 @@
     <div class="col-lg-6 sortable">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Chart Example#:data#
+                <div id="heading#:data#">
+                    
+                </div>
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -99,21 +101,26 @@
             });
 
 </script>
+@{
+    var i = 1;
+    foreach (var t in Model.TileZones)
+    {
+        if (t.DashItem.Active == true || t.DashItem.AdminGraph == true) { 
 
-@foreach (var t in Model.TileZones)
-{
-    //var list = t.DashItem.Graphdata;
-    int dashItemId = t.DashItem.DashItemId;
-    string elementId = "chart" + dashItemId;
-    //int kl = 170;
-    <script type="text/javascript">
+        //var list = t.DashItem.Graphdata;
+        int dashItemId = t.DashItem.DashItemId;
+        string elementId = "chart" + i;
+        i++;
+        //int kl = 170;
+        <script type="text/javascript">
      @*console.log("json string hopefully: " + JSON.stringify(@list1));*@
      @*console.log("json string hopefully: "+@dashItemId);*@
+
     custChart(@dashItemId, @elementId);
-    </script>
-
+        </script>
+        }
+    }
 }
-
 <div class="container">
     @*    <i class="glyphicon glyphicon-plus glyphicon-center" data-toggle="modal" data-target="#myModal"*@
     @*       style="font-size: 150px">*@

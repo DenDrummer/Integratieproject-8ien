@@ -462,10 +462,32 @@ namespace MVC_S.Controllers
             Follow follow = dashMgr.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
             DashItem dashItem = dashMgr.SetupDashItem(user, follow);
             dashMgr.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+            
 
             return RedirectToAction("Grafiektest2");
 
             
+        }
+        [HttpGet]
+        public ActionResult DeleteGrafiek(int id)
+        {
+            DashItem dashItem = dashMgr.GetDashItems().FirstOrDefault(d => d.DashItemId == id);
+
+            return View(dashItem);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteGrafiek(int id, FormCollection collection)
+        {
+            try
+            {
+                dashMgr.RemoveDashItem(id);
+                return RedirectToAction("Grafiek");
+            }
+            catch
+            {
+                return View();
+            }
         }
     }
 }
