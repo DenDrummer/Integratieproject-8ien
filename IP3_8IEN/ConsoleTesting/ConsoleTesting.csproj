@@ -69,10 +69,6 @@
       <Project>{e5f889d8-a669-4243-a322-fb55ce438c04}</Project>
       <Name>Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MVC-S\MVC-S.csproj">
-      <Project>{34467944-921B-4B2C-81A6-C0828472AE2E}</Project>
-      <Name>MVC-S</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
