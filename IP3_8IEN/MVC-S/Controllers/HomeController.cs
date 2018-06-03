@@ -85,7 +85,52 @@ namespace MVC_S.Controllers
             return View();
         }
 
-        public ActionResult Dashboard() => View();
+        public ActionResult Dashboard()
+        {
+            IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
+            List<string> names = ObjList.Select(p => p.Naam).ToList();
+            ViewData["names"] = names;
+
+            Persoon persoon = dMgr.GetPersoon(170);
+            int aantalTweets = dMgr.GetNumber(persoon);
+            //int aantalTweets = 69;
+            ViewBag.NUMMER1 = aantalTweets;
+            ViewBag.naam1 = persoon.Naam;
+            //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
+            int[] init = { 0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
+            //ViewData["init"] = init;
+
+
+            List<GraphData> data = dMgr.GetTweetsPerDag(persoon, 20);
+            ViewBag.DATA = data;
+
+
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+            Dashbord dash;
+            if (currUser != null)
+            {
+                string userName = currUser.UserName;
+                Gebruiker user = gMgr.FindUser(userName);
+                dash = dashMgr.GetDashboardWithFollows(user);
+            }
+            else
+            {
+                //not jet ready
+                //have to add defaultdash
+                string userName = "sam.laureys@student.kdg.be";
+                Gebruiker user = gMgr.FindUser(userName);
+                dash = dashMgr.GetDashboardWithFollows(user);
+            }
+
+
+            ViewBag.INIT = dash.ZonesOrder;
+            dashMgr.GetDashItems().Where(d => d.AdminGraph == true);
+            ViewBag.AANTAL = dashMgr.GetDashItems().Where(d => d.AdminGraph == true).Count();
+            //GraphDataViewModel model = new GraphDataViewModel { dash = dash,
+            //};
+            return View(dash);
+        }
 
         //Get:
         [HttpPost]
@@ -409,7 +454,7 @@ namespace MVC_S.Controllers
         public ActionResult SaveTilezonesOrder(int dashId, string zonesorder)
         {
             dashMgr.updateTilezonesOrder(dashId, zonesorder);
-            return RedirectToAction("Grafiektest2");
+            return RedirectToAction("Dashboard");
         }
 
         [HttpPost]
@@ -429,7 +474,7 @@ namespace MVC_S.Controllers
             dashMgr.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
             
 
-            return RedirectToAction("Grafiektest2");
+            return RedirectToAction("Dashboard");
 
             
         }
@@ -464,7 +509,7 @@ namespace MVC_S.Controllers
                     //default redirect to inlog or alert to log in
                 }
                 
-                return RedirectToAction("Grafiek");
+                return RedirectToAction("Dashboard");
             }
             catch
             {
