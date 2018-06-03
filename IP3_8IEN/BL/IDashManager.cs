@@ -37,6 +37,8 @@ namespace IP3_8IEN.BL
         //Sam 
         List<DataChart> ExtractGraphList(int id);
         void updateTilezonesOrder(int dashId, string zonesOrder);
+        void AddOneZonesOrder(Dashbord dashbord);
+        void DeleteOneZonesOrder(Dashbord dashbord);
 
         //23 mei 2018 : Stephane
         List<Follow> CreateFollow(int dashId, List<int> listPersoonId);
