@@ -46,9 +46,9 @@ namespace IP3_8IEN.BL
         void RemoveDashItem(int id);
 
         //Sam 
-        DashItem GetDashItemWithGraph(int id);
-        List<GraphData> ExtractGraphList(int id);
-        void updateTilezonesOrderDashboard(int dashId, string zonesOrder);
+        //DashItem GetDashItemWithGraph(int id);
+        //List<GraphData> ExtractGraphList(int id);
+        //void updateTilezonesOrderDashboard(int dashId, string zonesOrder);
         Dashbord GetDefaultDashboard();
         Dashbord AddDefaultDashBord();
     }

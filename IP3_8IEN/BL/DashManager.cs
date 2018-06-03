@@ -506,7 +506,12 @@ namespace IP3_8IEN.BL
             UpdateDashItem(dashItem);
             
         }
-
+public Dashbord GetDefaultDashboard()
+        {
+            InitNonExistingRepo();
+            Dashbord dashbord = repo.ReadDefaultDashbord();
+            return dashbord;
+        }
 
         //Unit of Work related
         public void InitNonExistingRepo(bool withUnitOfWork = false)
@@ -545,25 +550,9 @@ namespace IP3_8IEN.BL
             }
         }
         //sam
-        public Dashbord GetDefaultDashboard()
-        {
-            initNonExistingRepo();
-            Dashbord dashbord = repo.ReadDefaultDashbord();
-            return dashbord;
-        }
+        
         //sam
-        public string SetTilezonesOrder()
-        {
-            int aantalZones = GetDashItems().Where(d => d.AdminGraph == true).Count();
-            StringBuilder stringBuilder = new StringBuilder("[0");
-            for (var i = 1;i <= aantalZones; i++)
-            {
-                stringBuilder.Append("," + i);
-            }
-            stringBuilder.Append("]");
-            string zonesOrder = stringBuilder.ToString();
-            return zonesOrder;
-        }
+        
         //sam
         //public string UpdateTileZonesOrder(Dashbord dashbord)
         //{
