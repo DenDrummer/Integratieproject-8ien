@@ -50,6 +50,7 @@ namespace IP3_8IEN.DAL
         public IEnumerable<Persoon> ReadPersonen() => ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie").ToList();
 
         public IEnumerable<Hashtag> ReadHashtags() => ctx.Hashtags;
+        public IEnumerable<Hashtag> ReadHashtagsWithSubjMsgs() => ctx.Hashtags.Include("SubjectMessages");
 
         public IEnumerable<Onderwerp> ReadSubjects() => ctx.Onderwerpen;
 
@@ -149,6 +150,10 @@ namespace IP3_8IEN.DAL
         {
             ctx.Entry(theme).State = EntityState.Modified;
             ctx.SaveChanges();
+        }
+        public Thema ReadThemas(int id)
+        {
+            return ctx.Themas.Find(id);
         }
     }
 }

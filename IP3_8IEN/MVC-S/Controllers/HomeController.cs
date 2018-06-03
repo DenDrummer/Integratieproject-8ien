@@ -171,10 +171,10 @@ namespace MVC_S.Controllers
                 Gebruiker user = gMgr.FindUser(userName);
 
                 Dashbord dashbord = dashMgr.GetDashboardWithFollows(user);
-                dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem minstens 3h up-to-date is
+                dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem up-to-date is
 
                 return View(dashbord);
-            }
+        }
             catch
             {
                 return View();

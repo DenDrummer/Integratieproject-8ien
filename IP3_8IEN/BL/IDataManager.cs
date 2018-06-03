@@ -55,7 +55,7 @@ namespace IP3_8IEN.BL
 
         #region (Subject)Messages
         IEnumerable<Message> ReadMessagesWithSubjMsgs();
-        void AddSubjectMessage(Message msg, Hashtag hashtag);
+        //void AddSubjectMessage(Message msg, Hashtag hashtag);
         SubjectMessage AddSubjectMessage(Message msg, Persoon persoon);
         //void AddMessages(string sourceUrl);
         #endregion
@@ -71,9 +71,14 @@ namespace IP3_8IEN.BL
         IEnumerable<Thema> GetThemas();
         void UpdateThema(Thema thema);
         List<GraphData> GetTweetsPerDag(Organisatie organisatie, int aantalDagenTerug);
+        List<GraphData> GetTweetsPerDag(Thema organisatie, int aantalDagenTerug);
         List<GraphData> GetNumberGraph(Persoon persoon, int laatsteAantalUren);
         List<GraphData> GetNumberGraph(Organisatie organisatie, int laatsteAantalUren);
-
+        List<GraphData> GetNumberGraph(Thema thema, int laatsteAantalUren);
+        Thema GetThema(int id);
+        List<GraphData> GetTweetsPerDagList(Organisatie organisatie, int aantalDagenTerug);
+        List<GraphData> GetTweetsPerDagList(Thema thema, int aantalDagenTerug);
+        SubjectMessage AddSubjectMessage(Message msg, Hashtag hashtag);
 
         #region Unsorted
         int GetMentionCountByName(string naam);
