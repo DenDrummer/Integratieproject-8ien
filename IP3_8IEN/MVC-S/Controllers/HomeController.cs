@@ -486,7 +486,7 @@ namespace MVC_S.Controllers
         //    return View(dashItem);
         //}
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult DeleteGrafiek(int id)
         {
             try
