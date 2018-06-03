@@ -934,11 +934,47 @@ namespace IP3_8IEN.BL
 
             List<GraphData> GraphDataList = new List<GraphData>();
 
-            IEnumerable<SubjectMessage> subjMsgs = persoon.SubjectMessages.Where(s => s.Msg.Date > lastTweet.AddHours(laatsteAantalUren * -1)).ToList();
-            //////////////////////////////////////////////////////////////////////////
-            foreach (SubjectMessage s in subjMsgs)
+            if(persoon.SubjectMessages != null)
             {
-                count++;
+                IEnumerable<SubjectMessage> subjMsgs = persoon.SubjectMessages.Where(s => s.Msg.Date > lastTweet.AddHours(laatsteAantalUren * -1)).ToList();
+                //////////////////////////////////////////////////////////////////////////
+                foreach (SubjectMessage s in subjMsgs)
+                {
+                    count++;
+                }
+                GraphData graph = new GraphData(lastTweet.ToString(), count);
+                dashMgr.AddGraph(graph);
+
+                GraphDataList.Add(graph);
+
+                lastTweet = lastTweet.AddDays(-1);
+                uowManager.Save();
+            }
+
+            return GraphDataList;
+        }
+
+        public List<GraphData> GetNumberGraph(Organisatie organisatie, int laatsteAantalUren = 0)
+        {
+            InitNonExistingRepo(true);
+            dashMgr = new DashManager();
+            List<Message> messages = repo.ReadMessages(true).ToList();
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            int count = 0;
+
+            List<GraphData> GraphDataList = new List<GraphData>();
+
+            IEnumerable<Persoon> personen = repo.ReadPersonenWithTewerkstelling();
+            //////////////////////////////////////////////////////////////////////////
+            foreach (Persoon p in personen)
+            {
+                foreach (Tewerkstelling t in p.Tewerkstellingen)
+                {
+                    if (t.Organisatie.Naam == organisatie.Naam)
+                    {
+                        count += p.SubjectMessages.Where(s => s.Msg.Date > lastTweet.AddHours(laatsteAantalUren * -1)).Count();
+                    }
+                }
             }
             GraphData graph = new GraphData(lastTweet.ToString(), count);
             dashMgr.AddGraph(graph);

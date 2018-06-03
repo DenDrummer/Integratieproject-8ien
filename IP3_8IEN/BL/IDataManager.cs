@@ -71,6 +71,7 @@ namespace IP3_8IEN.BL
         void UpdateThema(Thema thema);
         List<GraphData> GetTweetsPerDag(Organisatie organisatie, int aantalDagenTerug);
         List<GraphData> GetNumberGraph(Persoon persoon, int laatsteAantalUren);
+        List<GraphData> GetNumberGraph(Organisatie organisatie, int laatsteAantalUren);
 
 
         #region Unsorted

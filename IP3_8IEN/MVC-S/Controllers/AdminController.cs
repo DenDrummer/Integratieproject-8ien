@@ -154,7 +154,7 @@ namespace MVC_S.Controllers
         public ActionResult Grafiek()
         {
             // enkel grafieken aangemaakt in de AdminController opvragen
-            //TODO: implementatie Details, Edit, Delete
+            //TODO: implementatie Edit
             IEnumerable<DashItem> dashItems = _dashManager.GetDashItems().Where(d => d.AdminGraph == true);
 
             return View(dashItems);
@@ -209,8 +209,6 @@ namespace MVC_S.Controllers
         public ActionResult CreateGrafiekLine(string automplete)
         {
             string naam = automplete;
-
-            //Persoon p = _dataManager.GetPersoon(naam);
 
             ViewBag.naam = automplete;
 
@@ -276,6 +274,7 @@ namespace MVC_S.Controllers
         [HttpGet]
         public ActionResult CreateRanking()
         {
+            //Deze wordt ook voor Donut gebruikt
             RankViewModel rankModel = TempData["rankModel"] as RankViewModel;
 
             string naam = rankModel.Naam;
@@ -302,48 +301,16 @@ namespace MVC_S.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateDonutInput()
-        {
-            IEnumerable<Persoon> ObjList = _dataManager.GetPersonen().ToList();
-            List<string> names = ObjList.Select(p => p.Naam).ToList();
-            ViewData["names"] = names;
-            return View();
-        }
-
-
-        [HttpPost]
-        public ActionResult CreateGrafiekDonut(string automplete)
-        {
-            // Deze wordt misschien niet gebruikt --> Ranking wordt vertaald naar donut
-            string naam = automplete;
-            Persoon p = _dataManager.GetPersoon(naam);
-
-            ViewBag.naam = automplete;
-
-            //Zie dat je bent ingelogd
-            ApplicationUser currUser = _userManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            string userName = currUser.UserName;
-            Gebruiker user = _gebrManager.FindUser(userName);
-
-            int nDagen = 10; // <-- voorlopig default
-
-            // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-            List<GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen);
-            DashItem newDashItem = _dashManager.CreateDashitem(true, "Donut", naam);
-            Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
-            DashItem dashItem = _dashManager.SetupDashItem(user, follow);
-            _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
-            // ================================================================================ //
-
-            Dashbord dash = _dashManager.GetDashboardWithFollows(user);
-            return View();
-        }
-
-        [HttpGet]
         public ActionResult CreateCijferInput()
         {
             IEnumerable<Persoon> ObjList = _dataManager.GetPersonen().ToList();
+            IEnumerable<Organisatie> ObjList2 = _dataManager.GetOrganisaties().ToList();
             List<string> names = ObjList.Select(p => p.Naam).ToList();
+            //Organisaties toevoegen aan autocompleet
+            foreach (Organisatie org in ObjList2)
+            {
+                names.Add(org.Naam);
+            }
             ViewData["names"] = names;
             return View();
         }
@@ -352,7 +319,7 @@ namespace MVC_S.Controllers
         public ActionResult CreateCijfer(string automplete, int uren)
         {
             string naam = automplete;
-            Persoon p = _dataManager.GetPersoon(naam);
+            //Persoon p = _dataManager.GetPersoon(naam);
 
             ViewBag.naam = automplete;
 
@@ -361,13 +328,27 @@ namespace MVC_S.Controllers
             string userName = currUser.UserName;
             Gebruiker user = _gebrManager.FindUser(userName);
 
-            // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-            List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetNumberGraph(p, uren);
-            IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
-            IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
-            IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
-            _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
-            // ================================================================================ //
+            try
+            {
+                Persoon p = _dataManager.GetPersoon(naam);
+                // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetNumberGraph(p, uren);
+                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
+                IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
+                IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+                _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+                // ================================================================================ //
+            } catch
+            {
+                Organisatie o = _dataManager.GetOrganisaties().FirstOrDefault(org => org.Naam == naam);
+                // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetNumberGraph(o, uren);
+                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
+                IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, o.OnderwerpId);
+                IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+                _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+                // ================================================================================ //
+            }
 
             Dashbord dash = _dashManager.GetDashboardWithFollows(user);
             return View();
