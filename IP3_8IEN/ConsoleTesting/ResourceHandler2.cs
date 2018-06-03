@@ -10,7 +10,7 @@ namespace IP3_8IEN.UI.ConsoleTesting
         public static ResourceHandler2 Instance { get; } = new ResourceHandler2();
 
         //folder
-        private string ResourceFolder = @"..\..\Resources";
+        private readonly string ResourceFolder = @"..\..\Resources";
         //deelplatform
         private string CurrentResource;
         private readonly string DefaultResource = "Resources";
@@ -32,15 +32,12 @@ namespace IP3_8IEN.UI.ConsoleTesting
         public void WriteString(string key, string value)
         {
             string path = ConvertToPath(CurrentResource);
-            #region read existing entries
             List<DictionaryEntry> entries = ReadExistingEntries();
-            #endregion
 
             using (ResXResourceWriter rw = new ResXResourceWriter(path))
             {
-                #region write new entry
+                //write new entry
                 rw.AddResource(key, value);
-                #endregion
 
                 #region write existing entries if they're not overwritten
                 foreach (DictionaryEntry de in entries)
@@ -68,7 +65,7 @@ namespace IP3_8IEN.UI.ConsoleTesting
                     }
                 }
             }
-            catch(FileNotFoundException fnfe)
+            catch (FileNotFoundException fnfe)
             {
 
             }
@@ -149,7 +146,10 @@ namespace IP3_8IEN.UI.ConsoleTesting
             }
         }
 
-        public string GetCurrentResource() => CurrentResource;
+        public string GetCurrentResource()
+        {
+            return CurrentResource;
+        }
 
         public void Initialize()
         {
