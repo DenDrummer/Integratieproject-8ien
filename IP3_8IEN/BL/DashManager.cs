@@ -347,7 +347,7 @@ namespace IP3_8IEN.BL
             initNonExistingRepo();
 
             //enkel 'DashItems' die niet zijn verwijderd teruggeven
-            IEnumerable<DashItem> dashItems = repo.ReadDashItems().Where(d => d.Active == true);
+            IEnumerable<DashItem> dashItems = repo.ReadDashItems().Where(d => d.Active == true).ToList();
             return dashItems;
         }
 
@@ -525,7 +525,7 @@ namespace IP3_8IEN.BL
         {
             int aantalZones = GetDashItems().Where(d => d.AdminGraph == true).Count();
             StringBuilder stringBuilder = new StringBuilder("[0");
-            for (var i = 1;i >= aantalZones; i++)
+            for (var i = 1;i <= aantalZones; i++)
             {
                 stringBuilder.Append("," + i);
             }
