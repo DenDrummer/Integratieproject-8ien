@@ -55,7 +55,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div id="heading#:data#">
-                    
+
                 </div>
             </div>
             <!-- /.panel-heading -->
@@ -105,22 +105,26 @@
     var i = 1;
     foreach (var t in Model.TileZones)
     {
-        if (t.DashItem.Active == true || t.DashItem.AdminGraph == true) { 
+        if (t.DashItem.Active == true || t.DashItem.AdminGraph == true)
+        {
 
-        //var list = t.DashItem.Graphdata;
-        int dashItemId = t.DashItem.DashItemId;
-        string elementId = "chart" + i;
-        i++;
-        //int kl = 170;
-        <script type="text/javascript">
+            //var list = t.DashItem.Graphdata;
+            int dashItemId = t.DashItem.DashItemId;
+            string elementId = "chart" + i;
+            string titelId = "heading" + i;
+            string naam = t.DashItem.Naam;
+            i++;
+            //int kl = 170;
+            <script type="text/javascript">
      @*console.log("json string hopefully: " + JSON.stringify(@list1));*@
-     @*console.log("json string hopefully: "+@dashItemId);*@
-
+                @*console.log("json string hopefully: "+@dashItemId);*@
+                $("#@titelId").html('@naam <div style="float:right">@Html.ActionLink("Delete", "DeleteGrafiek", "Home", new { id = dashItemId }, new { onclick = "return confirm('Are you sure you wish to delete this article?');" })</div>');
     custChart(@dashItemId, @elementId);
-        </script>
+            </script>
         }
     }
 }
+
 <div class="container">
     @*    <i class="glyphicon glyphicon-plus glyphicon-center" data-toggle="modal" data-target="#myModal"*@
     @*       style="font-size: 150px">*@

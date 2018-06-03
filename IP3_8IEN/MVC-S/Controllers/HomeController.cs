@@ -415,14 +415,6 @@ namespace MVC_S.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        //public ActionResult Grafiektest3()
-        //{
-        //    ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-        //    string userName = currUser.UserName;
-        //    Gebruiker user = gMgr.FindUser(userName);
-        //    Dashbord dash = dashMgr.GetDashboardWithFollows(user);
-        //    return View(dash);
-        //}
 
         public ActionResult GetJsonFromGraphData(int id)
         {
@@ -468,20 +460,37 @@ namespace MVC_S.Controllers
 
             
         }
-        [HttpGet]
-        public ActionResult DeleteGrafiek(int id)
-        {
-            DashItem dashItem = dashMgr.GetDashItems().FirstOrDefault(d => d.DashItemId == id);
+        //[HttpGet]
+        //public ActionResult DeleteGrafiek(int id)
+        //{
+        //    DashItem dashItem = dashMgr.GetDashItems().FirstOrDefault(d => d.DashItemId == id);
 
-            return View(dashItem);
-        }
+        //    return View(dashItem);
+        //}
 
         [HttpPost]
-        public ActionResult DeleteGrafiek(int id, FormCollection collection)
+        public ActionResult DeleteGrafiek(int id)
         {
             try
             {
-                dashMgr.RemoveDashItem(id);
+                ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+                Dashbord dash;
+                if (currUser != null)
+                {
+                    string userName = currUser.UserName;
+                    Gebruiker user = gMgr.FindUser(userName);
+                    dash = dashMgr.GetDashboardWithFollows(user);
+                    dashMgr.DeleteOneZonesOrder(dash);
+                    dashMgr.RemoveDashItem(id);
+                }
+                else
+                {
+                    //not jet ready
+                    //have to add defaultdash
+                    //default redirect to inlog or alert to log in
+                }
+                
                 return RedirectToAction("Grafiek");
             }
             catch
