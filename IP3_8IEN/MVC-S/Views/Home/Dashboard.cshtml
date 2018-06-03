@@ -28,25 +28,223 @@
         $('.inlinebar').sparkline('html', { type: 'bar', barColor: 'red' });
     });
 </script>
-<p>
-    Inline Sparkline: <span class="inlinesparkline">1,4,4,7,5,9,10</span>.
-</p>
-<p>
-    Sparkline with dynamic data: <span class="dynamicsparkline">Loading..</span>
-</p>
-<p>
-    Bar chart with dynamic data: <span class="dynamicbar">Loading..</span>
-</p>
-<p>
-    Bar chart with inline data: <span class="inlinebar">1,3,4,5,3,5</span>
-</p>
+<div class="row" style="padding-bottom:20px;">
+    <div class="col-lg-12">
+        <div class="col-lg-10">
+            <h2 style="margin-left:40px; margin-top:25px; color:#00295C">Dashboard</h2>
+        </div>
+        <div class="col-lg-2">
+            <div class="container">
+
+                <button class="btn btn-default" data-toggle="modal" data-target="#myModal" style="margin-top:25px; margin-left:30px; border:2px dotted #00295C">
+                    <i class="far fa-plus-square" style="color:#00295C; font-size:24px; padding-top:5px"></i> <b>Nieuwe Grafiek</b>
+                </button>
+                <div class="modal fade" id="myModal" role="dialog">
+
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h2>New</h2>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-md">
+                                    <div class="row">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Type </h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select id="type" name="types">
+                                                    <option value="" class="default" selected>(select type)</option>
+                                                    <option name="type" value="number">Number</option>
+                                                    <option name="type" value="bar">Bar chart</option>
+                                                    <option name="type" value="donut">Donut chart</option>
+                                                    <option name="type" value="line">Line chart</option>
+                                                    <option name="type" value="area">Area chart</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="grafiekTypeInfo" class="row" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Wat wil je afbeelden</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select class="grafiekTypeInfo" name="grafiekTypes">
+                                                    <option value="" class="default" selected>(select type)</option>
+                                                    <option name="grafiekType" value="GetTweetsPerDag">Aantal tweets per dag</option>
+                                                    <option name="grafiekType" value="GetRanking">Trending politiekers</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row personenVergelijken" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Aantal te vergelijken personen</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select id="aantal" name="aantal">
+                                                    <option name="aantal" value="1">1</option>
+                                                    <option name="aantal" value="2">2</option>
+                                                    <option name="aantal" value="3">3</option>
+                                                    <option name="aantal" value="4">4</option>
+                                                    <option name="aantal" value="5">5</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row naamVeld" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Kies een politicus</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                @{
+                                        Html.RenderPartial("Zoeken");
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row naamVeld" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Kies een politicus</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                @{
+                                        Html.RenderPartial("Zoeken");
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row naamVeld" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Kies een politicus</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                @{
+                                        Html.RenderPartial("Zoeken");
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row naamVeld" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Kies een politicus</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                @{
+                                        Html.RenderPartial("Zoeken");
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row naamVeld" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Kies een politicus</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                @{
+                                        Html.RenderPartial("Zoeken");
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
 
 
-<button type="button" id="button">load</button>
-<div id="newChart"></div>
+
+
+                                    <div class="row dagenTerug" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Aantal dagen terug</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select id="aantalDagenTerug" name="types">
+                                                    <option name="type" value="15">15</option>
+                                                    <option name="type" value="30">30</option>
+                                                    <option name="type" value="45">45</option>
+                                                    <option name="type" value="60">60</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row aantalPolitici" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Aantal top politici</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" name="automplete" id="aantalPolitici">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row urenTerug" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Aantal uren terug</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" name="automplete" id="urenTerug">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary btn-md" id="aanmakenBtn">Aanmaken</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-bottom:20px;">
+    <div class="col-lg-12">
+        <div class="col-lg-3" style="border:2px solid #00295C; border-radius:5px; height:100px; margin-left:55px; margin-right:68.33px; width:20%">
+            <p>
+                Inline Sparkline: <span class="inlinesparkline">1,4,4,7,5,9,10</span>.
+            </p>
+        </div>
+        <div class="col-lg-3" style="border:2px solid #00295C; border-radius:5px; height:100px; margin-right:68.33px; width:20%">
+            <p>
+                Sparkline with dynamic data: <span class="dynamicsparkline">Loading..</span>
+            </p>
+        </div>
+        <div class="col-lg-3" style="border:2px solid #00295C; border-radius:5px; height:100px; margin-right:68.33px; width:20%">
+            <p>
+                Bar chart with dynamic data: <span class="dynamicbar">Loading..</span>
+            </p>
+        </div>
+        <div class="col-lg-3" style="border:2px solid #00295C; border-radius:5px; height:100px; width:20%">
+            <p>
+                Bar chart with inline data: <span class="inlinebar">1,3,4,5,3,5</span>
+            </p>
+        </div>
+    </div>
+</div>
+
+
 <ul>
     <div id="sortable"></div>
 </ul>
+
 <script id="tmp" type="text/x-kendo-template">
     @*<li class="sortable">Item #:data#</li>*@
 
@@ -124,182 +322,7 @@
     }
 }
 
-<div class="container">
-    @*    <i class="glyphicon glyphicon-plus glyphicon-center" data-toggle="modal" data-target="#myModal"*@
-    @*       style="font-size: 150px">*@
-    @*    </i>*@
-    <div class="modal fade" id="myModal" role="dialog">
 
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2>New</h2>
-                </div>
-                <div class="modal-body">
-                    <div class="container-md">
-                        <div class="row">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Type </h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="type" name="types">
-                                        <option value="" class="default" selected>(select type)</option>
-                                        <option name="type" value="number">Number</option>
-                                        <option name="type" value="bar">Bar chart</option>
-                                        <option name="type" value="donut">Donut chart</option>
-                                        <option name="type" value="line">Line chart</option>
-                                        <option name="type" value="area">Area chart</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="grafiekTypeInfo" class="row" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Wat wil je afbeelden</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <select class="grafiekTypeInfo" name="grafiekTypes">
-                                        <option value="" class="default" selected>(select type)</option>
-                                        <option name="grafiekType" value="GetTweetsPerDag">Aantal tweets per dag</option>
-                                        <option name="grafiekType" value="GetRanking">Trending politiekers</option>
-                                    </select>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="row personenVergelijken" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Aantal te vergelijken personen</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="aantal" name="aantal">
-                                        <option name="aantal" value="1">1</option>
-                                        <option name="aantal" value="2">2</option>
-                                        <option name="aantal" value="3">3</option>
-                                        <option name="aantal" value="4">4</option>
-                                        <option name="aantal" value="5">5</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row naamVeld" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Kies een politicus</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    @{
-                                        Html.RenderPartial("Zoeken");
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row naamVeld" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Kies een politicus</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    @{
-                                        Html.RenderPartial("Zoeken");
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row naamVeld" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Kies een politicus</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    @{
-                                        Html.RenderPartial("Zoeken");
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row naamVeld" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Kies een politicus</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    @{
-                                        Html.RenderPartial("Zoeken");
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row naamVeld" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Kies een politicus</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    @{
-                                        Html.RenderPartial("Zoeken");
-                                    }
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
-                        <div class="row dagenTerug" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Aantal dagen terug</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="aantalDagenTerug" name="types">
-                                        <option name="type" value="15">15</option>
-                                        <option name="type" value="30">30</option>
-                                        <option name="type" value="45">45</option>
-                                        <option name="type" value="60">60</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row aantalPolitici" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Aantal top politici</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" name="automplete" id="aantalPolitici">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row urenTerug" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Aantal uren terug</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" name="automplete" id="urenTerug">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-md" id="aanmakenBtn">Aanmaken</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-</div>
 
 <div class="modal fade" id="inloggenForm" role="dialog">
     <div class="modal-dialog">
