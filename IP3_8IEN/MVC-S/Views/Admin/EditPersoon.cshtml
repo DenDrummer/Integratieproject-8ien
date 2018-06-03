@@ -4,14 +4,15 @@
     ViewBag.Title = "EditPersoon";
 }
 
-<h2>EditPersoon</h2>
+<div style="padding-top:10px; padding-bottom:10px">
+    <i class="fas fa-user-circle" style="font-size: 28px; color:#00295C; display:inline"></i><h2 style="color:#00295C; display: inline;">@Html.ActionLink("  Admin Omgeving", "Index")</h2> <h3 style="color:#00295C; display: inline;">@Html.ActionLink("> Personen", "Persoon")</h3>  <h4 style="color:#00295C; display: inline;"> > Persoon Wijzigen</h4>
+</div>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Persoon</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.OnderwerpId)

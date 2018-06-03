@@ -86,12 +86,24 @@ namespace IP3_8IEN.BL
             bool UoW = false;
             repo.SetUnitofWork(UoW);
 
-            Follow follow = new Follow()
+            Follow follow;
+            try
             {
-                DashItem = repo.ReadDashItem(dashId),
-                Onderwerp = dataMgr.GetPersoon(id)
-            };
-            repo.AddFollow(follow);
+                follow = new Follow()
+                {
+                    DashItem = repo.ReadDashItem(dashId),
+                    Onderwerp = dataMgr.GetPersoon(id)
+                };
+                repo.AddFollow(follow);
+            } catch
+            {
+                follow = new Follow()
+                {
+                    DashItem = repo.ReadDashItem(dashId),
+                    Onderwerp = dataMgr.GetOrganisatie(id)
+                };
+                repo.AddFollow(follow);
+            }
 
             uowManager.Save();
 
