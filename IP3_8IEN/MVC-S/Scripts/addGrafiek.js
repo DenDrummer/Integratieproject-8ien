@@ -1,7 +1,4 @@
 ﻿addEventListener("load", init, false);
-var chart;
-var dagen;
-var politicus;
 
 function init() {
     let aanmakenBtn = document.getElementById("aanmakenBtn");
@@ -18,11 +15,16 @@ function init() {
     let grafiekTypeInfo = document.getElementById("grafiekTypeInfo");
     grafiekTypeInfo.addEventListener("click", showGrafiekTypeInfo, false);
 
+    let naamInput = document.getElementsByClassName("automplete-1");
+    for (let i = 0; i < naamInput.length; i++) {
+        naamInput[i].addEventListener("keyup", showError,false);
+    }
+
     $(".ui-widget").children().hide();
     $('.save').hide();
     $(".automplete-1").show();
 
-
+    addIcon();
 }
 
 
@@ -83,19 +85,46 @@ function grafiekForm() {
 
 function createChartAantalTweetsPerDag() {
     var selectedType = $("#type option:selected").val();
-    politicus = $(".automplete-1").val();
-    dagen = parseInt($("#aantalDagenTerug option:selected").val());
-    $.ajax({
-        url: "/Home/CreateChartAantalTweetsPerDag",
-        data: { 'politicus': politicus, 'type': selectedType, 'aantalDagenTerug': dagen },
-        type: "POST",
-        error: function() {
-            inloggenMsg();
+    var politicus = $(".automplete-1").val();
+    var dagen = parseInt($("#aantalDagenTerug option:selected").val());
+    if (politicus === null || politicus === "") {
+        $(".error").show();
+    } else {
+        $(".error").hide();
+        $.ajax({
+            url: "/Home/CreateChartAantalTweetsPerDag",
+            data: { 'politicus': politicus, 'type': selectedType, 'aantalDagenTerug': dagen },
+            type: "POST",
+            error: function() {
+                inloggenMsg();
 
-        }
-    });
+            }
+        });
+    }
 }
 
 function inloggenMsg() {
     $("#inloggenForm").modal('show');
+}
+
+//function addIcon() {
+//    var icon = document.createElement("i");
+//    icon.className = "glyphicon glyphicon-plus glyphicon-center";
+//    icon.style = "font-size:100px;color:green";
+//    icon.setAttribute("data-toggle", "modal");
+//    icon.setAttribute("data-target", "#myModal");
+//    $("#chart1").append(icon);
+    
+//}
+
+function showError() {
+    var politicus = $(".automplete-1").val();
+    if (politicus === null || politicus === "") {
+        $(".error").show();
+        return true;
+    } else {
+        $(".error").hide();
+        return false;
+    }
+    
 }

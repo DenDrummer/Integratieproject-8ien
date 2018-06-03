@@ -191,12 +191,7 @@
         document.getElementById("chart7").innerHTML = number;
     }
 
-    var icon = document.createElement("i");
-    icon.className = "glyphicon glyphicon-plus glyphicon-center";
-    icon.style = "font-size:100px;color:green";
-    icon.setAttribute("data-toggle", "modal");
-    icon.setAttribute("data-target", "#myModal");
-    $("#chart1").append(icon);
+
   
 
 

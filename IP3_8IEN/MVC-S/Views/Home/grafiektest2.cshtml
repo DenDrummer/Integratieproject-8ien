@@ -5,8 +5,10 @@
 @Scripts.Render("~/scripts/charts")
 <script src="~/Scripts/addGrafiek.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="~/Content/grafiekformsheet.css"/>
+<link rel="stylesheet" href="~/Content/grafiekformsheet.css" />
 <script src="~/Scripts/grafiekaanmaken.js"></script>
+<i class="glyphicon glyphicon-plus glyphicon-center" style="font-size:100px;color:green;border-style: ridge;" data-toggle="modal" data-target="#myModal"></i>
+
 @*<script type="text/javascript">*@
 @*    $(function() {*@
 @*        /** This code runs when everything has been loaded on the page */*@
@@ -39,6 +41,7 @@
 @*<p>*@
 @*    Bar chart with inline data: <span class="inlinebar">1,3,4,5,3,5</span>*@
 @*</p>*@
+
 
 
 <div id="sortable"></div>
@@ -97,9 +100,7 @@
 </script>
 
 <div class="container">
-    @*    <i class="glyphicon glyphicon-plus glyphicon-center" data-toggle="modal" data-target="#myModal"*@
-    @*       style="font-size: 150px">*@
-    @*    </i>*@
+
     <div class="modal fade" id="myModal" role="dialog">
 
         <div class="modal-dialog">
@@ -107,7 +108,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2>New</h2>
+                    <h2>Nieuwe Dash Item toevoegen</h2>
                 </div>
                 <div class="modal-body">
                     <div class="container-md">
@@ -169,7 +170,7 @@
                                 <div class="col-md-4">
                                     @{
                                         Html.RenderPartial("Zoeken");
-                                    }
+                                    }<div class="error" style="display: none;color:red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
@@ -181,7 +182,7 @@
                                 <div class="col-md-4">
                                     @{
                                         Html.RenderPartial("Zoeken");
-                                    }
+                                    }<div class="error" style="display: none;color:red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
@@ -193,7 +194,7 @@
                                 <div class="col-md-4">
                                     @{
                                         Html.RenderPartial("Zoeken");
-                                    }
+                                    }<div class="error" style="display: none;color:red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
@@ -205,7 +206,7 @@
                                 <div class="col-md-4">
                                     @{
                                         Html.RenderPartial("Zoeken");
-                                    }
+                                    }<div class="error" style="display: none;color:red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
@@ -217,7 +218,7 @@
                                 <div class="col-md-4">
                                     @{
                                         Html.RenderPartial("Zoeken");
-                                    }
+                                    }<div class="error" style="display: none;color:red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
@@ -290,9 +291,9 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2"></div>
-                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})</button>
+                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</button>
                     <div class="col-md-2"></div>
-                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</button>
+                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</button>
                     <div class="col-md-2"></div>
 
                 </div>
