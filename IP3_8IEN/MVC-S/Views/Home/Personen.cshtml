@@ -1,9 +1,8 @@
-﻿@model IP_8IEN.BL.Domain.Data.Persoon
-
+﻿@model IP3_8IEN.BL.Domain.Data.Persoon
 @{
     ViewBag.Title = Model.Naam;
 }
-
+<script src="~/Scripts/morris-onderwerpenPagina.js"></script>
 <br />
 <div class="row">
     <div class="col-lg-12">
@@ -148,10 +147,51 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Chart
+                Grafieken
             </div>
             <div class="panel-body">
-                <div class="col-lg-6" style="height: 200px" id="persoon-chart1">
+                <div class="row">
+                                        <div class="col-lg-6">
+                                                <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                                Aantal tweets van @Model.Naam
+                                
+                            </div>
+                                                        <div class="panel-body">
+                                                                <div id="persoon-chart1"></div>
+                                
+                            </div>
+                                                        <label for="aantaldagen1">Hoeveel dagen terug: </label>
+                                                        <input type="text" id="aantaldagen1" name="aantaldagen1" value="5" />
+                                                        <label for="message1">label voor de chart: </label>
+                                                        <input type="text" id="message1" name="message1" value="aantal tweets: " />
+                                                        <button id="buttonReload1">herlaad</button>
+                                                        <button id="buttonSave1">opslaan naar dashboard</button>
+                                                        <button id="buttonAxe1">verander assen</button>
+                            
+                        </div>
+                        
+                    </div>
+                                        <div class="col-lg-6">
+                                                <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                               Aantal tweets van @Model.Naam
+                                
+                            </div>
+                                                        <div class="panel-body">
+                                                                <div id="persoon-chart2"></div>
+                                
+                            </div>
+                                                        <label for="aantaldagen2">Hoeveel dagen terug: </label>
+                                                        <input type="text" id="aantaldagen2" name="aantaldagen2" value="5" />
+                                                        <label for="message2">label voor de chart: </label>
+                                                        <input type="text" id="message2" name="message2" value="aantal tweets: " />
+                                                        <button id="buttonReload2">herlaad</button>
+                                                        <button id="buttonSave2">opslaan naar dashboard</button>
+                            
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
         </div>
@@ -159,24 +199,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $.get('@Url.Action("GetData","Home",new {id = 170})', function (result) {
-            Morris.Line({
-                // ID of the element in which to draw the chart.
-                element: 'persoon-chart1',
-                // Chart data records -- each entry in this array corresponds to a point on
-                // the chart.
-                data: result,
-                // The name of the data record attribute that contains x-values.
-                xkey: 'label',
-                ykeys: ['value'],
-                labels: [@Html.Raw(Json.Encode($"aantal tweets van {Model.Naam}"))],
-                pointSize: 2,
-                hideHover: 'auto',
-                resize: true
-            });
-        });
-    });
-    var per = @Html.Raw(Json.Encode(ViewBag.PER));
-    console.log(per);
+    setOnderwerpId(@Model.OnderwerpId);
+    makeChart();
+    makeChart2();
 </script>
