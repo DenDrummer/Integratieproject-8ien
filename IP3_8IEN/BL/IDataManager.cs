@@ -28,6 +28,7 @@ namespace IP3_8IEN.BL
         Persoon GetPersoon(string naam);
         Persoon GetPersoon(int persoonId);
         IEnumerable<Persoon> GetPersonen();
+        IEnumerable<Persoon> GetPersonenOnly();
         //6 apr 2018 : Stephane
         void ApiRequestToJson(bool isReCheck = false);
         string ExportToCSV(IEnumerable<Persoon> personen);
@@ -116,6 +117,8 @@ namespace IP3_8IEN.BL
         Hashtag AddHashtag(string hashtag);
         void InitNonExistingRepo(bool withUnitOfWork);
         List<DataChart> GetTweetsPerDagDataChart(Persoon persoon, int aantalDagenTerug = 0);
+        List<GraphData> FrequenteWoorden(ICollection<SubjectMessage> subjMsgs, int ammount);
+        Persoon GetPersoonWithSjctMsg(int persoonId);
         #endregion
     }
 }
