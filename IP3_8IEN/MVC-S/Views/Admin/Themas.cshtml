@@ -46,8 +46,8 @@
                                     <td>
                                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                         @Html.HiddenFor(x => x[i].OnderwerpId)
-                                        @Html.HiddenFor(x => x[i].HashtagString)
-                                        @Html.DisplayFor(x => x[i].HashtagString, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.HiddenFor(x => x[i].Naam)
+                                        @Html.DisplayFor(x => x[i].Naam, new { htmlAttributes = new { @class = "form-control" } })
                                     </td>
                                     <td>
                                         @Html.EditorFor(x => x[i].Thema, new { htmlAttributes = new { @class = "form-control" } })

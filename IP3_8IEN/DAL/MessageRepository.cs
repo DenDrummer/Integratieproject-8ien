@@ -45,8 +45,9 @@ namespace IP3_8IEN.DAL
         }
 
         public IEnumerable<Persoon> ReadPersonen() => ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie").ToList();
-
+        public IEnumerable<Persoon> ReadPersonenOnly() => ctx.Personen.ToList();
         public IEnumerable<Hashtag> ReadHashtags() => ctx.Hashtags;
+        public IEnumerable<Hashtag> ReadHashtagsWithSubjMsgs() => ctx.Hashtags.Include("SubjectMessages");
 
         public IEnumerable<Onderwerp> ReadSubjects() => ctx.Onderwerpen;
 
@@ -67,7 +68,16 @@ namespace IP3_8IEN.DAL
 
         public Persoon ReadPersoon(int persoonId)
         {
-            IEnumerable<Persoon> personen = ctx.Personen.Include("Tewerkstellingen").Include("Tewerkstellingen.Organisatie");//.Find(persoonId);
+            IEnumerable<Persoon> personen = ctx.Personen.Include("Tewerkstellingen")
+                .Include("Tewerkstellingen.Organisatie");//.Find(persoonId);
+            return personen.FirstOrDefault(p => p.OnderwerpId == persoonId);
+        }
+        public Persoon ReadPersoonWithSbjctMsg(int persoonId)
+        {
+            IEnumerable<Persoon> personen = ctx.Personen.Include("Tewerkstellingen")
+                .Include("Tewerkstellingen.Organisatie")
+                .Include("SubjectMessages")
+                .Include("SubjectMessages.Msg");//.Find(persoonId);
             return personen.FirstOrDefault(p => p.OnderwerpId == persoonId);
         }
         public IEnumerable<Tewerkstelling> ReadTewerkstellingen() => ctx.Tewerkstellingen.ToList();
@@ -146,6 +156,10 @@ namespace IP3_8IEN.DAL
         {
             ctx.Entry(theme).State = EntityState.Modified;
             ctx.SaveChanges();
+        }
+        public Thema ReadThemas(int id)
+        {
+            return ctx.Themas.Find(id);
         }
     }
 }

@@ -475,6 +475,7 @@
     <Content Include="Scripts\morris\morris.min.js" />
     <Content Include="Scripts\morris\raphael.min.js" />
     <Content Include="Scripts\morris_chart.js" />
+    <Content Include="Scripts\nodeBoxInitialize.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
