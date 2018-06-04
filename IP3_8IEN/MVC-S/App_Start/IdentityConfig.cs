@@ -3,7 +3,7 @@ using Microsoft.Owin;
 
 using IP3_8IEN.BL;
 using IP3_8IEN.BL.Domain.Gebruikers;
-using IP3_8IEN.MVC_S.SignIn;
+using IP3_8IEN.UI.MVC_S.SignIn;
 
 namespace IP3_8IEN.UI.MVC_S
 {
