@@ -136,7 +136,8 @@ namespace IP3_8IEN.BL
                 VoorNaam = voornaam,
                 AchterNaam = achternaam,
                 Email = email,
-                Geboortedatum = geboortedatum
+                Geboortedatum = geboortedatum,
+                JoinDate
             };
             string passw = password;
             CreateUserWithRoleAsync(gebruiker, passw, role);

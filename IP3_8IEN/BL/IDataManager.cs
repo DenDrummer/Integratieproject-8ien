@@ -79,6 +79,7 @@ namespace IP3_8IEN.BL
         List<GraphData> GetTweetsPerDagList(Organisatie organisatie, int aantalDagenTerug);
         List<GraphData> GetTweetsPerDagList(Thema thema, int aantalDagenTerug);
         SubjectMessage AddSubjectMessage(Message msg, Hashtag hashtag);
+        IEnumerable<Hashtag> GetHashtagsWithSubjMsgs();
 
         #region Unsorted
         int GetMentionCountByName(string naam);

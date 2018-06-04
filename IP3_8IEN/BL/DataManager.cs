@@ -734,6 +734,14 @@ namespace IP3_8IEN.BL
             return repo.ReadThemas(id);
         }
 
+        public IEnumerable<Hashtag> GetHashtagsWithSubjMsgs()
+        {
+            InitNonExistingRepo();
+            return repo.ReadHashtagsWithSubjMsgs();
+        }
+
+
+        
         //Unit of Work related
         public void InitNonExistingRepo(bool withUnitOfWork = false)
         {

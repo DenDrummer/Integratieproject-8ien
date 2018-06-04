@@ -44,5 +44,8 @@ namespace IP3_8IEN.BL
         List<Follow> CreateFollow(int dashId, List<int> listPersoonId);
         DashItem SetupDashItem(Gebruiker user, List<Follow> follows);
         void RemoveDashItem(int id);
+        IEnumerable<Dashbord> GetDashbords();
+
+        void SyncWithAdmins(string userId, int dashItemId);
     }
 }
