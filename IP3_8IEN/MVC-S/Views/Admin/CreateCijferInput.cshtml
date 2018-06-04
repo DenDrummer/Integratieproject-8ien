@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "CreateCijferInput";
+}
+
+<div style="padding-top:10px; padding-bottom:10px">
+    <i class="fas fa-user-circle" style="font-size: 28px; color:#00295C; display:inline"></i><h2 style="color:#00295C; display: inline;">@Html.ActionLink("  Admin Omgeving", "Index")</h2> <h3 style="color:#00295C; display: inline;"> > Nieuw Cijfer</h3>
+    <hr />
+</div>
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>jQuery UI Autocomplete functionality</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+    <!-- Javascript -->
+    <script>
+        $(document).ready(function () {
+            @{List<string> listFromController = (List<string>)ViewData["names"];}
+                var Names = [
+                        @for (int i = 0; i < listFromController.Count; i++)
+                        {
+                            @: '@(listFromController[i])',
+                        }
+                    ]
+            $("#automplete-1").autocomplete({
+                minLength: 2,
+                source: Names
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <!-- HTML -->
+
+    @using (Html.BeginForm("CreateCijfer", "Admin"))
+    {
+        <div class="container">
+            <div class="row" style="padding-top:20px;">
+                <div class="col-lg-12">
+                    <div id="custom-search-input" style="padding: 3px; border: solid 1px #E4E4E4; border-radius: 6px; width:107%; margin-left:-38px; background-color: #fff;">
+                        <div class="input-group col-lg-12">
+                            <input type="text" class="form-control input-lg" id="automplete-1" name="automplete" style="border: 0; box-shadow: none;" placeholder="Naam: " />
+                        </div>
+                    </div>
+                    <br />
+                    <div style="padding: 3px; border: solid 1px #E4E4E4; border-radius: 6px; width:107%; margin-left:-38px; background-color: #fff;">
+                        <div class="input-group col-lg-12">
+                            <input type="number" class="form-control input-lg" name="uren" style="border: 0; box-shadow: none;" placeholder="Sinds Aantal Uur: " />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                            <input type="submit" value="Maak Cijfer Aan" class="btn btn-default" style="width:200px; margin-left:-38px;"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</body>
+</html>

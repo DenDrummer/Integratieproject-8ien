@@ -47,5 +47,6 @@ namespace IP3_8IEN.DAL
         void CreateTheme(Thema theme);
         IEnumerable<Thema> ReadThemas();
         void UpdateTheme(Thema theme);
+        IEnumerable<Persoon> ReadPersonenWithTewerkstelling();
     }
 }
