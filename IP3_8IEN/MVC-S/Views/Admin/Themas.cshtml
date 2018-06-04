@@ -7,21 +7,25 @@
 }
 
 <div style="padding-top:10px; padding-bottom:10px">
-    <i class="fas fa-user-circle" style="font-size: 28px; color:#00295C; display:inline"></i><h2 style="color:#00295C; display: inline;">@Html.ActionLink("  Admin Omgeving", "Index")</h2> <h3 style="color:#00295C; display: inline;"> > Themas</h3>
+    <i class="fas fa-user-circle" style="font-size: 28px; color:#00295C; display:inline"></i><h2 style="color:#00295C; display: inline;">@Html.ActionLink("  Admin Omgeving", "Index")</h2> <h3 style="color:#00295C; display: inline;">@Html.ActionLink(" > Themas CRUD", "ThemasCRUD")</h3><h4 style="color:#00295C; display: inline;"> > Nieuw Thema Aanmaken</h4>
+    <hr />
 </div>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>Thema</h4>
-        <hr />
-        <p>Naam Thema</p>
-        <input name="naam" type="text" />
-        <p>Beschrijving Thema</p>
-        <input name="beschrijving" type="text" />
+    <div class="span3">
+        <form>
+            <label style="color:#00295C">Naam Thema</label>
+            <input type="text" name="naam" class="span3">
+            <label style="color:#00295C">Beschrijving Thema</label>
+            <input type="text" name="beschrijving" class="span3">
+            <br /><br />
+            <input type="submit" value="Nieuw Thema Toevoegen" class="btn btn-default" style="width:180px;" style="border:1px solid #00295C">
+            <div class="clearfix"></div>
+            <hr />
+        </form>
     </div>
 
     <div class="row">
@@ -51,12 +55,8 @@
                                 </tr>
                             }
 
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Save" class="btn btn-default" />
-                                </div>
-                            </div>
-                            }
+
+
                         </tbody>
                     </table>
                 </div>
@@ -73,6 +73,8 @@
 
     <script>
         $(document).ready(function () {
-            $('#adminUserTable').DataTable();
+            $('#adminUserTable').DataTable({
+                'iDisplayLength': 100000
+            });
         });</script>
 }
