@@ -6,6 +6,8 @@
 <script src="~/Scripts/addGrafiek.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="~/Content/grafiekformsheet.css" />
+<script src="https://nodebox.live/api/v1/ndbx.js"></script>
+<script src="~/Scripts/nodeBoxInitialize.js"></script>
 <script src="~/Scripts/grafiekaanmaken.js"></script>
 <script src="~/Scripts/kendoUiUpdate.js"></script>
 <script src="~/Scripts/morris-scripts.js"></script>
@@ -41,8 +43,9 @@
     Bar chart with inline data: <span class="inlinebar">1,3,4,5,3,5</span>
 </p>
 
+@*<select id="pers" style="float:right; width:200px" class="Input"></select>*@
 
-<button type="button" id="button">load</button>
+@*<button type="button" id="button" onclick="setPersonName('Jos de Vos')">load</button>*@
 <div id="newChart"></div>
 <ul>
     <div id="sortable"></div>
@@ -62,7 +65,9 @@
                 <div id="chart#:data#">
                     @*<canvas id="canvas#:data#"></canvas>*@
                 </div>
+                <div id="extra#:data#"></div>
             </div>
+            @*<div id="extra#:data#"></div>*@
             <!-- /.panel-body -->
         </div>
         <!-- /.panel -->
@@ -123,7 +128,46 @@
         }
     }
 }
+            <div class="container">
+                <!-- Trigger the modal with a button -->
+                <script type="text/javascript">
+                    $(".ui-widget").children().hide();
+                    $('.save').hide();
+                    $(".automplete-1").show();
 
+                    //let myModal = $("#myModal");
+                    //$(".modal-backdrop").remove();
+                    //myModal.hide();
+                    //myModal.modal('toggle');
+                </script>
+                
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Zoek politici</h4>
+                            </div>
+                            <div class="modal-body" style="margin-left:50px">
+                                @{
+                                    Html.RenderPartial("Zoeken");
+                                }
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary btn-md" id="submitBtn">Enter</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <
+
+                    </div>
+                </div>
+
+            </div>
 <div class="container">
     @*    <i class="glyphicon glyphicon-plus glyphicon-center" data-toggle="modal" data-target="#myModal"*@
     @*       style="font-size: 150px">*@
@@ -336,11 +380,9 @@
 </div>
 
 <!-- A link to the NodeBox JavaScript API  -->
-<script src="https://nodebox.live/api/v1/ndbx.js"></script>
-<script src="@Url.Content("~/Scripts/morris-data.js")"></script>
 <script type="text/javascript">
 
-    var number = @Html.Raw(Json.Encode(ViewBag.NUMMER1));
+    @*var number = @Html.Raw(Json.Encode(ViewBag.NUMMER1));
     var name = @Html.Raw(Json.Encode(ViewBag.NAAM1));
     console.log(number);
     //document.getElementById("chart7").innerHTML = number;
@@ -349,7 +391,9 @@
     var mydiv = document.getElementById("chart7");
     var mycontent = document.createElement("p");
     mycontent.appendChild(document.createTextNode(name + " heeft: " + number + " tweets"));
-    mydiv.appendChild(mycontent);
+    mydiv.appendChild(mycontent);*@
+    initializeNodeBox("0");
+    $("#heading0").html("Top woorden per politieker");
 </script>
 
 

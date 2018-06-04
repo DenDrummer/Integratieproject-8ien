@@ -13,7 +13,9 @@ namespace IP3_8IEN.DAL
         void AddOnderwerp(Onderwerp onderwerp);
         void AddSubjectMsg(SubjectMessage subjMsg);
         IEnumerable<Persoon> ReadPersonen();
-        
+        IEnumerable<Persoon> ReadPersonenOnly();
+
+
         IEnumerable<Hashtag> ReadHashtags();
         
         IEnumerable<Onderwerp> ReadSubjects();
@@ -40,6 +42,7 @@ namespace IP3_8IEN.DAL
         void EditPersoon(Persoon persoon);
 
         Persoon ReadPersoon(string naam);
+        Persoon ReadPersoonWithSbjctMsg(int persoonId);
         Persoon ReadPersoonWithTewerkstelling(string naam);
         Persoon ReadPersoonWithTewerkstelling(int id);
 

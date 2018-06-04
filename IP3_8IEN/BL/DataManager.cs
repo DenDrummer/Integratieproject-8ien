@@ -567,6 +567,13 @@ namespace IP3_8IEN.BL
             Persoon persoon = repo.ReadPersoon(persoonId);
             return persoon;
         }
+        public Persoon GetPersoonWithSjctMsg(int persoonId)
+        {
+            InitNonExistingRepo();
+
+            Persoon persoon = repo.ReadPersoonWithSbjctMsg(persoonId);
+            return persoon;
+        }
 
         public Organisatie GetOrganisatie(int organisatieId)
         {
@@ -2124,7 +2131,7 @@ namespace IP3_8IEN.BL
             return data.GetRange(0, aantal);
         }
         
-        public IEnumerable<string> FrequenteWoorden(ICollection<SubjectMessage> subjMsgs, int ammount)
+        public List<GraphData> FrequenteWoorden(ICollection<SubjectMessage> subjMsgs, int ammount)
         {
             Dictionary<string, int> woorden = new Dictionary<string, int>();
             List<string> woordStrings = new List<string>();
@@ -2139,7 +2146,7 @@ namespace IP3_8IEN.BL
             }
             foreach (string woord in woordStrings)
             {
-                if (woorden.ContainsKey(woord))
+                if (!woorden.ContainsKey(woord))
                 {
                     woorden.Add(woord, 1);
                 }
@@ -2148,14 +2155,20 @@ namespace IP3_8IEN.BL
                     int value;
                     woorden.TryGetValue(woord, out value);
                     woorden.Remove(woord);
-                    woorden.Add(woord, value++);
+                    woorden.Add(woord, ++value);
                 }
             }
-            woorden.ToList().Sort(delegate (KeyValuePair<string, int> kvp1, KeyValuePair<string, int> kvp2)
+            ////woorden.OrderByDescending(r => r.Value).ToList();
+            //woorden.ToList().Sort(delegate (KeyValuePair<string, int> kvp1, KeyValuePair<string, int> kvp2)
+            //{
+            //    return kvp1.Value.CompareTo(kvp2.Value);
+            //});
+            List<GraphData> topwoorden = new List<GraphData>();
+            foreach (KeyValuePair<string, int> kvp in woorden.OrderByDescending(r => r.Value).ToList().Take(ammount))
             {
-                return kvp1.Value.CompareTo(kvp2.Value);
-            });
-            return woorden.Keys.ToList().Take(ammount);
+                topwoorden.Add(new GraphData(kvp.Key, kvp.Value));
+            }
+            return topwoorden;
         }
 
         public IEnumerable<string> GetMessageWords(Message msg)
@@ -2182,6 +2195,13 @@ namespace IP3_8IEN.BL
                 words.Add(msg.Word5);
             }
             return words;
+        }
+
+        public IEnumerable<Persoon> GetPersonenOnly()
+        {
+            InitNonExistingRepo();
+            IEnumerable<Persoon> personen = repo.ReadPersonenOnly();
+            return personen;
         }
     }
 }
