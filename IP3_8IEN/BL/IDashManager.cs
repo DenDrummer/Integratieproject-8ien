@@ -17,7 +17,7 @@ namespace IP3_8IEN.BL
         void UpdateDashItem(DashItem dashItem);
         DashItem SetupDashItem(/*DashItem dashItem, */Gebruiker user, Follow follow);
         void LinkGraphsToUser(List<GraphData> graphDataList, int dashId /*DashItem dashItem*/);
-        DashItem CreateDashitem(bool adminGraph, string type, string naam);
+        DashItem CreateDashitem(bool adminGraph, string type, string naam, string town = "Vlaanderen");
         Follow CreateFollow(int dashId, int onderwerpid);
         
         IEnumerable<Follow> GetFollows(bool admin = false);
@@ -44,5 +44,8 @@ namespace IP3_8IEN.BL
         List<Follow> CreateFollow(int dashId, List<int> listPersoonId);
         DashItem SetupDashItem(Gebruiker user, List<Follow> follows);
         void RemoveDashItem(int id);
+        IEnumerable<Dashbord> GetDashbords();
+
+        void SyncWithAdmins(string userId, int dashItemId);
     }
 }

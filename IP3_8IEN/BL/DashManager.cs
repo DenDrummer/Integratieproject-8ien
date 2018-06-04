@@ -53,7 +53,7 @@ namespace IP3_8IEN.BL
             return repo.ReadDashbordWithFollows(user);
         }
 
-        public DashItem CreateDashitem(bool adminGraph, string type, string naam = "usergraph")
+        public DashItem CreateDashitem(bool adminGraph, string type, string naam = "usergraph", string town = "Vlaanderen")
         {
             InitNonExistingRepo();
 
@@ -61,6 +61,7 @@ namespace IP3_8IEN.BL
                 LastModified = DateTime.Now,
                 Type = type,
                 Naam = naam,
+                Town = town,
                 Active = true
             };
 
@@ -176,7 +177,7 @@ namespace IP3_8IEN.BL
             return follows;
         }
 
-        public DashItem SetupDashItem(/*DashItem dashItem,*/ Gebruiker user, Follow follow)
+        public DashItem SetupDashItem(Gebruiker user, Follow follow)
         {
             InitNonExistingRepo(true);
 
@@ -259,7 +260,29 @@ namespace IP3_8IEN.BL
             repo.AddGraph(graph);
         }
 
+        public void SyncWithAdmins(string userId, int dashItemId)
+        {
+            InitNonExistingRepo(true);
+            gebruikerMgr = new GebruikerManager(uowManager);
 
+            IEnumerable<Gebruiker> admins = gebruikerMgr.GetGebruikersWithDash().Where(u => u.Role == "Admin" && u.GebruikerId != userId).ToList();
+
+            foreach(Gebruiker admin in admins)
+            {
+                foreach(Dashbord dash in admin.Dashboards)
+                {
+                        TileZone tile = new TileZone()
+                        {
+                            Dashbord = dash,
+                            DashItem = repo.ReadDashItem(dashItemId)
+                        };
+
+                    repo.AddTileZone(tile);
+                    AddOneZonesOrder(dash);
+                    uowManager.Save();
+                }
+            }
+        }
 
         public void UpdateDashItem(DashItem dashItem) => repo.UpdateDashItem(dashItem);
 
@@ -420,6 +443,11 @@ namespace IP3_8IEN.BL
             }
             repo.SetUnitofWork(true);
             return dashbord;
+        }
+
+        public IEnumerable<Dashbord> GetDashbords()
+        {
+            return repo.ReadDashbords();
         }
 
         public IEnumerable<DashItem> GetDashItems()

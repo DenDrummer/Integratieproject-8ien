@@ -30,5 +30,6 @@ namespace IP3_8IEN.DAL
         
         Gebruiker ReadGebruiker(string userId);
         IEnumerable<Gebruiker> ReadUsers();
+        IEnumerable<Gebruiker> ReadGebruikersWithDashbord();
     }
 }
