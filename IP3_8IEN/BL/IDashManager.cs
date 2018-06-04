@@ -17,7 +17,7 @@ namespace IP3_8IEN.BL
         void UpdateDashItem(DashItem dashItem);
         DashItem SetupDashItem(/*DashItem dashItem, */Gebruiker user, Follow follow);
         void LinkGraphsToUser(List<GraphData> graphDataList, int dashId /*DashItem dashItem*/);
-        DashItem CreateDashitem(bool adminGraph, string type, int aantalDagenTerug, string naam);
+        DashItem CreateDashitem(bool adminGraph, string type, string naam);
         Follow CreateFollow(int dashId, int onderwerpid);
         
         IEnumerable<Follow> GetFollows(bool admin = false);
