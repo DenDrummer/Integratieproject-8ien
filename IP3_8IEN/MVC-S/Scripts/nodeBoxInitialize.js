@@ -1,7 +1,7 @@
 ﻿addEventListener("load", init);
 
 function init(event) {
-    $("#submitBtn").click(loadContent);
+    $("#submitBtn1").click(loadContent);
 }
 
 
@@ -32,7 +32,7 @@ function loadCanvas(id) {
 }
 
 function loadExtra(id) {
-    $(`#${id}`).html('<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Verander Politieker</button>');
+    $(`#${id}`).html('<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal1">Verander Politieker</button>');
     //$(`#${id}`).html('<select id="persL" style="float:right" class="Input"></select><button style="float:right" type="button" id="button" onclick="loadContent()">load</button>');
     //$('<div>').appendTo(`#${id}`).load('@Html.RenderPartial("Zoeken", "Home");');
 }
@@ -89,7 +89,7 @@ function loadContent() {
     setPersonName($(".automplete-1").val());
     setWoorden($(".automplete-1").val());
 
-    let myModal = $("#myModal");
+    let myModal = $("#myModal1");
     $(".modal-backdrop").remove();
     myModal.hide();
     myModal.modal('toggle');
