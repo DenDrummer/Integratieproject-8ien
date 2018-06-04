@@ -10,5 +10,6 @@ namespace IP3_8IEN.BL.Domain.Dashboard
 
         public DashItem DashItem { get; set; }
         public Onderwerp Onderwerp { get; set; }
+        public Thema Thema { get; set; }
     }
 }
