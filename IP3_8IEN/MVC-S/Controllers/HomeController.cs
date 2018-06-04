@@ -19,7 +19,6 @@ using System;
 using System.Web.Hosting;
 using System.Web.Security;
 using System.Collections.ObjectModel;
-using IP_8IEN.BL.Domain.Dashboard;
 
 namespace IP3_8IEN.UI.MVC_S.Controllers
 {
@@ -163,12 +162,13 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
         {
             Thema theme = dMgr.GetThemas().FirstOrDefault(t => t.OnderwerpId == id);
 
-            theme.Hashtags = new Collection<string>();
-
-            theme.Hashtags.Add(theme.Hashtag1);
-            theme.Hashtags.Add(theme.Hashtag2);
-            theme.Hashtags.Add(theme.Hashtag3);
-            theme.Hashtags.Add(theme.Hashtag4);
+            theme.Hashtags = new Collection<string>
+            {
+                theme.Hashtag1,
+                theme.Hashtag2,
+                theme.Hashtag3,
+                theme.Hashtag4
+            };
 
             StringBuilder searchString = new StringBuilder();
             searchString.Append("https://twitter.com/search?q=");
@@ -263,12 +263,13 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
 
             foreach(Thema theme in themes)
             {
-                theme.Hashtags = new Collection<string>();
-
-                theme.Hashtags.Add(theme.Hashtag1);
-                theme.Hashtags.Add(theme.Hashtag2);
-                theme.Hashtags.Add(theme.Hashtag3);
-                theme.Hashtags.Add(theme.Hashtag4);
+                theme.Hashtags = new Collection<string>
+                {
+                    theme.Hashtag1,
+                    theme.Hashtag2,
+                    theme.Hashtag3,
+                    theme.Hashtag4
+                };
             }
 
             return View(themes);
@@ -429,7 +430,6 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
 
         public ActionResult GetJson(List<GraphData> data)
         {
-            string bla = null;
             JsonResult d = Json(data, JsonRequestBehavior.AllowGet);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
@@ -454,7 +454,7 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
         [HttpPost]
         public ActionResult SaveTilezonesOrder(int dashId, string zonesorder)
         {
-            dashMgr.updateTilezonesOrder(dashId, zonesorder);
+            dashMgr.UpdateTilezonesOrder(dashId, zonesorder);
             return RedirectToAction("Dashboard");
         }
 

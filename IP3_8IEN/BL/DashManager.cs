@@ -1,5 +1,4 @@
-﻿using IP_8IEN.BL.Domain.Dashboard;
-using IP3_8IEN.BL.Domain.Dashboard;
+﻿using IP3_8IEN.BL.Domain.Dashboard;
 using IP3_8IEN.BL.Domain.Data;
 using IP3_8IEN.BL.Domain.Gebruikers;
 using IP3_8IEN.DAL;
@@ -477,7 +476,7 @@ namespace IP3_8IEN.BL
             return dashbord;
         }
 
-        public void updateTilezonesOrder(int dashId,string zonesOrder)
+        public void UpdateTilezonesOrder(int dashId,string zonesOrder)
         {
             InitNonExistingRepo();
             Dashbord dashbord = repo.ReadDashbordWithFollows(dashId);

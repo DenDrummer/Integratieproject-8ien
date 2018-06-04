@@ -9,8 +9,11 @@ using IP3_8IEN.BL.Domain.Dashboard;
 using System.Linq;
 using IP3_8IEN.UI.MVC_S.Models;
 using System.IO;
+using IP3_8IEN.UI.MVC_S;
 using System.Web;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Resources;
 
 namespace IP3_8IEN.UI.MVC_S.Controllers
 {
@@ -230,10 +233,10 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
             {
                 Persoon p = _dataManager.GetPersoon(naam);
                 // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam);
-                IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+                List<GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen);
+                DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam);
+                Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
+                DashItem dashItem = _dashManager.SetupDashItem(user, follow);
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
                 // ================================================================================ //
             }
@@ -242,10 +245,10 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
             {
                 Organisatie o = _dataManager.GetOrganisaties().ToList().FirstOrDefault(org => org.Naam == naam);
                 // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(o, nDagen);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam);
-                IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, o.OnderwerpId);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+                List<GraphData> graphDataList = _dataManager.GetTweetsPerDag(o, nDagen);
+                DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam);
+                Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, o.OnderwerpId);
+                DashItem dashItem = _dashManager.SetupDashItem(user, follow);
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
                 // ================================================================================ //
             }
@@ -355,10 +358,10 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
             {
                 Persoon p = _dataManager.GetPersoon(naam);
                 // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetNumberGraph(p, uren);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
-                IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+                List<GraphData> graphDataList = _dataManager.GetNumberGraph(p, uren);
+                DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
+                Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
+                DashItem dashItem = _dashManager.SetupDashItem(user, follow);
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
                 // ================================================================================ //
             } catch { }
@@ -366,10 +369,10 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
             {
                 Organisatie o = _dataManager.GetOrganisaties().FirstOrDefault(org => org.Naam == naam);
                 // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetNumberGraph(o, uren);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
-                IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, o.OnderwerpId);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+                List<GraphData> graphDataList = _dataManager.GetNumberGraph(o, uren);
+                DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
+                Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, o.OnderwerpId);
+                DashItem dashItem = _dashManager.SetupDashItem(user, follow);
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
                 // ================================================================================ //
             } catch { }
@@ -463,16 +466,24 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
             
             foreach(Thema theme in themas)
             {
-                theme.Hashtags = new Collection<string>();
-
-                theme.Hashtags.Add(theme.Hashtag1);
-                theme.Hashtags.Add(theme.Hashtag2);
-                theme.Hashtags.Add(theme.Hashtag3);
-                theme.Hashtags.Add(theme.Hashtag4);
+                theme.Hashtags = new Collection<string>()
+                {
+                    theme.Hashtag1,
+                    theme.Hashtag2,
+                    theme.Hashtag3,
+                    theme.Hashtag4
+                };
             }
 
             return View(themas);
             /////////////////////////////////////////////////////////////////
+        }
+
+        public ActionResult GlobalisationCRUD()
+        {
+            List<KeyValuePair<string, string>> keyValuePairs = new List<KeyValuePair<string, string>>();
+            
+            return View(keyValuePairs);
         }
     }
 }

@@ -13,7 +13,6 @@ using System.Net.Mail;
 using IP3_8IEN.BL.Domain.Dashboard;
 using System.Text;
 using System.Globalization;
-using IP_8IEN.BL.Domain.Dashboard;
 
 namespace IP3_8IEN.BL
 {
@@ -2443,8 +2442,7 @@ namespace IP3_8IEN.BL
                 }
                 else
                 {
-                    int value;
-                    woorden.TryGetValue(woord, out value);
+                    woorden.TryGetValue(woord, out int value);
                     woorden.Remove(woord);
                     woorden.Add(woord, ++value);
                 }

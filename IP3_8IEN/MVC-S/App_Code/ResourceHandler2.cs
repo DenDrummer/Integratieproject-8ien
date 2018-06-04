@@ -2,6 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Resources;
+using IP3_8IEN.BL;
+using IP3_8IEN.BL.Domain.Data;
+using IP3_8IEN.BL.Domain.Gebruikers;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using IP3_8IEN.BL.Domain.Dashboard;
+using System.Linq;
+using IP3_8IEN.UI.MVC_S.Models;
+using IP3_8IEN.UI.MVC_S;
+using System.Web;
+using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace IP3_8IEN.UI.MVC_S.App_Code
 {
@@ -100,7 +113,7 @@ namespace IP3_8IEN.UI.MVC_S.App_Code
         public void WriteStrings(List<KeyValuePair<string, string>> kvpList)
         {
             string path = ConvertToPath(CurrentResource);
-            using (ResXResourceWriter rw = new ResXResourceWriter)
+            using (ResXResourceWriter rw = new ResXResourceWriter())
             {
                 #region write new entries
                 foreach (KeyValuePair<string, string> kvp in kvpList)

@@ -107,10 +107,14 @@ namespace IP3_8IEN.UI.MVC_S.Controllers
         public ActionResult CreateAdmin()
         {
             //kan ook gewone users aanmaken
-            UserVIewModel model = new UserVIewModel();
-            model.Roles = new List<SelectListItem>();
-            model.Roles.Add(new SelectListItem() { Text = "Admin", Value = "Admin" });
-            model.Roles.Add(new SelectListItem() { Text = "User", Value = "User" });
+            UserVIewModel model = new UserVIewModel
+            {
+                Roles = new List<SelectListItem>
+                {
+                    new SelectListItem() { Text = "Admin", Value = "Admin" },
+                    new SelectListItem() { Text = "User", Value = "User" }
+                }
+            };
 
             return View(model);
         }
