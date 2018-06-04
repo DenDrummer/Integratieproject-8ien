@@ -72,6 +72,11 @@ namespace IP3_8IEN.DAL
             ctx.SaveChanges();
         }
 
+        public IEnumerable<Dashbord> ReadDashbords()
+        {
+            return ctx.Dashbords.ToList();
+        }
+
         public DashItem ReadDashItem(int dashId)
             => ctx.DashItems.Find(dashId);
 
