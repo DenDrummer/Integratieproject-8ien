@@ -1607,7 +1607,19 @@ namespace IP3_8IEN.BL
             return counter;
         }
 
-        //Sam
+        public List<string> GetTowns(IEnumerable<Persoon> personen)
+        {
+            List<string> towns = new List<string>();
+
+            foreach(Persoon p in personen.ToList())
+            {
+                if (!towns.Contains(p.Town) && p.Town != null)
+                {
+                    towns.Add(p.Town);
+                }
+            }
+            return towns;
+        }
 
         public List<DataChart> GetTweetsPerDagDataChart(Persoon persoon, int aantalDagenTerug = 0)
         {
@@ -1780,13 +1792,75 @@ namespace IP3_8IEN.BL
             return GraphDataList;
         }
 
-        public List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0)
+        public List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0, string town = null)
         {
             InitNonExistingRepo(true);
 
             dashMgr = new DashManager();
-
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<Message> filter = new List<Message>();
+
+            if (town != null)
+            {
+                foreach(Message message in messages)
+                {
+                    foreach(SubjectMessage subjMsg in message.SubjectMessages)
+                    {
+                        if(subjMsg.Persoon != null)
+                        {
+                            if(subjMsg.Persoon.Town == town)
+                            {
+                                filter.Add(message);
+                            }
+                        }
+                    }
+                }
+                if(filter.Count() == 0)
+                {
+                    //beetje cheaten
+                    messages = ReadMessagesWithSubjMsgs().ToList();
+
+                    DateTime lastTweet2 = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                    DateTime stop2 = new DateTime();
+
+                    if (aantalDagenTerug == 0)
+                    {
+                        stop2 = messages.OrderBy(m => m.Date).ToList().First().Date;
+                    }
+                    else
+                    {
+                        stop2 = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                        stop2.AddDays(aantalDagenTerug * -1);
+                    }
+
+
+                    List<GraphData> GraphDataList2 = new List<GraphData>();
+                    for (int i = 0; i < aantalDagenTerug + 1; i++)
+                    {
+                        string date = lastTweet2.Date.Year + "-" + lastTweet2.Date.Month + "-" + lastTweet2.Date.Day;
+                        int count = 0;
+                        if (persoon.SubjectMessages != null)
+                        {
+                            GraphData graph = new GraphData(date, count);
+                            dashMgr.AddGraph(graph);
+
+                            GraphDataList2.Add(graph);
+
+                            lastTweet2 = lastTweet2.AddDays(-1);
+                        }
+                        uowManager.Save();
+                    }
+                    return GraphDataList2;
+                } else
+                {
+                    messages = filter.ToList();
+                }
+            }
+            else
+            {
+                messages = ReadMessagesWithSubjMsgs().ToList();
+            }
+
             DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
             DateTime stop = new DateTime();
 

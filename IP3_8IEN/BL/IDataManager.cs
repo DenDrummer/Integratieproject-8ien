@@ -80,6 +80,7 @@ namespace IP3_8IEN.BL
         List<GraphData> GetTweetsPerDagList(Thema thema, int aantalDagenTerug);
         SubjectMessage AddSubjectMessage(Message msg, Hashtag hashtag);
         IEnumerable<Hashtag> GetHashtagsWithSubjMsgs();
+        List<string> GetTowns(IEnumerable<Persoon> personen);
 
         #region Unsorted
         int GetMentionCountByName(string naam);
@@ -108,7 +109,7 @@ namespace IP3_8IEN.BL
         void SendMail();
         List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
         int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
-        List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0);
+        List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0, string town = null);
         List<GraphData> GetTweetsPerDagList(Persoon persoon, int aantalDagenTerug = 0);
         List<GraphData2> GetTweetsPerDag2(Persoon persoon1, Persoon persoon2, Persoon persoon3, Persoon persoon4,
             Persoon persoon5, int aantalDagenTerug = 0);

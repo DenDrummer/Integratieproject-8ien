@@ -234,25 +234,15 @@ namespace IP3_8IEN.BL
                 Naam = naam,
                 Role = role,
                 Email = email,
+                Joindate = DateTime.Now,
                 Active = true
             };
             repo.AddingGebruiker(gebruiker);
 
             dashMgr = new DashManager();
+            //Dashboard initialiseren voor nieuwe gebruiker en opvullen met vaste grafieken
+            dashMgr.InitializeDashbordNewUsers(gebruiker.GebruikerId);
 
-            //if (role == "Admin")
-            //{
-            //    IEnumerable<Domain.Dashboard.Dashbord> dashboards = dashMgr.GetDashboards();
-            //    foreach (Domain.Dashboard.Dashbord dash in dashboards)
-            //    {
-
-            //    }
-            //}
-            //else
-            //{
-                //Dashboard initialiseren voor nieuwe gebruiker en opvullen met vaste grafieken
-                dashMgr.InitializeDashbordNewUsers(gebruiker.GebruikerId);
-            //}
         }
 
         public void UpdateGebruiker(Gebruiker gebruiker)
