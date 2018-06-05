@@ -59,6 +59,9 @@ namespace IP3_8IEN.DAL
         public IEnumerable<Gebruiker> ReadGebruikers()
             => ctx.Gebruikers.ToList();
 
+        public IEnumerable<Gebruiker> ReadGebruikersWithDashbord()
+            => ctx.Gebruikers.Include("Dashboards").Include("Dashboards.TileZones").ToList();
+
         public AlertInstelling ReadAlertInstelling(int alertInstellingId) => ctx.AlertInstellingen.Find(alertInstellingId);
 
         public void AddingAlert(Alert alert)
@@ -69,6 +72,9 @@ namespace IP3_8IEN.DAL
 
         public IEnumerable<Alert> ReadAlerts()
             => ctx.Alerts.ToList();
+
+        public IEnumerable<Alert> ReadAlertsWithAlertInstellingen()
+            => ctx.Alerts.Include("AlertInstelling").ToList();
 
         public void UpdateAlertInstelling(AlertInstelling alertInstelling)
             => ctx.SaveChanges();

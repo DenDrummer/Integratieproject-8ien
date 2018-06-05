@@ -72,6 +72,11 @@ namespace IP3_8IEN.DAL
             ctx.SaveChanges();
         }
 
+        public IEnumerable<Dashbord> ReadDashbords()
+        {
+            return ctx.Dashbords.ToList();
+        }
+
         public DashItem ReadDashItem(int dashId)
             => ctx.DashItems.Find(dashId);
 
@@ -106,6 +111,7 @@ namespace IP3_8IEN.DAL
 
         public Dashbord ReadDashbordWithFollows(Gebruiker user)
             => ctx.Dashbords
+            .Include("User")
             .Include("TileZones")
             .Include("TileZones.DashItem")
             .Include("TileZones.DashItem.Graphdata")

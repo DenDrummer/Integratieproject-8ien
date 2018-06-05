@@ -13,6 +13,7 @@ namespace IP3_8IEN.BL.Domain.Dashboard
         public int AantalDagen { get; set; }
         public string Naam { get; set; }
         public string Type { get; set; }
+        public string Town { get; set; }
         //Active -> bij 'false' wordt de 'DashItem' beschouwd als verwijderd
         public bool Active { get; set; }
 

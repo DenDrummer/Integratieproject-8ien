@@ -190,7 +190,9 @@ namespace IP3_8IEN.BL
 
                 foreach (string hashtag in item.hashtags)
                 {
-                    AddSubjectMessage(tweet, AddHashtag(hashtag));
+                    //AddSubjectMessage(tweet, AddHashtag(hashtag));
+                    Hashtag hasht = AddHashtag(hashtag);
+                    tweet.SubjectMessages.Add(AddSubjectMessage(tweet, hasht));
                 }
 
                 repo.UpdateMessage();
@@ -236,15 +238,15 @@ namespace IP3_8IEN.BL
             Hashtag hasht;
             IEnumerable<Hashtag> hashtags = repo.ReadHashtags();
 
-            if (hashtags.Any(x => x.HashtagString == hashtag))
+            if (hashtags.Any(x => x.Naam == hashtag))
             {
-                hasht = hashtags.FirstOrDefault(x => x.HashtagString == hashtag);
+                hasht = hashtags.FirstOrDefault(x => x.Naam == hashtag);
             }
             else
             {
                 hasht = new Hashtag()
                 {
-                    HashtagString = hashtag,
+                    Naam = hashtag,
                     SubjectMessages = new Collection<SubjectMessage>()
                 };
                 repo.AddOnderwerp(hasht);
@@ -278,17 +280,43 @@ namespace IP3_8IEN.BL
             return subjMess;
         }
 
-        // Toevoegen van een SubjectMessage adhv een 'Message' en een 'Hashtag'
-        public void AddSubjectMessage(Message msg, Hashtag hashtag)
+        public SubjectMessage AddSubjectMessage(Message msg, Hashtag hashtag)
         {
             InitNonExistingRepo();
-            
-            repo.AddSubjectMsg(new SubjectMessage()
+
+            SubjectMessage subjMess = new SubjectMessage()
             {
                 Msg = msg,
                 Hashtag = hashtag
-            });
+            };
+            repo.AddSubjectMsg(subjMess);
+
+            if (hashtag.SubjectMessages == null)
+            {
+                hashtag.SubjectMessages = new Collection<SubjectMessage>
+                {
+                    subjMess
+                };
+            }
+            else
+            {
+                hashtag.SubjectMessages.Add(subjMess);
+            }
+
+            return subjMess;
         }
+
+        // Toevoegen van een SubjectMessage adhv een 'Message' en een 'Hashtag'
+        //public void AddSubjectMessage(Message msg, Hashtag hashtag)
+        //{
+        //    InitNonExistingRepo();
+            
+        //    repo.AddSubjectMsg(new SubjectMessage()
+        //    {
+        //        Msg = msg,
+        //        Hashtag = hashtag
+        //    });
+        //}
 
         // We vragen adhv een methode in de repo een lijst in te laden
         // Deze methode wordt aangesproken in de 'GebruikerManager'
@@ -567,6 +595,13 @@ namespace IP3_8IEN.BL
             Persoon persoon = repo.ReadPersoon(persoonId);
             return persoon;
         }
+        public Persoon GetPersoonWithSjctMsg(int persoonId)
+        {
+            InitNonExistingRepo();
+
+            Persoon persoon = repo.ReadPersoonWithSbjctMsg(persoonId);
+            return persoon;
+        }
 
         public Organisatie GetOrganisatie(int organisatieId)
         {
@@ -647,7 +682,7 @@ namespace IP3_8IEN.BL
 
             foreach(Hashtag hash in hashForTheme)
             {
-                hashtags.Add(hash.HashtagString);
+                hashtags.Add(hash.Naam);
             }
 
             Thema theme = new Thema
@@ -700,6 +735,20 @@ namespace IP3_8IEN.BL
             repo.UpdateTheme(thema);
         }
 
+        public Thema GetThema(int id)
+        {
+            InitNonExistingRepo();
+            return repo.ReadThemas(id);
+        }
+
+        public IEnumerable<Hashtag> GetHashtagsWithSubjMsgs()
+        {
+            InitNonExistingRepo();
+            return repo.ReadHashtagsWithSubjMsgs();
+        }
+
+
+        
         //Unit of Work related
         public void InitNonExistingRepo(bool withUnitOfWork = false)
         {
@@ -984,6 +1033,51 @@ namespace IP3_8IEN.BL
 
             lastTweet = lastTweet.AddDays(-1);
             uowManager.Save();
+
+            return GraphDataList;
+        }
+
+        public List<GraphData> GetNumberGraph(Thema thema, int laatsteAantalUren = 0)
+        {
+            InitNonExistingRepo(true);
+            dashMgr = new DashManager();
+            List<Message> messages = repo.ReadMessages(true).ToList();
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            int count = 0;
+
+            IEnumerable<Thema> themas = repo.ReadThemas();
+            List<Hashtag> hashtags = new List<Hashtag>();
+            if(thema.Hashtag1 != null)
+            {
+                hashtags.Add(hashtags.FirstOrDefault(t => t.Naam == thema.Hashtag1));
+            }
+            if (thema.Hashtag2 != null)
+            {
+                hashtags.Add(hashtags.FirstOrDefault(t => t.Naam == thema.Hashtag2));
+            }
+            if (thema.Hashtag3 != null)
+            {
+                hashtags.Add(hashtags.FirstOrDefault(t => t.Naam == thema.Hashtag3));
+            }
+            if (thema.Hashtag4 != null)
+            {
+                hashtags.Add(hashtags.FirstOrDefault(t => t.Naam == thema.Hashtag4));
+            }
+
+            List<GraphData> GraphDataList = new List<GraphData>();
+
+            foreach(Hashtag hash in hashtags)
+            {
+                count =+ hash.SubjectMessages.Where(s => s.Msg.Date > lastTweet.AddHours(laatsteAantalUren * -1)).Count();
+            }
+
+                GraphData graph = new GraphData(lastTweet.ToString(), count);
+                dashMgr.AddGraph(graph);
+
+                GraphDataList.Add(graph);
+
+                lastTweet = lastTweet.AddDays(-1);
+                uowManager.Save();
 
             return GraphDataList;
         }
@@ -1520,7 +1614,19 @@ namespace IP3_8IEN.BL
             return counter;
         }
 
-        //Sam
+        public List<string> GetTowns(IEnumerable<Persoon> personen)
+        {
+            List<string> towns = new List<string>();
+
+            foreach(Persoon p in personen.ToList())
+            {
+                if (!towns.Contains(p.Town) && p.Town != null)
+                {
+                    towns.Add(p.Town);
+                }
+            }
+            return towns;
+        }
 
         public List<DataChart> GetTweetsPerDagDataChart(Persoon persoon, int aantalDagenTerug = 0)
         {
@@ -1555,6 +1661,7 @@ namespace IP3_8IEN.BL
         public List<GraphData> GetTweetsPerDagList(Persoon persoon, int aantalDagenTerug = 0)
         {
             InitNonExistingRepo();
+
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
             DateTime stop = new DateTime();
@@ -1568,28 +1675,199 @@ namespace IP3_8IEN.BL
                 stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
                 stop.AddDays(aantalDagenTerug * -1);
             }
-            List<GraphData> GraphDataList = new List<GraphData>();
 
+
+            List<GraphData> GraphDataList = new List<GraphData>();
             for (int i = 0; i < aantalDagenTerug + 1; i++)
             {
-                //Sam
                 string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
-                //Sam
-                GraphDataList.Add(new GraphData(date, messages.Where(m => m.Date.Date.Day == lastTweet.Date.Day && m.IsFromPersoon(persoon)).Count()));
-                lastTweet = lastTweet.AddDays(-1);
+                int count = 0;
+                if (persoon.SubjectMessages != null)
+                {
+                    IEnumerable<SubjectMessage> subjMsgs = persoon.SubjectMessages.Where(s => s.Msg.Date.Day == lastTweet.Date.Day).ToList();
+                    //////////////////////////////////////////////////////////////////////////
+                    foreach (SubjectMessage s in subjMsgs)
+                    {
+                        count++;
+                    }
+                    GraphData graph = new GraphData(date, count);
+                    GraphDataList.Add(graph);
+
+                    lastTweet = lastTweet.AddDays(-1);
+                }
             }
-            
+
+                return GraphDataList;
+        }
+
+        public List<GraphData> GetTweetsPerDagList(Organisatie organisatie, int aantalDagenTerug = 0)
+        {
+            InitNonExistingRepo();
+
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            DateTime stop = new DateTime();
+
+            if (aantalDagenTerug == 0)
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().First().Date;
+            }
+            else
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                stop.AddDays(aantalDagenTerug * -1);
+            }
+
+
+            List<GraphData> GraphDataList = new List<GraphData>();
+            for (int i = 0; i < aantalDagenTerug + 1; i++)
+            {
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                int count = 0;
+                IEnumerable<Persoon> personen = repo.ReadPersonenWithTewerkstelling();
+                //////////////////////////////////////////////////////////////////////////
+                foreach (Persoon p in personen)
+                {
+                    foreach (Tewerkstelling t in p.Tewerkstellingen)
+                    {
+                        if (t.Organisatie.Naam == organisatie.Naam)
+                        {
+                            count += p.SubjectMessages.Where(s => s.Msg.Date.Day == lastTweet.Date.Day).Count();
+                        }
+                    }
+                }
+                GraphData graph = new GraphData(date, count);
+                GraphDataList.Add(graph);
+            }
             return GraphDataList;
         }
 
+        public List<GraphData> GetTweetsPerDagList(Thema thema, int aantalDagenTerug = 0)
+        {
+            InitNonExistingRepo();
 
-        public List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0)
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            DateTime stop = new DateTime();
+
+            IEnumerable<Thema> themas = repo.ReadThemas();
+            IEnumerable<Hashtag> hashtagsDb = repo.ReadHashtagsWithSubjMsgs().ToList();
+            List<Hashtag> hashtags = new List<Hashtag>();
+            if (thema.Hashtag1 != null)
+            {
+                hashtags.Add(hashtagsDb.FirstOrDefault(t => t.Naam == thema.Hashtag1));
+            }
+            if (thema.Hashtag2 != null)
+            {
+                hashtags.Add(hashtagsDb.FirstOrDefault(t => t.Naam == thema.Hashtag2));
+            }
+            if (thema.Hashtag3 != null)
+            {
+                hashtags.Add(hashtagsDb.FirstOrDefault(t => t.Naam == thema.Hashtag3));
+            }
+            if (thema.Hashtag4 != null)
+            {
+                hashtags.Add(hashtagsDb.FirstOrDefault(t => t.Naam == thema.Hashtag4));
+            }
+
+            if (aantalDagenTerug == 0)
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().First().Date;
+            }
+            else
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                stop.AddDays(aantalDagenTerug * -1);
+            }
+
+            List<GraphData> GraphDataList = new List<GraphData>();
+            for (int i = 0; i < aantalDagenTerug + 1; i++)
+            {
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                int count = 0;
+                //////////////////////////////////////////////////////////////////////////
+
+                foreach (Hashtag hash in hashtags)
+                {
+                    count += hash.SubjectMessages.Where(s => s.Msg.Date.Day == lastTweet.Date.Day).Count();
+                }
+                GraphData graph = new GraphData(date, count);
+                GraphDataList.Add(graph);
+
+                lastTweet = lastTweet.AddDays(-1);
+            }
+            return GraphDataList;
+        }
+
+        public List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0, string town = null)
         {
             InitNonExistingRepo(true);
 
             dashMgr = new DashManager();
-
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<Message> filter = new List<Message>();
+
+            if (town != null)
+            {
+                foreach(Message message in messages)
+                {
+                    foreach(SubjectMessage subjMsg in message.SubjectMessages)
+                    {
+                        if(subjMsg.Persoon != null)
+                        {
+                            if(subjMsg.Persoon.Town == town)
+                            {
+                                filter.Add(message);
+                            }
+                        }
+                    }
+                }
+                if(filter.Count() == 0)
+                {
+                    //beetje cheaten
+                    messages = ReadMessagesWithSubjMsgs().ToList();
+
+                    DateTime lastTweet2 = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                    DateTime stop2 = new DateTime();
+
+                    if (aantalDagenTerug == 0)
+                    {
+                        stop2 = messages.OrderBy(m => m.Date).ToList().First().Date;
+                    }
+                    else
+                    {
+                        stop2 = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                        stop2.AddDays(aantalDagenTerug * -1);
+                    }
+
+
+                    List<GraphData> GraphDataList2 = new List<GraphData>();
+                    for (int i = 0; i < aantalDagenTerug + 1; i++)
+                    {
+                        string date = lastTweet2.Date.Year + "-" + lastTweet2.Date.Month + "-" + lastTweet2.Date.Day;
+                        int count = 0;
+                        if (persoon.SubjectMessages != null)
+                        {
+                            GraphData graph = new GraphData(date, count);
+                            dashMgr.AddGraph(graph);
+
+                            GraphDataList2.Add(graph);
+
+                            lastTweet2 = lastTweet2.AddDays(-1);
+                        }
+                        uowManager.Save();
+                    }
+                    return GraphDataList2;
+                } else
+                {
+                    messages = filter.ToList();
+                }
+            }
+            else
+            {
+                messages = ReadMessagesWithSubjMsgs().ToList();
+            }
+
             DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
             DateTime stop = new DateTime();
 
@@ -1679,6 +1957,68 @@ namespace IP3_8IEN.BL
             return GraphDataList;
         }
 
+        public List<GraphData> GetTweetsPerDag(Thema thema, int aantalDagenTerug = 0)
+        {
+            InitNonExistingRepo(true);
+
+            dashMgr = new DashManager();
+
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            DateTime stop = new DateTime();
+
+            IEnumerable<Thema> themas = repo.ReadThemas();
+            IEnumerable<Hashtag> hashtagsDb = repo.ReadHashtagsWithSubjMsgs().ToList();
+            List<Hashtag> hashtags = new List<Hashtag>();
+            if (thema.Hashtag1 != null)
+            {
+                hashtags.Add(hashtagsDb.FirstOrDefault(t => t.Naam == thema.Hashtag1));
+            }
+            if (thema.Hashtag2 != null)
+            {
+                hashtags.Add(hashtagsDb.FirstOrDefault(t => t.Naam == thema.Hashtag2));
+            }
+            if (thema.Hashtag3 != null)
+            {
+                hashtags.Add(hashtagsDb.FirstOrDefault(t => t.Naam == thema.Hashtag3));
+            }
+            if (thema.Hashtag4 != null)
+            {
+                hashtags.Add(hashtagsDb.FirstOrDefault(t => t.Naam == thema.Hashtag4));
+            }
+
+            if (aantalDagenTerug == 0)
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().First().Date;
+            }
+            else
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                stop.AddDays(aantalDagenTerug * -1);
+            }
+
+            List<GraphData> GraphDataList = new List<GraphData>();
+            for (int i = 0; i < aantalDagenTerug + 1; i++)
+            {
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                int count = 0;
+                //////////////////////////////////////////////////////////////////////////
+
+                foreach (Hashtag hash in hashtags)
+                {
+                    count += hash.SubjectMessages.Where(s => s.Msg.Date.Day == lastTweet.Date.Day).Count();
+                }
+                GraphData graph = new GraphData(date, count);
+                dashMgr.AddGraph(graph);
+
+                GraphDataList.Add(graph);
+
+                lastTweet = lastTweet.AddDays(-1);
+                uowManager.Save();
+            }
+            return GraphDataList;
+        }
+
         public bool IsFromPersoon(Persoon persoon, IEnumerable<SubjectMessage> subjMsgs)
         {
             foreach (SubjectMessage s in subjMsgs)
@@ -1728,6 +2068,46 @@ namespace IP3_8IEN.BL
             }
             uowManager.Save();
             return GraphDataList;
+        }
+
+        public List<GraphData> GetRankingList(int aantal, int interval_uren, bool puntNotatie = false)
+        {
+            InitNonExistingRepo();
+
+            List<Persoon> personen = repo.ReadPersonen().ToList();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            List<GraphData> graphsList = new List<GraphData>();
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            int laatstePeriode;
+            int voorlaatstePeriode;
+
+            List<GraphData> ranking = new List<GraphData>();
+            foreach (Persoon p in personen)
+            {
+                int teller = messages.Where(m => m.IsFromPersoon(p)).Count();
+                List<Message> messages2 = messages.Where(m => m.IsFromPersoon(p)).ToList();
+                laatstePeriode = messages2.Where(m => lastTweet.AddHours(interval_uren * -1) < m.Date).Count();
+                voorlaatstePeriode = messages2.Where(m => lastTweet.AddHours((interval_uren * 2) * -1) < m.Date && m.Date < lastTweet.AddHours(interval_uren * -1)).Count();
+                if (puntNotatie == true)
+                {
+                    GraphData graph = new GraphData(p.Naam, (double)CalculateChange(voorlaatstePeriode, laatstePeriode));
+                    ranking.Add(graph);
+                }
+                else
+                {
+                    GraphData graph = new GraphData(p.Naam, CalculateChange(voorlaatstePeriode, laatstePeriode));
+                    ranking.Add(graph);
+                }
+            }
+            ranking = ranking.OrderByDescending(r => r.Value).ToList();
+            ranking = ranking.GetRange(0, aantal);
+
+            foreach (GraphData graph in ranking)
+            {
+                graphsList.Add(graph);
+            }
+
+            return graphsList;
         }
 
         public List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = false)
@@ -2124,7 +2504,7 @@ namespace IP3_8IEN.BL
             return data.GetRange(0, aantal);
         }
         
-        public IEnumerable<string> FrequenteWoorden(ICollection<SubjectMessage> subjMsgs, int ammount)
+        public List<GraphData> FrequenteWoorden(ICollection<SubjectMessage> subjMsgs, int ammount)
         {
             Dictionary<string, int> woorden = new Dictionary<string, int>();
             List<string> woordStrings = new List<string>();
@@ -2139,7 +2519,7 @@ namespace IP3_8IEN.BL
             }
             foreach (string woord in woordStrings)
             {
-                if (woorden.ContainsKey(woord))
+                if (!woorden.ContainsKey(woord))
                 {
                     woorden.Add(woord, 1);
                 }
@@ -2148,14 +2528,20 @@ namespace IP3_8IEN.BL
                     int value;
                     woorden.TryGetValue(woord, out value);
                     woorden.Remove(woord);
-                    woorden.Add(woord, value++);
+                    woorden.Add(woord, ++value);
                 }
             }
-            woorden.ToList().Sort(delegate (KeyValuePair<string, int> kvp1, KeyValuePair<string, int> kvp2)
+            ////woorden.OrderByDescending(r => r.Value).ToList();
+            //woorden.ToList().Sort(delegate (KeyValuePair<string, int> kvp1, KeyValuePair<string, int> kvp2)
+            //{
+            //    return kvp1.Value.CompareTo(kvp2.Value);
+            //});
+            List<GraphData> topwoorden = new List<GraphData>();
+            foreach (KeyValuePair<string, int> kvp in woorden.OrderByDescending(r => r.Value).ToList().Take(ammount))
             {
-                return kvp1.Value.CompareTo(kvp2.Value);
-            });
-            return woorden.Keys.ToList().Take(ammount);
+                topwoorden.Add(new GraphData(kvp.Key, kvp.Value));
+            }
+            return topwoorden;
         }
 
         public IEnumerable<string> GetMessageWords(Message msg)
@@ -2182,6 +2568,13 @@ namespace IP3_8IEN.BL
                 words.Add(msg.Word5);
             }
             return words;
+        }
+
+        public IEnumerable<Persoon> GetPersonenOnly()
+        {
+            InitNonExistingRepo();
+            IEnumerable<Persoon> personen = repo.ReadPersonenOnly();
+            return personen;
         }
     }
 }
