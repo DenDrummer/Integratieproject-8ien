@@ -215,7 +215,6 @@ namespace MVC_S.Controllers
         public ActionResult CreateGrafiekLine(string automplete, string automplete2)
         {
             string naam = automplete;
-
             ViewBag.naam = automplete;
 
             //Zie dat je bent ingelogd
@@ -487,6 +486,19 @@ namespace MVC_S.Controllers
 
             return View(themas);
             /////////////////////////////////////////////////////////////////
+        }
+
+        [HttpGet]
+        public ActionResult UserStats()
+        {
+            //Aantal bijgekomen user afgelopen 10 dagen (Line)
+            IEnumerable<GraphData> userstats = _gebrManager.GetUserstatsList().ToList();
+            //Meeste follows laatste dagen (Donut)
+            IEnumerable<GraphData> mostFollows = _dashManager.GetMostFollowsList().ToList();
+            //Aantal gebruikers (Cijfer)
+            IEnumerable<GraphData> aantalUsers = _gebrManager.GetTotalUsersList().ToList();
+
+            return View();
         }
     }
 }

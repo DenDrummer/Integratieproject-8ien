@@ -1801,6 +1801,36 @@ namespace IP3_8IEN.BL
             return GraphDataList;
         }
 
+        public int GetAantalVermeldingen(Thema theme)
+        {
+            InitNonExistingRepo();
+
+            int count = 0;
+            Hashtag hash;
+            IEnumerable<Hashtag> hashtags = repo.ReadHashtagsWithSubjMsgs().ToList();
+            if(theme.Hashtag1 != null)
+            {
+                hash = repo.ReadHashtags().FirstOrDefault(h => h.Naam == theme.Hashtag1);
+                count += hash.SubjectMessages.Count();
+            }
+            if (theme.Hashtag2 != null)
+            {
+                hash = repo.ReadHashtags().FirstOrDefault(h => h.Naam == theme.Hashtag2);
+                count += hash.SubjectMessages.Count();
+            }
+            if (theme.Hashtag3 != null)
+            {
+                hash = repo.ReadHashtags().FirstOrDefault(h => h.Naam == theme.Hashtag3);
+                count += hash.SubjectMessages.Count();
+            }
+            if (theme.Hashtag4 != null)
+            {
+                hash = repo.ReadHashtags().FirstOrDefault(h => h.Naam == theme.Hashtag4);
+                count += hash.SubjectMessages.Count();
+            }
+            return count;
+        }
+
         public List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0, string town = null)
         {
             InitNonExistingRepo(true);
@@ -1891,7 +1921,7 @@ namespace IP3_8IEN.BL
                 int count = 0;
                 if (persoon.SubjectMessages != null)
                 {
-                    IEnumerable<SubjectMessage> subjMsgs = persoon.SubjectMessages.Where(s => s.Msg.Date.Day == lastTweet.Date.Day).ToList();
+                    IEnumerable<SubjectMessage> subjMsgs = persoon.SubjectMessages.Where(s => s.Msg.Date.DayOfYear == lastTweet.Date.DayOfYear).ToList();
                     //////////////////////////////////////////////////////////////////////////
                     foreach (SubjectMessage s in subjMsgs)
                     {

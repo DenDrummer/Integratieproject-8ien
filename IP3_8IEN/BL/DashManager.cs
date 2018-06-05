@@ -53,11 +53,39 @@ namespace IP3_8IEN.BL
             return repo.ReadDashbordWithFollows(user);
         }
 
-        public DashItem CreateDashitem(bool adminGraph, string type, string naam = "usergraph", string town = "Vlaanderen")
+        public DashItem CreateDashitem(bool adminGraph, string type, int aantalDagenTerug, string naam = "usergraph", string town = "Vlaanderen")
         {
             InitNonExistingRepo();
 
             DashItem dashItem = new DashItem() {
+                LastModified = DateTime.Now,
+                Type = type,
+                AantalDagen = aantalDagenTerug,
+                Naam = naam,
+                Town = town,
+                Active = true
+            };
+
+            if (adminGraph)
+            {
+                dashItem.AdminGraph = true;
+            }
+            else
+            {
+                dashItem.AdminGraph = false;
+            }
+
+            repo.AddDashItem(dashItem);
+
+            return dashItem;
+        }
+
+        public DashItem CreateDashitem(bool adminGraph, string type,string naam = "usergraph",string town= "Vlanderen")
+        {
+            InitNonExistingRepo();
+
+            DashItem dashItem = new DashItem()
+            {
                 LastModified = DateTime.Now,
                 Type = type,
                 Naam = naam,
@@ -282,6 +310,35 @@ namespace IP3_8IEN.BL
                     uowManager.Save();
                 }
             }
+        }
+
+        public IEnumerable<GraphData> GetMostFollowsList()
+        {
+            InitNonExistingRepo();
+            List<GraphData> datalist = new List<GraphData>();
+            GraphData graph;
+            IEnumerable<Follow> follows = repo.ReadFollows().ToList();
+            var numberGroups = follows.GroupBy(i => i.Onderwerp.OnderwerpId)
+                   .Select(grp => new {
+                       number = grp.Key,
+                       total = grp.Count()
+                   })
+                   .ToList();
+            numberGroups = numberGroups.OrderByDescending(f => f.total).ToList();
+
+            for(int i = 0; i < numberGroups.Count(); i++)
+            {
+                if(numberGroups[i] != null)
+                {
+                    graph = new GraphData()
+                    {
+                        Label = follows.FirstOrDefault(f => f.Onderwerp.OnderwerpId == numberGroups[i].number).Onderwerp.Naam,
+                        Value = numberGroups[i].total
+                    };
+                    datalist.Add(graph);
+                }
+            }
+            return datalist;
         }
 
         public void UpdateDashItem(DashItem dashItem) => repo.UpdateDashItem(dashItem);

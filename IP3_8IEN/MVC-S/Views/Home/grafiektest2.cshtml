@@ -125,9 +125,7 @@
 }
 
 <div class="container">
-    @*    <i class="glyphicon glyphicon-plus glyphicon-center" data-toggle="modal" data-target="#myModal"*@
-    @*       style="font-size: 150px">*@
-    @*    </i>*@
+
     <div class="modal fade" id="myModal" role="dialog">
 
         <div class="modal-dialog">
@@ -135,7 +133,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2>New</h2>
+                    <h2>Nieuwe Dash Item toevoegen</h2>
                 </div>
                 <div class="modal-body">
                     <div class="container-md">
@@ -146,7 +144,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select id="type" name="types">
-                                        <option value="" class="default" selected>(select type)</option>
+                                        <option value="" class="default" selected>(kies type)</option>
                                         <option name="type" value="number">Number</option>
                                         <option name="type" value="bar">Bar chart</option>
                                         <option name="type" value="donut">Donut chart</option>
@@ -163,12 +161,11 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select class="grafiekTypeInfo" name="grafiekTypes">
-                                        <option value="" class="default" selected>(select type)</option>
+                                        <option value="" class="default" selected>(kies type)</option>
                                         <option name="grafiekType" value="GetTweetsPerDag">Aantal tweets per dag</option>
                                         <option name="grafiekType" value="GetRanking">Trending politiekers</option>
                                     </select>
                                 </div>
-
                             </div>
                         </div>
 
@@ -179,6 +176,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select id="aantal" name="aantal">
+                                        <option name="aantal" value="0">(kies aantal)</option>
                                         <option name="aantal" value="1">1</option>
                                         <option name="aantal" value="2">2</option>
                                         <option name="aantal" value="3">3</option>
@@ -197,7 +195,7 @@
                                 <div class="col-md-4">
                                     @{
                                         Html.RenderPartial("Zoeken");
-                                    }
+                                    }<div class="error" style="display: none;color:red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
@@ -209,7 +207,7 @@
                                 <div class="col-md-4">
                                     @{
                                         Html.RenderPartial("Zoeken");
-                                    }
+                                    }<div class="error" style="display: none;color:red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
@@ -221,7 +219,7 @@
                                 <div class="col-md-4">
                                     @{
                                         Html.RenderPartial("Zoeken");
-                                    }
+                                    }<div class="error" style="display: none;color:red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
@@ -233,7 +231,7 @@
                                 <div class="col-md-4">
                                     @{
                                         Html.RenderPartial("Zoeken");
-                                    }
+                                    }<div class="error" style="display: none;color:red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
@@ -245,7 +243,7 @@
                                 <div class="col-md-4">
                                     @{
                                         Html.RenderPartial("Zoeken");
-                                    }
+                                    }<div class="error" style="display: none;color:red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
@@ -274,7 +272,7 @@
                                     <h4>Aantal top politici</h4>
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="text" name="automplete" id="aantalPolitici">
+                                    <input type="number" name="automplete" id="aantalPolitici">
                                 </div>
                             </div>
                         </div>
@@ -284,7 +282,7 @@
                                     <h4>Aantal uren terug</h4>
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="text" name="automplete" id="urenTerug">
+                                    <input type="number" name="automplete" id="urenTerug">
                                 </div>
                             </div>
                         </div>

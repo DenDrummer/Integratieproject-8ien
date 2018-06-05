@@ -23,19 +23,19 @@
                     <tbody>
                         @foreach (var t in Model)
                         {
-                            <tr class="odd gradeX">
-                                <td>@Html.ActionLink(t.Naam, "Themas", new { id = t.OnderwerpId })</td>
-                                <td>
-                                    <ul style="list-style:none;padding-left:0px">
-                                        @foreach (string h in t.Hashtags)
-                                        {
-                                            string hash = $"#{h}";
-                                            <li>@Html.DisplayFor(m => hash)</li>
-                                        }
-                                    </ul>
-                                </td>
-                                <td>@Html.DisplayFor(m => t.SubjectMessages.Count)</td>
-                            </tr>
+                        <tr class="odd gradeX">
+                            <td>@Html.ActionLink(t.Naam, "Themas", new { id = t.OnderwerpId })</td>
+                            <td>
+                                <ul style="list-style:none;padding-left:0px">
+                                    @foreach (string h in t.Hashtags)
+                                    {
+                                        string hash = $"#{h}";
+                                        <li>@Html.DisplayFor(m => hash)</li>
+                                    }
+                                </ul>
+                            </td>
+                            <td>@Html.DisplayFor(m => t.AantalVermeldingen)</td>
+                        </tr>
                         }
                     </tbody>
                 </table>

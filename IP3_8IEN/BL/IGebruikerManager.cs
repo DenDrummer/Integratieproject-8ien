@@ -1,4 +1,6 @@
-﻿using IP3_8IEN.BL.Domain.Gebruikers;
+﻿using IP3_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Gebruikers;
+using System;
 using System.Collections.Generic;
 
 namespace IP3_8IEN.BL
@@ -31,7 +33,7 @@ namespace IP3_8IEN.BL
         //void AddApplicationGebruikers(string filePath); <-- verhuist naar ApplicationUserManager()
 
         //10 mei 2018 : Stephane
-        void AddGebruiker(string userName, string id, string naam, string voornaam, string email, string role);
+        void AddGebruiker(string userName, string id, string naam, string voornaam, string email, DateTime joindate, string role);
         void UpdateGebruiker(Gebruiker gebruiker);
         
         void DeleteUser(string userId);
@@ -39,5 +41,8 @@ namespace IP3_8IEN.BL
         IEnumerable<ApplicationUser> GetUsersInRoles(IEnumerable<ApplicationUser> appUsers, string role);
         string ExportToCSV(IEnumerable<Gebruiker> gebruikers);
         IEnumerable<Gebruiker> GetGebruikersWithDash();
+
+        IEnumerable<GraphData> GetUserstatsList();
+        IEnumerable<GraphData> GetTotalUsersList();
     }
 }
