@@ -97,6 +97,26 @@ function custDonutChart(dashItemid, elementId, titel) {
     });
 
 }
+function custRank(dashItemid, elementId, titel) {
+    var plaats = elementId - 1;
+    var id = "chart" + plaats;
+    $.ajax({
+        url: "/Home/GetJsonFromGraphData",
+        data: { 'id': dashItemid },
+        type: 'GET',
+        success: function (result) {
+            var i = 1;
+            var lijst = "";
+            result.forEach(function (data) {
+                lijst += `<h4 style="font:bold"> ${i}: <span style="color: #00295C;">${data.label}</span></h6>`;
+                i++;
+            });
+            $(`#${id}`).html(lijst);
+        },
+        error: function (result) {
+        }
+    });
+}
 function custCijfer(dashItemid, elementId, titel) {
     var plaats = elementId - 1;
     var id = "chart" + plaats;

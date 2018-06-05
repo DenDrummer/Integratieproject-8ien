@@ -87,18 +87,18 @@ namespace MVC_S.Controllers
 
         public ActionResult Dashboard()
         {
-            try
-            {
-                ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
-                string userName = appUser.UserName;
-                Gebruiker user = gMgr.FindUser(userName);
+            //try
+            //{
+            //    ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
+            //    string userName = appUser.UserName;
+            //    Gebruiker user = gMgr.FindUser(userName);
 
-                Dashbord dashbord = dashMgr.GetDashboardWithFollows(user);
-                dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem up-to-date is
-            }
-            catch
-            {
-            }
+            //    Dashbord dashbord = dashMgr.GetDashboardWithFollows(user);
+            //    dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem up-to-date is
+            //}
+            //catch
+            //{
+            //}
 
             IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
             List<string> names = ObjList.Select(p => p.Naam).ToList();

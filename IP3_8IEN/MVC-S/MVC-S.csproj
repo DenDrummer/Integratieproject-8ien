@@ -583,7 +583,7 @@
     <Content Include="Views\Admin\DeleteGrafiek.cshtml" />
     <Content Include="Views\Superadmin\CreateAdmin.cshtml" />
     <Content Include="Views\Admin\ExportToCSV.cshtml" />
-    <Content Include="Views\Admin\CreateDonutInput.cshtml" />
+    <Content Include="Views\Admin\CreateDonutInput2.cshtml" />
     <Content Include="Views\Admin\Themas.cshtml" />
     <Content Include="Views\Shared\Hashtag.cshtml" />
     <Content Include="Views\Home\ThemasLijst.cshtml" />
@@ -596,6 +596,8 @@
     <Content Include="Views\Admin\CreateCijferInput.cshtml" />
     <Content Include="Views\Admin\CreateCijfer.cshtml" />
     <Content Include="Views\Admin\UserStats.cshtml" />
+    <Content Include="Views\Admin\CreateDonutInput.cshtml" />
+    <Content Include="Views\Admin\CreateDonut.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

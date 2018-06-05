@@ -106,9 +106,9 @@
             change: function (e) {
                     var item = order.splice(e.oldIndex, 1)[0]; //remove the item that has changed its order
                     order.splice(e.newIndex, 0, item); //add the item back using the newIndex
-                
+
                 updateKendoZones(@Model.DashbordId, kendo.stringify(order));
-            
+
                 }
     });
 }
@@ -149,6 +149,10 @@
             {
                 <script type="text/javascript">custDonutChart(@dashItemId, @elementId, "@titel");</script>
             }
+            else if (t.DashItem.Type.Contains("Rank"))
+            {
+                <script type="text/javascript">custRank(@dashItemId, @i, "@titel");</script>
+            }
             else
             {
                 <script type="text/javascript">custCijfer(@dashItemId, @i, "@titel");</script>
@@ -169,7 +173,7 @@
         //myModal.modal('toggle');
     </script>
 
-    
+
     <!-- Modal -->
     <div class="modal fade" id="myModal1" role="dialog">
         <div class="modal-dialog">

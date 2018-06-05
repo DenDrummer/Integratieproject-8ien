@@ -275,11 +275,60 @@ namespace MVC_S.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateRankingInput()
+        public ActionResult CreateDonutInput()
         {
             return View();
         }
 
+        [HttpPost]
+        public ActionResult CreateDonutInput(string naam, int aantal, int interval)
+        {
+            RankViewModel rankModel = new RankViewModel()
+            {
+                Naam = naam,
+                Aantal = aantal,
+                interval = interval
+            };
+
+            TempData["rankModel"] = rankModel;
+
+            return RedirectToAction("CreateDonut");
+        }
+
+        [HttpGet]
+        public ActionResult CreateDonut()
+        {
+            //Deze wordt ook voor Donut gebruikt
+            RankViewModel rankModel = TempData["rankModel"] as RankViewModel;
+
+            string naam = rankModel.Naam;
+            int aantal = rankModel.Aantal;
+            int interval = rankModel.interval;
+
+            //Zie dat je bent ingelogd
+            //TODO: redirect naar inlog pagina <--
+            ApplicationUser currUser = _userManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = _gebrManager.FindUser(userName);
+
+            // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+            List<GraphData> graphDataList = _dataManager.GetRanking(aantal, interval, false);
+            DashItem newDashItem = _dashManager.CreateDashitem(true, "Donut", naam);
+            List<int> arrayPersoonId = _dataManager.ExtractListPersoonId(graphDataList);
+            List<Follow> follows = _dashManager.CreateFollow(newDashItem.DashItemId, arrayPersoonId);
+            DashItem dashItem = _dashManager.SetupDashItem(user, follows);
+            _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+            // ================================================================================ //
+            _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
+
+            Dashbord dash = _dashManager.GetDashboardWithFollows(user);
+            return View();
+        }
+        [HttpGet]
+        public ActionResult CreateRankingInput()
+        {
+            return View();
+        }
         [HttpPost]
         public ActionResult CreateRankingInput(string naam, int aantal, int interval)
         {
@@ -313,7 +362,7 @@ namespace MVC_S.Controllers
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
             List<GraphData> graphDataList = _dataManager.GetRanking(aantal,interval,false);
-            DashItem newDashItem = _dashManager.CreateDashitem(true, "Donut", naam);
+            DashItem newDashItem = _dashManager.CreateDashitem(true, "Rank", naam);
             List<int> arrayPersoonId = _dataManager.ExtractListPersoonId(graphDataList);
             List<Follow> follows = _dashManager.CreateFollow(newDashItem.DashItemId, arrayPersoonId);
             DashItem dashItem = _dashManager.SetupDashItem(user, follows);
