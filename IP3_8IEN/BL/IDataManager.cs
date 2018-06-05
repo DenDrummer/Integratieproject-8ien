@@ -122,6 +122,8 @@ namespace IP3_8IEN.BL
         List<DataChart> GetTweetsPerDagDataChart(Persoon persoon, int aantalDagenTerug = 0);
         List<GraphData> FrequenteWoorden(ICollection<SubjectMessage> subjMsgs, int ammount);
         Persoon GetPersoonWithSjctMsg(int persoonId);
+        List<double> GetTotalMessagesSparkline();
+        double GetstijgingTweets();
         #endregion
     }
 }

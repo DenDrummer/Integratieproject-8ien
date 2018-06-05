@@ -112,7 +112,10 @@ namespace MVC_S.Controllers
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
             int[] init = { 0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
             //ViewData["init"] = init;
-
+            List<double> spark = dMgr.GetTotalMessagesSparkline();
+            spark.Reverse();
+            ViewBag.msgsSpark = spark;
+            ViewBag.percent = dMgr.GetstijgingTweets();
 
             //List<GraphData> data = dMgr.GetTweetsPerDagList(persoon, 20);
             //ViewBag.DATA = data;
@@ -131,7 +134,7 @@ namespace MVC_S.Controllers
             {
                 //not jet ready
                 //have to add defaultdash
-                string userName = "default@gmail.com";
+                string userName = "default@gmail.be";
                 Gebruiker user = gMgr.FindUser(userName);
                 dash = dashMgr.GetDashboardWithFollows(user);
             }
@@ -385,7 +388,7 @@ namespace MVC_S.Controllers
             {
                 //not jet ready
                 //have to add defaultdash
-                string userName = "default@gmail.com";
+                string userName = "default@gmail.be";
                 Gebruiker user = gMgr.FindUser(userName);
                 dash = dashMgr.GetDashboardWithFollows(user);
             }

@@ -2606,5 +2606,52 @@ namespace IP3_8IEN.BL
             IEnumerable<Persoon> personen = repo.ReadPersonenOnly();
             return personen;
         }
+
+        public List<double> GetTotalMessagesSparkline()
+        {
+            InitNonExistingRepo();
+            List<Message> messages = repo.ReadMessages().ToList();
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            DateTime stop = new DateTime();
+
+                stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                stop.AddDays(10 * -1);
+
+
+            List<double> totalmessages = new List<double>();
+            for (int i = 0; i < 10 + 1; i++)
+            {
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                int count = 0;
+               
+                    IEnumerable<Message> msgs = messages.Where(m=>m.Date.Day == lastTweet.Date.Day).ToList();
+                    //////////////////////////////////////////////////////////////////////////
+                    foreach (Message m in msgs)
+                    {
+                        count++;
+                    }
+
+                totalmessages.Add(count);
+
+                    lastTweet = lastTweet.AddDays(-1);
+                
+            }
+
+            return totalmessages;
+        }
+
+        public double GetstijgingTweets()
+        {
+            List<double> list = GetTotalMessagesSparkline();
+            double percent;
+            if (list[1] == 0)
+            {
+                percent = list[0] / 1 * 100 - 100;
+            } else
+            {
+                percent = list[0] / list[1] * 100 - 100;
+            }
+            return Math.Round(percent, 2);   
+        }
     }
 }
