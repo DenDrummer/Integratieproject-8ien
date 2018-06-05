@@ -70,6 +70,9 @@ namespace IP3_8IEN.DAL
         public IEnumerable<Alert> ReadAlerts()
             => ctx.Alerts.ToList();
 
+        public IEnumerable<Alert> ReadAlertsWithAlertInstellingen()
+            => ctx.Alerts.Include("AlertInstelling").ToList();
+
         public void UpdateAlertInstelling(AlertInstelling alertInstelling)
             => ctx.SaveChanges();
 
