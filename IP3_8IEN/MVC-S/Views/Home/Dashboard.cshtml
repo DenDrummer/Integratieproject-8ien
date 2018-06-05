@@ -84,6 +84,7 @@
     var init = @Html.Raw(Json.Encode(ViewBag.INIT));
     var ZonesOrder = "@Model.ZonesOrder";
     var initialData = JSON.parse(init),
+        defaultdash = @Html.Raw(Json.Encode(Model.User.Username.Contains("default"))),
             order,
             html;
 
@@ -98,17 +99,18 @@
 
             html = kendo.render(kendo.template($("#tmp").html()), order); //render the HTML with the data
         $("#sortable").html(html); //append the HTML to the Sortable container
-
+    if (!defaultdash) {
         $("#sortable").kendoSortable({ //initialize the sortable widget
             filter: ".sortable",
             change: function (e) {
                     var item = order.splice(e.oldIndex, 1)[0]; //remove the item that has changed its order
                     order.splice(e.newIndex, 0, item); //add the item back using the newIndex
-                if (@Model.User.Naam != "Default") {
+                
                 updateKendoZones(@Model.DashbordId, kendo.stringify(order));
-            }
+            
                 }
-            });
+    });
+}
 </script>
 @{
     var i = 1;
