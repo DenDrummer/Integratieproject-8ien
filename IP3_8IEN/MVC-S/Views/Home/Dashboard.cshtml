@@ -15,7 +15,7 @@
 <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script type="text/javascript">
-    $(function() {
+    $(function () {
         /** This code runs when everything has been loaded on the page */
         /* Inline sparklines take their values from the contents of the tag */
         $('.inlinesparkline').sparkline();
@@ -69,25 +69,216 @@
         }
     });
 </script>
-<p>
-    Inline Sparkline: <span class="inlinesparkline">1,4,4,7,5,9,10</span>.
-</p>
-<p>
-    Sparkline with dynamic data: <span class="dynamicsparkline">Loading..</span>
-</p>
-<p>
-    Bar chart with dynamic data: <span class="dynamicbar">Loading..</span>
-</p>
-<p>
-    Bar chart with inline data: <span class="inlinebar">1,3,4,5,3,5</span>
-</p>
+
+<div class="row" style="padding-top:20px">
+    <div class="col-lg-12 col-md-12">
+        <div class="col-lg-9 col-md-9">
+            <h2 style="margin-left:37px;">Dashboard</h2>
+        </div>
+        <div class="col-lg-3 col-md-3" style="padding-top:10px">
+            <div class="container">
+                <button  data-toggle="modal" data-target="#myModal" style="border:1px solid #00295C; background-color:white; height:30px;">
+                    <i class="glyphicon glyphicon-plus" style="color:#00295C"> Nieuwe Grafiek</i>
+                </button>
+
+                <div class="modal fade" id="myModal" role="dialog">
+
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h2>Nieuwe Dash Item toevoegen</h2>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-md">
+                                    <div class="row">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4 class="text-center">Type </h4>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div id="type">
+                                                    <button class="typeGrafiek fas fa-undo active" style="font-size: 25px; vertical-align: middle;" value=""></button>
+                                                    <button class="typeGrafiek fa fa-bar-chart" style="font-size: 25px; vertical-align: middle;" value="Bar"></button>
+                                                    <button class="typeGrafiek fa fa-area-chart" style="font-size: 25px; vertical-align: middle;" value="Area"></button>
+                                                    <button class="typeGrafiek fa fa-line-chart" style="font-size: 25px; vertical-align: middle;" value="Line"></button>
+                                                    <button class="typeGrafiek material-icons" style="font-size: 25px; vertical-align: middle;" value="Donut">donut_small</button>
+                                                    <button class="typeGrafiek" style="font-size: 18px; vertical-align: middle;" value="Cijfer"><b>N</b></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="grafiekTypeInfo" class="row" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Wat wil je afbeelden</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select class="grafiekTypeInfo" name="grafiekTypes">
+                                                    <option value="" class="default" selected>(kies type)</option>
+                                                    <option name="grafiekType" value="GetTweetsPerDag">Aantal tweets per dag</option>
+                                                    <option name="grafiekType" value="GetRanking">Trending politiekers</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row personenVergelijken" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Aantal te vergelijken personen</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select id="aantal" name="aantal">
+                                                    <option name="aantal" value="0">(kies aantal)</option>
+                                                    <option name="aantal" value="1">1</option>
+                                                    <option name="aantal" value="2">2</option>
+                                                    <option name="aantal" value="3">3</option>
+                                                    <option name="aantal" value="4">4</option>
+                                                    <option name="aantal" value="5">5</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row naamVeld" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Kies een politicus</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" class="automplete-1" />
+                                                <div class="error" style="display: none; color: red">Naam veld veplicht</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row naamVeld" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Kies een politicus</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" class="automplete-1" />
+                                                <div class="error" style="display: none; color: red">Naam veld veplicht</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row naamVeld" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Kies een politicus</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" class="automplete-1" />
+                                                <div class="error" style="display: none; color: red">Naam veld veplicht</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row naamVeld" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Kies een politicus</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" class="automplete-1" />
+                                                <div class="error" style="display: none; color: red">Naam veld veplicht</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row naamVeld" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Kies een politicus</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" class="automplete-1" />
+                                                <div class="error" style="display: none; color: red">Naam veld veplicht</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row dagenTerug" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Aantal dagen terug</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select id="aantalDagenTerug" name="types">
+                                                    <option name="type" value="15">15</option>
+                                                    <option name="type" value="30">30</option>
+                                                    <option name="type" value="45">45</option>
+                                                    <option name="type" value="60">60</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row aantalPolitici" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Aantal top politici</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="number" name="automplete" id="aantalPolitici">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row urenTerug" style="display: none">
+                                        <div class="row vertical-align">
+                                            <div class="col-md-4">
+                                                <h4>Aantal uren terug</h4>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="number" name="automplete" id="urenTerug">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary btn-md" id="aanmakenBtn">Aanmaken</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-bottom:20px;">
+    <div class="col-lg-12 col-md-12">
+        <div class="col-lg-3 col-md-3" style="border:1px solid #00295C; margin-left:55px; width:200px; height:75px; margin-right:30px;">
+            <p>
+                Inline Sparkline: <span class="inlinesparkline">1,4,4,7,5,9,10</span>.
+            </p>
+        </div>
+        <div class="col-lg-3 col-md-3"  style="border:1px solid #00295C; width:200px; height:75px; margin-right:30px;">
+            <p>
+                Sparkline with dynamic data: <span class="dynamicsparkline">Loading..</span>
+            </p>
+        </div>
+        <div class="col-lg-3 col-md-3"  style="border:1px solid #00295C; width:200px; height:75px; margin-right:30px;">
+            <p>
+                Bar chart with dynamic data: <span class="dynamicbar">Loading..</span>
+            </p>
+        </div>
+        <div class="col-lg-3 col-md-3"  style="border:1px solid #00295C; width:200px; height:75px; margin-right:30px;">
+            <p>
+                Bar chart with inline data: <span class="inlinebar">1,3,4,5,3,5</span>
+            </p>
+        </div>
+    </div>
+</div>
 
 @*<select id="pers" style="float:right; width:200px" class="Input"></select>*@
 
 @*<button type="button" id="button" onclick="setPersonName('Jos de Vos')">load</button>*@
 
-
-    <span class="glyphicon glyphicon-plus" style="font-size:100px;" data-toggle="modal" data-target="#myModal"></span>
 
 
 
@@ -144,9 +335,9 @@
             change: function (e) {
                     var item = order.splice(e.oldIndex, 1)[0]; //remove the item that has changed its order
                     order.splice(e.newIndex, 0, item); //add the item back using the newIndex
-                
+
                 updateKendoZones(@Model.DashbordId, kendo.stringify(order));
-            
+
                 }
     });
 }
@@ -207,7 +398,7 @@
         //myModal.modal('toggle');
     </script>
 
-    
+
     <!-- Modal -->
     <div class="modal fade" id="myModal1" role="dialog">
         <div class="modal-dialog">
@@ -219,7 +410,7 @@
                     <h4 class="modal-title">Zoek politici</h4>
                 </div>
                 <div class="modal-body" style="margin-left:50px">
-                    <input type="text" class="automplete-1"/>
+                    <input type="text" class="automplete-1" />
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary btn-md" id="submitBtn1">Enter</button>
@@ -232,173 +423,7 @@
     </div>
 
 </div>
-<div class="container">
 
-    <div class="modal fade" id="myModal" role="dialog">
-
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2>Nieuwe Dash Item toevoegen</h2>
-                </div>
-                <div class="modal-body">
-                    <div class="container-md">
-                        <div class="row">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4 class="text-center">Type </h4>
-                                </div>
-                                <div class="col-md-8">
-                                    <div id="type">
-                                        <button class="typeGrafiek fas fa-undo active" style="font-size: 25px; vertical-align: middle;" value=""></button>
-                                        <button class="typeGrafiek fa fa-bar-chart" style="font-size: 25px; vertical-align: middle;" value="Bar"></button>
-                                        <button class="typeGrafiek fa fa-area-chart" style="font-size: 25px; vertical-align: middle;" value="Area"></button>
-                                        <button class="typeGrafiek fa fa-line-chart" style="font-size: 25px; vertical-align: middle;" value="Line"></button>
-                                        <button class="typeGrafiek material-icons" style="font-size: 25px; vertical-align: middle;" value="Donut">donut_small</button>
-                                        <button class="typeGrafiek" style="font-size: 18px; vertical-align: middle;" value="Cijfer"><b>N</b></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="grafiekTypeInfo" class="row" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Wat wil je afbeelden</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <select class="grafiekTypeInfo" name="grafiekTypes">
-                                        <option value="" class="default" selected>(kies type)</option>
-                                        <option name="grafiekType" value="GetTweetsPerDag">Aantal tweets per dag</option>
-                                        <option name="grafiekType" value="GetRanking">Trending politiekers</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row personenVergelijken" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Aantal te vergelijken personen</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="aantal" name="aantal">
-                                        <option name="aantal" value="0">(kies aantal)</option>
-                                        <option name="aantal" value="1">1</option>
-                                        <option name="aantal" value="2">2</option>
-                                        <option name="aantal" value="3">3</option>
-                                        <option name="aantal" value="4">4</option>
-                                        <option name="aantal" value="5">5</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row naamVeld" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Kies een politicus</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" class="automplete-1"/>
-                                    <div class="error" style="display: none; color: red">Naam veld veplicht</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row naamVeld" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Kies een politicus</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" class="automplete-1"/>
-                                    <div class="error" style="display: none; color: red">Naam veld veplicht</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row naamVeld" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Kies een politicus</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" class="automplete-1"/>
-                                    <div class="error" style="display: none; color: red">Naam veld veplicht</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row naamVeld" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Kies een politicus</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" class="automplete-1"/>
-                                    <div class="error" style="display: none; color: red">Naam veld veplicht</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row naamVeld" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Kies een politicus</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" class="automplete-1"/>
-                                    <div class="error" style="display: none; color: red">Naam veld veplicht</div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="row dagenTerug" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Aantal dagen terug</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <select id="aantalDagenTerug" name="types">
-                                        <option name="type" value="15">15</option>
-                                        <option name="type" value="30">30</option>
-                                        <option name="type" value="45">45</option>
-                                        <option name="type" value="60">60</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row aantalPolitici" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Aantal top politici</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="number" name="automplete" id="aantalPolitici">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row urenTerug" style="display: none">
-                            <div class="row vertical-align">
-                                <div class="col-md-4">
-                                    <h4>Aantal uren terug</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="number" name="automplete" id="urenTerug">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-md" id="aanmakenBtn">Aanmaken</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-</div>
 
 <div class="modal fade" id="inloggenForm" role="dialog">
     <div class="modal-dialog">
@@ -419,9 +444,9 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2"></div>
-                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})</button>
+                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</button>
                     <div class="col-md-2"></div>
-                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</button>
+                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</button>
                     <div class="col-md-2"></div>
 
                 </div>
@@ -453,9 +478,9 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2"></div>
-                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})</button>
+                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</button>
                     <div class="col-md-2"></div>
-                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</button>
+                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</button>
                     <div class="col-md-2"></div>
 
                 </div>
