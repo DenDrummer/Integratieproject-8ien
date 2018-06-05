@@ -53,5 +53,6 @@ namespace IP3_8IEN.DAL
         IEnumerable<Persoon> ReadPersonenWithTewerkstelling();
         Thema ReadThemas(int id);
         IEnumerable<Hashtag> ReadHashtagsWithSubjMsgs();
+        IEnumerable<SubjectMessage> ReadSubjectMessagesWithHashtags();
     }
 }

@@ -6,6 +6,7 @@
       "Achternaam": "Deshev",
       "email": "ivaylo.deshev@student.kdg.be",
       "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-02 13:25:39",
       "Password": "Password",
       "Role": "Admin"
     },
@@ -15,6 +16,7 @@
       "Achternaam": "Laureys",
       "email": "sam.laureys@student.kdg.be",
       "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-02 13:25:39",
       "Password": "Password",
       "Role": "Admin"
     },
@@ -24,6 +26,7 @@
       "Achternaam": "Laureyssens",
       "email": "jorden.laureyssens@student.kdg.be",
       "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-02 13:25:39",
       "Password": "Password",
       "Role": "Admin"
     },
@@ -33,6 +36,7 @@
       "Achternaam": "Boogaerts",
       "email": "stephane.boogaerts@student.kdg.be",
       "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-02 13:25:39",
       "Password": "Password",
       "Role": "Admin"
     },
@@ -42,6 +46,7 @@
       "Achternaam": "Dewitte",
       "email": "thomas.dewitte@student.kdg.be",
       "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-02 13:25:39",
       "Password": "Password",
       "Role": "Admin"
     },
@@ -51,17 +56,219 @@
       "Achternaam": "Declercq",
       "email": "victor.declercq@student.kdg.be",
       "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-02 13:25:39",
       "Password": "Password",
       "Role": "Admin"
     },
     {
-      "Username": "default@gmail.com",
-      "Voornaam": "Dafault",
-      "Achternaam": "Dash",
-      "email": "default@gmail.com",
+      "Username": "default@gmail.be",
+      "Voornaam": "default",
+      "Achternaam": "default",
+      "email": "default@gmail.be",
       "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-02 13:25:39",
       "Password": "Password",
       "Role": "Admin"
+    },
+    {
+      "Username": "jonny@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "jonny@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-06 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "world@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "world@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-06 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "supworld@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "supworld@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-06 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "beachball@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "beachball@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-06 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "annies@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "annies@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-05 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "poppy_man@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "poppy_man@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-05 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "fakemail@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "fakemail@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-04 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "hayabusa@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "hayabusa@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-04 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "dummy1@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "dummy1@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-04 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "dummy2@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "dummy2@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-04 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "dummy3@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "dummy3@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-04 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "dummy4@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "dummy4@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-04 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "dummy5@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "dummy5@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-04 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "dummy66@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "dummy66@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-04 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "dummy7@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "dummy7@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-03 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "dummy8@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "dummy8@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-03 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "dummy9@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "dummy9@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-03 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "dummy11@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "dummy11@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-02 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "dummy111@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "dummy111@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-02 13:25:39",
+      "Password": "Password",
+      "Role": "User"
+    },
+    {
+      "Username": "dummy123@gmail.be",
+      "Voornaam": "test",
+      "Achternaam": "dummy",
+      "email": "dummy123@gmail.be",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "JoinDate": "2018-06-01 13:25:39",
+      "Password": "Password",
+      "Role": "User"
     }
   ]
 }

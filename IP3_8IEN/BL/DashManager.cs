@@ -312,6 +312,35 @@ namespace IP3_8IEN.BL
             }
         }
 
+        public IEnumerable<GraphData> GetMostFollowsList()
+        {
+            InitNonExistingRepo();
+            List<GraphData> datalist = new List<GraphData>();
+            GraphData graph;
+            IEnumerable<Follow> follows = repo.ReadFollows().ToList();
+            var numberGroups = follows.GroupBy(i => i.Onderwerp.OnderwerpId)
+                   .Select(grp => new {
+                       number = grp.Key,
+                       total = grp.Count()
+                   })
+                   .ToList();
+            numberGroups = numberGroups.OrderByDescending(f => f.total).ToList();
+
+            for(int i = 0; i < numberGroups.Count(); i++)
+            {
+                if(numberGroups[i] != null)
+                {
+                    graph = new GraphData()
+                    {
+                        Label = follows.FirstOrDefault(f => f.Onderwerp.OnderwerpId == numberGroups[i].number).Onderwerp.Naam,
+                        Value = numberGroups[i].total
+                    };
+                    datalist.Add(graph);
+                }
+            }
+            return datalist;
+        }
+
         public void UpdateDashItem(DashItem dashItem) => repo.UpdateDashItem(dashItem);
 
         public IEnumerable<Follow> GetFollows(bool admin = false)

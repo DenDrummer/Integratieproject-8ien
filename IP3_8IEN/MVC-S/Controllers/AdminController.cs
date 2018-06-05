@@ -487,5 +487,18 @@ namespace MVC_S.Controllers
             return View(themas);
             /////////////////////////////////////////////////////////////////
         }
+
+        [HttpGet]
+        public ActionResult UserStats()
+        {
+            //Aantal bijgekomen user afgelopen 10 dagen (Line)
+            IEnumerable<GraphData> userstats = _gebrManager.GetUserstatsList().ToList();
+            //Meeste follows laatste dagen (Donut)
+            IEnumerable<GraphData> mostFollows = _dashManager.GetMostFollowsList().ToList();
+            //Aantal gebruikers (Cijfer)
+            IEnumerable<GraphData> aantalUsers = _gebrManager.GetTotalUsersList().ToList();
+
+            return View();
+        }
     }
 }

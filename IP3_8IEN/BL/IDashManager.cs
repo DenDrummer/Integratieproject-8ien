@@ -49,5 +49,6 @@ namespace IP3_8IEN.BL
         DashItem CreateDashitem(bool adminGraph, string type,string naam="usergraph", string town= "Vlaanderen");
 
         DashItem CreateDashitem(bool adminGraph, string type, int aantalDagenTerug, string naam = "usergraph",string town = "Vlaanderen");
+        IEnumerable<GraphData> GetMostFollowsList();
     }
 }
