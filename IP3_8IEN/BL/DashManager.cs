@@ -228,7 +228,7 @@ namespace IP3_8IEN.BL
                 repo.AddTileZone(tile);
                 follow.DashItem.TileZones.Add(tile);
             }
-
+            AddOneZonesOrder(GetDashboard(user));
             uowManager.Save();
             UoW = true;
             repo.SetUnitofWork(UoW);
@@ -470,8 +470,8 @@ namespace IP3_8IEN.BL
                 listData.Add(new DataChart
                 {
                     //controleren duplicaten DB
-                    Label = graph.Label,
-                    Value = graph.Value
+                    label = graph.Label,
+                    value = graph.Value
                 });
             }
 

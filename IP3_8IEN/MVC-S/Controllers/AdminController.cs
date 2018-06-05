@@ -311,7 +311,7 @@ namespace MVC_S.Controllers
             Gebruiker user = _gebrManager.FindUser(userName);
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-            List<GraphData> graphDataList = _dataManager.GetRanking(aantal,interval,true);
+            List<GraphData> graphDataList = _dataManager.GetRanking(aantal,interval,false);
             DashItem newDashItem = _dashManager.CreateDashitem(true, "Donut", naam);
             List<int> arrayPersoonId = _dataManager.ExtractListPersoonId(graphDataList);
             List<Follow> follows = _dashManager.CreateFollow(newDashItem.DashItemId, arrayPersoonId);

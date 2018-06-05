@@ -108,7 +108,7 @@ namespace IP3_8IEN.BL
         List<GraphData2> GetComparisonPersonNumberOfTweetsOverTime(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5);
         List<GraphData> GetTopMentions(int aantal);
         void SendMail();
-        List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
+        List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = false);
         int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
         List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0, string town = null);
         List<GraphData> GetTweetsPerDagList(Persoon persoon, int aantalDagenTerug = 0);
