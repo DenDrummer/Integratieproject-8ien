@@ -526,7 +526,7 @@ namespace MVC_S.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction("Dashboard");
             }
         }
 

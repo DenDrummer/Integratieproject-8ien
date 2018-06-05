@@ -215,7 +215,6 @@ namespace MVC_S.Controllers
         public ActionResult CreateGrafiekLine(string automplete, string automplete2)
         {
             string naam = automplete;
-            Persoon p = _dataManager.GetPersoon(naam);
             ViewBag.naam = automplete;
 
             //Zie dat je bent ingelogd

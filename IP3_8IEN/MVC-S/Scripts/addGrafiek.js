@@ -115,7 +115,7 @@ function showHideAantalPersonen(aantal = 1) {
 function createChartAantalTweetsPerDag() {
     var selectedType = $(".active").val();
     console.log(selectedType);
-    var politicus = $(".automplete-1").val();
+    var politicus = $(".automplete-1").eq(1).val();
     var dagen = parseInt($("#aantalDagenTerug option:selected").val());
     if (politicus === null || politicus === "") {
         $(".error").show();
@@ -136,16 +136,11 @@ function inloggenMsg() {
 
 function showError() {
     let politici = $(".automplete-1");
-    for (let i = 0; i < politici.length; i++) {
+    for (let i = 1; i < politici.length; i++) {
         if (politici.eq(i).val() === null || politici.eq(i).val() === "") {
             $(".error").eq(i).show();
         } else {
             $(".error").eq(i).hide();
         }
     }
-    
-
-
-
-
 }

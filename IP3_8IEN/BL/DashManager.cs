@@ -62,6 +62,7 @@ namespace IP3_8IEN.BL
                 Type = type,
                 AantalDagen = aantalDagenTerug,
                 Naam = naam,
+                Town = town,
                 Active = true
             };
 
@@ -79,7 +80,7 @@ namespace IP3_8IEN.BL
             return dashItem;
         }
 
-        public DashItem CreateDashitem(bool adminGraph, string type,string naam = "usergraph")
+        public DashItem CreateDashitem(bool adminGraph, string type,string naam = "usergraph",string town= "Vlanderen")
         {
             InitNonExistingRepo();
 

@@ -41,7 +41,7 @@
             {
                 @: '@(listFromController[j])',
             }
-        ]
+        ];
         $(".automplete-1").autocomplete({
             //minLength: 2,
             source: Names
@@ -86,9 +86,9 @@
 
 @*<button type="button" id="button" onclick="setPersonName('Jos de Vos')">load</button>*@
 
-<div id="newChart">
-    <span class="glyphicon glyphicon-plus" style="font-size:100px;" id="aanmakenBtn"></span>
-</div>
+
+    <span class="glyphicon glyphicon-plus" style="font-size:100px;" data-toggle="modal" data-target="#myModal"></span>
+
 
 
 <ul>
@@ -219,9 +219,7 @@
                     <h4 class="modal-title">Zoek politici</h4>
                 </div>
                 <div class="modal-body" style="margin-left:50px">
-                    @{
-                        Html.RenderPartial("Zoeken");
-                    }
+                    <input type="text" class="automplete-1"/>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary btn-md" id="submitBtn1">Enter</button>
