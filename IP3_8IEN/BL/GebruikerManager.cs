@@ -764,7 +764,7 @@ namespace IP3_8IEN.BL
         {
             InitNonExistingRepo();
 
-            List<Alert> alerts = repo.ReadAlerts().ToList();
+            List<Alert> alerts = repo.ReadAlertsWithAlertInstellingen().ToList();
 
             return alerts.Where(a => a.AlertInstelling.Gebruiker == gebruiker).ToList();
         }
