@@ -1,13 +1,12 @@
 ﻿addEventListener("load", init, false);
 
 function init() {
-    let aanmakenBtn = document.getElementById("aanmakenBtn");
-    aanmakenBtn.addEventListener("click", grafiekForm, false);
+
 //    let type = document.getElementById("type");
 //    type.addEventListener("click", selectDashItem, false);
 
-    let type = document.getElementById("type");
-    type.addEventListener("click", showType, false);
+    //let type = document.getElementById("type");
+    //type.addEventListener("click", showType, false);
 
     let aantal = document.getElementById("aantal");
     aantal.addEventListener("click", showHideAantalPersonen, false);
@@ -20,17 +19,22 @@ function init() {
         naamInput[i].addEventListener("keyup", showError, false);
     }
 
-    $(".ui-widget").children().hide();
-    $('.save').hide();
-    $(".automplete-1").show();
-
-   // addIcon();
+    var header = document.getElementById("type");
+    var btns = header.getElementsByClassName("typeGrafiek");
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function() {
+            var current = document.getElementsByClassName("active");
+            current[0].className = current[0].className.replace(" active", "");
+            this.className += " active";
+        });
+        btns[i].addEventListener("click", showType, false);
+    }
 }
 
 
 function showType() {
-    $("#type").change(function() {
-        if ($(this).val() === "") { 
+ 
+        if ($(".active").val() === "") { 
             $("#grafiekTypeInfo").hide();
             $(".personenVergelijken").hide();
             $(".aantalPolitici").hide();;
@@ -45,16 +49,15 @@ function showType() {
             $("#grafiekTypeInfo select").val("");
             $("#grafiekTypeInfo").show();
             showGrafiekTypeInfo();
-        }
-        
-    });
+        }    
+  
 }
 
 function showGrafiekTypeInfo() {
     //var aantal = $("#aantal").val();
     $(".grafiekTypeInfo").change(function() {
         if ($(this).val() === "GetTweetsPerDag") {
-            if ($("#type").val() === "number") {
+            if ($(".active").val() === "Number") {
                 $(".personenVergelijken").hide();
                 showHideAantalPersonen(1);
             } else {
@@ -95,17 +98,23 @@ function showHideAantalPersonen(aantal = 1) {
 }
 
 
-function grafiekForm() {
-    let myModal = $("#myModal");
-    $(".modal-backdrop").remove();
-    myModal.hide();
-    myModal.modal('toggle');
-    createChartAantalTweetsPerDag();
-}
+//function grafiekForm() {
+//    let myModal = $("#myModal");
+//    $(".modal-backdrop").remove();
+//    myModal.hide();
+//    myModal.modal('toggle');
+//    if (ingelogged) {
+//        createChartAantalTweetsPerDag();
+//    } else {
+//        showError();
+//    }
+//   
+//}
 
 
 function createChartAantalTweetsPerDag() {
-    var selectedType = $("#type option:selected").val();
+    var selectedType = $(".active").val();
+    console.log(selectedType);
     var politicus = $(".automplete-1").val();
     var dagen = parseInt($("#aantalDagenTerug option:selected").val());
     if (politicus === null || politicus === "") {
@@ -115,11 +124,7 @@ function createChartAantalTweetsPerDag() {
         $.ajax({
             url: "/Home/CreateChartAantalTweetsPerDag",
             data: { 'politicus': politicus, 'type': selectedType, 'aantalDagenTerug': dagen },
-            type: "POST",
-            error: function() {
-                inloggenMsg();
-
-            }
+            type: "POST"
         });
     }
 }
@@ -130,13 +135,17 @@ function inloggenMsg() {
 
 
 function showError() {
-    var politicus = $(".automplete-1").val();
-    if (politicus === null || politicus === "") {
-        $(".error").show();
-        return true;
-    } else {
-        $(".error").hide();
-        return false;
+    let politici = $(".automplete-1");
+    for (let i = 0; i < politici.length; i++) {
+        if (politici.eq(i).val() === null || politici.eq(i).val() === "") {
+            $(".error").eq(i).show();
+        } else {
+            $(".error").eq(i).hide();
+        }
     }
+    
+
+
+
 
 }

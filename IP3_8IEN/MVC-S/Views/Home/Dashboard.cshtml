@@ -5,12 +5,15 @@
 @Scripts.Render("~/scripts/charts")
 <script src="~/Scripts/addGrafiek.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="~/Content/grafiekformsheet.css" />
+<link rel="stylesheet" href="~/Content/grafiekformsheet.css"/>
 <script src="~/Scripts/grafiekaanmaken.js"></script>
 <script src="~/Scripts/kendoUiUpdate.js"></script>
 <script src="~/Scripts/morris-scripts.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script type="text/javascript">
-    $(function () {
+    $(function() {
         /** This code runs when everything has been loaded on the page */
         /* Inline sparklines take their values from the contents of the tag */
         $('.inlinesparkline').sparkline();
@@ -28,6 +31,42 @@
         $('.inlinebar').sparkline('html', { type: 'bar', barColor: 'red' });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        @{ List<string> listFromController = (List<string>) ViewData["names"]; }
+        var Names = [
+            @for (int j = 0; j < listFromController.Count; j++)
+            {
+                @: '@(listFromController[j])',
+            }
+        ]
+        $(".automplete-1").autocomplete({
+            //minLength: 2,
+            source: Names
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+
+        var ingelogd = @Html.Raw(Json.Encode(ViewBag.Ingelogd));
+        let aanmakenBtn = document.getElementById("aanmakenBtn");
+        aanmakenBtn.addEventListener("click", grafiekForm, false);
+        function grafiekForm() {
+            let myModal = $("#myModal");
+            $(".modal-backdrop").remove();
+            myModal.hide();
+            myModal.modal('toggle');
+
+            if (ingelogd) {
+                createChartAantalTweetsPerDag();
+
+            } else {
+                inloggenMsg();
+            }
+        }
+    });
+</script>
 <p>
     Inline Sparkline: <span class="inlinesparkline">1,4,4,7,5,9,10</span>.
 </p>
@@ -40,7 +79,6 @@
 <p>
     Bar chart with inline data: <span class="inlinebar">1,3,4,5,3,5</span>
 </p>
-
 
 <button type="button" id="button">load</button>
 <div id="newChart"></div>
@@ -74,30 +112,30 @@
     var init = @Html.Raw(Json.Encode(ViewBag.INIT));
     var ZonesOrder = "@Model.ZonesOrder";
     var initialData = JSON.parse(init),
-            order,
-            html;
+        order,
+        html;
 
-        if (@Model.ZonesOrder) {
-            var temp = JSON.parse("@Model.ZonesOrder");
+    if (@Model.ZonesOrder) {
+        var temp = JSON.parse("@Model.ZonesOrder");
 
-            order =  JSON.parse("@Model.ZonesOrder") || initialData;
-        } else {
-            alert("your Database does not have zones saved");
-                order = initialData;
+        order = JSON.parse("@Model.ZonesOrder") || initialData;
+    } else {
+        alert("your Database does not have zones saved");
+        order = initialData;
+    }
+
+    html = kendo.render(kendo.template($("#tmp").html()), order); //render the HTML with the data
+    $("#sortable").html(html); //append the HTML to the Sortable container
+
+    $("#sortable").kendoSortable({ //initialize the sortable widget
+        filter: ".sortable",
+        change: function(e) {
+            var item = order.splice(e.oldIndex, 1)[0]; //remove the item that has changed its order
+            order.splice(e.newIndex, 0, item); //add the item back using the newIndex
+
+            updateKendoZones(@Model.DashbordId, kendo.stringify(order));
         }
-
-            html = kendo.render(kendo.template($("#tmp").html()), order); //render the HTML with the data
-        $("#sortable").html(html); //append the HTML to the Sortable container
-
-        $("#sortable").kendoSortable({ //initialize the sortable widget
-            filter: ".sortable",
-            change: function (e) {
-                    var item = order.splice(e.oldIndex, 1)[0]; //remove the item that has changed its order
-                    order.splice(e.newIndex, 0, item); //add the item back using the newIndex
-
-                    updateKendoZones(@Model.DashbordId, kendo.stringify(order));
-                }
-            });
+    });
 
 </script>
 @{
@@ -106,7 +144,6 @@
     {
         if (t.DashItem.Active == true || t.DashItem.AdminGraph == true)
         {
-
             //var list = t.DashItem.Graphdata;
             int dashItemId = t.DashItem.DashItemId;
             string elementId = "chart" + i;
@@ -115,19 +152,19 @@
             i++;
             //int kl = 170;
             <script type="text/javascript">
-     @*console.log("json string hopefully: " + JSON.stringify(@list1));*@
+                @*console.log("json string hopefully: " + JSON.stringify(@list1));*@
                 @*console.log("json string hopefully: "+@dashItemId);*@
-                $("#@titelId").html('@naam <div style="float:right">@Html.ActionLink("Delete", "DeleteGrafiek", "Home", new { id = dashItemId }, new { onclick = "return confirm('Are you sure you wish to delete this article?');" })</div>');
-    custChart(@dashItemId, @elementId);
+                $("#@titelId")
+                    .html(
+                        '@naam <div style="float:right">@Html.ActionLink("Delete", "DeleteGrafiek", "Home", new {id = dashItemId}, new {onclick = "return confirm('Are you sure you wish to delete this article?');"})</div>');
+                custChart(@dashItemId, @elementId);
             </script>
         }
     }
 }
 
 <div class="container">
-    @*    <i class="glyphicon glyphicon-plus glyphicon-center" data-toggle="modal" data-target="#myModal"*@
-    @*       style="font-size: 150px">*@
-    @*    </i>*@
+
     <div class="modal fade" id="myModal" role="dialog">
 
         <div class="modal-dialog">
@@ -135,24 +172,23 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2>New</h2>
+                    <h2>Nieuwe Dash Item toevoegen</h2>
                 </div>
                 <div class="modal-body">
                     <div class="container-md">
                         <div class="row">
                             <div class="row vertical-align">
                                 <div class="col-md-4">
-                                    <h4>Type </h4>
+                                    <h4 class="text-center">Type </h4>
                                 </div>
-                                <div class="col-md-4">
-                                    <select id="type" name="types">
-                                        <option value="" class="default" selected>(select type)</option>
-                                        <option name="type" value="number">Number</option>
-                                        <option name="type" value="bar">Bar chart</option>
-                                        <option name="type" value="donut">Donut chart</option>
-                                        <option name="type" value="line">Line chart</option>
-                                        <option name="type" value="area">Area chart</option>
-                                    </select>
+                                <div class="col-md-8">
+                                    <div id="type">
+                                        <button class="typeGrafiek fa fa-bar-chart active" style="font-size:25px;vertical-align: middle;" value="Bar"></button>
+                                        <button class="typeGrafiek fa fa-area-chart" style="font-size:25px;vertical-align: middle;" value="Area"></button>
+                                        <button class="typeGrafiek fa fa-line-chart" style="font-size:25px;vertical-align: middle;" value="Line"></button>
+                                        <button class="typeGrafiek material-icons" style="font-size:25px;vertical-align: middle;" value="Donut">donut_small</button>
+                                        <button class="typeGrafiek" style="font-size:18px;vertical-align: middle;" value="Cijfer"><b>N</b></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -163,12 +199,11 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select class="grafiekTypeInfo" name="grafiekTypes">
-                                        <option value="" class="default" selected>(select type)</option>
+                                        <option value="" class="default" selected>(kies type)</option>
                                         <option name="grafiekType" value="GetTweetsPerDag">Aantal tweets per dag</option>
                                         <option name="grafiekType" value="GetRanking">Trending politiekers</option>
                                     </select>
                                 </div>
-
                             </div>
                         </div>
 
@@ -179,6 +214,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select id="aantal" name="aantal">
+                                        <option name="aantal" value="0">(kies aantal)</option>
                                         <option name="aantal" value="1">1</option>
                                         <option name="aantal" value="2">2</option>
                                         <option name="aantal" value="3">3</option>
@@ -195,9 +231,8 @@
                                     <h4>Kies een politicus</h4>
                                 </div>
                                 <div class="col-md-4">
-                                    @{
-                                        Html.RenderPartial("Zoeken");
-                                    }
+                                    <input type="text" class="automplete-1"/>
+                                    <div class="error" style="display: none; color: red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
@@ -207,9 +242,8 @@
                                     <h4>Kies een politicus</h4>
                                 </div>
                                 <div class="col-md-4">
-                                    @{
-                                        Html.RenderPartial("Zoeken");
-                                    }
+                                    <input type="text" class="automplete-1"/>
+                                    <div class="error" style="display: none; color: red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
@@ -219,9 +253,8 @@
                                     <h4>Kies een politicus</h4>
                                 </div>
                                 <div class="col-md-4">
-                                    @{
-                                        Html.RenderPartial("Zoeken");
-                                    }
+                                    <input type="text" class="automplete-1"/>
+                                    <div class="error" style="display: none; color: red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
@@ -231,9 +264,8 @@
                                     <h4>Kies een politicus</h4>
                                 </div>
                                 <div class="col-md-4">
-                                    @{
-                                        Html.RenderPartial("Zoeken");
-                                    }
+                                    <input type="text" class="automplete-1"/>
+                                    <div class="error" style="display: none; color: red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
@@ -243,14 +275,11 @@
                                     <h4>Kies een politicus</h4>
                                 </div>
                                 <div class="col-md-4">
-                                    @{
-                                        Html.RenderPartial("Zoeken");
-                                    }
+                                    <input type="text" class="automplete-1"/>
+                                    <div class="error" style="display: none; color: red">Naam veld veplicht</div>
                                 </div>
                             </div>
                         </div>
-
-
 
 
                         <div class="row dagenTerug" style="display: none">
@@ -274,7 +303,7 @@
                                     <h4>Aantal top politici</h4>
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="text" name="automplete" id="aantalPolitici">
+                                    <input type="number" name="automplete" id="aantalPolitici">
                                 </div>
                             </div>
                         </div>
@@ -284,7 +313,7 @@
                                     <h4>Aantal uren terug</h4>
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="text" name="automplete" id="urenTerug">
+                                    <input type="number" name="automplete" id="urenTerug">
                                 </div>
                             </div>
                         </div>
@@ -320,9 +349,43 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2"></div>
-                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</button>
+                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})</button>
                     <div class="col-md-2"></div>
-                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</button>
+                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</button>
+                    <div class="col-md-2"></div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="inloggenForm" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Register or Log in</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="container" style="margin: 50px">
+                            <h3>Je moet eerst inloggen of registreren</h3>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})</button>
+                    <div class="col-md-2"></div>
+                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</button>
                     <div class="col-md-2"></div>
 
                 </div>
