@@ -47,5 +47,6 @@ namespace IP3_8IEN.BL
         IEnumerable<Dashbord> GetDashbords();
 
         void SyncWithAdmins(string userId, int dashItemId);
+        IEnumerable<GraphData> GetMostFollowsList();
     }
 }
