@@ -69,7 +69,9 @@
                                 <table>
                                     <tr>
                                         <td valign="top" style="color:#00295C"><b>@Html.DisplayNameFor(model => model.Geboortedatum):</b> </td>
-                                        <td>@Html.DisplayFor(model => model.Geboortedatum, "_ShortDateView")</td>
+                                        @*<td>@Html.EditorFor(model => model.Geboortedatum.ToString("dd/MM/yyyy")</td>*@
+                                        <td>@Html.Label(Model.Geboortedatum.ToShortDateString())</td>
+
                                     </tr>
                                     <tr>
                                         <td valign="top" style="color:#00295C"><b>Kieskring:</b> </td>
