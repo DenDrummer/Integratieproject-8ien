@@ -43,7 +43,7 @@
                                     </tr>
                                     <tr>
                                         <td valign="top" style="color:#00295C"><b>Aantal Vermeldingen:</b> </td>
-                                        <td>@Html.DisplayFor(model => model.Naam)</td>
+                                        <td>@ViewBag.Vermeldingen</td>
                                     </tr>
                                     <tr></tr>
                                     <tr>
@@ -53,10 +53,9 @@
                                         <td colspan="2">
                                             <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width:350px">
 
-                                                @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
+                                                @for (int i = 0; i < ViewBag.VaakVoorkomendeTermen?.Count; i++)
                                                 {
-                                                    var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
-                                                    <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
+                                                <li>@ViewBag.VaakVoorkomendeTermen[i]</li>
                                                 }
                                             </ul>
                                         </td>
@@ -95,10 +94,9 @@
                                         <td colspan="2">
                                             <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width:100%">
 
-                                                @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
+                                                @for (int i = 0; i < ViewBag.VaakVoorkomendeWoorden?.Count; i++)
                                                 {
-                                                    var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
-                                                    <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
+                                                <li>@ViewBag.VaakVoorkomendeWoorden[i]</li>
                                                 }
                                             </ul>
                                         </td>
@@ -110,10 +108,11 @@
                                         <td colspan="2">
                                             <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width:100%">
 
-                                                @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
+                                                @for (int i = 0; i < ViewBag.VaakVoorkomendeVerhalen?.Count; i++)
                                                 {
-                                                    var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
-                                                    <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
+                                                <a href="@ViewBag.VaakVoorkomendeVerhalen[i]">
+                                                    <li>@ViewBag.VaakVoorkomendeVerhalen[i]</li>
+                                                </a>
                                                 }
                                             </ul>
                                         </td>

@@ -153,6 +153,10 @@ namespace MVC_S.Controllers
 
             ViewBag.TWITIMAGE = dMgr.GetImageString(persoon.Twitter);
             ViewBag.TWITBANNER = dMgr.GetBannerString(persoon.Twitter);
+            ViewBag.Vermeldingen = dMgr.GetMentionCountByName(persoon.Twitter);
+            ViewBag.VaakVoorkomendeWoorden = dMgr.TopWordsCountByPerson(persoon);
+            ViewBag.VaakVoorkomendeVerhalen = dMgr.TopStoryCountByPerson(persoon);
+            ViewBag.VaakVoorkomendeTermen = dMgr.TopHashtagCountByPerson(persoon);
 
             return View(persoon);
         }
@@ -190,6 +194,13 @@ namespace MVC_S.Controllers
             System.Diagnostics.Debug.WriteLine("Screenname: " + screenname);
             ViewBag.TWITIMAGE = dMgr.GetImageString(screenname);
             ViewBag.TWITBANNER = dMgr.GetBannerString(screenname);
+
+            ViewBag.Vermeldingen = dMgr.GetMentionCountByName(screenname);
+            ViewBag.VaakVoorkomendeWoorden = dMgr.TopWordsCountByOrganisatie(dMgr.GetOrganisatie(onderwerpId));
+            ViewBag.VaakVoorkomendeVerhalen = dMgr.TopStoryCountByOrganisatie(dMgr.GetOrganisatie(onderwerpId));
+            ViewBag.VaakVoorkomendeTermen = dMgr.TopHashtagCountByOrganisation(dMgr.GetOrganisatie(onderwerpId));
+
+
             return View(dMgr.GetOrganisatie(onderwerpId));
         }
 
