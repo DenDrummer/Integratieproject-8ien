@@ -63,6 +63,11 @@ namespace IP3_8IEN.DAL
         }
         public IEnumerable<SubjectMessage> ReadSubjectMessages() => ctx.SubjectMessages.ToList();
 
+        public IEnumerable<SubjectMessage> ReadSubjectMessagesWithHashtags()
+        {
+            return ctx.SubjectMessages.Include("Hashtag").ToList();
+        }
+
         public IEnumerable<Message> ReadMessages() => ctx.Messages.ToList();
 
         public void UpdateOnderwerp(Onderwerp onderwerp) => ctx.SaveChanges();

@@ -11,13 +11,15 @@ namespace IP3_8IEN.BL.Domain.Data
         //public int OnderwerpId { get; set; }
         //[MaxLength(100)]
         //public string Beschrijving { get; set; }
-        
+
         //public string Naam { get; set; }
 
         public string Hashtag1 { get; set; }
         public string Hashtag2 { get; set; }
         public string Hashtag3 { get; set; }
         public string Hashtag4 { get; set; }
+
+        public int AantalVermeldingen { get; set; }
 
         public ICollection<string> Hashtags { get; set; }
 

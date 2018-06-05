@@ -81,6 +81,7 @@ namespace IP3_8IEN.BL
         SubjectMessage AddSubjectMessage(Message msg, Hashtag hashtag);
         IEnumerable<Hashtag> GetHashtagsWithSubjMsgs();
         List<string> GetTowns(IEnumerable<Persoon> personen);
+        int GetAantalVermeldingen(Thema theme);
 
         #region Unsorted
         int GetMentionCountByName(string naam);

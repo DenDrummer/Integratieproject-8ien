@@ -112,6 +112,7 @@ namespace IP3_8IEN.DAL
 
         public Dashbord ReadDashbordWithFollows(Gebruiker user)
             => ctx.Dashbords
+            .Include("User")
             .Include("TileZones")
             .Include("TileZones.DashItem")
             .Include("TileZones.DashItem.Graphdata")

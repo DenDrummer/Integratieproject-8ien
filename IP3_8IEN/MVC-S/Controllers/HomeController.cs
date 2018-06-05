@@ -36,10 +36,10 @@ namespace MVC_S.Controllers
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
-            
+
             ////Probably not best practice to periodically execute methods but it works
-            HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
-            HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
+            //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
+            //HostingEnvironment.QueueBackgroundWorkItem(ct => RetrieveAPIData(dMgr));
         }
 
         private async Task RetrieveAPIData(IDataManager dMgr)
@@ -87,6 +87,19 @@ namespace MVC_S.Controllers
 
         public ActionResult Dashboard()
         {
+            try
+            {
+                ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
+                string userName = appUser.UserName;
+                Gebruiker user = gMgr.FindUser(userName);
+
+                Dashbord dashbord = dashMgr.GetDashboardWithFollows(user);
+                dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem up-to-date is
+            }
+            catch
+            {
+            }
+
             IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
             List<string> names = ObjList.Select(p => p.Naam).ToList();
             ViewData["names"] = names;
@@ -101,8 +114,8 @@ namespace MVC_S.Controllers
             //ViewData["init"] = init;
 
 
-            List<GraphData> data = dMgr.GetTweetsPerDag(persoon, 20);
-            ViewBag.DATA = data;
+            //List<GraphData> data = dMgr.GetTweetsPerDagList(persoon, 20);
+            //ViewBag.DATA = data;
 
 
             ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
@@ -118,14 +131,14 @@ namespace MVC_S.Controllers
             {
                 //not jet ready
                 //have to add defaultdash
-                string userName = "sam.laureys@student.kdg.be";
+                string userName = "default@gmail.com";
                 Gebruiker user = gMgr.FindUser(userName);
                 dash = dashMgr.GetDashboardWithFollows(user);
             }
 
 
             ViewBag.INIT = dash.ZonesOrder;
-            dashMgr.GetDashItems().Where(d => d.AdminGraph == true);
+            //dashMgr.GetDashItems().Where(d => d.AdminGraph == true);
             ViewBag.AANTAL = dashMgr.GetDashItems().Where(d => d.AdminGraph == true).Count();
             //GraphDataViewModel model = new GraphDataViewModel { dash = dash,
             //};
@@ -194,7 +207,17 @@ namespace MVC_S.Controllers
         }
 
 
-        public ActionResult Alerts(int alertId = 1) => View(gMgr.GetAlert(alertId));
+        public ActionResult Alerts(int alertId = 1)
+        {
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string username = currUser.UserName;
+            Gebruiker user = gMgr.FindUser(username);
+
+
+            IEnumerable<Alert> alerts = gMgr.GetAlertsByUser(user);
+            alerts = alerts.ToList();
+            return View(alerts);
+        }
 
         public ActionResult WeeklyReview(int weeklyReviewId = 0)
         {
@@ -263,6 +286,8 @@ namespace MVC_S.Controllers
             foreach(Thema theme in themes)
             {
                 theme.Hashtags = new Collection<string>();
+
+                theme.AantalVermeldingen = dMgr.GetAantalVermeldingen(theme);
 
                 theme.Hashtags.Add(theme.Hashtag1);
                 theme.Hashtags.Add(theme.Hashtag2);
@@ -360,7 +385,7 @@ namespace MVC_S.Controllers
             {
                 //not jet ready
                 //have to add defaultdash
-                string userName = "sam.laureys@student.kdg.be";
+                string userName = "default@gmail.com";
                 Gebruiker user = gMgr.FindUser(userName);
                 dash = dashMgr.GetDashboardWithFollows(user);
             }
