@@ -51,6 +51,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -62,6 +63,10 @@
   <ItemGroup>
     <Compile Include="Dashboard\DataChart.cs" />
     <Compile Include="Dashboard\GraphData2.cs" />
+    <Compile Include="Globalization\GlobalizationPlatform.cs" />
+    <Compile Include="Globalization\GlobalizationImage.cs" />
+    <Compile Include="Globalization\GlobalizationObject.cs" />
+    <Compile Include="Globalization\GlobalizationString.cs" />
     <Compile Include="Data\TwitAuthenticateResponse.cs" />
     <Compile Include="Gebruikers\ApplicationUser.cs" />
     <Compile Include="Dashboard\Cijfer.cs" />

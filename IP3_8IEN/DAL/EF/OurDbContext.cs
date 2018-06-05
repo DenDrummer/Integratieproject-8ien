@@ -3,6 +3,7 @@ using IP3_8IEN.BL.Domain.Data;
 using IP3_8IEN.BL.Domain.Gebruikers;
 using System;
 using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Globalization;
 
 namespace IP3_8IEN.DAL.EF
 {
@@ -53,6 +54,11 @@ namespace IP3_8IEN.DAL.EF
         public DbSet<GraphData2> Graphs2 { get; set; }
 
         public DbSet<Thema> Themas { get; set; }
+
+        #region Globalization
+        public DbSet<GlobalizationPlatform> GlobalizationPlatforms { get; set; }
+        public DbSet<GlobalizationObject> GlobalizationObjects { get; set; }
+        #endregion
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
