@@ -104,7 +104,7 @@
                             @Html.ActionLink("Gebruikersprofiel", "Instellingen", "Home")
                         </li>
                         <li>
-                             @Html.ActionLink("Instellingen", "Instellingen", "Home")
+                            @Html.ActionLink("Instellingen", "Instellingen", "Home")
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -267,6 +267,12 @@
                         }
                         else if (User.IsInRole("SuperAdmin"))
                         {
+                            <li>
+                                <a href="@Url.Action("AdminOmgeving", "Home")">
+                                    <i class="fas fa-user-circle" style="color:#00295C;"></i>
+                                    Admin Omgeving
+                                </a>
+                            </li>
                             <li>
                                 <a href="@Url.Action("Superadmin", "Home")">
                                     <i class="fab fa-superpowers" style="color:#00295C;"></i>
