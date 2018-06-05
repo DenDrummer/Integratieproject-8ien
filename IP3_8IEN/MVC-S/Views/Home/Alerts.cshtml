@@ -6,7 +6,7 @@
 
 <h2>Ontvangen Alerts!</h2>
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-12 col-md-12">
         <div class="panel panel-default">
             <div class="panel-body">
                 @for (int i = 0; i < 4; i++)
@@ -40,12 +40,12 @@
 </ul>
 
 <div class="tab-content well">
-    <div class="tab-pane active col-lg-12" id="hla">
+    <div class="tab-pane active col-lg-12 col-md-12" id="hla">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-md-8">
                 @Html.Action("ListHogerLager", "Alert", new List<IP3_8IEN.BL.Domain.Gebruikers.HogerLager>())
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-md-4">
                 <h2>Nieuwe Alert Maken!</h2>
                 <table>
                     <tr>
@@ -101,12 +101,12 @@
             </div>
         </div>
     </div>
-    <div class="tab-pane col-lg-12" id="vla">
+    <div class="tab-pane col-lg-12 col-md-12" id="vla">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-md-8">
                 @Html.Action("ListValueFluctuations", "Alert", new List<IP3_8IEN.BL.Domain.Gebruikers.ValueFluctuation>())
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-md-4">
                 <h2>Nieuwe Alert Maken!</h2>
                 <table>
                     <tr>
@@ -162,12 +162,12 @@
             </div>
         </div>
     </div>
-    <div class="tab-pane col-lg-12" id="pna">
+    <div class="tab-pane col-lg-12 col-md-12" id="pna">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-md-8">
                 @Html.Action("ListPositiefNegatief", "Alert", new List<IP3_8IEN.BL.Domain.Gebruikers.PositiefNegatief>())
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-md-4">
                 <h2>Nieuwe Alert Maken!</h2>
                 <table>
                     <tr>
