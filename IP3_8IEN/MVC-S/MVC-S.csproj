@@ -595,6 +595,7 @@
     <Content Include="Views\Error\BadRequest.cshtml" />
     <Content Include="Views\Admin\CreateCijferInput.cshtml" />
     <Content Include="Views\Admin\CreateCijfer.cshtml" />
+    <Content Include="Views\Admin\UserStats.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

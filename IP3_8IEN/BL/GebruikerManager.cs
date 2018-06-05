@@ -329,6 +329,7 @@ namespace IP3_8IEN.BL
 
         public IEnumerable<Domain.Dashboard.GraphData> GetTotalUsersList()
         {
+            InitNonExistingRepo();
             //enkel actieve gebruikers meegeven
             int count = repo.ReadGebruikers().Where(g => g.Active == true).Count();
             List<Domain.Dashboard.GraphData> cijferlist = new List<Domain.Dashboard.GraphData>();

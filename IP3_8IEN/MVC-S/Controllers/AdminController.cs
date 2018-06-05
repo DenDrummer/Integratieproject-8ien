@@ -11,6 +11,7 @@ using MVC_S.Models;
 using System.IO;
 using System.Web;
 using System.Collections.ObjectModel;
+using IP_8IEN.BL.Domain.Dashboard;
 
 namespace MVC_S.Controllers
 {
@@ -494,12 +495,48 @@ namespace MVC_S.Controllers
         {
             //Aantal bijgekomen user afgelopen 10 dagen (Line)
             IEnumerable<GraphData> userstats = _gebrManager.GetUserstatsList().ToList();
+            ViewBag.userstats = userstats;
             //Meeste follows laatste dagen (Donut)
             IEnumerable<GraphData> mostFollows = _dashManager.GetMostFollowsList().ToList();
+            ViewBag.mostFollows = mostFollows;
             //Aantal gebruikers (Cijfer)
             IEnumerable<GraphData> aantalUsers = _gebrManager.GetTotalUsersList().ToList();
+            ViewBag.aantalUsers = aantalUsers;
 
             return View();
+        }
+        [HttpGet]
+        public ActionResult Getuserstats()
+        {
+            IEnumerable<GraphData> userstats = _gebrManager.GetUserstatsList().ToList();
+            List<DataChart> datachart = new List<DataChart>();
+            foreach (var u in userstats)
+            {
+                datachart.Add(new DataChart(u.Label, u.Value));
+            }
+            return Json(datachart, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult GetMostFollows()
+        {
+            IEnumerable<GraphData> mostFollows = _dashManager.GetMostFollowsList().ToList();
+            List<DataChart> datachart = new List<DataChart>();
+            foreach (var u in mostFollows)
+            {
+                datachart.Add(new DataChart(u.Label, u.Value));
+            }
+            return Json(datachart, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult GetAantalUsers()
+        {
+            IEnumerable<GraphData> aantalUsers = _gebrManager.GetTotalUsersList().ToList();
+            List<DataChart> datachart = new List<DataChart>();
+            foreach (var u in aantalUsers)
+            {
+                datachart.Add(new DataChart(u.Label, u.Value));
+            }
+            return Json(datachart, JsonRequestBehavior.AllowGet);
         }
     }
 }
