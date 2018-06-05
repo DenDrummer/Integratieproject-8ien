@@ -221,7 +221,7 @@ namespace IP3_8IEN.BL
             return alert;
         }
 
-        public void AddGebruiker(string userName, string userId, string naam, string voornaam, string email, string role = "User")
+        public void AddGebruiker(string userName, string userId, string naam, string voornaam, string email, DateTime joindate, string role = "User")
         {
             InitNonExistingRepo();
             dashMgr = new DashManager();
@@ -234,7 +234,7 @@ namespace IP3_8IEN.BL
                 Naam = naam,
                 Role = role,
                 Email = email,
-                Joindate = DateTime.Now,
+                Joindate = joindate,
                 Active = true
             };
             repo.AddingGebruiker(gebruiker);
@@ -271,6 +271,36 @@ namespace IP3_8IEN.BL
             UpdateGebruiker(user);
         }
 
+        public IEnumerable<Domain.Dashboard.GraphData> GetUserstatsList()
+        {
+            //UserCount afgelopen 10 dagen
+            InitNonExistingRepo();
+
+            List<Gebruiker> users = repo.ReadGebruikers().ToList();
+            DateTime lastJoin = users.OrderBy(m => m.Joindate).ToList().Last().Joindate;
+            DateTime stop = users.OrderBy(m => m.Joindate).ToList().Last().Joindate;
+            stop.AddDays(-10);
+
+
+            List<Domain.Dashboard.GraphData> GraphDataList = new List<Domain.Dashboard.GraphData>();
+            for (int i = 0; i < 10; i++)
+            {
+                string date = lastJoin.Date.Year + "-" + lastJoin.Date.Month + "-" + lastJoin.Date.Day;
+                int count = 0;
+                IEnumerable<Gebruiker> usrs = users.Where(s => s.Joindate.Day == lastJoin.Date.Day).ToList();
+
+                foreach(Gebruiker u in usrs)
+                {
+                    count++;
+                }
+                Domain.Dashboard.GraphData graph = new Domain.Dashboard.GraphData(date, count);
+                GraphDataList.Add(graph);
+
+                lastJoin = lastJoin.AddDays(-1);
+            }
+            return GraphDataList;
+        }
+
         public IEnumerable<Gebruiker> GetUsers()
         {
             InitNonExistingRepo();
@@ -295,6 +325,20 @@ namespace IP3_8IEN.BL
         {
             string json = JsonConvert.SerializeObject(gebruikers, Formatting.Indented);
             return json;
+        }
+
+        public IEnumerable<Domain.Dashboard.GraphData> GetTotalUsersList()
+        {
+            //enkel actieve gebruikers meegeven
+            int count = repo.ReadGebruikers().Where(g => g.Active == true).Count();
+            List<Domain.Dashboard.GraphData> cijferlist = new List<Domain.Dashboard.GraphData>();
+            Domain.Dashboard.GraphData graph = new Domain.Dashboard.GraphData()
+            {
+                Label = "Aantal actieve gebruikers",
+                Value = count
+            };
+            cijferlist.Add(graph);
+            return cijferlist;
         }
 
         //Unit of Work related
