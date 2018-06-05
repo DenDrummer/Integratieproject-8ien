@@ -11,7 +11,9 @@ namespace IP3_8IEN.BL.Domain.Dashboard
         public int DashItemId { get; set; }
         public bool AdminGraph { get; set; }
         public int AantalDagen { get; set; }
+        public int aantalUren { get; set; }
         public string Naam { get; set; }
+        public string Titel { get; set; }
         public string Type { get; set; }
         public string Town { get; set; }
         //Active -> bij 'false' wordt de 'DashItem' beschouwd als verwijderd

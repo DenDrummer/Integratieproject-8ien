@@ -60,9 +60,10 @@ function custBarChart(dashItemid, elementId, titel) {
         data: { 'id': dashItemid },
         type: 'GET',
         success: function (result) {
+            var omgekeerd = result.reverse();
             morris[aantal++] = Morris.Bar({
                 element: elementId,
-                data: result,
+                data: omgekeerd,
                 xkey: 'label',
                 ykeys: ['value'],
                 labels: [titel],
