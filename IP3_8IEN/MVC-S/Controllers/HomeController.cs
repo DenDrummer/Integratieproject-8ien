@@ -194,7 +194,17 @@ namespace MVC_S.Controllers
         }
 
 
-        public ActionResult Alerts(int alertId = 1) => View(gMgr.GetAlert(alertId));
+        public ActionResult Alerts(int alertId = 1)
+        {
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string username = currUser.UserName;
+            Gebruiker user = gMgr.FindUser(username);
+
+
+            IEnumerable<Alert> alerts = gMgr.GetAlertsByUser(user);
+            alerts = alerts.ToList();
+            return View(alerts);
+        }
 
         public ActionResult WeeklyReview(int weeklyReviewId = 0)
         {

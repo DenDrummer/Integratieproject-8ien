@@ -1,6 +1,9 @@
 ﻿using IP3_8IEN.BL;
 using IP3_8IEN.BL.Domain.Gebruikers;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace MVC_S.Controllers
@@ -99,6 +102,32 @@ namespace MVC_S.Controllers
         {
             List<ValueFluctuation> vfs = mgr.GetValueFluctuationsByUser();
             return PartialView(vfs);
+        }
+
+        //Lijst met Alerts ophalen via JSON
+        public ActionResult AlertsByName(string name)
+        {
+            //Dashbord van ingelogde gebruiker ophalen
+            try
+            {
+                //ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
+                //string userName = appUser.UserName;
+                Gebruiker user = mgr.FindUser(name);
+
+                List<Alert> alerts = mgr.GetAlerts().ToList();
+
+                var list = JsonConvert.SerializeObject(alerts, Formatting.None, new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+
+                return Content(list, "application/json");
+            }
+            catch (Exception ex)
+            {
+                return Json("error" + ex, JsonRequestBehavior.AllowGet);
+
+            }
         }
     }
 }
