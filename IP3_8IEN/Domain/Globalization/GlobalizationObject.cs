@@ -9,7 +9,7 @@ namespace IP_8IEN.BL.Domain.Globalization
 {
     public class GlobalizationObject
     {
-        //public GlobalizationPlatform platform { get; set; }
+        public GlobalizationPlatform Platform { get; set; }
         [Key]
         public string Key { get; set; }
         public object Value { get; set; }

@@ -12,7 +12,7 @@ namespace IP_8IEN.BL.Domain.Globalization
         [Key]
         public int PlatformId { get; set; }
         public string Name { get; set; } = "Default";
-        public string Language { get; set; } = "N";
+        public string Language { get; set; } = "NL";
         public ICollection<GlobalizationObject> Items { get; set; }
         public ICollection<GlobalizationPlatform> FallBackPlatformen { get; set; }
     }

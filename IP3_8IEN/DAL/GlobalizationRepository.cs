@@ -58,18 +58,20 @@ namespace IP_8IEN.DAL
         }
 
         public ICollection<GlobalizationObject> ReadItemsFromPlatform(GlobalizationPlatform platform)
-        {
-
-        }
+            => ctx.GlobalizationItems
+            .Where(i => i.Platform.Equals(platform))
+            .ToList();
 
         public GlobalizationObject ReadItemFromPlatform(GlobalizationPlatform platform, string key)
-        {
-            throw new NotImplementedException();
-        }
+            => ctx.GlobalizationItems
+                .Where(i => i.Platform.Equals(platform))
+                .ToList()
+                .FirstOrDefault(i => i.Key.Equals(key));
 
         public void UpdateItem(GlobalizationObject item)
         {
-            throw new NotImplementedException();
+            ctx.Entry(item).State = EntityState.Modified;
+            ctx.SaveChanges();
         }
         #endregion
     }

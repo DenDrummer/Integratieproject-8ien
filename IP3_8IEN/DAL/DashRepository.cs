@@ -83,7 +83,7 @@ namespace IP3_8IEN.DAL
 
         public void UpdateFollow(Follow follow)
         {
-            ctx.Entry(follow).State = System.Data.Entity.EntityState.Modified;
+            ctx.Entry(follow).State = EntityState.Modified;
             ctx.SaveChanges();
         }
 
@@ -95,7 +95,7 @@ namespace IP3_8IEN.DAL
 
         public void UpdateDashboard(Dashbord dashbord)
         {
-            ctx.Entry(dashbord).State = System.Data.Entity.EntityState.Modified;
+            ctx.Entry(dashbord).State = EntityState.Modified;
             ctx.SaveChanges();
         }
 
