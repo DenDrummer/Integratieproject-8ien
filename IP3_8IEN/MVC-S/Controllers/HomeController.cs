@@ -100,6 +100,8 @@ namespace MVC_S.Controllers
             {
             }
 
+            bool ingelogd = false;
+
             IEnumerable<Persoon> ObjList = dMgr.GetPersonen().ToList();
             List<string> names = ObjList.Select(p => p.Naam).ToList();
             ViewData["names"] = names;
@@ -126,17 +128,18 @@ namespace MVC_S.Controllers
                 string userName = currUser.UserName;
                 Gebruiker user = gMgr.FindUser(userName);
                 dash = dashMgr.GetDashboardWithFollows(user);
+                ingelogd = true;
             }
             else
             {
                 //not jet ready
                 //have to add defaultdash
-                string userName = "default@gmail.com";
+               string userName = "default@gmail.be";
                 Gebruiker user = gMgr.FindUser(userName);
                 dash = dashMgr.GetDashboardWithFollows(user);
             }
 
-
+            ViewBag.Ingelogd = ingelogd;
             ViewBag.INIT = dash.ZonesOrder;
             //dashMgr.GetDashItems().Where(d => d.AdminGraph == true);
             ViewBag.AANTAL = dashMgr.GetDashItems().Where(d => d.AdminGraph == true).Count();
@@ -385,7 +388,7 @@ namespace MVC_S.Controllers
             {
                 //not jet ready
                 //have to add defaultdash
-                string userName = "default@gmail.com";
+                string userName = "default@gmail.be";
                 Gebruiker user = gMgr.FindUser(userName);
                 dash = dashMgr.GetDashboardWithFollows(user);
             }
@@ -493,7 +496,7 @@ namespace MVC_S.Controllers
             Persoon p = dMgr.GetPersoon(naam);
 
             List<GraphData> graphDataList = dMgr.GetTweetsPerDag(p, aantalDagenTerug);
-            DashItem newDashItem = dashMgr.CreateDashitem(false, type, naam);
+            DashItem newDashItem = dashMgr.CreateDashitem(false, type, aantalDagenTerug, naam);
             Follow follow = dashMgr.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
             DashItem dashItem = dashMgr.SetupDashItem(user, follow);
             dashMgr.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
@@ -538,7 +541,7 @@ namespace MVC_S.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction("Dashboard");
             }
         }
 

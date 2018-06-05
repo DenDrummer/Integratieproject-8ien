@@ -266,6 +266,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\zoekenStylesheet.css" />
     <Content Include="DataTables\Buttons-1.5.1\css\buttons.bootstrap.css" />
     <Content Include="DataTables\Buttons-1.5.1\css\buttons.bootstrap.min.css" />
     <Content Include="DataTables\Buttons-1.5.1\css\buttons.bootstrap4.css" />
@@ -632,7 +633,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>61094</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
