@@ -592,6 +592,8 @@
     <Content Include="Views\Error\BadRequest.cshtml" />
     <Content Include="Views\Admin\CreateCijferInput.cshtml" />
     <Content Include="Views\Admin\CreateCijfer.cshtml" />
+    <Content Include="Views\Admin\GlobalizationPlatformen.cshtml" />
+    <Content Include="Views\Admin\CreateGlobalizationPlatform.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

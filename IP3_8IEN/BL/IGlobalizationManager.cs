@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace IP3_8IEN.BL
 {
-    interface IGlobalizationManager
+    public interface IGlobalizationManager
     {
         void InitNonExistingRepo(bool withUOW);
 
@@ -24,7 +24,7 @@ namespace IP3_8IEN.BL
         IEnumerable<GlobalizationObject> GetItemsFromPlatform(int platformId);
         GlobalizationObject GetItemFromPlatform(int platformId, string key);
         GlobalizationString CreateItem(int platformId, string key, string value);
-        GlobalizationImage CreateItem(int platformId, string key, Image value);
+        //GlobalizationImage CreateItem(int platformId, string key, Image value);
         GlobalizationObject CreateItem(int platformId, string key, object value);
         void ChangeItem(GlobalizationObject item);
         #endregion

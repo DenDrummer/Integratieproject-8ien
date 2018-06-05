@@ -6,7 +6,7 @@ using IP3_8IEN.DAL;
 
 namespace IP3_8IEN.BL
 {
-    class GlobalizationManager : IGlobalizationManager
+    public class GlobalizationManager : IGlobalizationManager
     {
         private IGlobalizationRepository repo;
 
@@ -30,7 +30,7 @@ namespace IP3_8IEN.BL
 
             GlobalizationPlatform platform = new GlobalizationPlatform()
             {
-                Name = naam,
+                Platform = naam,
                 Language = taal
             };
             repo.AddPlatform(platform);
@@ -82,7 +82,7 @@ namespace IP3_8IEN.BL
             return item;
         }
 
-        public GlobalizationImage CreateItem(int platformId, string key, Image value)
+        /*public GlobalizationImage CreateItem(int platformId, string key, Image value)
         {
             InitNonExistingRepo();
             GlobalizationPlatform platform = GetPlatform(platformId);
@@ -95,7 +95,7 @@ namespace IP3_8IEN.BL
             repo.UpdatePlatform(platform);
             repo.AddItem(item);
             return item;
-        }
+        }*/
 
         public GlobalizationObject CreateItem(int platformId, string key, object value)
         {

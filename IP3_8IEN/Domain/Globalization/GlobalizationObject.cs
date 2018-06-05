@@ -9,6 +9,7 @@ namespace IP3_8IEN.BL.Domain.Globalization
 {
     public class GlobalizationObject
     {
+        [Key]
         public GlobalizationPlatform Platform { get; set; }
         [Key]
         public string Key { get; set; }

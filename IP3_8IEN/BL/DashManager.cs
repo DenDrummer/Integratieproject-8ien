@@ -1,5 +1,4 @@
 ﻿using IP3_8IEN.BL.Domain.Dashboard;
-using IP3_8IEN.BL.Domain.Dashboard;
 using IP3_8IEN.BL.Domain.Data;
 using IP3_8IEN.BL.Domain.Gebruikers;
 using IP3_8IEN.DAL;

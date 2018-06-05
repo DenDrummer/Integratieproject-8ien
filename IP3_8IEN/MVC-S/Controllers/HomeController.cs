@@ -19,7 +19,6 @@ using System;
 using System.Web.Hosting;
 using System.Web.Security;
 using System.Collections.ObjectModel;
-using IP3_8IEN.BL.Domain.Dashboard;
 
 namespace MVC_S.Controllers
 {   /*[RequireHttps]*/
@@ -453,7 +452,7 @@ namespace MVC_S.Controllers
 
         public ActionResult GetJson(List<GraphData> data)
         {
-            string bla = null;
+            //string bla = null;
             JsonResult d = Json(data, JsonRequestBehavior.AllowGet);
             return Json(data, JsonRequestBehavior.AllowGet);
         }

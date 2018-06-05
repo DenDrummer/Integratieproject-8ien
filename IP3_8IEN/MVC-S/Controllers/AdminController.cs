@@ -11,6 +11,7 @@ using MVC_S.Models;
 using System.IO;
 using System.Web;
 using System.Collections.ObjectModel;
+using IP3_8IEN.BL.Domain.Globalization;
 
 namespace MVC_S.Controllers
 {
@@ -20,6 +21,7 @@ namespace MVC_S.Controllers
         private IDataManager _dataManager;
         private IGebruikerManager _gebrManager;
         private IDashManager _dashManager;
+        private IGlobalizationManager _glblManager;
         private ApplicationUserManager _userManager;
 
 
@@ -29,6 +31,7 @@ namespace MVC_S.Controllers
             _userManager = new ApplicationUserManager();
             _dataManager = new DataManager();
             _gebrManager = new GebruikerManager();
+            _glblManager = new GlobalizationManager();
             _dashManager = new DashManager();
         }
 
@@ -361,8 +364,8 @@ namespace MVC_S.Controllers
             {
                 Persoon p = _dataManager.GetPersoon(naam);
                 // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetNumberGraph(p, uren);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
+                List<GraphData> graphDataList = _dataManager.GetNumberGraph(p, uren);
+                DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
                 IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
                 IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
@@ -373,8 +376,8 @@ namespace MVC_S.Controllers
             {
                 Organisatie o = _dataManager.GetOrganisaties().FirstOrDefault(org => org.Naam == naam);
                 // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetNumberGraph(o, uren);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
+                List<GraphData> graphDataList = _dataManager.GetNumberGraph(o, uren);
+                DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
                 IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, o.OnderwerpId);
                 IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
@@ -477,12 +480,13 @@ namespace MVC_S.Controllers
             
             foreach(Thema theme in themas)
             {
-                theme.Hashtags = new Collection<string>();
-
-                theme.Hashtags.Add(theme.Hashtag1);
-                theme.Hashtags.Add(theme.Hashtag2);
-                theme.Hashtags.Add(theme.Hashtag3);
-                theme.Hashtags.Add(theme.Hashtag4);
+                theme.Hashtags = new Collection<string>
+                {
+                    theme.Hashtag1,
+                    theme.Hashtag2,
+                    theme.Hashtag3,
+                    theme.Hashtag4
+                };
             }
 
             return View(themas);
@@ -501,5 +505,21 @@ namespace MVC_S.Controllers
 
             return View();
         }
+
+        #region Globalization
+        #region Platformen
+        [HttpGet]
+        public ActionResult GlobalizationPlatformen()
+        {
+            List<GlobalizationPlatform> platformen = _glblManager.GetPlatformen().ToList();
+            return View(platformen);
+        }
+
+        public ActionResult CreateGlobalizationPlatform()
+        {
+            return View();
+        }
+        #endregion
+        #endregion
     }
 }

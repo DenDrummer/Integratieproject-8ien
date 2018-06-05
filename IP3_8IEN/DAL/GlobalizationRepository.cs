@@ -41,12 +41,12 @@ namespace IP3_8IEN.DAL
                 .Include("Items")
                 .Include("FallBackPlatformen")
                 .ToList()
-                .FirstOrDefault(p => p.Name.Equals(name) && p.Language.Equals(language));
+                .FirstOrDefault(p => p.Platform.Equals(name) && p.Language.Equals(language));
 
         public ICollection<GlobalizationPlatform> ReadPlatformen()
             => ctx.GlobalizationPlatforms
-            .Include("Items")
-            .Include("FallBackPlatformen")
+            //.Include("Items")
+            //.Include("FallBackPlatformen")
             .ToList();
 
         public void UpdatePlatform(GlobalizationPlatform platform)
