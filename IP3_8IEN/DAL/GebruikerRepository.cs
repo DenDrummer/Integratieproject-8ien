@@ -2,6 +2,7 @@
 using IP3_8IEN.BL.Domain.Gebruikers;
 using IP3_8IEN.DAL.EF;
 using System.Linq;
+using System.Data.Entity;
 
 namespace IP3_8IEN.DAL
 {
@@ -105,7 +106,7 @@ namespace IP3_8IEN.DAL
 
         public void UpdateGebruiker(Gebruiker gebruiker)
         {
-            ctx.Entry(gebruiker).State = System.Data.Entity.EntityState.Modified;
+            ctx.Entry(gebruiker).State = EntityState.Modified;
             ctx.SaveChanges();
         }
 

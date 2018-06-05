@@ -418,7 +418,7 @@ namespace IP3_8IEN.BL
             repo.AddingTewerkstelling(tewerkstelling);
             //dan de persoon & organisatie updaten met de nieuwe 'Tewerkstelling'
             //Todo: misschien gewoon een UpdateContext maken
-            repo.UdateOnderwerp(persoon);
+            repo.UpdateOnderwerp(persoon);
         }
 
         public void AddTewerkstelling(Persoon persoon, string naamOrganisatie)
@@ -483,7 +483,7 @@ namespace IP3_8IEN.BL
             repo.AddingTewerkstelling(tewerkstelling);
             //dan de persoon & organisatie updaten met de nieuwe 'Tewerkstelling'
             //Todo: misschien gewoon een UpdateContext maken
-            repo.UdateOnderwerp(persoon);
+            repo.UpdateOnderwerp(persoon);
         }
 
         public void AddPersonen(string pathToJson)

@@ -65,7 +65,7 @@ namespace IP3_8IEN.DAL
 
         public IEnumerable<Message> ReadMessages() => ctx.Messages.ToList();
 
-        public void UdateOnderwerp(Onderwerp onderwerp) => ctx.SaveChanges();
+        public void UpdateOnderwerp(Onderwerp onderwerp) => ctx.SaveChanges();
 
         public void UpdateMessage() => ctx.SaveChanges();
 

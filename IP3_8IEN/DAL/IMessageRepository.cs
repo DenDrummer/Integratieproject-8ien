@@ -25,7 +25,7 @@ namespace IP3_8IEN.DAL
         
         IEnumerable<Organisatie> ReadOrganisaties();
         void AddingTewerkstelling(Tewerkstelling tewerkstelling);
-        void UdateOnderwerp(Onderwerp onderwerp);
+        void UpdateOnderwerp(Onderwerp onderwerp);
         
         IEnumerable<SubjectMessage> ReadSubjectMessages();
         void UpdateMessage();

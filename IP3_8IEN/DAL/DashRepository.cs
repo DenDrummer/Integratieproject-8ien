@@ -2,6 +2,7 @@
 using IP3_8IEN.BL.Domain.Gebruikers;
 using IP3_8IEN.DAL.EF;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace IP3_8IEN.DAL
@@ -37,7 +38,7 @@ namespace IP3_8IEN.DAL
         }
         public void UpdateDashItem(DashItem dashItem)
         {
-            ctx.Entry(dashItem).State = System.Data.Entity.EntityState.Modified;
+            ctx.Entry(dashItem).State = EntityState.Modified;
             ctx.SaveChanges();
         }
 
