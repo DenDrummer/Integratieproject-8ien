@@ -134,7 +134,7 @@ namespace MVC_S.Controllers
             {
                 //not jet ready
                 //have to add defaultdash
-                string userName = "default@gmail.com";
+               string userName = "default@gmail.be";
                 Gebruiker user = gMgr.FindUser(userName);
                 dash = dashMgr.GetDashboardWithFollows(user);
             }
@@ -388,7 +388,7 @@ namespace MVC_S.Controllers
             {
                 //not jet ready
                 //have to add defaultdash
-                string userName = "default@gmail.com";
+                string userName = "default@gmail.be";
                 Gebruiker user = gMgr.FindUser(userName);
                 dash = dashMgr.GetDashboardWithFollows(user);
             }
