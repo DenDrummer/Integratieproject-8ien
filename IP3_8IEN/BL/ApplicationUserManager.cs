@@ -84,7 +84,8 @@ namespace IP3_8IEN.BL
                 {
                     var result1 = this.AddToRole(user.Id, "SuperAdmin");
                 }
-                _gebruikerMgr.AddGebruiker(user.UserName, user.Id, "Admin", "Qwerty",user.Email, "SuperAdmin");
+                DateTime joindate = DateTime.Now;
+                _gebruikerMgr.AddGebruiker(user.UserName, user.Id, "Admin", "Qwerty",user.Email, joindate, "SuperAdmin");
             }
 
             // Manager role aanmaken    
@@ -142,7 +143,8 @@ namespace IP3_8IEN.BL
             CreateUserWithRoleAsync(gebruiker, passw, role);
 
             // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken
-            _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName,gebruiker.Email, role);
+            DateTime joindate = DateTime.Now;
+            _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName,gebruiker.Email, joindate, role);
         }
 
         ////inladen vanuit json formaat
@@ -171,7 +173,15 @@ namespace IP3_8IEN.BL
                 CreateUserWithRoleAsync(gebruiker, passw, role);
 
                 // Er wordt een aparte Gebruiker klasse gebruikt om objecte te linken
-                _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName, gebruiker.Email, role);
+                DateTime joindate;
+                try
+                {
+                    joindate = item.JoinDate;
+                } catch
+                {
+                    joindate = DateTime.Now;
+                }
+            _gebruikerMgr.AddGebruiker(gebruiker.UserName, gebruiker.Id, gebruiker.AchterNaam, gebruiker.UserName, gebruiker.Email, joindate, role);
             }
         }
     }

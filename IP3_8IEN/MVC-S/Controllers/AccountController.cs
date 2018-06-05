@@ -164,7 +164,8 @@ namespace MVC_S.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     _gebruikerMgr = new GebruikerManager();
-                    _gebruikerMgr.AddGebruiker(user.UserName, user.Id, user.AchterNaam, user.UserName,user.Email);
+                    DateTime joindate = DateTime.Now;
+                    _gebruikerMgr.AddGebruiker(user.UserName, user.Id, user.AchterNaam, user.UserName,user.Email,joindate);
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
