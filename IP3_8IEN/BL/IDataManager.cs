@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using IP3_8IEN.BL.Domain.Dashboard;
-using IP_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Dashboard;
 
 namespace IP3_8IEN.BL
 {

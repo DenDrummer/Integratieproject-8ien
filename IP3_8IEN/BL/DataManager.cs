@@ -13,7 +13,7 @@ using System.Net.Mail;
 using IP3_8IEN.BL.Domain.Dashboard;
 using System.Text;
 using System.Globalization;
-using IP_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Dashboard;
 
 namespace IP3_8IEN.BL
 {
@@ -746,8 +746,6 @@ namespace IP3_8IEN.BL
             InitNonExistingRepo();
             return repo.ReadHashtagsWithSubjMsgs();
         }
-
-
         
         //Unit of Work related
         public void InitNonExistingRepo(bool withUnitOfWork = false)
@@ -760,7 +758,7 @@ namespace IP3_8IEN.BL
                 {
                     uowManager = new UnitOfWorkManager();
                 }
-                repo = new DAL.MessageRepository(uowManager.UnitOfWork);
+                repo = new MessageRepository(uowManager.UnitOfWork);
             }
             // Als we niet met UoW willen werken, dan maken we een repo aan als die nog niet bestaat.
             else
@@ -768,7 +766,7 @@ namespace IP3_8IEN.BL
                 //zien of repo al bestaat
                 if (repo == null)
                 {
-                    repo = new DAL.MessageRepository();
+                    repo = new MessageRepository();
                 }
                 else
                 {
@@ -776,7 +774,7 @@ namespace IP3_8IEN.BL
                     bool isUoW = repo.IsUnitofWork();
                     if (isUoW)
                     {
-                        repo = new DAL.MessageRepository();
+                        repo = new MessageRepository();
                     }
                     else
                     {
@@ -2525,8 +2523,7 @@ namespace IP3_8IEN.BL
                 }
                 else
                 {
-                    int value;
-                    woorden.TryGetValue(woord, out value);
+                    woorden.TryGetValue(woord, out int value);
                     woorden.Remove(woord);
                     woorden.Add(woord, ++value);
                 }

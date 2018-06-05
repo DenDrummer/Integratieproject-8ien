@@ -4,11 +4,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IP_8IEN.BL.Domain.Globalization;
+using IP3_8IEN.BL.Domain.Globalization;
 using IP3_8IEN.DAL;
 using IP3_8IEN.DAL.EF;
 
-namespace IP_8IEN.DAL
+namespace IP3_8IEN.DAL
 {
     class GlobalizationRepository : IGlobalizationRepository
     {
@@ -42,6 +42,12 @@ namespace IP_8IEN.DAL
                 .Include("FallBackPlatformen")
                 .ToList()
                 .FirstOrDefault(p => p.Name.Equals(name) && p.Language.Equals(language));
+
+        public ICollection<GlobalizationPlatform> ReadPlatformen()
+            => ctx.GlobalizationPlatforms
+            .Include("Items")
+            .Include("FallBackPlatformen")
+            .ToList();
 
         public void UpdatePlatform(GlobalizationPlatform platform)
         {

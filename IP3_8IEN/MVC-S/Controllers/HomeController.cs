@@ -19,7 +19,7 @@ using System;
 using System.Web.Hosting;
 using System.Web.Security;
 using System.Collections.ObjectModel;
-using IP_8IEN.BL.Domain.Dashboard;
+using IP3_8IEN.BL.Domain.Dashboard;
 
 namespace MVC_S.Controllers
 {   /*[RequireHttps]*/

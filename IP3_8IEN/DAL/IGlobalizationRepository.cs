@@ -1,15 +1,16 @@
-﻿using IP_8IEN.BL.Domain.Globalization;
+﻿using IP3_8IEN.BL.Domain.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IP_8IEN.DAL
+namespace IP3_8IEN.DAL
 {
     public interface IGlobalizationRepository
     {
         #region platformen
+        ICollection<GlobalizationPlatform> ReadPlatformen();
         GlobalizationPlatform ReadPlatform(int id);
         GlobalizationPlatform ReadPlatform(string name, string language);
         void AddPlatform(GlobalizationPlatform platform);

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IP_8IEN.BL.Domain.Globalization
+namespace IP3_8IEN.BL.Domain.Globalization
 {
     public class GlobalizationObject
     {
