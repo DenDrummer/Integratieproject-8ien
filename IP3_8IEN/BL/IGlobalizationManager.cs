@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace IP3_8IEN.BL
 {
@@ -15,14 +16,16 @@ namespace IP3_8IEN.BL
         GlobalizationPlatform CreatePlatform(string naam, string taal);
         GlobalizationPlatform GetPlatform(int id);
         GlobalizationPlatform GetPlatform(string naam, string taal);
-        ICollection<GlobalizationPlatform> GetPlatformen();
+        IEnumerable<GlobalizationPlatform> GetPlatformen();
         void ChangePlatform(GlobalizationPlatform platform);
         #endregion
 
         #region Items
-        ICollection<GlobalizationObject> GetItemsFromPlatform(GlobalizationPlatform platform);
-        GlobalizationObject GetItemFromPlatform(GlobalizationPlatform platform, string key);
-        GlobalizationObject CreateItem(GlobalizationObject item);
+        IEnumerable<GlobalizationObject> GetItemsFromPlatform(int platformId);
+        GlobalizationObject GetItemFromPlatform(int platformId, string key);
+        GlobalizationString CreateItem(int platformId, string key, string value);
+        GlobalizationImage CreateItem(int platformId, string key, Image value);
+        GlobalizationObject CreateItem(int platformId, string key, object value);
         void ChangeItem(GlobalizationObject item);
         #endregion
     }

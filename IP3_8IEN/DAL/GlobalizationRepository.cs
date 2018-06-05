@@ -10,7 +10,7 @@ using IP3_8IEN.DAL.EF;
 
 namespace IP3_8IEN.DAL
 {
-    class GlobalizationRepository : IGlobalizationRepository
+    public class GlobalizationRepository : IGlobalizationRepository
     {
         private OurDbContext ctx;
 

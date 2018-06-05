@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 using IP3_8IEN.BL.Domain.Globalization;
 using IP3_8IEN.DAL;
 
@@ -22,61 +20,125 @@ namespace IP3_8IEN.BL
         #region Platformen
         public void ChangePlatform(GlobalizationPlatform platform)
         {
-            throw new NotImplementedException();
+            InitNonExistingRepo();
+            repo.UpdatePlatform(platform);
         }
 
         public GlobalizationPlatform CreatePlatform(string naam, string taal)
         {
-            throw new NotImplementedException();
+            InitNonExistingRepo();
+
+            GlobalizationPlatform platform = new GlobalizationPlatform()
+            {
+                Name = naam,
+                Language = taal
+            };
+            repo.AddPlatform(platform);
+
+            return platform;
         }
 
         public GlobalizationPlatform GetPlatform(int id)
         {
-            throw new NotImplementedException();
+            InitNonExistingRepo();
+            GlobalizationPlatform platform = repo.ReadPlatform(id);
+            return platform;
         }
 
         public GlobalizationPlatform GetPlatform(string naam, string taal)
         {
-            throw new NotImplementedException();
+            InitNonExistingRepo();
+            GlobalizationPlatform platform = repo.ReadPlatform(naam, taal);
+            return platform;
         }
 
-        public ICollection<GlobalizationPlatform> GetPlatformen()
+        public IEnumerable<GlobalizationPlatform> GetPlatformen()
         {
-            throw new NotImplementedException();
+            InitNonExistingRepo();
+            IEnumerable<GlobalizationPlatform> platformen = repo.ReadPlatformen();
+            return platformen;
         }
         #endregion
 
         #region Items
         public void ChangeItem(GlobalizationObject item)
         {
-            throw new NotImplementedException();
+            InitNonExistingRepo();
+            repo.UpdateItem(item);
         }
 
-        public GlobalizationObject CreateItem(GlobalizationObject item)
+        public GlobalizationString CreateItem(int platformId, string key, string value)
         {
-            throw new NotImplementedException();
+            InitNonExistingRepo();
+            GlobalizationPlatform platform = GetPlatform(platformId);
+            GlobalizationString item = new GlobalizationString()
+            {
+                Platform = platform,
+                Key = key,
+                Value = value
+            };
+            repo.UpdatePlatform(platform);
+            repo.AddItem(item);
+            return item;
         }
 
-        public GlobalizationObject GetItemFromPlatform(GlobalizationPlatform platform, string key)
+        public GlobalizationImage CreateItem(int platformId, string key, Image value)
         {
-            throw new NotImplementedException();
+            InitNonExistingRepo();
+            GlobalizationPlatform platform = GetPlatform(platformId);
+            GlobalizationImage item = new GlobalizationImage()
+            {
+                Platform = platform,
+                Key = key,
+                Value = value
+            };
+            repo.UpdatePlatform(platform);
+            repo.AddItem(item);
+            return item;
         }
 
-        public ICollection<GlobalizationObject> GetItemsFromPlatform(GlobalizationPlatform platform)
+        public GlobalizationObject CreateItem(int platformId, string key, object value)
         {
-            throw new NotImplementedException();
+            InitNonExistingRepo();
+            GlobalizationPlatform platform = GetPlatform(platformId);
+            GlobalizationObject item = new GlobalizationObject()
+            {
+                Platform = platform,
+                Key = key,
+                Value = value
+            };
+            repo.UpdatePlatform(platform);
+            repo.AddItem(item);
+            return item;
+        }
+
+        public GlobalizationObject GetItemFromPlatform(int platformId, string key)
+        {
+            InitNonExistingRepo();
+            GlobalizationPlatform platform = GetPlatform(platformId);
+            GlobalizationObject item = repo.ReadItemFromPlatform(platform, key);
+            return item;
+        }
+
+        public IEnumerable<GlobalizationObject> GetItemsFromPlatform(int platformId)
+        {
+            InitNonExistingRepo();
+            GlobalizationPlatform platform = GetPlatform(platformId);
+            IEnumerable<GlobalizationObject> items = repo.ReadItemsFromPlatform(platform);
+            return items;
         }
         #endregion
 
-        public void InitNonExistingRepo(bool withUOW)
+        public void InitNonExistingRepo(bool withUOW = false)
         {
             //aangezien we normaal gezien hier normaal geen UOW
             //gaan moeten gebruiken, laten we de controle daarop
             //vallen en gaan we rechtstreeks op de repo zelf checken
             if (repo == null)
             {
-                repo = new GlobalizationRepository()
+                repo = new GlobalizationRepository();
             }
+            //else: repo behoudt zijn context
         }
     }
 }

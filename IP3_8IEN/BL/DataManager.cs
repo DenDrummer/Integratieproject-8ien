@@ -13,7 +13,6 @@ using System.Net.Mail;
 using IP3_8IEN.BL.Domain.Dashboard;
 using System.Text;
 using System.Globalization;
-using IP3_8IEN.BL.Domain.Dashboard;
 
 namespace IP3_8IEN.BL
 {
