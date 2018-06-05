@@ -38,6 +38,6 @@ namespace IP3_8IEN.BL
         IEnumerable<Gebruiker> GetUsers();
         IEnumerable<ApplicationUser> GetUsersInRoles(IEnumerable<ApplicationUser> appUsers, string role);
         string ExportToCSV(IEnumerable<Gebruiker> gebruikers);
-
+        IEnumerable<Gebruiker> GetGebruikersWithDash();
     }
 }

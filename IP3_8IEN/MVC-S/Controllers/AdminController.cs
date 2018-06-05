@@ -195,18 +195,24 @@ namespace MVC_S.Controllers
         {
             IEnumerable<Persoon> ObjList = _dataManager.GetPersonen().ToList();
             IEnumerable<Organisatie> ObjList2 = _dataManager.GetOrganisaties().ToList();
+            IEnumerable<Thema> ObjList3 = _dataManager.GetThemas().ToList();
             List<string> names = ObjList.Select(p => p.Naam).ToList();
-            //Organisaties toevoegen aan autocompleet
-            foreach(Organisatie org in ObjList2)
+            List<string> towns = _dataManager.GetTowns(ObjList).ToList();
+            foreach (Organisatie org in ObjList2)
             {
                 names.Add(org.Naam);
             }
+            foreach (Thema theme in ObjList3)
+            {
+                names.Add(theme.Naam);
+            }
             ViewData["names"] = names;
+            ViewData["towns"] = towns;
             return View();
         }
 
         [HttpPost]
-        public ActionResult CreateGrafiekLine(string automplete)
+        public ActionResult CreateGrafiekLine(string automplete, string automplete2)
         {
             string naam = automplete;
 
@@ -225,17 +231,18 @@ namespace MVC_S.Controllers
             {
                 Persoon p = _dataManager.GetPersoon(naam);
                 // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam);
+                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen, automplete2);
+                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam, automplete2);
                 IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
                 IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
                 // ================================================================================ //
+                _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
             }
-            catch
+            catch { }
+            try
             {
                 Organisatie o = _dataManager.GetOrganisaties().ToList().FirstOrDefault(org => org.Naam == naam);
-                //Thema thema = _dataManager.GetThemas().ToList().FirstOrDefault(t => t.Naam == naam);
                 // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
                 List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(o, nDagen);
                 IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam);
@@ -243,8 +250,24 @@ namespace MVC_S.Controllers
                 IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
                 // ================================================================================ //
+                _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
             }
-            //////////////////////////////////////////////////////////////////            
+            catch { }
+            try
+            {
+                Thema thema = _dataManager.GetThemas().ToList().FirstOrDefault(t => t.Naam == naam);
+                List<GraphData> graphDataList = _dataManager.GetTweetsPerDag(thema, nDagen);
+                DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam);
+                Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, thema.OnderwerpId);
+                DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+                _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+                // ================================================================================ //
+                _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
+            }
+            catch { }
+            ////////////////////////////////////////////////////////////////     
+
+
 
             Dashbord dash = _dashManager.GetDashboardWithFollows(user);
             return View();
@@ -295,6 +318,7 @@ namespace MVC_S.Controllers
             DashItem dashItem = _dashManager.SetupDashItem(user, follows);
             _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
             // ================================================================================ //
+            _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
 
             Dashbord dash = _dashManager.GetDashboardWithFollows(user);
             return View();
@@ -305,11 +329,16 @@ namespace MVC_S.Controllers
         {
             IEnumerable<Persoon> ObjList = _dataManager.GetPersonen().ToList();
             IEnumerable<Organisatie> ObjList2 = _dataManager.GetOrganisaties().ToList();
+            IEnumerable<Thema> ObjList3 = _dataManager.GetThemas().ToList();
             List<string> names = ObjList.Select(p => p.Naam).ToList();
             //Organisaties toevoegen aan autocompleet
             foreach (Organisatie org in ObjList2)
             {
                 names.Add(org.Naam);
+            }
+            foreach(Thema theme in ObjList3)
+            {
+                names.Add(theme.Naam);
             }
             ViewData["names"] = names;
             return View();
@@ -338,7 +367,9 @@ namespace MVC_S.Controllers
                 IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
                 // ================================================================================ //
-            } catch
+                _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
+            } catch { }
+            try
             {
                 Organisatie o = _dataManager.GetOrganisaties().FirstOrDefault(org => org.Naam == naam);
                 // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
@@ -348,7 +379,21 @@ namespace MVC_S.Controllers
                 IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
                 // ================================================================================ //
+                _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
+            } catch { }
+            try
+            {
+                Thema t = _dataManager.GetThemas().FirstOrDefault(theme => theme.Naam == naam);
+                // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+                List<GraphData> graphDataList = _dataManager.GetNumberGraph(t, uren);
+                DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
+                Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, t.OnderwerpId);
+                DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+                _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+                // ================================================================================ //
+                _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
             }
+            catch { }
 
             Dashbord dash = _dashManager.GetDashboardWithFollows(user);
             return View();
@@ -396,7 +441,12 @@ namespace MVC_S.Controllers
         {
             //Thema's komen eerst te staan
             //IList<Hashtag> hashtags = _dataManager.GetHashtags().OrderBy(e => e.Thema == false).ToList();
-            IList<Hashtag> hashtags = _dataManager.GetHashtags().ToList();
+            IList<Hashtag> hashtags = _dataManager.GetHashtagsWithSubjMsgs().ToList();
+
+            foreach(Hashtag hash in hashtags)
+            {
+                hash.Vermelding = hash.SubjectMessages.Count();
+            }
             
             return View(hashtags);
         }
@@ -404,7 +454,7 @@ namespace MVC_S.Controllers
         [HttpPost]
         public ActionResult Themas(string naam, string beschrijving, IList<Hashtag> hashtags)
         {
-            //Note : View per 10 -> geeft 3 objecten terug voor update
+            //Note : View per 10 -> geeft foute objecten terug voor update
 
             IEnumerable<Hashtag> hashForTheme = hashtags.Where(h => h.Thema == true).ToList();
 
@@ -415,11 +465,6 @@ namespace MVC_S.Controllers
             {
                 return RedirectToAction("Themas");
             }
-
-            //Update :
-            //      Theme -> name +hashtag ICollection
-            //      New List Theme for Admin
-            //      Undo changes LijstThemas
 
             return RedirectToAction("Themas");
         }

@@ -53,7 +53,7 @@ namespace IP3_8IEN.BL
             return repo.ReadDashbordWithFollows(user);
         }
 
-        public DashItem CreateDashitem(bool adminGraph, string type, string naam = "usergraph")
+        public DashItem CreateDashitem(bool adminGraph, string type, string naam = "usergraph", string town = "Vlaanderen")
         {
             InitNonExistingRepo();
 
@@ -61,6 +61,7 @@ namespace IP3_8IEN.BL
                 LastModified = DateTime.Now,
                 Type = type,
                 Naam = naam,
+                Town = town,
                 Active = true
             };
 
@@ -86,31 +87,64 @@ namespace IP3_8IEN.BL
             bool UoW = false;
             repo.SetUnitofWork(UoW);
 
-            Follow follow;
             try
             {
-                follow = new Follow()
+                Follow follow = new Follow()
                 {
                     DashItem = repo.ReadDashItem(dashId),
                     Onderwerp = dataMgr.GetPersoon(id)
                 };
-                repo.AddFollow(follow);
-            } catch
-            {
-                follow = new Follow()
+
+                if(follow.Onderwerp != null)
+                {
+                    repo.AddFollow(follow);
+
+                    uowManager.Save();
+                    UoW = true;
+                    repo.SetUnitofWork(UoW);
+
+                    return follow;
+                }                
+            }
+            catch { }
+            try {
+                Follow follow = new Follow()
                 {
                     DashItem = repo.ReadDashItem(dashId),
                     Onderwerp = dataMgr.GetOrganisatie(id)
                 };
-                repo.AddFollow(follow);
-            }
 
-            uowManager.Save();
+                if (follow.Onderwerp != null)
+                {
+                    repo.AddFollow(follow);
 
-            UoW = true;
-            repo.SetUnitofWork(UoW);
+                    uowManager.Save();
+                    UoW = true;
+                    repo.SetUnitofWork(UoW);
 
-            return follow;
+                    return follow;
+                }
+            } catch { }
+            try
+            {
+                Follow follow = new Follow()
+                {
+                    DashItem = repo.ReadDashItem(dashId),
+                    Onderwerp = dataMgr.GetThema(id)
+                };
+                if (follow.Onderwerp != null)
+                {
+                    repo.AddFollow(follow);
+
+                    uowManager.Save();
+                    UoW = true;
+                    repo.SetUnitofWork(UoW);
+
+                    return follow;
+                }
+            } catch { }
+
+            throw new Exception("Follow werd niet correct geïnitialiseerd");
         }
 
         public List<Follow> CreateFollow(int dashId, List<int> listPersoonId)
@@ -143,7 +177,7 @@ namespace IP3_8IEN.BL
             return follows;
         }
 
-        public DashItem SetupDashItem(/*DashItem dashItem,*/ Gebruiker user, Follow follow)
+        public DashItem SetupDashItem(Gebruiker user, Follow follow)
         {
             InitNonExistingRepo(true);
 
@@ -226,7 +260,29 @@ namespace IP3_8IEN.BL
             repo.AddGraph(graph);
         }
 
+        public void SyncWithAdmins(string userId, int dashItemId)
+        {
+            InitNonExistingRepo(true);
+            gebruikerMgr = new GebruikerManager(uowManager);
 
+            IEnumerable<Gebruiker> admins = gebruikerMgr.GetGebruikersWithDash().Where(u => u.Role == "Admin" && u.GebruikerId != userId).ToList();
+
+            foreach(Gebruiker admin in admins)
+            {
+                foreach(Dashbord dash in admin.Dashboards)
+                {
+                        TileZone tile = new TileZone()
+                        {
+                            Dashbord = dash,
+                            DashItem = repo.ReadDashItem(dashItemId)
+                        };
+
+                    repo.AddTileZone(tile);
+                    AddOneZonesOrder(dash);
+                    uowManager.Save();
+                }
+            }
+        }
 
         public void UpdateDashItem(DashItem dashItem) => repo.UpdateDashItem(dashItem);
 
@@ -250,26 +306,51 @@ namespace IP3_8IEN.BL
             public string[] labels;
         }
 
-        public GraphdataValues GetGraphData(int persoonId, int aantalDagen, string type)
+        public GraphdataValues GetGraphDataRank(int aantal, int interval_uren, bool puntNotatie = false)
         {
             InitNonExistingRepo();
 
             dataMgr = new DataManager();
 
-            List<GraphData> graphs = dataMgr.GetTweetsPerDagList(dataMgr.GetPersoon(persoonId), aantalDagen);
+            List<GraphData> graphs = dataMgr.GetRankingList(aantal, interval_uren, puntNotatie);
 
-            if (type == "Line")
+            GraphdataValues graphsVals = new GraphdataValues()
             {
-                //List<GraphData> graphs = dataMgr.GetTweetsPerDagList(persoon, aantalDagen);
-            }
-            else if(type == "Rank")
+                values = new double[aantal],
+                labels = new string[interval_uren]
+            };
+
+            int i = 0;
+            foreach (GraphData graph in graphs)
             {
-                //TODO
+                graphsVals.values[i] = graph.Value;
+                graphsVals.labels[i] = graph.Label;
+                i++;
             }
-            else
-            {
-                //TODO
-            }
+
+            return graphsVals;
+        }
+
+        public GraphdataValues GetGraphData(int onderwerpId, int aantalDagen, string type, string objType)
+        {
+            InitNonExistingRepo();
+
+            dataMgr = new DataManager();
+
+            List<GraphData> graphs = new List<GraphData>();
+
+                if (objType == "Persoon")
+                {
+                    graphs = dataMgr.GetTweetsPerDagList(dataMgr.GetPersoon(onderwerpId), aantalDagen);
+                }
+                else if (objType == "Organisatie")
+                {
+                    graphs = dataMgr.GetTweetsPerDagList(dataMgr.GetOrganisatie(onderwerpId), aantalDagen);
+                }
+                else if (objType == "Thema")
+                {
+                    graphs = dataMgr.GetTweetsPerDagList(dataMgr.GetThema(onderwerpId), aantalDagen);
+                }
 
             GraphdataValues graphsVals = new GraphdataValues()
             {
@@ -302,30 +383,58 @@ namespace IP3_8IEN.BL
                 {
                     int i = 0;
                     //deze array verwijst naar de personen in GraphData
-                    int[] persoonId = { 0, 0, 0, 0, 0 };
+                    int[] onderwerpId = { 0, 0, 0, 0, 0 };
 
                     foreach (Follow follow in tileZone.DashItem.Follows)
                     {
-                        try
-                        {
-                            persoonId[i] = follow.Onderwerp.OnderwerpId;
+                            onderwerpId[i] = follow.Onderwerp.OnderwerpId;
                             i++;
-                        }
-                        catch { throw new Exception("Out of bounds"); }
-
                     }
 
-                    GraphdataValues graphs = GetGraphData(persoonId[0], 10, tileZone.DashItem.Type);
-
-                    int j = 0;
-                    foreach (var graph in tileZone.DashItem.Graphdata)
+                    try
                     {
-                        graph.Label = graphs.labels[j];
-                        graph.Value = graphs.values[j];
-                        repo.UpdateGraphData(graph);
-                        j++;
+                        GraphdataValues graphs = GetGraphData(onderwerpId[0], 10, tileZone.DashItem.Type, "Persoon");
+
+                        int j = 0;
+                        foreach (var graph in tileZone.DashItem.Graphdata)
+                        {
+                            graph.Label = graphs.labels[j];
+                            graph.Value = graphs.values[j];
+                            repo.UpdateGraphData(graph);
+                            j++;
+                        }
                     }
-                    uowManager.Save();
+                    catch { }
+                    try
+                    {
+                        //Organisatie organisatie = dataMgr.GetOrganisatie(onderwerpId[0]);
+                        GraphdataValues graphs = GetGraphData(onderwerpId[0], 10, tileZone.DashItem.Type, "Organisatie");
+
+                        int j = 0;
+                        foreach (var graph in tileZone.DashItem.Graphdata)
+                        {
+                            graph.Label = graphs.labels[j];
+                            graph.Value = graphs.values[j];
+                            repo.UpdateGraphData(graph);
+                            j++;
+                        }
+                    } catch { }
+                    try
+                    {
+                        //Thema thema = dataMgr.GetThema(onderwerpId[0]);
+                        GraphdataValues graphs = GetGraphData(onderwerpId[0], 10, tileZone.DashItem.Type, "Thema");
+                        
+                        int j = 0;
+                        foreach (var graph in tileZone.DashItem.Graphdata)
+                        {
+                            graph.Label = graphs.labels[j];
+                            graph.Value = graphs.values[j];
+                            repo.UpdateGraphData(graph);
+                            j++;
+                        }
+                    } catch { }
+
+                uowManager.Save();
                 }
                 //LastModified updaten
                 tileZone.DashItem.LastModified = timeNow;
@@ -334,6 +443,11 @@ namespace IP3_8IEN.BL
             }
             repo.SetUnitofWork(true);
             return dashbord;
+        }
+
+        public IEnumerable<Dashbord> GetDashbords()
+        {
+            return repo.ReadDashbords();
         }
 
         public IEnumerable<DashItem> GetDashItems()

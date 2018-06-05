@@ -118,7 +118,7 @@ namespace MVC_S.Controllers
             {
                 //not jet ready
                 //have to add defaultdash
-                string userName = "sam.laureys@student.kdg.be";
+                string userName = "default@gmail.com";
                 Gebruiker user = gMgr.FindUser(userName);
                 dash = dashMgr.GetDashboardWithFollows(user);
             }
@@ -226,10 +226,10 @@ namespace MVC_S.Controllers
                 Gebruiker user = gMgr.FindUser(userName);
 
                 Dashbord dashbord = dashMgr.GetDashboardWithFollows(user);
-                dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem minstens 3h up-to-date is
+                dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem up-to-date is
 
                 return View(dashbord);
-            }
+        }
             catch
             {
                 return View();
@@ -370,7 +370,7 @@ namespace MVC_S.Controllers
             {
                 //not jet ready
                 //have to add defaultdash
-                string userName = "sam.laureys@student.kdg.be";
+                string userName = "default@gmail.com";
                 Gebruiker user = gMgr.FindUser(userName);
                 dash = dashMgr.GetDashboardWithFollows(user);
             }
@@ -526,5 +526,37 @@ namespace MVC_S.Controllers
                 return View();
             }
         }
+
+        public ActionResult GetTopStory(int id , int aantal)
+        {
+            Persoon persoon = dMgr.GetPersoon(id);
+            List<GraphData> woorden = dMgr.GetTopStoryByPolitician(persoon);
+            return Json(dMgr.GetTweetsPerDag(persoon, 20), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetTopMentions(int id)
+        {
+            Persoon persoon = dMgr.GetPersoon(id);
+            return Json(dMgr.GetTweetsPerDag(persoon, 20), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetFrequenteWoorden(string id, int aantal)
+        {
+            Persoon pers = dMgr.GetPersoon(id);
+            Persoon persoon = dMgr.GetPersoonWithSjctMsg(pers.OnderwerpId);
+            IEnumerable<SubjectMessage> subjectMsgs = persoon.SubjectMessages.ToList();
+            List<GraphData> woorden = dMgr.FrequenteWoorden(persoon.SubjectMessages, aantal);
+
+            return Json(woorden, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult GetAllPersonsList()
+        {
+            List<Persoon> personen = dMgr.GetPersonenOnly().ToList();
+            return Json(personen, JsonRequestBehavior.AllowGet);
+        }
+        //public ActionResult GetPersoon(string id)
+        //{
+        //    Persoon persoon = dMgr.GetPersoon(id);
+        //    return Json(persoon, JsonRequestBehavior.AllowGet);
+        //}
     }
 }

@@ -1,14 +1,14 @@
 {
-	"records": [
-		{
-			"Username": "ivaylo.deshev@student.kdg.be",
-			"Voornaam": "Ivaylo",
-			"Achternaam": "Deshev",
-			"email": "ivaylo.deshev@student.kdg.be",
+  "records": [
+    {
+      "Username": "ivaylo.deshev@student.kdg.be",
+      "Voornaam": "Ivaylo",
+      "Achternaam": "Deshev",
+      "email": "ivaylo.deshev@student.kdg.be",
       "Geboortedatum": "2017-09-15 13:25:39",
       "Password": "Password",
-      "Role":  "Admin"
-		},
+      "Role": "Admin"
+    },
     {
       "Username": "sam.laureys@student.kdg.be",
       "Voornaam": "Sam",
@@ -53,6 +53,15 @@
       "Geboortedatum": "2017-09-15 13:25:39",
       "Password": "Password",
       "Role": "Admin"
+    },
+    {
+      "Username": "default@gmail.com",
+      "Voornaam": "Dafault",
+      "Achternaam": "Dash",
+      "email": "default@gmail.com",
+      "Geboortedatum": "2017-09-15 13:25:39",
+      "Password": "Password",
+      "Role": "Admin"
     }
-	]
+  ]
 }

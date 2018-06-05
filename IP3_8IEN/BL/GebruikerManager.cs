@@ -54,6 +54,12 @@ namespace IP3_8IEN.BL
             return repo.ReadGebruikers();
         }
 
+        public IEnumerable<Gebruiker> GetGebruikersWithDash()
+        {
+            InitNonExistingRepo();
+            return repo.ReadGebruikersWithDashbord();
+        }
+
         // Hier werken we met 'Unit of Work'
         // omdat we informatie uit de data package nodig hebben
         public void AddAlertInstelling(string filePath)
@@ -129,6 +135,8 @@ namespace IP3_8IEN.BL
 
 
                 uowManager.Save();
+
+
             }
             //we zetten 'UoW' boolian terug op true
             UoW = true;
@@ -216,6 +224,7 @@ namespace IP3_8IEN.BL
         public void AddGebruiker(string userName, string userId, string naam, string voornaam, string email, string role = "User")
         {
             InitNonExistingRepo();
+            dashMgr = new DashManager();
 
             Gebruiker gebruiker = new Gebruiker
             {
@@ -225,14 +234,15 @@ namespace IP3_8IEN.BL
                 Naam = naam,
                 Role = role,
                 Email = email,
+                Joindate = DateTime.Now,
                 Active = true
             };
             repo.AddingGebruiker(gebruiker);
 
             dashMgr = new DashManager();
-
             //Dashboard initialiseren voor nieuwe gebruiker en opvullen met vaste grafieken
             dashMgr.InitializeDashbordNewUsers(gebruiker.GebruikerId);
+
         }
 
         public void UpdateGebruiker(Gebruiker gebruiker)

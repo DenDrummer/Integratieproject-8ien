@@ -34,6 +34,7 @@ namespace IP3_8IEN.DAL
         Dashbord ReadDashbordWithFollows(int dashId);
         void UpdateTileZone(TileZone tileZone);
         DashItem ReadDashItemWithGraph(int id);
-       
+        IEnumerable<Dashbord> ReadDashbords();
+
     }
 }
