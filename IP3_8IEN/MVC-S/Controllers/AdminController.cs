@@ -417,8 +417,8 @@ namespace MVC_S.Controllers
             string userName = currUser.UserName;
             Gebruiker user = _gebrManager.FindUser(userName);
 
-            try
-            {
+            //try
+            //{
                 Persoon p = _dataManager.GetPersoon(naam);
                 // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
                 List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetNumberGraph(p, uren);
@@ -428,32 +428,32 @@ namespace MVC_S.Controllers
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
                 // ================================================================================ //
                 _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
-            } catch { }
-            try
-            {
-                Organisatie o = _dataManager.GetOrganisaties().FirstOrDefault(org => org.Naam == naam);
-                // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetNumberGraph(o, uren);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
-                IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, o.OnderwerpId);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
-                _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
-                // ================================================================================ //
-                _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
-            } catch { }
-            try
-            {
-                Thema t = _dataManager.GetThemas().FirstOrDefault(theme => theme.Naam == naam);
-                // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-                List<GraphData> graphDataList = _dataManager.GetNumberGraph(t, uren);
-                DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
-                Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, t.OnderwerpId);
-                DashItem dashItem = _dashManager.SetupDashItem(user, follow);
-                _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
-                // ================================================================================ //
-                _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
-            }
-            catch { }
+            //} catch { }
+            //try
+            //{
+            //    Organisatie o = _dataManager.GetOrganisaties().FirstOrDefault(org => org.Naam == naam);
+            //    // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+            //    List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetNumberGraph(o, uren);
+            //    IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
+            //    IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, o.OnderwerpId);
+            //    IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+            //    _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+            //    // ================================================================================ //
+            //    _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
+            //} catch { }
+            //try
+            //{
+            //    Thema t = _dataManager.GetThemas().FirstOrDefault(theme => theme.Naam == naam);
+            //    // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+            //    List<GraphData> graphDataList = _dataManager.GetNumberGraph(t, uren);
+            //    DashItem newDashItem = _dashManager.CreateDashitem(true, "Cijfer", naam);
+            //    Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, t.OnderwerpId);
+            //    DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+            //    _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+            //    // ================================================================================ //
+            //    _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
+            //}
+            //catch { }
 
             Dashbord dash = _dashManager.GetDashboardWithFollows(user);
             return View();
