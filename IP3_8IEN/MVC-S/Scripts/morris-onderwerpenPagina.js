@@ -25,7 +25,7 @@ function init(event) {
     document.getElementById("buttonSave2").addEventListener("click", save2);
     document.getElementById("buttonReload1").addEventListener("click", reload);
     document.getElementById("buttonSave1").addEventListener("click", save);
-    document.getElementById("buttonAxe1").addEventListener("click", changeAxes);
+//    document.getElementById("buttonAxe1").addEventListener("click", changeAxes);
 }
 
 //function changeType() {
