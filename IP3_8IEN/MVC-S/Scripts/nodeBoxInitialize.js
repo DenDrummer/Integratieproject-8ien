@@ -86,8 +86,8 @@ function doeiets() {
     //    }
 //});
 function loadContent() {
-    setPersonName($(".automplete-1").val());
-    setWoorden($(".automplete-1").val());
+    setPersonName($(".automplete-1").eq(5).val());
+    setWoorden($(".automplete-1").eq(5).val());
 
     let myModal = $("#myModal1");
     $(".modal-backdrop").remove();
