@@ -1900,6 +1900,86 @@ namespace IP3_8IEN.BL
             return GraphDataList;
         }
 
+        public List<GraphData> GetTweetsPerDag(Organisatie organisatie, string town, int aantalDagenTerug = 0)
+        {
+            InitNonExistingRepo(true);
+
+            dashMgr = new DashManager();
+
+            IEnumerable<Tewerkstelling> tewerkstellingen = repo.ReadTewerkstellingenWithPrsnAndOrg().ToList();
+            IEnumerable<Tewerkstelling> twrkstllng = tewerkstellingen.Where(t => t.Persoon.Town == town && t.Organisatie.Naam == organisatie.Naam).ToList();            
+
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+
+            DateTime lastTweet = messages.OrderBy(m => m.Date).ToList().Last().Date;
+            DateTime stop = new DateTime();
+
+            
+
+            if (aantalDagenTerug == 0)
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().First().Date;
+            }
+            else
+            {
+                stop = messages.OrderBy(m => m.Date).ToList().Last().Date;
+                stop.AddDays(aantalDagenTerug * -1);
+            }
+
+
+            List<GraphData> GraphDataList = new List<GraphData>();
+            for (int i = 0; i < aantalDagenTerug + 1; i++)
+            {
+                string date = lastTweet.Date.Year + "-" + lastTweet.Date.Month + "-" + lastTweet.Date.Day;
+                int count = 0;
+                IEnumerable<Persoon> personen = repo.ReadPersonenWithTewerkstelling();
+                //IEnumerable<Message> msgs = messages.Where(s => s.Date.DayOfYear == lastTweet.Date.DayOfYear);
+                //////////////////////////////////////////////////////////////////////////
+                foreach (Tewerkstelling twrk in twrkstllng)
+                {
+                    //foreach (Message msg in twrk.Persoon.SubjectMessages.Where())
+                    //IEnumerable<Message> msgs = messages.Where(s => s.Date.DayOfYear == lastTweet.Date.DayOfYear);
+                    //foreach(Message msg in msgs)
+                    //{
+                    //    if()
+                    //}
+                    foreach (SubjectMessage subjMsgs in twrk.Persoon.SubjectMessages.Where(s => s.Msg.Date.DayOfYear == lastTweet.Date.DayOfYear))
+                    {
+                        count++;
+                    }
+                }
+                GraphData graph = new GraphData(date, count);
+                dashMgr.AddGraph(graph);
+
+                GraphDataList.Add(graph);
+
+                lastTweet = lastTweet.AddDays(-1);
+                uowManager.Save();
+            }
+            return GraphDataList;
+        }
+
+        public IEnumerable<ViewDataValue> GetViewDataValues()
+        {
+            InitNonExistingRepo();
+            return repo.ReadViewDataValues();
+        }
+        public ViewDataValue GetViewDataValue(string name)
+        {
+            InitNonExistingRepo();
+            return repo.ReadViewDataValue(name);
+        }
+        public void UpdateViewDataValue(ViewDataValue vdv)
+        {
+            InitNonExistingRepo();
+            repo.EditViewDataValue(vdv);
+        }
+        public void AddViewDataValue(ViewDataValue vdv)
+        {
+            InitNonExistingRepo();
+            repo.AddViewDataValue(vdv);
+        }
+
         public List<GraphData> GetTweetsPerDag(Organisatie organisatie, int aantalDagenTerug = 0)
         {
             InitNonExistingRepo(true);

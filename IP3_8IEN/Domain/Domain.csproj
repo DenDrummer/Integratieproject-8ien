@@ -64,6 +64,7 @@
     <Compile Include="Dashboard\DataChart2.cs" />
     <Compile Include="Dashboard\GraphData2.cs" />
     <Compile Include="Data\TwitAuthenticateResponse.cs" />
+    <Compile Include="Data\ViewDataValue.cs" />
     <Compile Include="Gebruikers\ApplicationUser.cs" />
     <Compile Include="Dashboard\Cijfer.cs" />
     <Compile Include="Dashboard\Dashbord.cs" />

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IP3_8IEN.BL.Domain.Data.ViewDataValue
+@{
     ViewBag.Title = "Home";
 }
 <div class="row">
@@ -22,8 +23,11 @@
         <div class="col-lg-6 col-md-6" style="margin-top:30px">
             <h3>Wat kan je doen op 8IEN?</h3>
             <p>
-                8IEN. helpt u bij het up-to-date blijven over alles wat er gaande is binnen het Vlaamse politieke milieu. Op het dashboard kan je een reeks reeds ingestelde grafieken bekijken <br />
-                Daarnaast kan je je eigen grafieken daaraan
+                @*8IEN. helpt u bij het up-to-date blijven over alles wat er gaande is binnen het Vlaamse politieke milieu.  <br />
+        Op het dashboard kan je een reeks reeds ingestelde grafieken bekijken, maar ook persoonlijke grafieken aanmaken*@
+                @*@{List<string> listFromController = (List<string>)ViewData["names"];}*@
+                @*@Html.TextAreaFor(m => m.StringValue)*@
+                @ViewBag.Welcome
             </p>
         </div>
     </div>
