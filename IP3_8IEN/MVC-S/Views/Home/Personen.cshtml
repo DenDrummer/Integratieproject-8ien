@@ -4,7 +4,8 @@
     ViewBag.Title = Model.Naam;
 }
 <script src="~/Scripts/morris-onderwerpenPagina.js"></script>
-<br />
+
+<br/>
 <div class="row">
     <div class="col-lg-12 col-md-12">
         <div class="panel panel-default">
@@ -16,29 +17,41 @@
                     <div class="col-lg-8 col-md-8" style="background-color:#f8f8f8; padding-left:1px; padding-right: 1px;">
 
                         <div style="position: relative; left: 0; top: 0;">
-                            <img src="@ViewBag.TWITBANNER" alt="" style="height: 50%; width: 100%; display:inline-block; position: relative; top: 0; left: 0;" />
-                            <img src="@ViewBag.TWITIMAGE" alt="" style="height: 150px; width: 150px; border-radius:50%; border:2px solid white; position: absolute;top: 70%; left: 40%;" />
+                            <img src="@ViewBag.TWITBANNER" alt="" style="height: 50%; width: 100%; display: inline-block; position: relative; top: 0; left: 0;"/>
+                            <img src="@ViewBag.TWITIMAGE" alt="" style="height: 150px; width: 150px; border-radius: 50%; border: 2px solid white; position: absolute; top: 70%; left: 40%;"/>
 
                         </div>
 
 
                         <div class="row" style="padding-top:80px; padding-left:40px; padding-right:5px;">
                             <div class="col-lg-6 col-md-6">
-                                <table>
+                                <table style="display: block; overflow-x: auto; ">
                                     <tr>
-                                        <td valign="top" style="color:#00295C"><b>@Html.DisplayNameFor(model => model.Naam): </b></td>
+                                        <td valign="top" style="color: #00295C">
+                                            <b>@Html.DisplayNameFor(model => model.Naam): </b>
+                                        </td>
                                         <td>@Html.DisplayFor(model => model.Naam)</td>
                                     </tr>
                                     <tr>
-                                        <td valign="top" style="color:#00295C"><b>@Html.DisplayNameFor(model => model.Twitter):</b> </td>
-                                        <td><a href="@($"https://twitter.com/{Model.Twitter}")">@Html.DisplayFor(model => model.Twitter)</a></td>
+                                        <td valign="top" style="color: #00295C">
+                                            <b>@Html.DisplayNameFor(model => model.Twitter):</b>
+                                        </td>
+                                        <td>
+                                            <a href="@($"https://twitter.com/{Model.Twitter}")">@Html.DisplayFor(model => model.Twitter)</a>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td valign="top" style="color:#00295C"><b>@Html.DisplayNameFor(model => model.Facebook):</b> </td>
-                                        <td><a href="@Model.Facebook">@Html.DisplayFor(model => Model.Facebook)</a></td>
+                                        <td valign="top" style="color: #00295C">
+                                            <b>@Html.DisplayNameFor(model => model.Facebook):</b>
+                                        </td>
+                                        <td>
+                                            <a href="@Model.Facebook">@Html.DisplayFor(model => Model.Facebook)</a>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td valign="top" style="color:#00295C"><b>Trend:</b> </td>
+                                        <td valign="top" style="color: #00295C">
+                                            <b>Trend:</b>
+                                        </td>
                                         <td>@Html.DisplayFor(model => model.Naam)</td>
                                     </tr>
                                     <tr>
@@ -47,11 +60,13 @@
                                     </tr>
                                     <tr></tr>
                                     <tr>
-                                        <td valign="top" style="color:#00295C"><b>Gekoppelde Termen:</b> </td>
+                                        <td valign="top" style="color: #00295C">
+                                            <b>Gekoppelde Termen:</b>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width:350px">
+                                            <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width: 350px">
 
                                                 @for (int i = 0; i < ViewBag.VaakVoorkomendeTermen?.Count; i++)
                                                 {
@@ -65,7 +80,7 @@
                                 </table>
                             </div>
                             <div class="col-lg-6 col-md-6">
-                                <table>
+                                <table style="display: block; overflow-x: auto; ">
                                     <tr>
                                         <td valign="top" style="color:#00295C"><b>@Html.DisplayNameFor(model => model.Geboortedatum):</b> </td>
                                         @*<td>@Html.EditorFor(model => model.Geboortedatum.ToString("dd/MM/yyyy")</td>*@
@@ -73,11 +88,15 @@
 
                                     </tr>
                                     <tr>
-                                        <td valign="top" style="color:#00295C"><b>Kieskring:</b> </td>
+                                        <td valign="top" style="color: #00295C">
+                                            <b>Kieskring:</b>
+                                        </td>
                                         <td>@Html.DisplayFor(model => model.District)</td>
                                     </tr>
                                     <tr>
-                                        <td valign="top" style="color:#00295C"><b>@Html.DisplayNameFor(model => model.Tewerkstellingen):</b> </td>
+                                        <td valign="top" style="color: #00295C">
+                                            <b>@Html.DisplayNameFor(model => model.Tewerkstellingen):</b>
+                                        </td>
                                         <td>
                                             @for (int i = 0; i < Model.Tewerkstellingen.Count; i++)
                                             {
@@ -90,11 +109,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td valign="top" style="color:#00295C"><b>Vaak voorkomende Woorden:</b> </td>
+                                        <td valign="top" style="color: #00295C">
+                                            <b>Vaak voorkomende Woorden:</b>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width:100%">
+                                            <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width: 100%">
 
                                                 @for (int i = 0; i < ViewBag.VaakVoorkomendeWoorden?.Count; i++)
                                                 {
@@ -104,11 +125,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td valign="top" style="color:#00295C"><b>Vaak voorkomende Verhalen:</b> </td>
+                                        <td valign="top" style="color: #00295C">
+                                            <b>Vaak voorkomende Verhalen:</b>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width:100%">
+                                            <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width: 100%">
 
                                                 @for (int i = 0; i < ViewBag.VaakVoorkomendeVerhalen?.Count; i++)
                                                 {
@@ -159,20 +182,24 @@
                                                                 Aantal tweets van @Model.Naam
                                 
                             </div>
-                                                        <div class="panel-body">
-                                                                <div id="persoon-chart1"></div>
-                                
+                            <div class="panel-body">
+                                <div id="persoon-chart1"></div>
+
                             </div>
-                                                        <label for="aantaldagen1">Hoeveel dagen terug: </label>
-                                                        <input type="text" id="aantaldagen1" name="aantaldagen1" value="5" />
-                                                        <label for="message1">label voor de chart: </label>
-                                                        <input type="text" id="message1" name="message1" value="aantal tweets: " />
-                                                        <button id="buttonReload1">herlaad</button>
-                                                        <button id="buttonSave1">opslaan naar dashboard</button>
-                                                        <button id="buttonAxe1">verander assen</button>
-                            
+                                                    @using Microsoft.AspNet.Identity
+                                                    @if (Request.IsAuthenticated)
+                                                    {
+                            <label for="aantaldagen1">Hoeveel dagen terug: </label>
+                            <input type="text" id="aantaldagen1" name="aantaldagen1" value="5"/>
+                            <label for="message1">label voor de chart: </label>
+                            <input type="text" id="message1" name="message1" value="aantal tweets: "/>
+                            <button id="buttonReload1">herlaad</button>
+                         
+                                <button id="buttonSave1">opslaan naar dashboard</button>
+                            }
+@*                            <button id="buttonAxe1">verander assen</button>*@
                         </div>
-                        
+
                     </div>
                                         <div class="col-lg-6 col-md-6">
                                                 <div class="panel panel-default">
@@ -180,19 +207,23 @@
                                                                Aantal tweets van @Model.Naam
                                 
                             </div>
-                                                        <div class="panel-body">
-                                                                <div id="persoon-chart2"></div>
-                                
-                            </div>
-                                                        <label for="aantaldagen2">Hoeveel dagen terug: </label>
-                                                        <input type="text" id="aantaldagen2" name="aantaldagen2" value="5" />
-                                                        <label for="message2">label voor de chart: </label>
-                                                        <input type="text" id="message2" name="message2" value="aantal tweets: " />
-                                                        <button id="buttonReload2">herlaad</button>
-                                                        <button id="buttonSave2">opslaan naar dashboard</button>
-                            
+                                                    <div class="panel-body">
+                                                        <div id="persoon-chart2"></div>
+
+                                                    </div>
+                                                    @using Microsoft.AspNet.Identity
+                                                    @if (Request.IsAuthenticated)
+                                                    {
+                            <label for="aantaldagen2">Hoeveel dagen terug: </label>
+                            <input type="text" id="aantaldagen2" name="aantaldagen2" value="5"/>
+                            <label for="message2">label voor de chart: </label>
+                            <input type="text" id="message2" name="message2" value="aantal tweets: "/>
+                            <button id="buttonReload2">herlaad</button>
+                
+                            <button id="buttonSave2">opslaan naar dashboard</button>
+                        }
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -202,6 +233,8 @@
 </div>
 <script type="text/javascript">
     setOnderwerpId(@Model.OnderwerpId);
+    setNaam("@Model.Naam");
     makeChart();
     makeChart2();
+
 </script>
