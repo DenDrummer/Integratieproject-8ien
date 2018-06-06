@@ -550,6 +550,11 @@ namespace MVC_S.Controllers
             GlobalizationPlatform platform = _glblManager.GetPlatform(platformId);
             return View(platform);
         }
+
+        public ActionResult AddFallBackPlatform(int platformId)
+        {
+            return View();
+        }
         #endregion
 
         #region Items

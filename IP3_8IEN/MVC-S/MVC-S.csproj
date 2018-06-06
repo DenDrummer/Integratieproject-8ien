@@ -601,6 +601,7 @@
     <Content Include="Views\Admin\DeleteGlobalizationPlatform.cshtml" />
     <Content Include="Views\Admin\DetailsGlobalizationString.cshtml" />
     <Content Include="Views\Admin\DeleteGlobalizationString.cshtml" />
+    <Content Include="Views\Admin\AddFallBackPlatform.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_GlobalResources\" />

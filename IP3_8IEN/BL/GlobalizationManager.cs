@@ -94,7 +94,7 @@ namespace IP3_8IEN.BL
             };
             if (platform.Items == null)
             {
-                platform.Items = new List<GlobalizationObject>()
+                platform.Items = new List<GlobalizationString>()
                 {
                     item
                 };
@@ -124,7 +124,7 @@ namespace IP3_8IEN.BL
             return item;
         }*/
 
-        public GlobalizationObject CreateItem(int platformId, string key, object value)
+        /*public GlobalizationObject CreateItem(int platformId, string key, object value)
         {
             InitNonExistingRepo();
             GlobalizationPlatform platform = GetPlatform(platformId);
@@ -137,21 +137,21 @@ namespace IP3_8IEN.BL
             repo.UpdatePlatform(platform);
             repo.AddItem(item);
             return item;
-        }
+        }*/
 
         //Read
-        public GlobalizationObject GetItem(int itemId)
+        public GlobalizationString GetItem(int itemId)
         {
             InitNonExistingRepo();
             GlobalizationString item = (GlobalizationString)repo.ReadItem(itemId);
             return item;
         }
 
-        public GlobalizationObject GetItemFromPlatform(int platformId, string key)
+        public GlobalizationString GetItemFromPlatform(int platformId, string key)
         {
             InitNonExistingRepo();
             GlobalizationPlatform platform = GetPlatform(platformId);
-            GlobalizationObject item = repo.ReadItemFromPlatform(platform, key);
+            GlobalizationString item = repo.ReadItemFromPlatform(platform, key);
             if (item == null && platform.FallBackPlatformen != null)
             {
                 for (int i = 0; i < platform.FallBackPlatformen.Count; i++)
@@ -170,14 +170,14 @@ namespace IP3_8IEN.BL
         }
 
         //Update
-        public void ChangeItem(GlobalizationObject item)
+        public void ChangeItem(GlobalizationString item)
         {
             InitNonExistingRepo();
             repo.UpdateItem(item);
         }
 
         //Delete
-        public void DeleteItem(GlobalizationObject item)
+        public void DeleteItem(GlobalizationString item)
         {
             InitNonExistingRepo();
             item.Platform.Items.Remove(item);

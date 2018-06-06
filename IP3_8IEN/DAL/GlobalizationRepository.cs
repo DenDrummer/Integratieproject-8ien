@@ -73,37 +73,37 @@ namespace IP3_8IEN.DAL
 
         #region Items
         //List
-        public ICollection<GlobalizationObject> ReadItemsFromPlatform(GlobalizationPlatform platform)
+        public ICollection<GlobalizationString> ReadItemsFromPlatform(GlobalizationPlatform platform)
             => ctx.GlobalizationItems
             .Where(i => i.Platform.Equals(platform))
             .ToList();
 
         //Create
-        public void AddItem(GlobalizationObject item)
+        public void AddItem(GlobalizationString item)
         {
             ctx.GlobalizationItems.Add(item);
             ctx.SaveChanges();
         }
 
         //Read
-        public GlobalizationObject ReadItem(int itemId)
+        public GlobalizationString ReadItem(int itemId)
             => ctx.GlobalizationItems.Find(itemId);
 
-        public GlobalizationObject ReadItemFromPlatform(GlobalizationPlatform platform, string key)
+        public GlobalizationString ReadItemFromPlatform(GlobalizationPlatform platform, string key)
             => ctx.GlobalizationItems
                 .Where(i => i.Platform.Equals(platform))
                 .ToList()
                 .FirstOrDefault(i => i.Key.Equals(key));
 
         //Update
-        public void UpdateItem(GlobalizationObject item)
+        public void UpdateItem(GlobalizationString item)
         {
             ctx.Entry(item).State = EntityState.Modified;
             ctx.SaveChanges();
         }
 
         //Delete
-        public void DeleteItem(GlobalizationObject item)
+        public void DeleteItem(GlobalizationString item)
         {
             ctx.Entry(item).State = EntityState.Deleted;
             ctx.SaveChanges();

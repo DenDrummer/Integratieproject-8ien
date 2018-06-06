@@ -47,7 +47,7 @@
         </tr>
         @if (Model.Items != null && Model.Items.Count > 0)
         {
-            foreach (GlobalizationObject item in Model.Items.OrderBy(i => i.Key))
+            foreach (GlobalizationString item in Model.Items.OrderBy(i => i.Key))
             {
                 <tr>
                     <td>
@@ -76,6 +76,7 @@
         }
     </table>
     <h3>Fallback-platformen</h3>
+    @Html.ActionLink("Add FallBack-Platform", "AddFallBackPlatform", new { platformId = Model.PlatformId })
     <table class="table">
         <tr>
             <th>

@@ -25,16 +25,16 @@ namespace IP3_8IEN.DAL
 
         #region Items
         //List
-        ICollection<GlobalizationObject> ReadItemsFromPlatform(GlobalizationPlatform platform);
+        ICollection<GlobalizationString> ReadItemsFromPlatform(GlobalizationPlatform platform);
         //Create
-        void AddItem(GlobalizationObject item);
+        void AddItem(GlobalizationString item);
         //Read
-        GlobalizationObject ReadItem(int itemId);
-        GlobalizationObject ReadItemFromPlatform(GlobalizationPlatform platform, string key);
+        GlobalizationString ReadItem(int itemId);
+        GlobalizationString ReadItemFromPlatform(GlobalizationPlatform platform, string key);
         //Update
-        void UpdateItem(GlobalizationObject item);
+        void UpdateItem(GlobalizationString item);
         //Delete
-        void DeleteItem(GlobalizationObject item);
+        void DeleteItem(GlobalizationString item);
         #endregion
     }
 }

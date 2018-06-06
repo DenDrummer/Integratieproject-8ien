@@ -57,7 +57,7 @@ namespace IP3_8IEN.DAL.EF
 
         #region Globalization
         public DbSet<GlobalizationPlatform> GlobalizationPlatforms { get; set; }
-        public DbSet<GlobalizationObject> GlobalizationItems { get; set; }
+        public DbSet<GlobalizationString> GlobalizationItems { get; set; }
         #endregion
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -37,17 +37,17 @@ namespace IP3_8IEN.BL
         //Create
         GlobalizationString CreateItem(int platformId, string key, string value);
         //GlobalizationImage CreateItem(int platformId, string key, Image value);
-        GlobalizationObject CreateItem(int platformId, string key, object value);
+        //GlobalizationObject CreateItem(int platformId, string key, object value);
 
         //Read
-        GlobalizationObject GetItem(int itemId);
-        GlobalizationObject GetItemFromPlatform(int platformId, string key);
+        GlobalizationString GetItem(int itemId);
+        GlobalizationString GetItemFromPlatform(int platformId, string key);
 
         //Update
-        void ChangeItem(GlobalizationObject item);
+        void ChangeItem(GlobalizationString item);
 
         //Delete
-        void DeleteItem(GlobalizationObject item);
+        void DeleteItem(GlobalizationString item);
         #endregion
     }
 }
