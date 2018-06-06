@@ -20,7 +20,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Platform, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Platform, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            @Html.EditorFor(model => model.Platform, new { htmlAttributes = new { @class = "form-control"} })
         </div>
     </div>
 
@@ -67,9 +67,9 @@
                         </td>
                     }
                     <td>
-                        @Html.ActionLink("Edit", "EditGlobalizationString", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "DetailsGlobalizationString", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "DeleteGlobalizationString", new { id = item.Id })
+                        @Html.ActionLink("Edit", "EditGlobalizationString", new { id = item.ItemId }) |
+                        @Html.ActionLink("Details", "DetailsGlobalizationString", new { id = item.ItemId }) |
+                        @Html.ActionLink("Delete", "DeleteGlobalizationString", new { id = item.ItemId })
                     </td>
                 </tr>
             }
@@ -121,5 +121,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "GlobalizationPlatformen")
 </div>

@@ -554,7 +554,8 @@ namespace MVC_S.Controllers
 
         #region Items
         //List staat in DetalsGlobalizationPlatform
-        //Create
+        #region Create
+            [HttpGet]
         public ActionResult CreateGlobalizationString(int platformId)
         {
             ViewBag.Platform = _glblManager.GetPlatform(platformId);
@@ -564,32 +565,42 @@ namespace MVC_S.Controllers
         [HttpPost]
         public ActionResult CreateGlobalizationString(FormCollection form)
         {
-            int.TryParse(form.Get(""), out int platformId);
-            GlobalizationString item = _glblManager.CreateItem(platformId, form.Get(""), form.Get(""));
-            return View();
+            GlobalizationPlatform platform = _glblManager.GetPlatform(form.Get("Platform.Platform"), form.Get("Platform.Language"));
+            GlobalizationString item = _glblManager.CreateItem(platform.PlatformId, form.Get("Key"), form.Get("Value"));
+            return RedirectToAction("DetailsGlobalizationString", new { itemId = item.ItemId });
         }
+        #endregion
 
-        //Read
+        #region Read
         public ActionResult DetailsGlobalizationString(int itemId)
         {
             GlobalizationString item = (GlobalizationString)_glblManager.GetItem(itemId);
             return View(item);
         }
+        #endregion
 
-        //Update
+        #region Update
+        [HttpGet]
         public ActionResult EditGlobalizationString(int itemId)
         {
             GlobalizationString item = (GlobalizationString)_glblManager.GetItem(itemId);
             return View(item);
         }
 
-        //Delete
+        [HttpPost]
+        public ActionResult EditGlobalizationString(FormCollection form)
+        {
+            return View();
+        }
+        #endregion
+
+        #region Delete
         public ActionResult DeleteGlobalizationString(int itemId)
         {
             GlobalizationString item = (GlobalizationString)_glblManager.GetItem(itemId);
             return View(item);
         }
-
+        #endregion
         #endregion
         #endregion
     }

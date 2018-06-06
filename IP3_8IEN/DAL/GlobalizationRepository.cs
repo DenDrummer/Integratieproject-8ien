@@ -47,8 +47,8 @@ namespace IP3_8IEN.DAL
 
         public GlobalizationPlatform ReadPlatform(string name, string language)
             => ctx.GlobalizationPlatforms
-                .Include("Items")
-                .Include("FallBackPlatformen")
+                //.Include("Items")
+                //.Include("FallBackPlatformen")
                 .ToList()
                 .FirstOrDefault(p => p.Platform.Equals(name) && p.Language.Equals(language));
 

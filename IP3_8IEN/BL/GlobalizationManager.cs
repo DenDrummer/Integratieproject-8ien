@@ -34,9 +34,7 @@ namespace IP3_8IEN.BL
             GlobalizationPlatform platform = new GlobalizationPlatform()
             {
                 Platform = naam,
-                Language = taal,
-                Items = new List<GlobalizationObject>(),
-                FallBackPlatformen = new List<KeyValuePair<int, GlobalizationPlatform>>()
+                Language = taal
             };
             repo.AddPlatform(platform);
 
@@ -94,6 +92,18 @@ namespace IP3_8IEN.BL
                 Key = key,
                 Value = value
             };
+            if (platform.Items == null)
+            {
+                platform.Items = new List<GlobalizationObject>()
+                {
+                    item
+                };
+            }
+            else
+            {
+                platform.Items.Add(item);
+            }
+
             repo.UpdatePlatform(platform);
             repo.AddItem(item);
             return item;
@@ -170,6 +180,8 @@ namespace IP3_8IEN.BL
         public void DeleteItem(GlobalizationObject item)
         {
             InitNonExistingRepo();
+            item.Platform.Items.Remove(item);
+            repo.UpdatePlatform(item.Platform);
             repo.DeleteItem(item);
         }
         #endregion
