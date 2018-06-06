@@ -1,0 +1,41 @@
+﻿@model IP3_8IEN.BL.Domain.Globalization.GlobalizationString
+
+@{
+    ViewBag.Title = "Details Globalization-String";
+}
+
+<h2>Details Globalization-String</h2>
+
+<div>
+    <h4>GlobalizationString</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Platform.Platform)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Platform.Platform)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Key)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Key)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Value)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Value)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "EditGlobalizationString", new { itemId = Model.Id }) |
+    @Html.ActionLink("Back to Platform", "EditGlobalizationPlatform", new { platformId = Model.Platform.PlatformId })
+</p>

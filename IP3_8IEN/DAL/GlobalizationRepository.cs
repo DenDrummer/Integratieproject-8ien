@@ -27,12 +27,21 @@ namespace IP3_8IEN.DAL
         #endregion
 
         #region Platformen
+        //List
+        public ICollection<GlobalizationPlatform> ReadPlatformen()
+            => ctx.GlobalizationPlatforms
+            //.Include("Items")
+            //.Include("FallBackPlatformen")
+            .ToList();
+
+        //Create
         public void AddPlatform(GlobalizationPlatform platform)
         {
             ctx.GlobalizationPlatforms.Add(platform);
             ctx.SaveChanges();
         }
 
+        //Read
         public GlobalizationPlatform ReadPlatform(int id)
             => ctx.GlobalizationPlatforms.Find(id);
 
@@ -43,30 +52,42 @@ namespace IP3_8IEN.DAL
                 .ToList()
                 .FirstOrDefault(p => p.Platform.Equals(name) && p.Language.Equals(language));
 
-        public ICollection<GlobalizationPlatform> ReadPlatformen()
-            => ctx.GlobalizationPlatforms
-            //.Include("Items")
-            //.Include("FallBackPlatformen")
-            .ToList();
-
+        //Update
         public void UpdatePlatform(GlobalizationPlatform platform)
         {
             ctx.Entry(platform).State = EntityState.Modified;
             ctx.SaveChanges();
         }
+
+        //Delete
+        public void DeletePlatform(GlobalizationPlatform platform)
+        {
+            foreach (GlobalizationObject item in platform.Items)
+            {
+                ctx.Entry(item).State = EntityState.Deleted;
+            }
+            ctx.Entry(platform).State = EntityState.Deleted;
+            ctx.SaveChanges();
+        }
         #endregion
 
         #region Items
+        //List
+        public ICollection<GlobalizationObject> ReadItemsFromPlatform(GlobalizationPlatform platform)
+            => ctx.GlobalizationItems
+            .Where(i => i.Platform.Equals(platform))
+            .ToList();
+
+        //Create
         public void AddItem(GlobalizationObject item)
         {
             ctx.GlobalizationItems.Add(item);
             ctx.SaveChanges();
         }
 
-        public ICollection<GlobalizationObject> ReadItemsFromPlatform(GlobalizationPlatform platform)
-            => ctx.GlobalizationItems
-            .Where(i => i.Platform.Equals(platform))
-            .ToList();
+        //Read
+        public GlobalizationObject ReadItem(int itemId)
+            => ctx.GlobalizationItems.Find(itemId);
 
         public GlobalizationObject ReadItemFromPlatform(GlobalizationPlatform platform, string key)
             => ctx.GlobalizationItems
@@ -74,9 +95,17 @@ namespace IP3_8IEN.DAL
                 .ToList()
                 .FirstOrDefault(i => i.Key.Equals(key));
 
+        //Update
         public void UpdateItem(GlobalizationObject item)
         {
             ctx.Entry(item).State = EntityState.Modified;
+            ctx.SaveChanges();
+        }
+
+        //Delete
+        public void DeleteItem(GlobalizationObject item)
+        {
+            ctx.Entry(item).State = EntityState.Deleted;
             ctx.SaveChanges();
         }
         #endregion

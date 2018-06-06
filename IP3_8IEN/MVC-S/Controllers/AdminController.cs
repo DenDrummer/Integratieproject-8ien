@@ -314,7 +314,7 @@ namespace MVC_S.Controllers
             Gebruiker user = _gebrManager.FindUser(userName);
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-            List<GraphData> graphDataList = _dataManager.GetRanking(aantal,interval,true);
+            List<GraphData> graphDataList = _dataManager.GetRanking(aantal, interval, true);
             DashItem newDashItem = _dashManager.CreateDashitem(true, "Donut", naam);
             List<int> arrayPersoonId = _dataManager.ExtractListPersoonId(graphDataList);
             List<Follow> follows = _dashManager.CreateFollow(newDashItem.DashItemId, arrayPersoonId);
@@ -339,7 +339,7 @@ namespace MVC_S.Controllers
             {
                 names.Add(org.Naam);
             }
-            foreach(Thema theme in ObjList3)
+            foreach (Thema theme in ObjList3)
             {
                 names.Add(theme.Naam);
             }
@@ -371,7 +371,8 @@ namespace MVC_S.Controllers
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
                 // ================================================================================ //
                 _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
-            } catch { }
+            }
+            catch { }
             try
             {
                 Organisatie o = _dataManager.GetOrganisaties().FirstOrDefault(org => org.Naam == naam);
@@ -383,7 +384,8 @@ namespace MVC_S.Controllers
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
                 // ================================================================================ //
                 _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
-            } catch { }
+            }
+            catch { }
             try
             {
                 Thema t = _dataManager.GetThemas().FirstOrDefault(theme => theme.Naam == naam);
@@ -411,7 +413,7 @@ namespace MVC_S.Controllers
         [HttpPost]
         public ActionResult ExportToCSV(bool checkUsers = false, bool checkPersons = false)
         {
-            if(checkUsers == true)
+            if (checkUsers == true)
             {
                 IEnumerable<Gebruiker> gebruikers = _gebrManager.GetUsers();
                 string json = _gebrManager.ExportToCSV(gebruikers);
@@ -438,7 +440,7 @@ namespace MVC_S.Controllers
 
             return File(stream, "text/plain", "your_file_name.txt");
         }
-        
+
         [HttpGet]
         public ActionResult Themas()
         {
@@ -446,11 +448,11 @@ namespace MVC_S.Controllers
             //IList<Hashtag> hashtags = _dataManager.GetHashtags().OrderBy(e => e.Thema == false).ToList();
             IList<Hashtag> hashtags = _dataManager.GetHashtagsWithSubjMsgs().ToList();
 
-            foreach(Hashtag hash in hashtags)
+            foreach (Hashtag hash in hashtags)
             {
                 hash.Vermelding = hash.SubjectMessages.Count();
             }
-            
+
             return View(hashtags);
         }
 
@@ -464,7 +466,8 @@ namespace MVC_S.Controllers
             if (hashForTheme.Count() <= 4)
             {
                 _dataManager.CreateTheme(naam, beschrijving, hashForTheme);
-            } else
+            }
+            else
             {
                 return RedirectToAction("Themas");
             }
@@ -477,8 +480,8 @@ namespace MVC_S.Controllers
         {
             ////// Deze heb je nodig om Themas uit te lezen in de view //////
             IEnumerable<Thema> themas = _dataManager.GetThemas().ToList();
-            
-            foreach(Thema theme in themas)
+
+            foreach (Thema theme in themas)
             {
                 theme.Hashtags = new Collection<string>
                 {
@@ -508,24 +511,35 @@ namespace MVC_S.Controllers
 
         #region Globalization
         #region Platformen
+        //List
         public ActionResult GlobalizationPlatformen()
         {
             List<GlobalizationPlatform> platformen = _glblManager.GetPlatformen().ToList();
             return View(platformen);
         }
-        
+
+        //Create
         public ActionResult CreateGlobalizationPlatform()
         {
             return View();
         }
 
+        //Read
         public ActionResult DetailsGlobalizationPlatform(int platformId)
         {
             GlobalizationPlatform platform = _glblManager.GetPlatform(platformId);
             return View(platform);
         }
 
+        //Update
         public ActionResult EditGlobalizationPlatform(int platformId)
+        {
+            GlobalizationPlatform platform = _glblManager.GetPlatform(platformId);
+            return View(platform);
+        }
+
+        //Delete
+        public ActionResult DeleteGlobalizationPlatform(int platformId)
         {
             GlobalizationPlatform platform = _glblManager.GetPlatform(platformId);
             return View(platform);
@@ -533,11 +547,35 @@ namespace MVC_S.Controllers
         #endregion
 
         #region Items
+        //List staat in DetalsGlobalizationPlatform
+        //Create
         public ActionResult CreateGlobalizationString(int platformId)
         {
             ViewBag.Platform = _glblManager.GetPlatform(platformId);
             return View();
         }
+
+        //Read
+        public ActionResult DetailsGlobalizationString(int itemId)
+        {
+            GlobalizationString item = (GlobalizationString)_glblManager.GetItem(itemId);
+            return View(item);
+        }
+
+        //Update
+        public ActionResult EditGlobalizationString(int itemId)
+        {
+            GlobalizationString item = (GlobalizationString)_glblManager.GetItem(itemId);
+            return View(item);
+        }
+
+        //Delete
+        public ActionResult DeleteGlobalizationString(int itemId)
+        {
+            GlobalizationString item = (GlobalizationString)_glblManager.GetItem(itemId);
+            return View(item);
+        }
+
         #endregion
         #endregion
     }

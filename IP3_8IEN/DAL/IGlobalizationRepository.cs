@@ -9,19 +9,32 @@ namespace IP3_8IEN.DAL
 {
     public interface IGlobalizationRepository
     {
-        #region platformen
+        #region Platformen
+        //List
         ICollection<GlobalizationPlatform> ReadPlatformen();
+        //Create
+        void AddPlatform(GlobalizationPlatform platform);
+        //Read
         GlobalizationPlatform ReadPlatform(int id);
         GlobalizationPlatform ReadPlatform(string name, string language);
-        void AddPlatform(GlobalizationPlatform platform);
+        //Update
         void UpdatePlatform(GlobalizationPlatform platform);
+        //Delete
+        void DeletePlatform(GlobalizationPlatform platform);
         #endregion
 
-        #region items
+        #region Items
+        //List
         ICollection<GlobalizationObject> ReadItemsFromPlatform(GlobalizationPlatform platform);
-        GlobalizationObject ReadItemFromPlatform(GlobalizationPlatform platform, string key);
+        //Create
         void AddItem(GlobalizationObject item);
+        //Read
+        GlobalizationObject ReadItem(int itemId);
+        GlobalizationObject ReadItemFromPlatform(GlobalizationPlatform platform, string key);
+        //Update
         void UpdateItem(GlobalizationObject item);
+        //Delete
+        void DeleteItem(GlobalizationObject item);
         #endregion
     }
 }

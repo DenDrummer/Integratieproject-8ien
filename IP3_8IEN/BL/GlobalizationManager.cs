@@ -18,12 +18,15 @@ namespace IP3_8IEN.BL
         #endregion
 
         #region Platformen
-        public void ChangePlatform(GlobalizationPlatform platform)
+        //List
+        public IEnumerable<GlobalizationPlatform> GetPlatformen()
         {
             InitNonExistingRepo();
-            repo.UpdatePlatform(platform);
+            IEnumerable<GlobalizationPlatform> platformen = repo.ReadPlatformen();
+            return platformen;
         }
 
+        //Create
         public GlobalizationPlatform CreatePlatform(string naam, string taal)
         {
             InitNonExistingRepo();
@@ -40,6 +43,7 @@ namespace IP3_8IEN.BL
             return platform;
         }
 
+        //Read
         public GlobalizationPlatform GetPlatform(int id)
         {
             InitNonExistingRepo();
@@ -54,21 +58,32 @@ namespace IP3_8IEN.BL
             return platform;
         }
 
-        public IEnumerable<GlobalizationPlatform> GetPlatformen()
+        //Update
+        public void ChangePlatform(GlobalizationPlatform platform)
         {
             InitNonExistingRepo();
-            IEnumerable<GlobalizationPlatform> platformen = repo.ReadPlatformen();
-            return platformen;
+            repo.UpdatePlatform(platform);
+        }
+
+        //Delete
+        public void DeletePlatform(GlobalizationPlatform platform)
+        {
+            InitNonExistingRepo();
+            repo.DeletePlatform(platform);
         }
         #endregion
 
         #region Items
-        public void ChangeItem(GlobalizationObject item)
+        //List
+        public IEnumerable<GlobalizationObject> GetItemsFromPlatform(int platformId)
         {
             InitNonExistingRepo();
-            repo.UpdateItem(item);
+            GlobalizationPlatform platform = GetPlatform(platformId);
+            IEnumerable<GlobalizationObject> items = repo.ReadItemsFromPlatform(platform);
+            return items;
         }
 
+        //Create
         public GlobalizationString CreateItem(int platformId, string key, string value)
         {
             InitNonExistingRepo();
@@ -114,6 +129,14 @@ namespace IP3_8IEN.BL
             return item;
         }
 
+        //Read
+        public GlobalizationObject GetItem(int itemId)
+        {
+            InitNonExistingRepo();
+            GlobalizationString item = (GlobalizationString)repo.ReadItem(itemId);
+            return item;
+        }
+
         public GlobalizationObject GetItemFromPlatform(int platformId, string key)
         {
             InitNonExistingRepo();
@@ -136,12 +159,18 @@ namespace IP3_8IEN.BL
             return item;
         }
 
-        public IEnumerable<GlobalizationObject> GetItemsFromPlatform(int platformId)
+        //Update
+        public void ChangeItem(GlobalizationObject item)
         {
             InitNonExistingRepo();
-            GlobalizationPlatform platform = GetPlatform(platformId);
-            IEnumerable<GlobalizationObject> items = repo.ReadItemsFromPlatform(platform);
-            return items;
+            repo.UpdateItem(item);
+        }
+
+        //Delete
+        public void DeleteItem(GlobalizationObject item)
+        {
+            InitNonExistingRepo();
+            repo.DeleteItem(item);
         }
         #endregion
 

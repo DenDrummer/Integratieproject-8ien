@@ -106,7 +106,9 @@ namespace IP3_8IEN.BL
                         ThresholdValue = item.Threshold
                     };
                     repo.AddingAlertInstelling(vf);
-                }else if (item.OnderwerpId2 != null) {
+                }
+                else if (item.OnderwerpId2 != null)
+                {
                     HogerLager hl = new HogerLager()
                     {
                         Gebruiker = FindUser((String)item.Username),
@@ -118,8 +120,9 @@ namespace IP3_8IEN.BL
                         Onderwerp2 = onderwerpen.FirstOrDefault(x => x.OnderwerpId == (int)item.OnderwerpId2)
                     };
                     repo.AddingAlertInstelling(hl);
-                }else
-                { 
+                }
+                else
+                {
                     PositiefNegatief pn = new PositiefNegatief()
                     {
                         Gebruiker = FindUser((String)item.Username),
@@ -289,7 +292,7 @@ namespace IP3_8IEN.BL
                 int count = 0;
                 IEnumerable<Gebruiker> usrs = users.Where(s => s.Joindate.Day == lastJoin.Date.Day).ToList();
 
-                foreach(Gebruiker u in usrs)
+                foreach (Gebruiker u in usrs)
                 {
                     count++;
                 }
@@ -710,20 +713,22 @@ namespace IP3_8IEN.BL
                             u volgt. Indien u op de hoogte gehouden wilt worden van nog meer onderwerpen, kan u 
                             </br> steeds extra onderwerpen volgen op <a href=""www.8ien.be""> Weekly Reviews </a>. </p>
                             <h3>Personen</h3> <div style=""margin: 0px;""> <p>Naam : Bart De Wever </p> <ul>");
-                if (g.AlertInstellingen.Count() != 0) {
-                foreach (AlertInstelling al in g.AlertInstellingen)
+                if (g.AlertInstellingen.Count() != 0)
                 {
-                    if (al.Alerts != null) {
-                    foreach (Alert a in al.Alerts)
+                    foreach (AlertInstelling al in g.AlertInstellingen)
                     {
-                        if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
+                        if (al.Alerts != null)
                         {
-                            dezeWeek.Add(a);
-                                    sb.Append("<li>" +  a.ToString() + "</li>");
+                            foreach (Alert a in al.Alerts)
+                            {
+                                if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
+                                {
+                                    dezeWeek.Add(a);
+                                    sb.Append("<li>" + a.ToString() + "</li>");
+                                }
+                            }
                         }
                     }
-                    }
-                }
                 }
                 sb.Append(@"</ul></div></div>");
                 SendMail(dezeWeek, g.Email, sb.ToString());

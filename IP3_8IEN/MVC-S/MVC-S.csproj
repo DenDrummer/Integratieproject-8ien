@@ -597,8 +597,14 @@
     <Content Include="Views\Admin\DetailsGlobalizationPlatform.cshtml" />
     <Content Include="Views\Admin\CreateGlobalizationString.cshtml" />
     <Content Include="Views\Admin\EditGlobalizationPlatform.cshtml" />
+    <Content Include="Views\Admin\EditGlobalizationString.cshtml" />
+    <Content Include="Views\Admin\DeleteGlobalizationPlatform.cshtml" />
+    <Content Include="Views\Admin\DetailsGlobalizationString.cshtml" />
+    <Content Include="Views\Admin\DeleteGlobalizationString.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_GlobalResources\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />

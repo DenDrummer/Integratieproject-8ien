@@ -13,20 +13,41 @@ namespace IP3_8IEN.BL
         void InitNonExistingRepo(bool withUOW);
 
         #region Platformen
+        //List
+        IEnumerable<GlobalizationPlatform> GetPlatformen();
+
+        //Create
         GlobalizationPlatform CreatePlatform(string naam, string taal);
+
+        //Read
         GlobalizationPlatform GetPlatform(int id);
         GlobalizationPlatform GetPlatform(string naam, string taal);
-        IEnumerable<GlobalizationPlatform> GetPlatformen();
+
+        //Update
         void ChangePlatform(GlobalizationPlatform platform);
+
+        //Delete
+        void DeletePlatform(GlobalizationPlatform platform);
         #endregion
 
         #region Items
+        //List
         IEnumerable<GlobalizationObject> GetItemsFromPlatform(int platformId);
-        GlobalizationObject GetItemFromPlatform(int platformId, string key);
+
+        //Create
         GlobalizationString CreateItem(int platformId, string key, string value);
         //GlobalizationImage CreateItem(int platformId, string key, Image value);
         GlobalizationObject CreateItem(int platformId, string key, object value);
+
+        //Read
+        GlobalizationObject GetItem(int itemId);
+        GlobalizationObject GetItemFromPlatform(int platformId, string key);
+
+        //Update
         void ChangeItem(GlobalizationObject item);
+
+        //Delete
+        void DeleteItem(GlobalizationObject item);
         #endregion
     }
 }

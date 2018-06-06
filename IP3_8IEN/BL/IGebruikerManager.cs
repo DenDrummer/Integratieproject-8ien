@@ -10,22 +10,22 @@ namespace IP3_8IEN.BL
         //void AddGebruikers(string filePath);
         void AddAlertInstelling(string filePath);
         Gebruiker FindUser(string username);
-        
+
         void AddAlerts(string filePath);
         void AddAlert(string alertContent, int alertInstelling);
         void InitNonExistingRepo(bool withUnitOfWork);
-        
+
         IEnumerable<Alert> GetAlerts();
-        
+
         void WeeklyReview();
-        
+
         Alert GetAlert(int alertId);
-        
+
         void GetAlertHogerLagers();
-        
+
         void GetAlertValueFluctuations();
         void GetAlertPositiefNegatiefs();
-        
+
         List<HogerLager> GetHogerLagersByUser();
         List<PositiefNegatief> GetPositiefNegatiefsByUser();
         List<ValueFluctuation> GetValueFluctuationsByUser();
@@ -35,7 +35,7 @@ namespace IP3_8IEN.BL
         //10 mei 2018 : Stephane
         void AddGebruiker(string userName, string id, string naam, string voornaam, string email, DateTime joindate, string role);
         void UpdateGebruiker(Gebruiker gebruiker);
-        
+
         void DeleteUser(string userId);
         IEnumerable<Gebruiker> GetUsers();
         IEnumerable<ApplicationUser> GetUsersInRoles(IEnumerable<ApplicationUser> appUsers, string role);
