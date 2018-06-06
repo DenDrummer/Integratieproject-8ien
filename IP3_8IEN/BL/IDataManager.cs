@@ -72,6 +72,7 @@ namespace IP3_8IEN.BL
         IEnumerable<Thema> GetThemas();
         void UpdateThema(Thema thema);
         List<GraphData> GetTweetsPerDag(Organisatie organisatie, int aantalDagenTerug);
+        List<GraphData> GetTweetsPerDag(Organisatie organisatie, string town, int aantalDagenTerug);
         List<GraphData> GetTweetsPerDag(Thema organisatie, int aantalDagenTerug);
         List<GraphData> GetNumberGraph(Persoon persoon, int laatsteAantalUren);
         List<GraphData> GetNumberGraph(Organisatie organisatie, int laatsteAantalUren);
@@ -83,6 +84,11 @@ namespace IP3_8IEN.BL
         IEnumerable<Hashtag> GetHashtagsWithSubjMsgs();
         List<string> GetTowns(IEnumerable<Persoon> personen);
         int GetAantalVermeldingen(Thema theme);
+
+        IEnumerable<ViewDataValue> GetViewDataValues();
+        ViewDataValue GetViewDataValue(string name);
+        void UpdateViewDataValue(ViewDataValue vdv);
+        void AddViewDataValue(ViewDataValue vdv);
 
         #region Unsorted
         int GetMentionCountByName(string naam);
@@ -106,15 +112,15 @@ namespace IP3_8IEN.BL
         List<GraphData> GetTopStoryCount(int aantal, DateTime start, DateTime stop);
         List<GraphData> GetTopStoryCount(DateTime start, DateTime stop);
         List<GraphData> GetTopStoryByPolitician(Persoon persoon);
-        List<GraphData2> GetComparisonPersonNumberOfTweetsOverTime(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5);
+        List<GraphData> GetComparisonPersonNumberOfTweetsOverTime(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5);
         List<GraphData> GetTopMentions(int aantal);
         void SendMail();
-        List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = true);
+        List<GraphData> GetRanking(int aantal, int interval_uren, bool puntNotatie = false);
         int GetNumber(Persoon persoon, int laatsteAantalUren = 0);
         List<GraphData> GetTweetsPerDag(Persoon persoon, int aantalDagenTerug = 0, string town = null);
         List<GraphData> GetTweetsPerDagList(Persoon persoon, int aantalDagenTerug = 0);
-        List<GraphData2> GetTweetsPerDag2(Persoon persoon1, Persoon persoon2, Persoon persoon3, Persoon persoon4,
-            Persoon persoon5, int aantalDagenTerug = 0);
+        List<GraphData> GetTweetsPerDagComparisonOverTime(Persoon persoon1, Persoon persoon2, Persoon persoon3, Persoon persoon4,
+            Persoon persoon5, int aantalDagenTerug = 10);
         string GetImageString(string screenname);
         string GetBannerString(string screenname);
         Hashtag AddHashtag(string hashtag);
@@ -129,6 +135,8 @@ namespace IP3_8IEN.BL
         List<String> TopHashtagCountByPerson(Persoon persoon);
         List<String> TopHashtagCountByOrganisation(Organisatie organisatie);
         string GetTrendByOnderwerp(Onderwerp onderwerp);
+        List<double> GetTotalMessagesSparkline();
+        double GetstijgingTweets();
         #endregion
     }
 }

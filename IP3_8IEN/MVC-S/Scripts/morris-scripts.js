@@ -17,8 +17,8 @@ var aantal = 0;
                     morris[aantal++] = Morris.Line({
                                 element: elementId,
                                 data: result,
-                                xkey: 'Label',
-                                ykeys: ['Value'],
+                                xkey: 'label',
+                                ykeys: ['value'],
                                 labels: [titel],
                                 pointSize: 2,
                                 hideHover: 'auto',
@@ -40,8 +40,8 @@ function custAreaChart(dashItemid, elementId, titel) {
             morris[aantal++] = Morris.Area({
                 element: elementId,
                 data: result,
-                xkey: 'Label',
-                ykeys: ['Value'],
+                xkey: 'label',
+                ykeys: ['value'],
                 labels: [titel],
                 pointSize: 2,
                 hideHover: 'auto',
@@ -60,11 +60,12 @@ function custBarChart(dashItemid, elementId, titel) {
         data: { 'id': dashItemid },
         type: 'GET',
         success: function (result) {
+            var omgekeerd = result.reverse();
             morris[aantal++] = Morris.Bar({
                 element: elementId,
-                data: result,
-                xkey: 'Label',
-                ykeys: ['Value'],
+                data: omgekeerd,
+                xkey: 'label',
+                ykeys: ['value'],
                 labels: [titel],
                 pointSize: 2,
                 hideHover: 'auto',
@@ -96,6 +97,26 @@ function custDonutChart(dashItemid, elementId, titel) {
     });
 
 }
+function custRank(dashItemid, elementId, titel) {
+    var plaats = elementId - 1;
+    var id = "chart" + plaats;
+    $.ajax({
+        url: "/Home/GetJsonFromGraphData",
+        data: { 'id': dashItemid },
+        type: 'GET',
+        success: function (result) {
+            var i = 1;
+            var lijst = "";
+            result.forEach(function (data) {
+                lijst += `<h4 style="font:bold"> ${i}: <span style="color: #00295C;">${data.label}</span></h6>`;
+                i++;
+            });
+            $(`#${id}`).html(lijst);
+        },
+        error: function (result) {
+        }
+    });
+}
 function custCijfer(dashItemid, elementId, titel) {
     var plaats = elementId - 1;
     var id = "chart" + plaats;
@@ -105,7 +126,31 @@ function custCijfer(dashItemid, elementId, titel) {
         type: 'GET',
         success: function (result) {
             result.forEach(function (data) {
-                $(`#${id}`).html(`<h6 style="font-size: 25px"> ${titel} heeft <span style="font-size: 50px; color: #00295C;">${data.Value}</span>  tweets</h6>`);
+                $(`#${id}`).html(`<h6 style="font-size: 25px"> ${titel} heeft <span style="font-size: 50px; color: #00295C;">${data.value}</span>  tweets</h6>`);
+            });
+        },
+        error: function (result) {
+        }
+    });
+
+}
+function custVergelijking(dashItemid, elementId, titel, pers1,pers2,pers3,pers4,pers5) {
+    $.ajax({
+        url: "/Home/GetJsonFromGraphData2",
+        data: { 'id': dashItemid },
+        type: 'GET',
+        success: function (result) {
+            var omgekeerd = result.reverse();
+            morris[aantal++] = Morris.Line({
+                element: elementId,
+                data: omgekeerd,
+                xkey: 'label',
+                ykeys: ['value','value2','value3','value4','value5'],
+                labels: [pers1, pers2, pers3, pers4, pers5],
+                pointSize: 2,
+                hideHover: 'auto',
+                resize: true,
+                redraw: true
             });
         },
         error: function (result) {

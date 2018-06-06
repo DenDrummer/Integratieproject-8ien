@@ -80,7 +80,7 @@ namespace IP3_8IEN.BL
             return dashItem;
         }
 
-        public DashItem CreateDashitem(bool adminGraph, string type,string naam = "usergraph",string town= "Vlanderen")
+        public DashItem CreateDashitem(bool adminGraph, string type,string naam = "usergraph",string town= "Vlanderen", string pers1 = "", string pers2 = "", string pers3 = "", string pers4 = "", string pers5 = "")
         {
             InitNonExistingRepo();
 
@@ -90,7 +90,12 @@ namespace IP3_8IEN.BL
                 Type = type,
                 Naam = naam,
                 Town = town,
-                Active = true
+                Active = true,
+                Persoon1 = pers1,
+                Persoon2 = pers2,
+                Persoon3 = pers3,
+                Persoon4 = pers4,
+                Persoon5 = pers5
             };
 
             if (adminGraph)
@@ -256,7 +261,7 @@ namespace IP3_8IEN.BL
                 repo.AddTileZone(tile);
                 follow.DashItem.TileZones.Add(tile);
             }
-
+            AddOneZonesOrder(GetDashboard(user));
             uowManager.Save();
             UoW = true;
             repo.SetUnitofWork(UoW);
@@ -280,12 +285,34 @@ namespace IP3_8IEN.BL
 
             //UpdateDashItem(dashItem);
         }
+        public void LinkGraphsToUser2(List<GraphData2> graphDataList, int dashId)
+        {
+            InitNonExistingRepo();
+
+            DashItem dashItem = repo.ReadDashItem(dashId);
+            dashItem.Graphdata = new Collection<GraphData>();
+
+            foreach (GraphData graph in graphDataList)
+            {
+                dashItem.Graphdata.Add(graph);
+                graph.DashItem = dashItem;
+                repo.UpdateGraphData(graph);
+            }
+
+            //UpdateDashItem(dashItem);
+        }
 
         public void AddGraph(GraphData graph)
         {
             InitNonExistingRepo();
 
             repo.AddGraph(graph);
+        }
+        public void AddGraph2(GraphData2 graph)
+        {
+            InitNonExistingRepo();
+
+            repo.AddGraph2(graph);
         }
 
         public void SyncWithAdmins(string userId, int dashItemId)
@@ -448,50 +475,57 @@ namespace IP3_8IEN.BL
                             i++;
                     }
 
-                    try
-                    {
-                        GraphdataValues graphs = GetGraphData(onderwerpId[0], 10, tileZone.DashItem.Type, "Persoon");
+                    int aantalDagen = tileZone.DashItem.AantalDagen;
 
-                        int j = 0;
-                        foreach (var graph in tileZone.DashItem.Graphdata)
+                    if (tileZone.DashItem.Type == "Line" && tileZone.DashItem.Town != "Vlaanderen"){
+                        try
                         {
-                            graph.Label = graphs.labels[j];
-                            graph.Value = graphs.values[j];
-                            repo.UpdateGraphData(graph);
-                            j++;
+                            GraphdataValues graphs = GetGraphData(onderwerpId[0], aantalDagen, tileZone.DashItem.Type, "Persoon");
+
+                            int j = 0;
+                            foreach (var graph in tileZone.DashItem.Graphdata)
+                            {
+                                graph.Label = graphs.labels[j];
+                                graph.Value = graphs.values[j];
+                                repo.UpdateGraphData(graph);
+                                j++;
+                            }
                         }
+                        catch { }
+                        try
+                        {
+                            //Organisatie organisatie = dataMgr.GetOrganisatie(onderwerpId[0]);
+                            GraphdataValues graphs = GetGraphData(onderwerpId[0], aantalDagen, tileZone.DashItem.Type, "Organisatie");
+
+                            int j = 0;
+                            foreach (var graph in tileZone.DashItem.Graphdata)
+                            {
+                                graph.Label = graphs.labels[j];
+                                graph.Value = graphs.values[j];
+                                repo.UpdateGraphData(graph);
+                                j++;
+                            }
+                        }
+                        catch { }
+                        try
+                        {
+                            //Thema thema = dataMgr.GetThema(onderwerpId[0]);
+                            GraphdataValues graphs = GetGraphData(onderwerpId[0], aantalDagen, tileZone.DashItem.Type, "Thema");
+
+                            int j = 0;
+                            foreach (var graph in tileZone.DashItem.Graphdata)
+                            {
+                                graph.Label = graphs.labels[j];
+                                graph.Value = graphs.values[j];
+                                repo.UpdateGraphData(graph);
+                                j++;
+                            }
+                        }
+                        catch { }
+
+                        uowManager.Save();
                     }
-                    catch { }
-                    try
-                    {
-                        //Organisatie organisatie = dataMgr.GetOrganisatie(onderwerpId[0]);
-                        GraphdataValues graphs = GetGraphData(onderwerpId[0], 10, tileZone.DashItem.Type, "Organisatie");
-
-                        int j = 0;
-                        foreach (var graph in tileZone.DashItem.Graphdata)
-                        {
-                            graph.Label = graphs.labels[j];
-                            graph.Value = graphs.values[j];
-                            repo.UpdateGraphData(graph);
-                            j++;
-                        }
-                    } catch { }
-                    try
-                    {
-                        //Thema thema = dataMgr.GetThema(onderwerpId[0]);
-                        GraphdataValues graphs = GetGraphData(onderwerpId[0], 10, tileZone.DashItem.Type, "Thema");
-                        
-                        int j = 0;
-                        foreach (var graph in tileZone.DashItem.Graphdata)
-                        {
-                            graph.Label = graphs.labels[j];
-                            graph.Value = graphs.values[j];
-                            repo.UpdateGraphData(graph);
-                            j++;
-                        }
-                    } catch { }
-
-                uowManager.Save();
+                    
                 }
                 //LastModified updaten
                 tileZone.DashItem.LastModified = timeNow;
@@ -527,8 +561,31 @@ namespace IP3_8IEN.BL
                 listData.Add(new DataChart
                 {
                     //controleren duplicaten DB
-                    Label = graph.Label,
-                    Value = graph.Value
+                    label = graph.Label,
+                    value = graph.Value
+                });
+            }
+
+            return listData;
+        }
+        public List<DataChart2> ExtractGraphList2(int id)
+        {
+            InitNonExistingRepo();
+
+            DashItem dashItem = repo.ReadDashItemWithGraph(id);
+            List<DataChart2> listData = new List<DataChart2>();
+
+            foreach (GraphData graph in dashItem.Graphdata)
+            {
+                listData.Add(new DataChart2
+                {
+                    //controleren duplicaten DB
+                    label = graph.Label,
+                    value = graph.Value,
+                    value2 = graph.Value2,
+                    value3 = graph.Value3,
+                    value4 = graph.Value4,
+                    value5 = graph.Value5
                 });
             }
 
