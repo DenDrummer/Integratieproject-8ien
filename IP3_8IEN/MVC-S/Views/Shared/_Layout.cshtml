@@ -8,9 +8,6 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
 
-    @*@{Html.RenderPartial("_partialOne");}*@
-    @*@Html.RenderPartial("_partialOne", Model.Personen, new ViewDataDictionary(ViewData));*@
-
     @*<script src="~/Scripts/kendo.all.min.js"></script>*@
     @Scripts.Render("~/bundles/jquery")
     @Styles.Render("~/Content/css")
@@ -64,7 +61,7 @@
                         <li class="divider"></li>
                         <li>
                             <a class="text-center" href="" style="margin-left: auto; margin-right: auto;">
-                                <strong>@Html.ActionLink("Bekijk alle alerts", "Alerts","Home")</strong>
+                                <strong>@Html.ActionLink("Bekijk alle alerts", "Alerts", "Home")</strong>
                             </a>
                         </li>
                     </ul>
@@ -210,22 +207,19 @@
                             <li>
                                 <a href="@Url.Action("LijstPersonen", "Home")">
                                     <i class="fas fa-user-alt" style="color:#00295C;"></i>
-                                    Personen
-                                    @*@ViewBag.Personen*@
+                                    <span id="persoon"></span>
                                 </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("LijstOrganisaties", "Home")">
                                     <i class="fas fa-handshake" style="color:#00295C;"></i>
-                                    Organisaties
-                                    @*@ViewBag.Organisaties*@
+                                    <span id="organisatie"></span>
                                 </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("LijstThemas", "Home")">
                                     <i class="fas fa-street-view" style="color:#00295C;"></i>
-                                    Themas
-                                    @*@ViewBag.Themas*@
+                                    <span id="thema"></span>
                                 </a>
                             </li>
                             <li>
@@ -283,25 +277,19 @@
                             <li>
                                 <a href="@Url.Action("LijstPersonen", "Home")">
                                     <i class="fas fa-user-alt" style="color:#00295C;"></i>
-                                    Personen
-                                    @*////////////*@
-                                    @*@ViewContext.Controller.ViewBag.Personen*@
-                                    @*////////////*@
+                                    <span id="persoon"></span>
                                 </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("LijstOrganisaties", "Home")">
                                     <i class="fas fa-handshake" style="color:#00295C;"></i>
-                                    Organisaties
-                                    @*////////////*@
-                                    @*@Model.Personen*@
-                                    @*////////////*@
+                                    <span id="organisatie"></span>
                                 </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("LijstThemas", "Home")">
                                     <i class="fas fa-street-view" style="color:#00295C;"></i>
-                                    Themas
+                                    <span id="thema"></span>
                                 </a>
                             </li>
 
@@ -331,6 +319,45 @@
 
 
 
+
+<script type="text/javascript">
+    var personenlabel
+    $.ajax({
+        url: "/Home/GetP",
+        type: 'GET',
+        success: function (result) {
+            $("#persoon").html(result);
+        },
+        error: function (result) {
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    var personenlabel
+    $.ajax({
+        url: "/Home/GetO",
+        type: 'GET',
+        success: function (result) {
+            $("#organisatie").html(result);
+        },
+        error: function (result) {
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    var personenlabel
+    $.ajax({
+        url: "/Home/GetT",
+        type: 'GET',
+        success: function (result) {
+            $("#thema").html(result);
+        },
+        error: function (result) {
+        }
+    });
+</script>
 
 
 

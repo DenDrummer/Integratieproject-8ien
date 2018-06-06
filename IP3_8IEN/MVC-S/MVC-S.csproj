@@ -606,6 +606,8 @@
     <Content Include="Views\Admin\CreateComparisonPersonLine.cshtml" />
     <Content Include="Views\Admin\CreateComparisonPersonLineFinished.cshtml" />
     <Content Include="Views\Shared\Notification.cshtml" />
+    <Content Include="Views\Home\EditUserAccount.cshtml" />
+    <Content Include="Views\Home\DeleteUser.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

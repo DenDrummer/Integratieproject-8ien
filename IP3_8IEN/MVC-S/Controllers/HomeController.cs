@@ -330,7 +330,70 @@ namespace MVC_S.Controllers
             }
         }
 
-        public ActionResult Instellingen() => View();
+        [HttpGet]
+        public ActionResult Instellingen()
+        {
+            //ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+            return View(/*currUser*/);
+        }
+
+        [HttpGet]
+        public ActionResult EditUserAccount()
+        {
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+            return View(currUser);
+        }
+
+        [HttpPost]
+        public ActionResult EditUserAccount(ApplicationUser model)
+        {
+            //Get User by the Email passed in.
+            //It's better practice to find user by the Id, (without exposing the id to the view).
+            var user = aMgr.FindByEmail(model.Email);
+
+            //edit user: replace values of UserViewModel properties 
+            user.AchterNaam = model.AchterNaam;
+            user.VoorNaam = model.VoorNaam;
+            user.UserName = model.UserName;
+            user.Geboortedatum = model.Geboortedatum;
+            user.PhoneNumber = model.PhoneNumber;
+
+            //add user to the datacontext (database) and save changes
+            aMgr.Update(user);
+
+            return RedirectToAction("Instellingen");
+        }
+
+        [HttpGet]
+        public ActionResult DeleteUser()
+        {
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+            return View(currUser);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteUser(ApplicationUser form)
+        {
+            //try
+            //{
+            string email = form.Email;
+                ApplicationUser user = aMgr.FindByEmail(email);
+                aMgr.Delete(user);
+
+                // We gaan de gebruiker (gelinkt met objecten in de Db)
+                //  niet echt deleten maar overschrijven met anonieme data
+                gMgr.DeleteUser(user.Id);
+
+                return RedirectToAction("Index");
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
+        }
 
         public ActionResult LijstPersonen() => View(dMgr.GetPersonen());
 
@@ -719,6 +782,51 @@ namespace MVC_S.Controllers
 
             return PartialView("~/Views/Home/_partialOne.cshtml", one);
             //return PartialView();
+        }
+
+        [HttpGet]
+        public ActionResult GetP()
+        {
+            ViewDataValue vdvP = dMgr.GetViewDataValue("Personen");
+            if (vdvP != null)
+            {
+                string vdv = vdvP.StringValue;
+                return Json(vdv, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("Personen", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetO()
+        {
+            ViewDataValue vdvP = dMgr.GetViewDataValue("Organisaties");
+            if (vdvP != null)
+            {
+                string vdv = vdvP.StringValue;
+                return Json(vdv, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("Organisaties", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetT()
+        {
+            ViewDataValue vdvP = dMgr.GetViewDataValue("Themas");
+            if (vdvP != null)
+            {
+                string vdv = vdvP.StringValue;
+                return Json(vdv, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("Themas", JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }
