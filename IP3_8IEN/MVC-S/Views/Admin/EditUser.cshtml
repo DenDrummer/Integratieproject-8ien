@@ -14,7 +14,7 @@
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>User</h4>
+    <h4>Gebruikers</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
@@ -75,13 +75,13 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
+            <input type="submit" value="Wijzigen" class="btn btn-default" />
         </div>
     </div>
 </div>
 }
 
- <div>
-    @Html.ActionLink("Back to List", "Index")
+<div>
+    <h4 style="color:#00295C; display: inline;">@Html.ActionLink("Ga terug naar gebruikers", "User")</h4>
 </div>
 
