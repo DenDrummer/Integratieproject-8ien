@@ -196,126 +196,133 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li class="sidebar-search">
-                        <div class="input-group custom-search-form">
-                            <input type="text" class="form-control" placeholder="Search...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                </button>
-                            </span>
-                        </div>
+                        @*<div class="input-group custom-search-form">
+                <input type="text" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>*@
                         <!-- /input-group -->
-                        @if (User.Identity.IsAuthenticated)
+                        @if (Request.IsAuthenticated)
                         {
-                        <li>
-                            <a href="@Url.Action("Dashboard", "Home")">
-                                <i class="fas fa-chart-bar"></i>
-                                Dashboard
-                            </a>
-                        </li>
+                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                            {
+                                @Html.AntiForgeryToken()
 
-                        <li>
-                            <a href="@Url.Action("LijstPersonen", "Home")">
-                                <i class="fas fa-user-alt" style="color:#00295C;"></i>
-                                Personen
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("LijstOrganisaties", "Home")">
-                                <i class="fas fa-handshake" style="color:#00295C;"></i>
-                                Organisaties
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("LijstThemas", "Home")">
-                                <i class="fas fa-street-view" style="color:#00295C;"></i>
-                                Themas
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Zoeken", "Home")">
-                                <i class="fas fa-search" style="color:#00295C;"></i>
-                                Zoeken
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Alerts", "Home")">
-                                <i class="fas fa-bell" style="color:#00295C;"></i>
-                                Alerts
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("WeeklyReview", "Home")">
-                                <i class="fas fa-calendar-alt" style="color:#00295C;"></i>
-                                WeeklyReview
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Instellingen", "Home")">
-                                <i class="fas fa-cogs" style="color:#00295C;"></i>
-                                Instellingen
-                            </a>
-                        </li>
-                        if (User.IsInRole("Admin"))
-                        {
+
                             <li>
-                                <a href="@Url.Action("AdminOmgeving", "Home")">
-                                    <i class="fas fa-user-circle" style="color:#00295C;"></i>
-                                    Admin Omgeving
-                                </a>
+                                @Html.ActionLink("U bent ingelogd als " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                             </li>
-                        }
-                        else if (User.IsInRole("SuperAdmin"))
-                        {
-                            <li>
-                                <a href="@Url.Action("AdminOmgeving", "Home")">
-                                    <i class="fas fa-user-circle" style="color:#00295C;"></i>
-                                    Admin Omgeving
-                                </a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Superadmin", "Home")">
-                                    <i class="fab fa-superpowers" style="color:#00295C;"></i>
-                                    Superadmin
-                                </a>
-                            </li>
+
                         }
                     }
                     else
                     {
-                        <li>
-                            <a href="@Url.Action("Dashboard", "Home")">
-                                <i class="fas fa-chart-bar"></i>
-                                Dashboard
-                            </a>
-                        </li>
 
-                        <li>
-                            <a href="@Url.Action("LijstPersonen", "Home")">
-                                <i class="fas fa-user-alt" style="color:#00295C;"></i>
-                                Personen
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("LijstOrganisaties", "Home")">
-                                <i class="fas fa-handshake" style="color:#00295C;"></i>
-                                Organisaties
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("LijstThemas", "Home")">
-                                <i class="fas fa-street-view" style="color:#00295C;"></i>
-                                Themas
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Zoeken", "Home")">
-                                <i class="fas fa-search" style="color:#00295C;"></i>
-                                Zoeken
-                            </a>
-                        </li>
+                        <li>@Html.ActionLink("Niet ingelogd. Log hier in!", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", style = "list-style-type:none" })</li>
 
                     }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                <a href="@Url.Action("Dashboard", "Home")">
+                                    <i class="fas fa-chart-bar"></i>
+                                    Dashboard
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="@Url.Action("LijstPersonen", "Home")">
+                                    <i class="fas fa-user-alt" style="color:#00295C;"></i>
+                                    Personen
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("LijstOrganisaties", "Home")">
+                                    <i class="fas fa-handshake" style="color:#00295C;"></i>
+                                    Organisaties
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("LijstThemas", "Home")">
+                                    <i class="fas fa-street-view" style="color:#00295C;"></i>
+                                    Themas
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Alerts", "Home")">
+                                    <i class="fas fa-bell" style="color:#00295C;"></i>
+                                    Alerts
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("WeeklyReview", "Home")">
+                                    <i class="fas fa-calendar-alt" style="color:#00295C;"></i>
+                                    WeeklyReview
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Instellingen", "Home")">
+                                    <i class="fas fa-cogs" style="color:#00295C;"></i>
+                                    Instellingen
+                                </a>
+                            </li>
+                            if (User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    <a href="@Url.Action("AdminOmgeving", "Home")">
+                                        <i class="fas fa-user-circle" style="color:#00295C;"></i>
+                                        Admin Omgeving
+                                    </a>
+                                </li>
+                            }
+                            else if (User.IsInRole("SuperAdmin"))
+                            {
+                                <li>
+                                    <a href="@Url.Action("AdminOmgeving", "Home")">
+                                        <i class="fas fa-user-circle" style="color:#00295C;"></i>
+                                        Admin Omgeving
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Superadmin", "Home")">
+                                        <i class="fab fa-superpowers" style="color:#00295C;"></i>
+                                        Superadmin
+                                    </a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="@Url.Action("Dashboard", "Home")">
+                                    <i class="fas fa-chart-bar"></i>
+                                    Dashboard
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="@Url.Action("LijstPersonen", "Home")">
+                                    <i class="fas fa-user-alt" style="color:#00295C;"></i>
+                                    Personen
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("LijstOrganisaties", "Home")">
+                                    <i class="fas fa-handshake" style="color:#00295C;"></i>
+                                    Organisaties
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("LijstThemas", "Home")">
+                                    <i class="fas fa-street-view" style="color:#00295C;"></i>
+                                    Themas
+                                </a>
+                            </li>
+
+                        }
                     </ul>
                 </div>
             </div>

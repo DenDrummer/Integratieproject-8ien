@@ -87,18 +87,18 @@ namespace MVC_S.Controllers
 
         public ActionResult Dashboard()
         {
-            try
-            {
-                ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
-                string userName = appUser.UserName;
-                Gebruiker user = gMgr.FindUser(userName);
+            //try
+            //{
+            //    ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
+            //    string userName = appUser.UserName;
+            //    Gebruiker user = gMgr.FindUser(userName);
 
-                Dashbord dashbord = dashMgr.GetDashboardWithFollows(user);
-                dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem up-to-date is
-            }
-            catch
-            {
-            }
+            //    Dashbord dashbord = dashMgr.GetDashboardWithFollows(user);
+            //    dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem up-to-date is
+            //}
+            //catch
+            //{
+            //}
 
             bool ingelogd = false;
 
@@ -113,11 +113,6 @@ namespace MVC_S.Controllers
             ViewBag.naam1 = persoon.Naam;
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
             int[] init = { 0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
-            //ViewData["init"] = init;
-
-
-            //List<GraphData> data = dMgr.GetTweetsPerDagList(persoon, 20);
-            //ViewBag.DATA = data;
 
 
             ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
@@ -255,7 +250,7 @@ namespace MVC_S.Controllers
         public ActionResult AdminOmgeving()
         {
             // note : deze 'if else' kun je gebruiken voor authorisatie
-            if (User.IsInRole("Admin"))
+            if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
             {
                 return RedirectToAction("Index", "Admin");
             }
@@ -268,7 +263,7 @@ namespace MVC_S.Controllers
         public ActionResult Superadmin()
         {
             // note : deze 'if else' kun je gebruiken voor authorisatie
-            if (User.IsInRole("Admin"))
+            if (User.IsInRole("SuperAdmin"))
             {
                 return RedirectToAction("Index", "Superadmin");
             }

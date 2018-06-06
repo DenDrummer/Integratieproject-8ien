@@ -230,8 +230,8 @@ namespace MVC_S.Controllers
             {
                 Persoon p = _dataManager.GetPersoon(naam);
                 // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen, automplete2);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam, automplete2);
+                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(p, nDagen);
+                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam);
                 IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p.OnderwerpId);
                 IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
@@ -242,9 +242,20 @@ namespace MVC_S.Controllers
             try
             {
                 Organisatie o = _dataManager.GetOrganisaties().ToList().FirstOrDefault(org => org.Naam == naam);
+                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList;
+                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem;
                 // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-                List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDag(o, nDagen);
-                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Line", naam);
+                if (automplete2 != null)
+                {
+                    graphDataList = _dataManager.GetTweetsPerDag(o, automplete2, nDagen);
+                    newDashItem = _dashManager.CreateDashitem(true, "Line", naam, automplete2);
+                }
+                else
+                {
+                    graphDataList = _dataManager.GetTweetsPerDag(o, nDagen);
+                    newDashItem = _dashManager.CreateDashitem(true, "Line", naam);
+                }
+                
                 IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, o.OnderwerpId);
                 IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
                 _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);

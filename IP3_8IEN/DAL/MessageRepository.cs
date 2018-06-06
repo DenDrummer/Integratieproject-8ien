@@ -89,6 +89,10 @@ namespace IP3_8IEN.DAL
             return personen.FirstOrDefault(p => p.OnderwerpId == persoonId);
         }
         public IEnumerable<Tewerkstelling> ReadTewerkstellingen() => ctx.Tewerkstellingen.ToList();
+        public IEnumerable<Tewerkstelling> ReadTewerkstellingenWithPrsnAndOrg()
+        {
+            return ctx.Tewerkstellingen.Include("Persoon").Include("Organisatie").Include("Persoon.SubjectMessages");
+        }
 
         public IEnumerable<Message> ReadMessages(bool subjM)
         {
@@ -168,6 +172,25 @@ namespace IP3_8IEN.DAL
         public Thema ReadThemas(int id)
         {
             return ctx.Themas.Find(id);
+        }
+
+        public void AddViewDataValue(ViewDataValue vdv)
+        {
+            ctx.ViewDataValues.Add(vdv);
+            ctx.SaveChanges();
+        }
+        public ViewDataValue ReadViewDataValue(string name)
+        {
+            return ctx.ViewDataValues.FirstOrDefault(v => v.Name == name);
+        }
+        public void EditViewDataValue(ViewDataValue vdv)
+        {
+            ctx.Entry(vdv).State = EntityState.Modified;
+            ctx.SaveChanges();
+        }
+        public IEnumerable<ViewDataValue> ReadViewDataValues()
+        {
+            return ctx.ViewDataValues;
         }
     }
 }

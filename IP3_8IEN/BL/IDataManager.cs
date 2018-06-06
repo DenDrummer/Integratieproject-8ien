@@ -72,6 +72,7 @@ namespace IP3_8IEN.BL
         IEnumerable<Thema> GetThemas();
         void UpdateThema(Thema thema);
         List<GraphData> GetTweetsPerDag(Organisatie organisatie, int aantalDagenTerug);
+        List<GraphData> GetTweetsPerDag(Organisatie organisatie, string town, int aantalDagenTerug);
         List<GraphData> GetTweetsPerDag(Thema organisatie, int aantalDagenTerug);
         List<GraphData> GetNumberGraph(Persoon persoon, int laatsteAantalUren);
         List<GraphData> GetNumberGraph(Organisatie organisatie, int laatsteAantalUren);
@@ -83,6 +84,11 @@ namespace IP3_8IEN.BL
         IEnumerable<Hashtag> GetHashtagsWithSubjMsgs();
         List<string> GetTowns(IEnumerable<Persoon> personen);
         int GetAantalVermeldingen(Thema theme);
+
+        IEnumerable<ViewDataValue> GetViewDataValues();
+        ViewDataValue GetViewDataValue(string name);
+        void UpdateViewDataValue(ViewDataValue vdv);
+        void AddViewDataValue(ViewDataValue vdv);
 
         #region Unsorted
         int GetMentionCountByName(string naam);

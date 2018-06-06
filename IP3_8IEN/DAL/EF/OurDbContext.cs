@@ -3,6 +3,7 @@ using IP3_8IEN.BL.Domain.Data;
 using IP3_8IEN.BL.Domain.Gebruikers;
 using System;
 using IP3_8IEN.BL.Domain.Dashboard;
+using IP_8IEN.BL.Domain.Data;
 
 namespace IP3_8IEN.DAL.EF
 {
@@ -51,6 +52,7 @@ namespace IP3_8IEN.DAL.EF
         public DbSet<Follow> Follows { get; set; }
         public DbSet<GraphData> Graphs { get; set; }
         public DbSet<GraphData2> Graphs2 { get; set; }
+        public DbSet<ViewDataValue> ViewDataValues { get; set; }
 
         public DbSet<Thema> Themas { get; set; }
 

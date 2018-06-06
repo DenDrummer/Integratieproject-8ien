@@ -1,4 +1,5 @@
 ﻿using IP3_8IEN.BL;
+using IP3_8IEN.BL.Domain.Data;
 using IP3_8IEN.BL.Domain.Gebruikers;
 using Microsoft.AspNet.Identity;
 using MVC_S.Models;
@@ -130,6 +131,44 @@ namespace MVC_S.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpGet]
+        public ActionResult Globals()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult HomePage()
+        {
+            try
+            {
+                ViewDataValue vdv = _dataManager.GetViewDataValue("HomePage");
+            } catch
+            {
+                ViewDataValue vdv = new ViewDataValue()
+                {
+                    Name = "HomePage",
+                    StringValue = ""
+                };
+            }
+            
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Faq()
+        {
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Privacy()
+        {
+
+            return View();
         }
 
         [HttpGet]

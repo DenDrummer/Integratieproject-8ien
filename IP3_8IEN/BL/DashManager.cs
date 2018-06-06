@@ -448,50 +448,57 @@ namespace IP3_8IEN.BL
                             i++;
                     }
 
-                    try
-                    {
-                        GraphdataValues graphs = GetGraphData(onderwerpId[0], 10, tileZone.DashItem.Type, "Persoon");
+                    int aantalDagen = tileZone.DashItem.AantalDagen;
 
-                        int j = 0;
-                        foreach (var graph in tileZone.DashItem.Graphdata)
+                    if (tileZone.DashItem.Type == "Line" && tileZone.DashItem.Town != "Vlaanderen"){
+                        try
                         {
-                            graph.Label = graphs.labels[j];
-                            graph.Value = graphs.values[j];
-                            repo.UpdateGraphData(graph);
-                            j++;
+                            GraphdataValues graphs = GetGraphData(onderwerpId[0], aantalDagen, tileZone.DashItem.Type, "Persoon");
+
+                            int j = 0;
+                            foreach (var graph in tileZone.DashItem.Graphdata)
+                            {
+                                graph.Label = graphs.labels[j];
+                                graph.Value = graphs.values[j];
+                                repo.UpdateGraphData(graph);
+                                j++;
+                            }
                         }
+                        catch { }
+                        try
+                        {
+                            //Organisatie organisatie = dataMgr.GetOrganisatie(onderwerpId[0]);
+                            GraphdataValues graphs = GetGraphData(onderwerpId[0], aantalDagen, tileZone.DashItem.Type, "Organisatie");
+
+                            int j = 0;
+                            foreach (var graph in tileZone.DashItem.Graphdata)
+                            {
+                                graph.Label = graphs.labels[j];
+                                graph.Value = graphs.values[j];
+                                repo.UpdateGraphData(graph);
+                                j++;
+                            }
+                        }
+                        catch { }
+                        try
+                        {
+                            //Thema thema = dataMgr.GetThema(onderwerpId[0]);
+                            GraphdataValues graphs = GetGraphData(onderwerpId[0], aantalDagen, tileZone.DashItem.Type, "Thema");
+
+                            int j = 0;
+                            foreach (var graph in tileZone.DashItem.Graphdata)
+                            {
+                                graph.Label = graphs.labels[j];
+                                graph.Value = graphs.values[j];
+                                repo.UpdateGraphData(graph);
+                                j++;
+                            }
+                        }
+                        catch { }
+
+                        uowManager.Save();
                     }
-                    catch { }
-                    try
-                    {
-                        //Organisatie organisatie = dataMgr.GetOrganisatie(onderwerpId[0]);
-                        GraphdataValues graphs = GetGraphData(onderwerpId[0], 10, tileZone.DashItem.Type, "Organisatie");
-
-                        int j = 0;
-                        foreach (var graph in tileZone.DashItem.Graphdata)
-                        {
-                            graph.Label = graphs.labels[j];
-                            graph.Value = graphs.values[j];
-                            repo.UpdateGraphData(graph);
-                            j++;
-                        }
-                    } catch { }
-                    try
-                    {
-                        //Thema thema = dataMgr.GetThema(onderwerpId[0]);
-                        GraphdataValues graphs = GetGraphData(onderwerpId[0], 10, tileZone.DashItem.Type, "Thema");
-                        
-                        int j = 0;
-                        foreach (var graph in tileZone.DashItem.Graphdata)
-                        {
-                            graph.Label = graphs.labels[j];
-                            graph.Value = graphs.values[j];
-                            repo.UpdateGraphData(graph);
-                            j++;
-                        }
-                    } catch { }
-
-                uowManager.Save();
+                    
                 }
                 //LastModified updaten
                 tileZone.DashItem.LastModified = timeNow;
