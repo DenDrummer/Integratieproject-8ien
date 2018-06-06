@@ -194,8 +194,8 @@ function changeData2() {
         data: { 'persoonId': persoonId, 'aantaldagen': aantaldagen2 },
         type: 'GET',
         success: function (result) {
-
-            morris2.setData(result);
+            var omgekeerd = result.reverse();
+            morris2.setData(omgekeerd);
 
         }
     });
