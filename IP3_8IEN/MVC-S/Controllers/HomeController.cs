@@ -643,9 +643,13 @@ namespace MVC_S.Controllers
         public ActionResult Notification()
         {
             ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            string userName = currUser.UserName;
-            Gebruiker user = gMgr.FindUser(userName);
-            List<Alert> alerts = gMgr.GetAlertsByUser(user).ToList().OrderByDescending(a => a.CreatedOn).Take(5).ToList();
+            List<Alert> alerts = new List<Alert>();
+            if (currUser != null) {
+                string userName = currUser.UserName;
+                Gebruiker user = gMgr.FindUser(userName);
+            alerts = gMgr.GetAlertsByUser(user).ToList().OrderByDescending(a => a.CreatedOn).Take(5).ToList();
+            return PartialView(alerts);
+            }
             return PartialView(alerts);
         }
 

@@ -71,7 +71,7 @@ namespace IP3_8IEN.BL
                             //name = "Annick De Ridder",
                             since = "23 May 2018 12:00",
                             //until weglaten --> last scraping
-                            until = "06 Jun 2018 12:00",
+                            until = "24 May 2018 12:00",
                         });
                     }
 
