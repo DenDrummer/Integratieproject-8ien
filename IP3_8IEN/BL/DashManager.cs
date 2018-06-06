@@ -252,12 +252,34 @@ namespace IP3_8IEN.BL
 
             //UpdateDashItem(dashItem);
         }
+        public void LinkGraphsToUser2(List<GraphData2> graphDataList, int dashId)
+        {
+            InitNonExistingRepo();
+
+            DashItem dashItem = repo.ReadDashItem(dashId);
+            dashItem.Graphdata = new Collection<GraphData>();
+
+            foreach (GraphData graph in graphDataList)
+            {
+                dashItem.Graphdata.Add(graph);
+                graph.DashItem = dashItem;
+                repo.UpdateGraphData(graph);
+            }
+
+            //UpdateDashItem(dashItem);
+        }
 
         public void AddGraph(GraphData graph)
         {
             InitNonExistingRepo();
 
             repo.AddGraph(graph);
+        }
+        public void AddGraph2(GraphData2 graph)
+        {
+            InitNonExistingRepo();
+
+            repo.AddGraph2(graph);
         }
 
         public void SyncWithAdmins(string userId, int dashItemId)
@@ -501,6 +523,29 @@ namespace IP3_8IEN.BL
                     //controleren duplicaten DB
                     label = graph.Label,
                     value = graph.Value
+                });
+            }
+
+            return listData;
+        }
+        public List<DataChart2> ExtractGraphList2(int id)
+        {
+            InitNonExistingRepo();
+
+            DashItem dashItem = repo.ReadDashItemWithGraph(id);
+            List<DataChart2> listData = new List<DataChart2>();
+
+            foreach (GraphData graph in dashItem.Graphdata)
+            {
+                listData.Add(new DataChart2
+                {
+                    //controleren duplicaten DB
+                    label = graph.Label,
+                    value = graph.Value,
+                    value2 = graph.Value2,
+                    value3 = graph.Value3,
+                    value4 = graph.Value4,
+                    value5 = graph.Value5
                 });
             }
 

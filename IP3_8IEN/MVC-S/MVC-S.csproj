@@ -600,6 +600,8 @@
     <Content Include="Views\Admin\CreateDonut.cshtml" />
     <Content Include="Views\Admin\CreateComparisonPerson.cshtml" />
     <Content Include="Views\Admin\CreateComparisonPersonFinished.cshtml" />
+    <Content Include="Views\Admin\CreateComparisonPersonLine.cshtml" />
+    <Content Include="Views\Admin\CreateComparisonPersonLineFinished.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

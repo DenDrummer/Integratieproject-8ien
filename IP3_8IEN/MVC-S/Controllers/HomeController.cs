@@ -469,6 +469,13 @@ namespace MVC_S.Controllers
             var json = Json(list, JsonRequestBehavior.AllowGet);
             return json;
         }
+        public ActionResult GetJsonFromGraphData2(int id)
+        {
+            //IEnumerable<GraphData> list2 = dashMgr.GetDashItemWithGraph(id).Graphdata;
+            List<DataChart2> list = dashMgr.ExtractGraphList2(id);
+            var json = Json(list, JsonRequestBehavior.AllowGet);
+            return json;
+        }
 
         public ActionResult GetTweets(int persoonId, int aantaldagen)
         {

@@ -135,26 +135,26 @@ function custCijfer(dashItemid, elementId, titel) {
 
 }
 function custVergelijking(dashItemid, elementId, titel) {
-    //$.ajax({
-    //    url: "/Home/GetJsonFromGraphData2",
-    //    data: { 'id': dashItemid },
-    //    type: 'GET',
-    //    success: function (result) {
-    //        var omgekeerd = result.reverse();
-    //        morris[aantal++] = Morris.Bar({
-    //            element: elementId,
-    //            data: omgekeerd,
-    //            xkey: 'label',
-    //            ykeys: ['value1','value2','value3','value4','value5'],
-    //            labels: [titel],
-    //            pointSize: 2,
-    //            hideHover: 'auto',
-    //            resize: true,
-    //            redraw: true
-    //        });
-    //    },
-    //    error: function (result) {
-    //    }
-    //});
+    $.ajax({
+        url: "/Home/GetJsonFromGraphData2",
+        data: { 'id': dashItemid },
+        type: 'GET',
+        success: function (result) {
+            var omgekeerd = result.reverse();
+            morris[aantal++] = Morris.Line({
+                element: elementId,
+                data: omgekeerd,
+                xkey: 'label',
+                ykeys: ['value','value2','value3','value4','value5'],
+                labels: [titel],
+                pointSize: 2,
+                hideHover: 'auto',
+                resize: true,
+                redraw: true
+            });
+        },
+        error: function (result) {
+        }
+    });
 
 }

@@ -48,5 +48,8 @@ namespace IP3_8IEN.BL
 
         void SyncWithAdmins(string userId, int dashItemId);
         IEnumerable<GraphData> GetMostFollowsList();
+        void AddGraph2(GraphData2 graph);
+        void LinkGraphsToUser2(List<GraphData2> graphDataList, int dashId);
+        List<DataChart2> ExtractGraphList2(int id);
     }
 }
