@@ -587,5 +587,51 @@ namespace MVC_S.Controllers
             }
             return Json(datachart, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult CreateComparisonPerson()
+        {
+            IEnumerable<Persoon> ObjList = _dataManager.GetPersonen().ToList();
+            IEnumerable<Organisatie> ObjList2 = _dataManager.GetOrganisaties().ToList();
+            IEnumerable<Thema> ObjList3 = _dataManager.GetThemas().ToList();
+            List<string> names = ObjList.Select(p => p.Naam).ToList();
+            
+            foreach (Organisatie org in ObjList2)
+            {
+                names.Add(org.Naam);
+            }
+            foreach (Thema theme in ObjList3)
+            {
+                names.Add(theme.Naam);
+            }
+            ViewData["names"] = names;
+            
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CreateComparisonPerson(string pers1,string pers2, string pers3, string pers4, string pers5)
+        {
+            ApplicationUser currUser = _userManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = _gebrManager.FindUser(userName);
+            Persoon p1 = _dataManager.GetPersoon(pers1);
+            Persoon p2 = _dataManager.GetPersoon(pers2);
+            Persoon p3 = _dataManager.GetPersoon(pers3);
+            Persoon p4 = _dataManager.GetPersoon(pers4);
+            Persoon p5 = _dataManager.GetPersoon(pers5);
+            // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+            List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetComparisonPersonNumberOfTweets(p1,p2,p3,p4,p5);
+                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Bar", "Vergelijk 5 onderwerpen");
+                IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p1.OnderwerpId);
+                IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+                _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+                // ================================================================================ //
+                _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
+            return RedirectToAction("CreateComparisonPersonFinished");
+        }
+        public ActionResult CreateComparisonPersonFinished()
+        {
+            return View();
+        }
     }
 }

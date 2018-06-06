@@ -2238,18 +2238,28 @@ namespace IP3_8IEN.BL
 
         public List<GraphData> GetComparisonPersonNumberOfTweets(Persoon p1, Persoon p2, Persoon p3, Persoon p4, Persoon p5)
         {
-            InitNonExistingRepo();
+            InitNonExistingRepo(true);
+            
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
-            List<GraphData> data = new List<GraphData>
-            {
-                new GraphData(p1.Naam, messages.Where(m => m.IsFromPersoon(p1)).Count()),
-                new GraphData(p2.Naam, messages.Where(m => m.IsFromPersoon(p2)).Count()),
-                new GraphData(p3.Naam, messages.Where(m => m.IsFromPersoon(p3)).Count()),
-                new GraphData(p4.Naam, messages.Where(m => m.IsFromPersoon(p4)).Count()),
-                new GraphData(p5.Naam, messages.Where(m => m.IsFromPersoon(p5)).Count())
-            };
+            List<GraphData> graphsList = new List<GraphData>();
 
-            return data;
+            List<GraphData> data = new List<GraphData>
+
+            {
+                new GraphData(p1.Naam, GetPersoon(p1.Naam).SubjectMessages.Count()),
+                new GraphData(p2.Naam, GetPersoon(p2.Naam).SubjectMessages.Count()),
+                new GraphData(p3.Naam, GetPersoon(p3.Naam).SubjectMessages.Count()),
+                new GraphData(p4.Naam, GetPersoon(p4.Naam).SubjectMessages.Count()),
+                new GraphData(p5.Naam, GetPersoon(p5.Naam).SubjectMessages.Count())
+            };
+            dashMgr = new DashManager(uowManager);
+            foreach (GraphData graph in data)
+            {
+                dashMgr.AddGraph(graph);
+                graphsList.Add(graph);
+            }
+            uowManager.Save();
+            return graphsList;
         }
 
         public List<GraphData> GetTopStoryCount()

@@ -153,6 +153,10 @@
             {
                 <script type="text/javascript">custRank(@dashItemId, @i, "@titel");</script>
             }
+            else if (t.DashItem.Type.Contains("Verg"))
+            {
+                <script type="text/javascript">custVergelijking(@dashItemId, @elementId, "@titel");</script>
+            }
             else
             {
                 <script type="text/javascript">custCijfer(@dashItemId, @i, "@titel");</script>
