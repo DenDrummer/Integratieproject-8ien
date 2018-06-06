@@ -1,27 +1,27 @@
 {
   "records": [
     {
-      "AlertContent": "Dit is een 'Alert' message!",
+      "AlertContent": "Bart De Wever is nu populairder dan Kris Peeters",
       "AlertInstellingId": "1"
     },
     {
-      "AlertContent": "Dit is een 'Alert' message!",
+      "AlertContent": "Theo Francken is nu positief!",
       "AlertInstellingId": "2"
     },
     {
-      "AlertContent": "Dit is een 'Alert' message!",
+      "AlertContent": "Maggie De Block is nu populairder dan Charles Michel",
       "AlertInstellingId": "3"
     },
     {
-      "AlertContent": "Dit is een 'Alert' message!",
+      "AlertContent": "Guy Verhofstadt is onder de ingestelde waarde gedaald!",
       "AlertInstellingId": "2"
     },
     {
-      "AlertContent": "Dit is een 'Alert' message!",
+      "AlertContent": "Hilde Crevits is nu negatief!",
       "AlertInstellingId": "3"
     },
     {
-      "AlertContent": "Dit is een 'Alert' message!",
+      "AlertContent": "Alexander de Croo is positief!",
       "AlertInstellingId": "4"
     }
   ]

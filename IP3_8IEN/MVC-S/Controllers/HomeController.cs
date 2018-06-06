@@ -642,7 +642,14 @@ namespace MVC_S.Controllers
 
         public ActionResult Notification()
         {
-            List<Alert> alerts = gMgr.GetAlerts().ToList().OrderByDescending(a => a.CreatedOn).Take(5).ToList();
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            List<Alert> alerts = new List<Alert>();
+            if (currUser != null) {
+                string userName = currUser.UserName;
+                Gebruiker user = gMgr.FindUser(userName);
+            alerts = gMgr.GetAlertsByUser(user).ToList().OrderByDescending(a => a.CreatedOn).Take(5).ToList();
+            return PartialView(alerts);
+            }
             return PartialView(alerts);
         }
 
@@ -720,5 +727,16 @@ namespace MVC_S.Controllers
             return PartialView("~/Views/Home/_partialOne.cshtml", one);
             //return PartialView();
         }
+
+        [HttpPost]
+        public ActionResult Alerts(bool checkEmailA, bool checkNotificatieA, bool checkAndroidA, string search1, string search2)
+        {
+            HogerLager hl = new HogerLager();
+            hl.Email = checkEmailA;
+            hl.NotificationWeb = checkNotificatieA;
+            hl.MobileNotification = checkNotificatieA;
+            return View("~/Views/Home/Index.cshtml");
+        }
+
     }
 }

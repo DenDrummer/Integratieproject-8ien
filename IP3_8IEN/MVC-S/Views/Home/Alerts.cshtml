@@ -38,31 +38,33 @@
             </div>
             <div class="col-lg-4 col-md-4">
                 <h2>Nieuwe Alert Maken!</h2>
-                <table>
-                    <tr>
-                        <td><b>Ontvangen op: </b></td>
-                        <td><input type="checkbox" name="checkEmailA" value="Email"> Email</td>
-                    </tr>
-                    <tr>
-                        <td> </td>
-                        <td><input type="checkbox" name="checkNotificatieA" value="Notificatie"> Notifactie</td>
-                    </tr>
-                    <tr>
-                        <td> </td>
-                        <td><input type="checkbox" name="checkAndroidA" value="Android"> Android App</td>
-                    </tr>
-                     <tr>
-                        <td><b>Onderwerp 1: </b></td>
-                        <td><input type="text" name="search1" class="autocomplete-1"></td>
-                    </tr>
-                    <tr>
-                        <td><b>Onderwerp 2: </b></td>
-                        <td><input type="text" name="search2" class="autocomplete-1"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><button type="button">Alert Toevoegen</button></td>
-                    </tr>
-                </table>
+                <form method="post">
+                    <table>
+                        <tr>
+                            <td><b>Ontvangen op: </b></td>
+                            <td><input type="checkbox" name="checkEmailA">Email</td>
+                        </tr>
+                        <tr>
+                            <td> </td>
+                            <td><input type="checkbox" name="checkNotificatieA">Notifactie</td>
+                        </tr>
+                        <tr>
+                            <td> </td>
+                            <td><input type="checkbox" name="checkAndroidA">Android App</td>
+                        </tr>
+                        <tr>
+                            <td><b>Onderwerp 1: </b></td>
+                            <td><input type="text" name="search1" class="autocomplete-1"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Onderwerp 2: </b></td>
+                            <td><input type="text" name="search2" class="autocomplete-1"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><input type="submit" value="Alert Toevoegen" /></td>
+                        </tr>
+                    </table>
+                </form>
             </div>
         </div>
     </div>
