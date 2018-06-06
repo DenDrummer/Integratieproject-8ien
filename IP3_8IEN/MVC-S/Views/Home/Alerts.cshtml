@@ -138,18 +138,3 @@
 </div>
 <br />
 
-<script>
-        $(document).ready(function () {
-            @{List<string> listFromController = (List<string>)ViewData["names"];}
-                var Names = [
-                        @for (int i = 0; i < listFromController.Count; i++)
-                        {
-                            @: '@(listFromController[i])',
-                        }
-                    ]
-            $(".automplete-1").autocomplete({
-                //minLength: 2,
-                source: Names
-            });
-        });
-</script>

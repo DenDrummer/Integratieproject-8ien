@@ -86,6 +86,13 @@ namespace MVC_S.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Contact(string naam, string email, string bericht)
+        {
+            gMgr.SendMail(naam, email, bericht, "Contact formulier");
+            return View();
+        }
+
         public ActionResult Dashboard()
         {
             try
@@ -236,11 +243,13 @@ namespace MVC_S.Controllers
 
         public ActionResult WeeklyReview(int weeklyReviewId = 0)
         {
-            WeeklyReview wr = new WeeklyReview()
-            {
-                WeeklyReviewId = weeklyReviewId
-            };
-            return View(wr);
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string username = currUser.UserName;
+            Gebruiker user = gMgr.FindUser(username);
+
+            return View("~/Views/Home/WeeklyReview.cshtml" /* view name*/,
+            null /* master name */,
+            gMgr.WeeklyReview(user) /* model */);
         }
 
         public ActionResult UserDashBoard()
@@ -597,6 +606,11 @@ namespace MVC_S.Controllers
         {
             List<Alert> alerts = gMgr.GetAlerts().ToList().OrderByDescending(a => a.CreatedOn).Take(5).ToList();
             return PartialView(alerts);
+        }
+
+        public ActionResult Privacy()
+        {
+            return View();
         }
     }
 }
