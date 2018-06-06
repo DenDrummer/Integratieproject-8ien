@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dashboard\DataChart.cs" />
+    <Compile Include="Dashboard\DataChart2.cs" />
     <Compile Include="Dashboard\GraphData2.cs" />
     <Compile Include="Data\TwitAuthenticateResponse.cs" />
     <Compile Include="Gebruikers\ApplicationUser.cs" />

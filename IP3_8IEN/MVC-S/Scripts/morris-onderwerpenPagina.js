@@ -116,13 +116,14 @@ function makeChart2() {
         },
         type: 'GET',
         success: function (result) {
+            var omgekeerd = result.reverse();
             //do the necessary updations
             morris2 = Morris.Bar({
                 // ID of the element in which to draw the chart.
                 element: "persoon-chart2",
                 // Chart data records -- each entry in this array corresponds to a point on
                 // the chart.
-                data: result,
+                data: omgekeerd,
                 // The name of the data record attribute that contains x-values.
                 xkey: 'label',
                 ykeys: ['value'],

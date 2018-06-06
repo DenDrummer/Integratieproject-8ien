@@ -70,11 +70,14 @@ namespace IP3_8IEN.BL.Domain.Data
         {
             foreach (SubjectMessage s in SubjectMessages)
             {
-                foreach (Tewerkstelling t in s.Persoon.Tewerkstellingen)
+                if (s.Persoon != null)
                 {
-                    if (t.Organisatie == organisatie)
+                    foreach (Tewerkstelling t in s.Persoon.Tewerkstellingen)
                     {
-                        return true;
+                        if (t.Organisatie == organisatie)
+                        {
+                            return true;
+                        }
                     }
                 }
             }

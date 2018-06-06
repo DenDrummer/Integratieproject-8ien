@@ -11,6 +11,7 @@ using MVC_S.Models;
 using System.IO;
 using System.Web;
 using System.Collections.ObjectModel;
+using IP_8IEN.BL.Domain.Dashboard;
 
 namespace MVC_S.Controllers
 {
@@ -273,11 +274,60 @@ namespace MVC_S.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateRankingInput()
+        public ActionResult CreateDonutInput()
         {
             return View();
         }
 
+        [HttpPost]
+        public ActionResult CreateDonutInput(string naam, int aantal, int interval)
+        {
+            RankViewModel rankModel = new RankViewModel()
+            {
+                Naam = naam,
+                Aantal = aantal,
+                interval = interval
+            };
+
+            TempData["rankModel"] = rankModel;
+
+            return RedirectToAction("CreateDonut");
+        }
+
+        [HttpGet]
+        public ActionResult CreateDonut()
+        {
+            //Deze wordt ook voor Donut gebruikt
+            RankViewModel rankModel = TempData["rankModel"] as RankViewModel;
+
+            string naam = rankModel.Naam;
+            int aantal = rankModel.Aantal;
+            int interval = rankModel.interval;
+
+            //Zie dat je bent ingelogd
+            //TODO: redirect naar inlog pagina <--
+            ApplicationUser currUser = _userManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = _gebrManager.FindUser(userName);
+
+            // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+            List<GraphData> graphDataList = _dataManager.GetRanking(aantal, interval, false);
+            DashItem newDashItem = _dashManager.CreateDashitem(true, "Donut", naam);
+            List<int> arrayPersoonId = _dataManager.ExtractListPersoonId(graphDataList);
+            List<Follow> follows = _dashManager.CreateFollow(newDashItem.DashItemId, arrayPersoonId);
+            DashItem dashItem = _dashManager.SetupDashItem(user, follows);
+            _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+            // ================================================================================ //
+            _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
+
+            Dashbord dash = _dashManager.GetDashboardWithFollows(user);
+            return View();
+        }
+        [HttpGet]
+        public ActionResult CreateRankingInput()
+        {
+            return View();
+        }
         [HttpPost]
         public ActionResult CreateRankingInput(string naam, int aantal, int interval)
         {
@@ -310,8 +360,8 @@ namespace MVC_S.Controllers
             Gebruiker user = _gebrManager.FindUser(userName);
 
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
-            List<GraphData> graphDataList = _dataManager.GetRanking(aantal,interval,true);
-            DashItem newDashItem = _dashManager.CreateDashitem(true, "Donut", naam);
+            List<GraphData> graphDataList = _dataManager.GetRanking(aantal,interval,false);
+            DashItem newDashItem = _dashManager.CreateDashitem(true, "Rank", naam);
             List<int> arrayPersoonId = _dataManager.ExtractListPersoonId(graphDataList);
             List<Follow> follows = _dashManager.CreateFollow(newDashItem.DashItemId, arrayPersoonId);
             DashItem dashItem = _dashManager.SetupDashItem(user, follows);
@@ -493,11 +543,138 @@ namespace MVC_S.Controllers
         {
             //Aantal bijgekomen user afgelopen 10 dagen (Line)
             IEnumerable<GraphData> userstats = _gebrManager.GetUserstatsList().ToList();
+            ViewBag.userstats = userstats;
             //Meeste follows laatste dagen (Donut)
             IEnumerable<GraphData> mostFollows = _dashManager.GetMostFollowsList().ToList();
+            ViewBag.mostFollows = mostFollows;
             //Aantal gebruikers (Cijfer)
             IEnumerable<GraphData> aantalUsers = _gebrManager.GetTotalUsersList().ToList();
+            ViewBag.aantalUsers = aantalUsers;
 
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Getuserstats()
+        {
+            IEnumerable<GraphData> userstats = _gebrManager.GetUserstatsList().ToList();
+            List<DataChart> datachart = new List<DataChart>();
+            foreach (var u in userstats)
+            {
+                datachart.Add(new DataChart(u.Label, u.Value));
+            }
+            return Json(datachart, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult GetMostFollows()
+        {
+            IEnumerable<GraphData> mostFollows = _dashManager.GetMostFollowsList().ToList();
+            List<DataChart> datachart = new List<DataChart>();
+            foreach (var u in mostFollows)
+            {
+                datachart.Add(new DataChart(u.Label, u.Value));
+            }
+            return Json(datachart, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult GetAantalUsers()
+        {
+            IEnumerable<GraphData> aantalUsers = _gebrManager.GetTotalUsersList().ToList();
+            List<DataChart> datachart = new List<DataChart>();
+            foreach (var u in aantalUsers)
+            {
+                datachart.Add(new DataChart(u.Label, u.Value));
+            }
+            return Json(datachart, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult CreateComparisonPerson()
+        {
+            IEnumerable<Persoon> ObjList = _dataManager.GetPersonen().ToList();
+            IEnumerable<Organisatie> ObjList2 = _dataManager.GetOrganisaties().ToList();
+            IEnumerable<Thema> ObjList3 = _dataManager.GetThemas().ToList();
+            List<string> names = ObjList.Select(p => p.Naam).ToList();
+            
+            foreach (Organisatie org in ObjList2)
+            {
+                names.Add(org.Naam);
+            }
+            foreach (Thema theme in ObjList3)
+            {
+                names.Add(theme.Naam);
+            }
+            ViewData["names"] = names;
+            
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CreateComparisonPerson(string pers1,string pers2, string pers3, string pers4, string pers5)
+        {
+            ApplicationUser currUser = _userManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = _gebrManager.FindUser(userName);
+            Persoon p1 = _dataManager.GetPersoon(pers1);
+            Persoon p2 = _dataManager.GetPersoon(pers2);
+            Persoon p3 = _dataManager.GetPersoon(pers3);
+            Persoon p4 = _dataManager.GetPersoon(pers4);
+            Persoon p5 = _dataManager.GetPersoon(pers5);
+            // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+            List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetComparisonPersonNumberOfTweets(p1,p2,p3,p4,p5);
+                IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Bar", "Vergelijk 5 onderwerpen");
+                IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p1.OnderwerpId);
+                IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+                _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+                // ================================================================================ //
+                _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
+            return RedirectToAction("CreateComparisonPersonFinished");
+        }
+        public ActionResult CreateComparisonPersonFinished()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult CreateComparisonPersonLine()
+        {
+            IEnumerable<Persoon> ObjList = _dataManager.GetPersonen().ToList();
+            IEnumerable<Organisatie> ObjList2 = _dataManager.GetOrganisaties().ToList();
+            IEnumerable<Thema> ObjList3 = _dataManager.GetThemas().ToList();
+            List<string> names = ObjList.Select(p => p.Naam).ToList();
+
+            foreach (Organisatie org in ObjList2)
+            {
+                names.Add(org.Naam);
+            }
+            foreach (Thema theme in ObjList3)
+            {
+                names.Add(theme.Naam);
+            }
+            ViewData["names"] = names;
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CreateComparisonPersonLine(string pers1, string pers2, string pers3, string pers4, string pers5)
+        {
+            ApplicationUser currUser = _userManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = _gebrManager.FindUser(userName);
+            Persoon p1 = _dataManager.GetPersoon(pers1);
+            Persoon p2 = _dataManager.GetPersoon(pers2);
+            Persoon p3 = _dataManager.GetPersoon(pers3);
+            Persoon p4 = _dataManager.GetPersoon(pers4);
+            Persoon p5 = _dataManager.GetPersoon(pers5);
+            // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+            List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDagComparisonOverTime(p1, p2, p3, p4, p5);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Verg", "Vergelijk 5 onderwerpen", "Vlaanderen",pers1,pers2,pers3,pers4,pers5 );
+            IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p1.OnderwerpId);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
+            _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+            // ================================================================================ //
+            _dashManager.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
+            return RedirectToAction("CreateComparisonPersonLineFinished");
+        }
+        public ActionResult CreateComparisonPersonLineFinished()
+        {
             return View();
         }
     }
