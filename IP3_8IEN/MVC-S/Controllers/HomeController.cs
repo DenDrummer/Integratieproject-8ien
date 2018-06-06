@@ -36,6 +36,7 @@ namespace MVC_S.Controllers
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
+            
 
             ////Probably not best practice to periodically execute methods but it works
             //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
@@ -98,6 +99,13 @@ namespace MVC_S.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Contact(string naam, string email, string bericht)
+        {
+            gMgr.SendMail(naam, email, bericht, "Contact formulier");
+            return View();
+        }
+
         public ActionResult Dashboard()
         {
             //try
@@ -126,6 +134,14 @@ namespace MVC_S.Controllers
             ViewBag.naam1 = persoon.Naam;
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
             int[] init = { 0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
+            //ViewData["init"] = init;
+            List<double> spark = dMgr.GetTotalMessagesSparkline();
+            spark.Reverse();
+            ViewBag.msgsSpark = spark;
+            ViewBag.percent = dMgr.GetstijgingTweets();
+
+            //List<GraphData> data = dMgr.GetTweetsPerDagList(persoon, 20);
+            //ViewBag.DATA = data;
 
 
             ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
@@ -142,7 +158,7 @@ namespace MVC_S.Controllers
             {
                 //not jet ready
                 //have to add defaultdash
-               string userName = "default@gmail.be";
+                string userName = "default@gmail.be";
                 Gebruiker user = gMgr.FindUser(userName);
                 dash = dashMgr.GetDashboardWithFollows(user);
             }
@@ -177,6 +193,10 @@ namespace MVC_S.Controllers
 
             ViewBag.TWITIMAGE = dMgr.GetImageString(persoon.Twitter);
             ViewBag.TWITBANNER = dMgr.GetBannerString(persoon.Twitter);
+            ViewBag.Vermeldingen = dMgr.GetMentionCountByName(persoon.Twitter);
+            ViewBag.VaakVoorkomendeWoorden = dMgr.TopWordsCountByPerson(persoon);
+            ViewBag.VaakVoorkomendeVerhalen = dMgr.TopStoryCountByPerson(persoon);
+            ViewBag.VaakVoorkomendeTermen = dMgr.TopHashtagCountByPerson(persoon);
 
             return View(persoon);
         }
@@ -214,6 +234,13 @@ namespace MVC_S.Controllers
             System.Diagnostics.Debug.WriteLine("Screenname: " + screenname);
             ViewBag.TWITIMAGE = dMgr.GetImageString(screenname);
             ViewBag.TWITBANNER = dMgr.GetBannerString(screenname);
+
+            ViewBag.Vermeldingen = dMgr.GetMentionCountByName(screenname);
+            ViewBag.VaakVoorkomendeWoorden = dMgr.TopWordsCountByOrganisatie(dMgr.GetOrganisatie(onderwerpId));
+            ViewBag.VaakVoorkomendeVerhalen = dMgr.TopStoryCountByOrganisatie(dMgr.GetOrganisatie(onderwerpId));
+            ViewBag.VaakVoorkomendeTermen = dMgr.TopHashtagCountByOrganisation(dMgr.GetOrganisatie(onderwerpId));
+
+
             return View(dMgr.GetOrganisatie(onderwerpId));
         }
 
@@ -232,11 +259,13 @@ namespace MVC_S.Controllers
 
         public ActionResult WeeklyReview(int weeklyReviewId = 0)
         {
-            WeeklyReview wr = new WeeklyReview()
-            {
-                WeeklyReviewId = weeklyReviewId
-            };
-            return View(wr);
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string username = currUser.UserName;
+            Gebruiker user = gMgr.FindUser(username);
+
+            return View("~/Views/Home/WeeklyReview.cshtml" /* view name*/,
+            null /* master name */,
+            gMgr.WeeklyReview(user) /* model */);
         }
 
         public ActionResult UserDashBoard()
@@ -477,6 +506,13 @@ namespace MVC_S.Controllers
             var json = Json(list, JsonRequestBehavior.AllowGet);
             return json;
         }
+        public ActionResult GetJsonFromGraphData2(int id)
+        {
+            //IEnumerable<GraphData> list2 = dashMgr.GetDashItemWithGraph(id).Graphdata;
+            List<DataChart2> list = dashMgr.ExtractGraphList2(id);
+            var json = Json(list, JsonRequestBehavior.AllowGet);
+            return json;
+        }
 
         public ActionResult GetTweets(int persoonId, int aantaldagen)
         {
@@ -584,6 +620,21 @@ namespace MVC_S.Controllers
         //    Persoon persoon = dMgr.GetPersoon(id);
         //    return Json(persoon, JsonRequestBehavior.AllowGet);
         //}
+        public ActionResult GetAlertsDropDown()
+        {
+            return Content("Some data"); // Of whatever you need to return.
+        }
+
+        public ActionResult Notification()
+        {
+            List<Alert> alerts = gMgr.GetAlerts().ToList().OrderByDescending(a => a.CreatedOn).Take(5).ToList();
+            return PartialView(alerts);
+        }
+
+        public ActionResult Privacy()
+        {
+            return View();
+        }
 
 
         public PartialViewResult _partialOne(ViewDataModel one)

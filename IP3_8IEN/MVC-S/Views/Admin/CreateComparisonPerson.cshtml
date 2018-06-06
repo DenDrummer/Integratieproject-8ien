@@ -1,0 +1,54 @@
+﻿<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+@{
+    ViewBag.Title = "CreateComparisonPerson";
+}
+
+<h2>CreateComparisonPerson bar chart</h2>
+
+<script>
+        $(document).ready(function () {
+            @{List<string> listFromController = (List<string>)ViewData["names"];}
+                var Names = [
+                        @for (int i = 0; i < listFromController.Count; i++)
+                        {
+                            @: '@(listFromController[i])',
+                        }
+                    ]
+            $("input").autocomplete({
+                minLength: 2,
+                source: Names
+            });
+        });
+</script>
+<input type="text" class="form-control input-lg" id="automplete-1" name="automplete" style="border: solid; box-shadow: none;" />
+<input type="text" class="form-control input-lg" id="automplete-2" name="automplete" style="border: solid; box-shadow: none;" />
+<input type="text" class="form-control input-lg" id="automplete-3" name="automplete" style="border: solid; box-shadow: none;" />
+<input type="text" class="form-control input-lg" id="automplete-4" name="automplete" style="border: solid; box-shadow: none;" />
+<input type="text" class="form-control input-lg" id="automplete-5" name="automplete" style="border: solid; box-shadow: none;" />
+<button class="btn btn-info btn-lg btn-default" type="submit" id="opslaan">Sla op</button>
+<script type="text/javascript">
+    $(function () {
+    addEventListener("load", init);
+        function init(event) {
+            $("#opslaan").click(stuurdoor)
+    }
+    });
+    function stuurdoor() {
+        var pers1 = $("#automplete-1").val();
+        var pers2 = $("#automplete-2").val();
+        var pers3 = $("#automplete-3").val();
+        var pers4 = $("#automplete-4").val();
+        var pers5 = $("#automplete-5").val();
+        $.ajax({
+            url: "/Admin/CreateComparisonPerson",
+            data: { 'pers1': pers1, 'pers2': pers2, 'pers3': pers3 ,'pers4':pers4,'pers5':pers5},
+            type: "POST",
+            error: function () {
+                
+            }
+        });
+    }
+</script>

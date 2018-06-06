@@ -60,42 +60,11 @@
                         <i class="fa fa-bell fa-fw" style="color:#00295C;"></i> <i class="fa fa-caret-down" style="color:#00295C;"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
-                        <li>
-                            <a href="">
-                                <div>
-
-                                    <p>
-                                        <strong>Task 2</strong>
-                                        <span class="pull-right text-muted">20% Complete</span>
-                                    </p>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="">
-                                <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small">12 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-
+                        @Html.Action("Notification", "Home", new List<IP3_8IEN.BL.Domain.Gebruikers.Alert>())
                         <li class="divider"></li>
                         <li>
                             <a class="text-center" href="" style="margin-left: auto; margin-right: auto;">
-                                <strong>@Html.ActionLink("Bekijk alle alerts", "Alerts", "Home")</strong>
+                                <strong>@Html.ActionLink("Bekijk alle alerts", "Alerts","Home")</strong>
                             </a>
                         </li>
                     </ul>
@@ -352,7 +321,7 @@
             <hr />
             <footer>
                 <p style="color:#00295C">&copy; @DateTime.Now.Year - 8IEN. Politieke Barometer</p>
-                <p><a href="@Url.Action("Faq", "Home")">Veel gestelde vragen</a> - <a href="@Url.Action("Contact", "Home")"> Contacteer ons</a> - <a href="@Url.Action("Privacy", "Home")"> Privacy</a></p>
+                <p><a href="@Url.Action("Contact", "Home")"> Contacteer ons</a> - <a href="@Url.Action("Privacy", "Home")"> Privacy</a></p>
             </footer>
             <a href=""></a>
         </div>

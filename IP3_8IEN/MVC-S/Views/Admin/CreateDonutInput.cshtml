@@ -1,62 +1,31 @@
-﻿
+﻿@model MVC_S.Models.RankViewModel
 @{
     ViewBag.Title = "CreateDonutInput";
 }
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>jQuery UI Autocomplete functionality</title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<div style="padding-top:10px; padding-bottom:10px">
+    <i class="fas fa-user-circle" style="font-size: 28px; color:#00295C; display:inline"></i><h2 style="color:#00295C; display: inline;">@Html.ActionLink("  Admin Omgeving", "Index")</h2> <h3 style="color:#00295C; display: inline;"> > Nieuwe Ranking</h3>
+    <hr />
+</div>
 
-    <!-- Javascript -->
-    <script>
-        $(document).ready(function () {
-            @{List<string> listFromController = (List<string>)ViewData["names"];}
-                var Names = [
-                        @for (int i = 0; i < listFromController.Count; i++)
-                        {
-                            @: '@(listFromController[i])',
-                        }
-                    ]
-            $("#automplete-1").autocomplete({
-                minLength: 2,
-                source: Names
-            });
-        });
-    </script>
-</head>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-
-<body>
-    <!-- HTML -->
-    <div style="padding-top:10px; padding-bottom:10px">
-        <i class="fas fa-user-circle" style="font-size: 28px; color:#00295C; display:inline"></i><h2 style="color:#00295C; display: inline;">@Html.ActionLink("  Admin Omgeving", "Index")</h2> <h3 style="color:#00295C; display: inline;"> > Nieuwe Donut Grafiek</h3>
-        <hr />
+    <div class="span3">
+        <form>
+            <label>Naam grafiek</label>
+            <input type="text" name="naam" class="span3">
+            <label>Aantal</label>
+            <input type="number" name="aantal" class="span3">
+            <label>Interval</label>
+            <input type="number" name="interval" class="span3"><br /><br />
+            <input type="submit" value="Create Ranking" class="btn btn-default" style="width:180px;">
+            <div class="clearfix"></div>
+        </form>
     </div>
+}
 
-    @using (Html.BeginForm("CreateGrafiekDonut", "Admin"))
-    {
-        <div class="container">
-            <div class="row" style="padding-top:20px;">
-                <div class="col-lg-12 col-md-12">
-                    <div id="custom-search-input" style="padding: 3px; border: solid 1px #E4E4E4; border-radius: 6px; width:107%; margin-left:-38px; background-color: #fff;">
-                        <div class="input-group col-lg-12 col-md-12">
-                            <input type="text" class="form-control input-lg" id="automplete-1" name="automplete" style="border: 0; box-shadow: none;" />
-                            <span class="input-group-btn">
-                                <button class="btn btn-info btn-lg btn-default" type="submit" style="margin: 2px 0 0 0; background: none; box-shadow: none; border: 0; color: #666666; padding: 0 8px 0 10px; border-left: solid 1px #ccc;">
-                                    <i class="glyphicon glyphicon-search" style="font-size: 23px;"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-
-</body>
-</html>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

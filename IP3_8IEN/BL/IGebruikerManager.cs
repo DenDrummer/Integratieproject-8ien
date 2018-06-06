@@ -44,5 +44,8 @@ namespace IP3_8IEN.BL
 
         IEnumerable<GraphData> GetUserstatsList();
         IEnumerable<GraphData> GetTotalUsersList();
+
+        void SendMail(string naam, string email, string tekst, string onderwerp);
+        string WeeklyReview(Gebruiker g);
     }
 }

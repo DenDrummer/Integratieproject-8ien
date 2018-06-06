@@ -9,21 +9,12 @@
     <div class="col-lg-12 col-md-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                @for (int i = 0; i < 4; i++)
+                <ul>
+                    @foreach (IP3_8IEN.BL.Domain.Gebruikers.Alert a in Model)
                 {
-                    var notificatie = Model.ElementAt(i);
-                    <ul>
-                        <li>
-                            <a href="">
-                                <div>
-                                    <i class="fas fa-bell fa-fw"></i> notificatie.AlertContent
-                                    <span class="pull-right text-muted small">notificatie.CreatedOn</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider">
-                    </ul>
+                    <li>@a.AlertContent</li>
                 }
+                </ul>
             </div>
         </div>
     </div>
@@ -147,18 +138,3 @@
 </div>
 <br />
 
-<script>
-        $(document).ready(function () {
-            @{List<string> listFromController = (List<string>)ViewData["names"];}
-                var Names = [
-                        @for (int i = 0; i < listFromController.Count; i++)
-                        {
-                            @: '@(listFromController[i])',
-                        }
-                    ]
-            $(".automplete-1").autocomplete({
-                //minLength: 2,
-                source: Names
-            });
-        });
-</script>

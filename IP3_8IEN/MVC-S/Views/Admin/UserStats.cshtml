@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "UserStats";
+}
+@Scripts.Render("~/bundles/kendo")
+@Scripts.Render("~/scripts/charts")
+
+<h2>UserStats</h2>
+
+<div id="userstats"></div>
+<div id="mostFollows"></div>
+<div id="aantalUsers"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(window).resize(function () {
+            for (var i = 0; i < morris.length; i++) {
+                morris[i].redraw();
+            }
+        });
+    });
+
+        var morris = [];
+        var aantal = 0;
+
+        $.ajax({
+            url: "/Admin/Getuserstats",
+            type: 'GET',
+            success: function (result) {
+                morris[aantal++] = Morris.Line({
+                    element: 'userstats',
+                    data: result,
+                    xkey: 'label',
+                    ykeys: ['value'],
+                    labels: ["aantal gebruikers: "],
+                    pointSize: 2,
+                    hideHover: 'auto',
+                    resize: true,
+                    redraw: true
+                });
+            }
+        });
+        $.ajax({
+            url: "/Admin/GetMostFollows",
+            type: 'GET',
+            success: function (result) {
+                morris[aantal++] = Morris.Donut({
+                    element: 'mostFollows',
+                    data: result,
+                    hideHover: 'auto',
+                    resize: true,
+                    redraw: true
+                });
+            },
+            error: function (result) {
+            }
+        });
+        $.ajax({
+            url: "/Admin/GetAantalUsers",
+            type: 'GET',
+            success: function (result) {
+                result.forEach(function (data) {
+                    $(`#aantalUsers`).html(`<h6 style="font-size: 25px"> ${data.label} is <span style="font-size: 50px; color: #00295C;">${data.value}</span></h6>`);
+                });
+            },
+            error: function (result) {
+            }
+        });
+   
+</script>
+
