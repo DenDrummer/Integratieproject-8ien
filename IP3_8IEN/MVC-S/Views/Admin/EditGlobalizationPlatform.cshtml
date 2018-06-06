@@ -1,0 +1,125 @@
+﻿@using IP3_8IEN.BL.Domain.Globalization
+@model GlobalizationPlatform
+
+@{
+    ViewBag.Title = "EditGlobalizationPlatform";
+}
+
+<h2>EditGlobalizationPlatform</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>GlobalizationPlatform</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.PlatformId)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Platform, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Platform, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Language, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Language, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Language, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <h3>Items</h3>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().Key)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().Value)
+            </th>
+            <th>
+                <!--edit, details and delete links-->
+            </th>
+
+        </tr>
+        @if (Model.Items != null && Model.Items.Count > 0)
+        {
+            foreach (GlobalizationObject item in Model.Items.OrderBy(i => i.Key))
+            {
+                <tr>
+                    <td>
+                        @Html.Display(item.Key);
+                    </td>
+                    @if (item.GetType().Equals(typeof(GlobalizationString)))
+                    {
+                        GlobalizationString stringItem = (GlobalizationString)item;
+                        <td>
+                            @Html.Display(stringItem.Value);
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            value cannot be shown
+                        </td>
+                    }
+                    <td>
+                        @Html.ActionLink("Edit", "EditGlobalizationString", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "DetailsGlobalizationString", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "DeleteGlobalizationString", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <h3>Fallback-platformen</h3>
+    <table class="table">
+        <tr>
+            <th>
+                Volgorde
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FallBackPlatformen.First().Value.Platform)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FallBackPlatformen.First().Value.Language)
+            </th>
+        </tr>
+        @if (Model.FallBackPlatformen != null && Model.FallBackPlatformen.Count > 0)
+        {
+            foreach (KeyValuePair<int, GlobalizationPlatform> fbp in Model.FallBackPlatformen.OrderBy(kvp => kvp.Key))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => fbp.Key)
+                    </td>
+                    <td>
+                        @Html.ActionLink(fbp.Value.Platform, "DetailsGlobalizationPlatform", new { platformId = fbp.Value.PlatformId })
+                    </td>
+                    <td>
+                        @Html.Display(fbp.Value.Language);
+                    </td>
+                </tr>
+            }
+        }
+        <tr>
+            <td colspan="2">
+                <!--button to add existing GlobalizationPlatform as fallback-->
+            </td>
+        </tr>
+    </table>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

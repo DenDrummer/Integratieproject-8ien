@@ -31,7 +31,9 @@ namespace IP3_8IEN.BL
             GlobalizationPlatform platform = new GlobalizationPlatform()
             {
                 Platform = naam,
-                Language = taal
+                Language = taal,
+                Items = new List<GlobalizationObject>(),
+                FallBackPlatformen = new List<KeyValuePair<int, GlobalizationPlatform>>()
             };
             repo.AddPlatform(platform);
 
@@ -117,6 +119,20 @@ namespace IP3_8IEN.BL
             InitNonExistingRepo();
             GlobalizationPlatform platform = GetPlatform(platformId);
             GlobalizationObject item = repo.ReadItemFromPlatform(platform, key);
+            if (item == null && platform.FallBackPlatformen != null)
+            {
+                for (int i = 0; i < platform.FallBackPlatformen.Count; i++)
+                {
+                }
+                foreach (KeyValuePair<int, GlobalizationPlatform> kvp in platform.FallBackPlatformen)
+                {
+                    item = repo.ReadItemFromPlatform(kvp.Value, key);
+                    if (item != null)
+                    {
+                        return item;
+                    }
+                }
+            }
             return item;
         }
 

@@ -1,0 +1,99 @@
+﻿@using IP3_8IEN.BL.Domain.Globalization
+@model GlobalizationPlatform
+@{
+    ViewBag.Title = "Details Globalization-Platform";
+}
+
+<h2>Details Globalization-Platform</h2>
+
+<div>
+    <h4>GlobalizationPlatform</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Platform)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Platform)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Language)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Language)
+        </dd>
+    </dl>
+    <h3>Items</h3>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().Key)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().Value)
+            </th>
+        </tr>
+        @if (Model.Items != null && Model.Items.Count > 0)
+        {
+            foreach (GlobalizationObject item in Model.Items.OrderBy(i => i.Key))
+            {
+                <tr>
+                    <td>
+                        @Html.Display(item.Key);
+                    </td>
+                    @if (item.GetType().Equals(typeof(GlobalizationString)))
+                    {
+                        GlobalizationString stringItem = (GlobalizationString)item;
+                        <td>
+                            @Html.Display(stringItem.Value);
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            value cannot be shown
+                        </td>
+                    }
+                </tr>
+            }
+        }
+    </table>
+    <h3>Fallback-platformen</h3>
+    <table class="table">
+        <tr>
+            <th>
+                Volgorde
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FallBackPlatformen.First().Value.Platform)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FallBackPlatformen.First().Value.Language)
+            </th>
+        </tr>
+        @if (Model.FallBackPlatformen != null && Model.FallBackPlatformen.Count > 0)
+        {
+            foreach (KeyValuePair<int, GlobalizationPlatform> fbp in Model.FallBackPlatformen.OrderBy(kvp => kvp.Key))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => fbp.Key)
+                    </td>
+                    <td>
+                        @Html.ActionLink(fbp.Value.Platform, "DetailsGlobalizationPlatform", new { platformId = fbp.Value.PlatformId })
+                    </td>
+                    <td>
+                        @Html.Display(fbp.Value.Language);
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Edit", "EditGlobalizationPlatform", new { platformId = Model.PlatformId }) |
+    @Html.ActionLink("Back to List", "GlobalizationPlatformen")
+</p>

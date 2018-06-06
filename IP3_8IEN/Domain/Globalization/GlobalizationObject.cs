@@ -10,8 +10,8 @@ namespace IP3_8IEN.BL.Domain.Globalization
     public class GlobalizationObject
     {
         [Key]
+        public int Id;
         public GlobalizationPlatform Platform { get; set; }
-        [Key]
         public string Key { get; set; }
         public object Value { get; set; }
     }

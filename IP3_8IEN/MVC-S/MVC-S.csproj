@@ -594,6 +594,9 @@
     <Content Include="Views\Admin\CreateCijfer.cshtml" />
     <Content Include="Views\Admin\GlobalizationPlatformen.cshtml" />
     <Content Include="Views\Admin\CreateGlobalizationPlatform.cshtml" />
+    <Content Include="Views\Admin\DetailsGlobalizationPlatform.cshtml" />
+    <Content Include="Views\Admin\CreateGlobalizationString.cshtml" />
+    <Content Include="Views\Admin\EditGlobalizationPlatform.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

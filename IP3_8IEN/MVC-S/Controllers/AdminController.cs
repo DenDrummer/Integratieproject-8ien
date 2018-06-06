@@ -508,16 +508,34 @@ namespace MVC_S.Controllers
 
         #region Globalization
         #region Platformen
-        [HttpGet]
         public ActionResult GlobalizationPlatformen()
         {
             List<GlobalizationPlatform> platformen = _glblManager.GetPlatformen().ToList();
             return View(platformen);
         }
-
-        [HttpGet]
+        
         public ActionResult CreateGlobalizationPlatform()
         {
+            return View();
+        }
+
+        public ActionResult DetailsGlobalizationPlatform(int platformId)
+        {
+            GlobalizationPlatform platform = _glblManager.GetPlatform(platformId);
+            return View(platform);
+        }
+
+        public ActionResult EditGlobalizationPlatform(int platformId)
+        {
+            GlobalizationPlatform platform = _glblManager.GetPlatform(platformId);
+            return View(platform);
+        }
+        #endregion
+
+        #region Items
+        public ActionResult CreateGlobalizationString(int platformId)
+        {
+            ViewBag.Platform = _glblManager.GetPlatform(platformId);
             return View();
         }
         #endregion
