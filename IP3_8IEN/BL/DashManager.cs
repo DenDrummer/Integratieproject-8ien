@@ -53,11 +53,39 @@ namespace IP3_8IEN.BL
             return repo.ReadDashbordWithFollows(user);
         }
 
-        public DashItem CreateDashitem(bool adminGraph, string type, string naam = "usergraph", string town = "Vlaanderen",string pers1 = "", string pers2 = "", string pers3 = "", string pers4 = "", string pers5 = "")
+        public DashItem CreateDashitem(bool adminGraph, string type, int aantalDagenTerug, string naam = "usergraph", string town = "Vlaanderen")
         {
             InitNonExistingRepo();
 
             DashItem dashItem = new DashItem() {
+                LastModified = DateTime.Now,
+                Type = type,
+                AantalDagen = aantalDagenTerug,
+                Naam = naam,
+                Town = town,
+                Active = true
+            };
+
+            if (adminGraph)
+            {
+                dashItem.AdminGraph = true;
+            }
+            else
+            {
+                dashItem.AdminGraph = false;
+            }
+
+            repo.AddDashItem(dashItem);
+
+            return dashItem;
+        }
+
+        public DashItem CreateDashitem(bool adminGraph, string type,string naam = "usergraph",string town= "Vlanderen", string pers1 = "", string pers2 = "", string pers3 = "", string pers4 = "", string pers5 = "")
+        {
+            InitNonExistingRepo();
+
+            DashItem dashItem = new DashItem()
+            {
                 LastModified = DateTime.Now,
                 Type = type,
                 Naam = naam,

@@ -765,9 +765,21 @@ namespace IP3_8IEN.BL
         {
             InitNonExistingRepo();
 
-            List<Alert> alerts = repo.ReadAlertsWithAlertInstellingen().ToList();
+            IEnumerable<AlertInstelling> fluctuations = repo.ReadValueFluctuations();
+            List<AlertInstelling> ais = fluctuations.ToList();
+            ais.AddRange(repo.ReadHogerLagers().ToList());
+            ais.AddRange(repo.ReadPositiefNegatiefs().ToList());
+            List<Alert> alerts = new List<Alert>();
 
-            return alerts.Where(a => a.AlertInstelling.Gebruiker == gebruiker).ToList();
+            foreach (AlertInstelling ai in ais)
+            {
+                if (ai.Gebruiker == gebruiker && ai.Alerts != null)
+                {
+                    alerts.AddRange(ai.Alerts);
+                }
+            }
+
+            return alerts;
         }
 
         bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
@@ -806,6 +818,7 @@ namespace IP3_8IEN.BL
         //SendMail(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
         public void SendMail(string userId, string subject, string body)
         {
+            InitNonExistingRepo();
             try
             {
                 string userEmail = repo.ReadGebruiker(userId).Email;
@@ -829,6 +842,69 @@ namespace IP3_8IEN.BL
             {
                 System.Diagnostics.Debug.WriteLine("Mail did not send" + ex);
             }
+        }
+
+        public void SendMail(string naam, string email, string tekst, string onderwerp)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress(email);
+                mail.To.Add(new MailAddress("integratieproject.8ien@gmail.com"));
+                mail.Subject = onderwerp;
+                mail.Body = tekst + "</br> Deze mail komt van: </br> " + naam + "</br>" + email;
+                mail.IsBodyHtml = true;
+
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("integratieproject.8ien@gmail.com", "integratieproject");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Mail did not send" + ex);
+            }
+        }
+
+        public string WeeklyReview(Gebruiker g)
+        {
+            InitNonExistingRepo();
+            List<Alert> dezeWeek = new List<Alert>();
+            StringBuilder sb = new StringBuilder();
+
+            sb.Clear();
+                sb.Append(@"<img src='https://i.imgur.com/mxv6a2j.png' alt='Smiley face' style='width:620px;display:block;padding: 10px 10px 10px 10px;margin:0 auto;'> <div id=""wrapper"" style=""width:600px;margin:0 auto; border:1px solid black; 
+                            overflow:hidden; padding: 10px 10px 10px 10px;"" ><p><i>");
+                // Voor- en Achternaam kunnen voorlopig leeg zijn
+                //sb.Append(g.Voornaam + " " + g.Naam);
+                sb.Append(g.Username);
+                sb.Append(@", </i></p>
+                            <p>Via de Weekly Review wordt u op de hoogte gehouden van alle trending Onderwerpen die </br>
+                            u volgt. Indien u op de hoogte gehouden wilt worden van nog meer onderwerpen, kan u 
+                            </br> steeds extra alerts toevoegen! </a>. </p>
+                            <h3>Personen</h3> <div style=""margin: 0px;""> <p>Naam : Bart De Wever </p> <ul>");
+                if (g.AlertInstellingen != null)
+                {
+                    foreach (AlertInstelling al in g.AlertInstellingen)
+                    {
+                        if (al.Alerts != null)
+                        {
+                            foreach (Alert a in al.Alerts)
+                            {
+                                if (DatesAreInTheSameWeek(a.CreatedOn, DateTime.Now))
+                                {
+                                    dezeWeek.Add(a);
+                                    sb.Append("<li>" + a.ToString() + "</li>");
+                                }
+                            }
+                        }
+                    }
+                }
+                sb.Append(@"</ul></div></div>");
+                return sb.ToString();
         }
     }
 }

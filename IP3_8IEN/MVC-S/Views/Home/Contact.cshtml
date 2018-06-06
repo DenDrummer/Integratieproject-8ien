@@ -4,37 +4,38 @@
 
 <div class="row" style=" padding-top:100px; position: relative;">
     <div class="row" style="height:100%; width:800px; background-color:#f8f8f8; margin: 0 auto; padding: 10px; position: relative; border-radius:2%; border:1px solid #00295C">
-        <div class="col-lg-8">
+        <div class="col-lg-8 col-md-8">
             <h2>@ViewBag.Title</h2>
             <p>Indien u vragen hebt over het platform zijn wij altijd bereid te helpen.</p>
             <p>Contacteer ons hieronder met je vraag en wij proberen zo snel mogelijk contact met u op te zoeken.</p>
             <br />
             <p>Vindt u dat er iets ontbreekt op ons platform? Aarzel niet en vertel het ons!</p>
-            <div class="row">
-                <div class="col-lg-6">
-                    <p>Naam: </p>
-                    <input type="text" />
-                </div>
-                <div class="col-lg-6">
-                    <p>Email: </p>
-                    <input type="email" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p style="padding-top:10px">Bericht: </p>
-                    <textarea rows="4" cols="25" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; max-width:438px; width:438px;"></textarea>
-                    <div class="row">
-                        <button type="button" style="margin-left:361px; margin-top:10px;" class="btn button">Verzenden</button>
+            <form method="post">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <p>Naam: </p>
+                        <input type="text" name="naam" />
                     </div>
-
+                    <div class="col-lg-6 col-md-6">
+                        <p>Email: </p>
+                        <input type="email" name="email" />
+                    </div>
                 </div>
-            </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <p style="padding-top:10px">Bericht: </p>
+                        <textarea rows="4" cols="25" name="bericht" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; max-width:438px; width:438px;"></textarea>
+                        <div class="row">
+                            <input type="submit" value="Verzenden" style="margin-left:361px; margin-top:10px;" class="btn button">
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="col-lg-4" style="border-left:1px solid #00295C; padding-top:60px;">
+        <div class="col-lg-4 col-md-4" style="border-left:1px solid #00295C; padding-top:60px;">
             <address>
                 <strong>Email:</strong> <br />
-                <a href="mailto:contact@8ien.be">contact@8ien.be</a><br />
+                <a href="mailto:integratieproject.8ien@gmail.com">integratieproject.8ien@gmail.com</a><br />
                 <strong>Address:</strong> <br />
                 Nationalestraat 5<br />
                 2000 Antwerpen<br />

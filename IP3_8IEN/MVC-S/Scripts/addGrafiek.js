@@ -1,101 +1,146 @@
 ﻿addEventListener("load", init, false);
-var chart;
-var dagen;
-var politicus;
 
 function init() {
-    let aanmakenBtn = document.getElementById("aanmakenBtn");
-    aanmakenBtn.addEventListener("click", grafiekForm, false);
+
 //    let type = document.getElementById("type");
 //    type.addEventListener("click", selectDashItem, false);
 
-    let type = document.getElementById("type");
-    type.addEventListener("click", showType, false);
+    //let type = document.getElementById("type");
+    //type.addEventListener("click", showType, false);
 
     let aantal = document.getElementById("aantal");
-    aantal.addEventListener("click", showAantalPersonen, false);
+    aantal.addEventListener("click", showHideAantalPersonen, false);
 
     let grafiekTypeInfo = document.getElementById("grafiekTypeInfo");
     grafiekTypeInfo.addEventListener("click", showGrafiekTypeInfo, false);
 
-    $(".ui-widget").children().hide();
-    $('.save').hide();
-    $(".automplete-1").show();
+    let naamInput = document.getElementsByClassName("automplete-1");
+    for (let i = 0; i < naamInput.length; i++) {
+        naamInput[i].addEventListener("keyup", showError, false);
+    }
 
-
+    var header = document.getElementById("type");
+    var btns = header.getElementsByClassName("typeGrafiek");
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function() {
+            var current = document.getElementsByClassName("active");
+            current[0].className = current[0].className.replace(" active", "");
+            this.className += " active";
+        });
+        btns[i].addEventListener("click", showType, false);
+    }
 }
 
 
 function showType() {
-    $("#type").change(function () {
-        if ($(this).val() === "donut" ||
-            $(this).val() === "bar" ||
-            $(this).val() === "area" ||
-            $(this).val() === "line") {
-            $("#grafiekTypeInfo").show();
-        } else {
+ 
+        if ($(".active").val() === "") { 
             $("#grafiekTypeInfo").hide();
-        }
-    });
+            $(".personenVergelijken").hide();
+            $(".aantalPolitici").hide();;
+            $(".dagenTerug").hide();
+            $(".naamVeld").hide();
+            $(".aantalPolitici").hide();
+            $(".urenTerug").hide();
+            $(".error").hide();
+            $("#grafiekTypeInfo").val("");
+
+        } else {
+            $("#grafiekTypeInfo select").val("");
+            $("#grafiekTypeInfo").show();
+            showGrafiekTypeInfo();
+        }    
+  
 }
 
 function showGrafiekTypeInfo() {
+    //var aantal = $("#aantal").val();
     $(".grafiekTypeInfo").change(function() {
         if ($(this).val() === "GetTweetsPerDag") {
-            $(".personenVergelijken").show();
-            showAantalPersonen();
+            if ($(".active").val() === "Number") {
+                $(".personenVergelijken").hide();
+                showHideAantalPersonen(1);
+            } else {
+                $(".personenVergelijken").show();
+                showHideAantalPersonen(0);
+            }
             $(".dagenTerug").show();
-            $("#aantal").show();
             $(".aantalPolitici").hide();
             $(".urenTerug").hide();
-        } else {
-            $("#aantal").hide();
+        } else if ($(this).val() === "GetRanking") {
             $(".dagenTerug").hide();
             $(".naamVeld").hide();
             $(".personenVergelijken").hide();
             $(".aantalPolitici").show();
             $(".urenTerug").show();
+        } else {
+            $(".dagenTerug").hide();
+            $(".naamVeld").hide();
+            $(".personenVergelijken").hide();
+            $(".urenTerug").hide();
+            $(".dagenTerug").hide();
         }
     });
 }
 
-function showAantalPersonen() {
-     let aantal = parseInt($("#aantal option:selected").val());
+function showHideAantalPersonen(aantal = 1) {
+    if (aantal !== 1) {
+        aantal = parseInt($("#aantal option:selected").val());
+    }
+   
     for (let i = 0; i < 5; i++) {
         if (i < aantal) {
             $(".naamVeld").eq(i).show();
         } else if (i >= aantal) {
             $(".naamVeld").eq(i).hide();
         }
-        
     }
 }
 
-function grafiekForm() {
-    let myModal = $("#myModal");
-    $(".modal-backdrop").remove();
-    myModal.hide();
-    myModal.modal('toggle');
-    createChartAantalTweetsPerDag();
-}
 
+//function grafiekForm() {
+//    let myModal = $("#myModal");
+//    $(".modal-backdrop").remove();
+//    myModal.hide();
+//    myModal.modal('toggle');
+//    if (ingelogged) {
+//        createChartAantalTweetsPerDag();
+//    } else {
+//        showError();
+//    }
+//   
+//}
 
 
 function createChartAantalTweetsPerDag() {
-    var selectedType = $("#type option:selected").val();
-    politicus = $(".automplete-1").val();
-    dagen = parseInt($("#aantalDagenTerug option:selected").val());
-    $.ajax({
-        url: "/Home/CreateChartAantalTweetsPerDag",
-        data: { 'politicus': politicus, 'type': selectedType, 'aantalDagenTerug': dagen },
-        type: "POST",
-        error: function() {
-            inloggenMsg();
-
-        }
-    });
+    var selectedType = $(".active").val();
+    console.log(selectedType);
+    var politicus = $(".automplete-1").eq(1).val();
+    var dagen = parseInt($("#aantalDagenTerug option:selected").val());
+    if (politicus === null || politicus === "") {
+        $(".error").show();
+    } else {
+        $(".error").hide();
+        $.ajax({
+            url: "/Home/CreateChartAantalTweetsPerDag",
+            data: { 'politicus': politicus, 'type': selectedType, 'aantalDagenTerug': dagen },
+            type: "POST"
+        });
+    }
 }
 
 function inloggenMsg() {
     $("#inloggenForm").modal('show');
+}
+
+
+function showError() {
+    let politici = $(".automplete-1");
+    for (let i = 1; i < politici.length; i++) {
+        if (politici.eq(i).val() === null || politici.eq(i).val() === "") {
+            $(".error").eq(i).show();
+        } else {
+            $(".error").eq(i).hide();
+        }
+    }
 }

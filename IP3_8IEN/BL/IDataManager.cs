@@ -122,6 +122,12 @@ namespace IP3_8IEN.BL
         List<DataChart> GetTweetsPerDagDataChart(Persoon persoon, int aantalDagenTerug = 0);
         List<GraphData> FrequenteWoorden(ICollection<SubjectMessage> subjMsgs, int ammount);
         Persoon GetPersoonWithSjctMsg(int persoonId);
+        List<String> TopWordsCountByPerson(Persoon persoon);
+        List<String> TopStoryCountByPerson(Persoon persoon);
+        List<String> TopWordsCountByOrganisatie(Organisatie organisatie);
+        List<String> TopStoryCountByOrganisatie(Organisatie organisatie);
+        List<String> TopHashtagCountByPerson(Persoon persoon);
+        List<String> TopHashtagCountByOrganisation(Organisatie organisatie);
         List<double> GetTotalMessagesSparkline();
         double GetstijgingTweets();
         #endregion

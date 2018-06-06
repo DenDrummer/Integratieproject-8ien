@@ -1282,10 +1282,11 @@ namespace IP3_8IEN.BL
             InitNonExistingRepo();
             List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
             int counter = 0;
+            naam = naam.ToLower();
 
             foreach (Message m in messages)
             {
-                if (m.Mention1 == naam || m.Mention2 == naam || m.Mention3 == naam || m.Mention4 == naam || m.Mention5 == naam)
+                if (m.Mention1?.ToLower() == naam || m.Mention2?.ToLower() == naam || m.Mention3?.ToLower() == naam || m.Mention4?.ToLower() == naam || m.Mention5?.ToLower() == naam)
                 {
                     counter++;
                 }
@@ -1571,6 +1572,7 @@ namespace IP3_8IEN.BL
             return counter;
         }
 
+        
         public List<string> GetTowns(IEnumerable<Persoon> personen)
         {
             List<string> towns = new List<string>();
@@ -2640,6 +2642,216 @@ namespace IP3_8IEN.BL
             InitNonExistingRepo();
             IEnumerable<Persoon> personen = repo.ReadPersonenOnly();
             return personen;
+        }
+
+        public List<String> TopWordsCountByPerson(Persoon persoon)
+        {
+            InitNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            messages = messages.Where(m => m.IsFromPersoon(persoon)).ToList();
+            List<string> words = new List<string>();
+            Dictionary<string, int> data = new Dictionary<string, int>();
+            int counter;
+
+            foreach (Message m in messages)
+            {
+                words.Add(m.Word1);
+                words.Add(m.Word2);
+                words.Add(m.Word3);
+                words.Add(m.Word4);
+                words.Add(m.Word5);
+            }
+
+            words = words.Distinct().ToList();
+
+            foreach (String w in words)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Word1 == w || m.Word2 == w || m.Word3 == w || m.Word4 == w || m.Word5 == w)
+                    {
+                        counter++;
+                    }
+                }
+                data.Add(w,counter);
+            }
+
+            List<string> woorden = data.OrderByDescending(d => d.Value).Take(5).Select(k => k.Key).ToList();
+
+            return woorden;
+        }
+
+        public List<String> TopStoryCountByPerson(Persoon persoon)
+        {
+            InitNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            messages = messages.Where(m => m.IsFromPersoon(persoon)).ToList();
+            List<string> stories = new List<string>();
+            Dictionary<string, int> data = new Dictionary<string, int>();
+            int counter;
+
+
+
+            foreach (Message m in messages)
+            {
+                stories.Add(m.Url1);
+                stories.Add(m.Url2);
+            }
+
+            stories = stories.Distinct().ToList();
+            stories.RemoveAll(s => s == null);
+
+
+
+            foreach (String s in stories)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Url1 == s || m.Url2 == s)
+                    {
+                        counter++;
+                    }
+                }
+                data.Add(s, counter);
+            }
+
+            List<string> woorden = data.OrderByDescending(d => d.Value).Take(5).Select(k => k.Key).ToList();
+
+            return woorden;
+        }
+
+        public List<String> TopWordsCountByOrganisatie(Organisatie organisatie)
+        {
+            InitNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            messages = messages.Where(m => m.IsFromOrganisatie(organisatie)).ToList();
+            List<string> words = new List<string>();
+            Dictionary<string, int> data = new Dictionary<string, int>();
+            int counter;
+
+            foreach (Message m in messages)
+            {
+                words.Add(m.Word1);
+                words.Add(m.Word2);
+                words.Add(m.Word3);
+                words.Add(m.Word4);
+                words.Add(m.Word5);
+            }
+
+            words = words.Distinct().ToList();
+
+            foreach (String w in words)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Word1 == w || m.Word2 == w || m.Word3 == w || m.Word4 == w || m.Word5 == w)
+                    {
+                        counter++;
+                    }
+                }
+                data.Add(w, counter);
+            }
+
+            List<string> woorden = data.OrderByDescending(d => d.Value).Take(5).Select(k => k.Key).ToList();
+
+            return woorden;
+        }
+
+        public List<String> TopStoryCountByOrganisatie(Organisatie organisatie)
+        {
+            InitNonExistingRepo();
+            List<Message> messages = ReadMessagesWithSubjMsgs().ToList();
+            messages = messages.Where(m => m.IsFromOrganisatie(organisatie)).ToList();
+            List<string> stories = new List<string>();
+            Dictionary<string, int> data = new Dictionary<string, int>();
+            int counter;
+
+
+
+            foreach (Message m in messages)
+            {
+                stories.Add(m.Url1);
+                stories.Add(m.Url2);
+            }
+
+            stories = stories.Distinct().ToList();
+            stories.RemoveAll(s => s == null);
+
+
+
+            foreach (String s in stories)
+            {
+                counter = 0;
+
+                foreach (Message m in messages)
+                {
+                    if (m.Url1 == s || m.Url2 == s)
+                    {
+                        counter++;
+                    }
+                }
+                data.Add(s, counter);
+            }
+
+            List<string> woorden = data.OrderByDescending(d => d.Value).Take(5).Select(k => k.Key).ToList();
+
+            return woorden;
+        }
+
+        public List<String> TopHashtagCountByPerson(Persoon persoon)
+        {
+            InitNonExistingRepo();
+            List<Hashtag> hashtags = repo.ReadHashtags().ToList();
+            int counter;
+            Dictionary<string, int> data = new Dictionary<string, int>();
+
+            foreach (Hashtag hs in hashtags)
+            {
+                counter = 0;
+                foreach(SubjectMessage sm in hs.SubjectMessages)
+                {
+                    if(sm.Persoon == persoon)
+                    {
+                        counter++;
+                    }
+                }
+                data.Add(hs.Naam, counter);
+            }
+
+            List<string> woorden = data.OrderByDescending(d => d.Value).Take(5).Select(k => k.Key).ToList();
+
+            return woorden;
+        }
+
+        public List<String> TopHashtagCountByOrganisation(Organisatie organisatie)
+        {
+            InitNonExistingRepo();
+            List<Hashtag> hashtags = repo.ReadHashtags().ToList();
+            int counter;
+            Dictionary<string, int> data = new Dictionary<string, int>();
+
+            foreach (Hashtag hs in hashtags)
+            {
+                counter = 0;
+                foreach (SubjectMessage sm in hs.SubjectMessages)
+                {
+                    if (sm.Organisatie == organisatie)
+                    {
+                        counter++;
+                    }
+                }
+                data.Add(hs.Naam, counter);
+            }
+
+            List<string> woorden = data.OrderByDescending(d => d.Value).Take(5).Select(k => k.Key).ToList();
+
+            return woorden;
         }
 
         public List<double> GetTotalMessagesSparkline()

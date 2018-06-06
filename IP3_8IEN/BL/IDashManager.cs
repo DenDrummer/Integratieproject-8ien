@@ -47,6 +47,9 @@ namespace IP3_8IEN.BL
         IEnumerable<Dashbord> GetDashbords();
 
         void SyncWithAdmins(string userId, int dashItemId);
+        //DashItem CreateDashitem(bool adminGraph, string type,string naam="usergraph", string town= "Vlaanderen");
+
+        DashItem CreateDashitem(bool adminGraph, string type, int aantalDagenTerug, string naam = "usergraph",string town = "Vlaanderen");
         IEnumerable<GraphData> GetMostFollowsList();
         void AddGraph2(GraphData2 graph);
         void LinkGraphsToUser2(List<GraphData2> graphDataList, int dashId);
