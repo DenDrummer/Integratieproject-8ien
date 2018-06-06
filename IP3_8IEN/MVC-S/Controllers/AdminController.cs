@@ -523,6 +523,12 @@ namespace MVC_S.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult CreateGlobalizationPlatform(FormCollection form)
+        {
+            GlobalizationPlatform platform = _glblManager.CreatePlatform(form.Get("Platform"), form.Get("Language"));
+            return RedirectToAction("DetailsGlobalizationPlatform", new { platformId = platform.PlatformId });
+        }
 
         //Read
         public ActionResult DetailsGlobalizationPlatform(int platformId)
@@ -552,6 +558,14 @@ namespace MVC_S.Controllers
         public ActionResult CreateGlobalizationString(int platformId)
         {
             ViewBag.Platform = _glblManager.GetPlatform(platformId);
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateGlobalizationString(FormCollection form)
+        {
+            int.TryParse(form.Get(""), out int platformId);
+            GlobalizationString item = _glblManager.CreateItem(platformId, form.Get(""), form.Get(""));
             return View();
         }
 
