@@ -10,14 +10,14 @@ namespace IP_8IEN.BL.Domain.Dashboard
     {
         public DataChart(string label, double value)
         {
-            this.Label = label;
-            this.Value = value;
+            this.label = label;
+            this.value = value;
         }
 
         public DataChart()
         {
         }
-        public string Label { get; set; }
-        public double Value { get; set; }
+        public string label { get; set; }
+        public double value { get; set; }
     }
 }

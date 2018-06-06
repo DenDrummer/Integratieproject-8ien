@@ -95,18 +95,18 @@ namespace MVC_S.Controllers
 
         public ActionResult Dashboard()
         {
-            try
-            {
-                ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
-                string userName = appUser.UserName;
-                Gebruiker user = gMgr.FindUser(userName);
+            //try
+            //{
+            //    ApplicationUser appUser = aMgr.FindById(User.Identity.GetUserId());
+            //    string userName = appUser.UserName;
+            //    Gebruiker user = gMgr.FindUser(userName);
 
-                Dashbord dashbord = dashMgr.GetDashboardWithFollows(user);
-                dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem up-to-date is
-            }
-            catch
-            {
-            }
+            //    Dashbord dashbord = dashMgr.GetDashboardWithFollows(user);
+            //    dashbord = dashMgr.UpdateDashboard(dashbord); // <-- zien dat elk DashItem up-to-date is
+            //}
+            //catch
+            //{
+            //}
 
             bool ingelogd = false;
 
@@ -122,7 +122,10 @@ namespace MVC_S.Controllers
             //System.Diagnostics.Debug.WriteLine("tweets per dag"+aantalTweets);
             int[] init = { 0, 1, 3, 2, 8, 6, 5, 4, 9, 7 };
             //ViewData["init"] = init;
-
+            List<double> spark = dMgr.GetTotalMessagesSparkline();
+            spark.Reverse();
+            ViewBag.msgsSpark = spark;
+            ViewBag.percent = dMgr.GetstijgingTweets();
 
             //List<GraphData> data = dMgr.GetTweetsPerDagList(persoon, 20);
             //ViewBag.DATA = data;
@@ -142,7 +145,7 @@ namespace MVC_S.Controllers
             {
                 //not jet ready
                 //have to add defaultdash
-               string userName = "default@gmail.be";
+                string userName = "default@gmail.be";
                 Gebruiker user = gMgr.FindUser(userName);
                 dash = dashMgr.GetDashboardWithFollows(user);
             }
@@ -487,6 +490,13 @@ namespace MVC_S.Controllers
         {
             //IEnumerable<GraphData> list2 = dashMgr.GetDashItemWithGraph(id).Graphdata;
             List<DataChart> list = dashMgr.ExtractGraphList(id);
+            var json = Json(list, JsonRequestBehavior.AllowGet);
+            return json;
+        }
+        public ActionResult GetJsonFromGraphData2(int id)
+        {
+            //IEnumerable<GraphData> list2 = dashMgr.GetDashItemWithGraph(id).Graphdata;
+            List<DataChart2> list = dashMgr.ExtractGraphList2(id);
             var json = Json(list, JsonRequestBehavior.AllowGet);
             return json;
         }

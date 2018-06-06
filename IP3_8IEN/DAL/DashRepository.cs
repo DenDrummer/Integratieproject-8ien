@@ -46,6 +46,11 @@ namespace IP3_8IEN.DAL
             ctx.Graphs.Add(graph);
             ctx.SaveChanges();
         }
+        public void AddGraph2(GraphData2 graph)
+        {
+            ctx.Graphs2.Add(graph);
+            ctx.SaveChanges();
+        }
 
         public void AddDashBord(Dashbord dashbord)
         {
