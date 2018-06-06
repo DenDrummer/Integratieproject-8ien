@@ -134,7 +134,7 @@ function custCijfer(dashItemid, elementId, titel) {
     });
 
 }
-function custVergelijking(dashItemid, elementId, titel) {
+function custVergelijking(dashItemid, elementId, titel, pers1,pers2,pers3,pers4,pers5) {
     $.ajax({
         url: "/Home/GetJsonFromGraphData2",
         data: { 'id': dashItemid },
@@ -146,7 +146,7 @@ function custVergelijking(dashItemid, elementId, titel) {
                 data: omgekeerd,
                 xkey: 'label',
                 ykeys: ['value','value2','value3','value4','value5'],
-                labels: [titel],
+                labels: [pers1, pers2, pers3, pers4, pers5],
                 pointSize: 2,
                 hideHover: 'auto',
                 resize: true,

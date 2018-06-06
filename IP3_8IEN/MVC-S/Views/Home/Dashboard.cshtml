@@ -124,6 +124,11 @@
             string elementId = "chart" + i;
             string titelId = "heading" + i;
             string titel = t.DashItem.Naam;
+            string pers1 = t.DashItem.Persoon1;
+            string pers2 = t.DashItem.Persoon2;
+            string pers3 = t.DashItem.Persoon3;
+            string pers4 = t.DashItem.Persoon4;
+            string pers5 = t.DashItem.Persoon5;
             i++;
             if (t.DashItem.AdminGraph == true)
             {
@@ -155,7 +160,7 @@
             }
             else if (t.DashItem.Type.Contains("Verg"))
             {
-                <script type="text/javascript">custVergelijking(@dashItemId, @elementId, "@titel");</script>
+                <script type="text/javascript">custVergelijking(@dashItemId, @elementId, "@titel","@pers1","@pers2","@pers3","@pers4","@pers5");</script>
             }
             else
             {

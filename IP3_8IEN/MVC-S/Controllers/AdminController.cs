@@ -666,7 +666,7 @@ namespace MVC_S.Controllers
             Persoon p5 = _dataManager.GetPersoon(pers5);
             // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
             List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = _dataManager.GetTweetsPerDagComparisonOverTime(p1, p2, p3, p4, p5);
-            IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Verg", "Vergelijk 5 onderwerpen");
+            IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = _dashManager.CreateDashitem(true, "Verg", "Vergelijk 5 onderwerpen", "Vlaanderen",pers1,pers2,pers3,pers4,pers5 );
             IP3_8IEN.BL.Domain.Dashboard.Follow follow = _dashManager.CreateFollow(newDashItem.DashItemId, p1.OnderwerpId);
             IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = _dashManager.SetupDashItem(user, follow);
             _dashManager.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
