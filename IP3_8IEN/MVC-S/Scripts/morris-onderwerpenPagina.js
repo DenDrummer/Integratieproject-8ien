@@ -12,7 +12,10 @@ var morris;
 var morris2;
 var persoonId = 170;
 var aantaldagen = 5;
+var aantaldagen2 = 5;
 var message = "aantal tweets: ";
+var message2 = "aantal tweets: ";
+var naam = "Bart De Wever";
 
 function init(event) {
     //document.getElementById("morrisType")
@@ -22,7 +25,7 @@ function init(event) {
     document.getElementById("buttonSave2").addEventListener("click", save2);
     document.getElementById("buttonReload1").addEventListener("click", reload);
     document.getElementById("buttonSave1").addEventListener("click", save);
-    document.getElementById("buttonAxe1").addEventListener("click", changeAxes);
+//    document.getElementById("buttonAxe1").addEventListener("click", changeAxes);
 }
 
 //function changeType() {
@@ -34,13 +37,22 @@ function init(event) {
 function setMessage(mes) {
     message = mes;
 }
+function setMessage2(mes) {
+    message = mes;
+}
 function setOnderwerpId(id) {
     persoonId = id;
 }
 function setAantalDagen(aantal) {
     aantaldagen = aantal;
 }
+function setAantalDagen2(aantal) {
+    aantaldagen2 = aantal;
+}
 
+function setNaam(naam) {
+    this.naam = naam;
+}
 //function mChart(persoonId, aantaldagen, elementId, message) {
 //    $.ajax({
 //        url: "/Home/GetTweets",
@@ -99,7 +111,9 @@ function makeChart() {
 function makeChart2() {
     $.ajax({
         url: "/Home/GetTweets",
-        data: { 'persoonId': persoonId, 'aantaldagen': aantaldagen },
+        data: {
+            'persoonId': persoonId, 'aantaldagen': aantaldagen2
+        },
         type: 'GET',
         success: function (result) {
             var omgekeerd = result.reverse();
@@ -113,7 +127,7 @@ function makeChart2() {
                 // The name of the data record attribute that contains x-values.
                 xkey: 'label',
                 ykeys: ['value'],
-                labels: [message],
+                labels: [message2],
                 pointSize: 2,
                 hideHover: 'auto',
                 resize: true,
@@ -165,7 +179,7 @@ function changeAxes() {
     changeData();
 }
 function save() {
-    console.log("save not completed");
+    createChart(naam, 'Line', aantaldagen);
 }
 function reload() {
     setMessage($("#message1").val());
@@ -177,17 +191,17 @@ function reload() {
 function changeData2() {
     $.ajax({
         url: "/Home/GetTweets",
-        data: { 'persoonId': persoonId, 'aantaldagen': aantaldagen },
+        data: { 'persoonId': persoonId, 'aantaldagen': aantaldagen2 },
         type: 'GET',
         success: function (result) {
-
-            morris2.setData(result);
+            var omgekeerd = result.reverse();
+            morris2.setData(omgekeerd);
 
         }
     });
 }
 function changeOptions2() {
-    morris2.options.labels = [message];
+    morris2.options.labels = [message2];
     morris2.redraw;
 }
 function changeAxes2() {
@@ -198,11 +212,11 @@ function changeAxes2() {
     changeData2();
 }
 function save2() {
-    console.log("save not completed");
+    createChart(naam, 'Bar', aantaldagen2);
 }
 function reload2() {
-    setMessage($("#message1").val());
-    setAantalDagen($("#aantaldagen1").val());
+    setMessage2($("#message2").val());
+    setAantalDagen2($("#aantaldagen2").val());
     changeOptions2();
     changeData2();
 }
@@ -221,3 +235,11 @@ function reload2() {
 //        }
 //    });
 //});
+
+function createChart(politicus, selectedType, dagen) {
+    $.ajax({
+        url: "/Home/CreateChartAantalTweetsPerDag",
+        data: { 'politicus': politicus, 'type': selectedType, 'aantalDagenTerug': dagen },
+        type: "POST"
+    });
+}
