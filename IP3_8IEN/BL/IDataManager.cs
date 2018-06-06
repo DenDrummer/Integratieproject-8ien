@@ -128,6 +128,7 @@ namespace IP3_8IEN.BL
         List<String> TopStoryCountByOrganisatie(Organisatie organisatie);
         List<String> TopHashtagCountByPerson(Persoon persoon);
         List<String> TopHashtagCountByOrganisation(Organisatie organisatie);
+        string GetTrendByOnderwerp(Onderwerp onderwerp);
         #endregion
     }
 }

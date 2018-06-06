@@ -177,10 +177,12 @@ namespace MVC_S.Controllers
 
             ViewBag.TWITIMAGE = dMgr.GetImageString(persoon.Twitter);
             ViewBag.TWITBANNER = dMgr.GetBannerString(persoon.Twitter);
+
             ViewBag.Vermeldingen = dMgr.GetMentionCountByName(persoon.Twitter);
             ViewBag.VaakVoorkomendeWoorden = dMgr.TopWordsCountByPerson(persoon);
             ViewBag.VaakVoorkomendeVerhalen = dMgr.TopStoryCountByPerson(persoon);
             ViewBag.VaakVoorkomendeTermen = dMgr.TopHashtagCountByPerson(persoon);
+            ViewBag.Trend = dMgr.GetTrendByOnderwerp(persoon);
 
             return View(persoon);
         }
@@ -215,17 +217,30 @@ namespace MVC_S.Controllers
         public ActionResult Organisatie(int onderwerpId = 22)
         {
             string screenname = dMgr.GetOrganisatie(onderwerpId).Twitter;
+            Organisatie organisatie = dMgr.GetOrganisatie(onderwerpId);
             System.Diagnostics.Debug.WriteLine("Screenname: " + screenname);
             ViewBag.TWITIMAGE = dMgr.GetImageString(screenname);
             ViewBag.TWITBANNER = dMgr.GetBannerString(screenname);
 
             ViewBag.Vermeldingen = dMgr.GetMentionCountByName(screenname);
-            ViewBag.VaakVoorkomendeWoorden = dMgr.TopWordsCountByOrganisatie(dMgr.GetOrganisatie(onderwerpId));
-            ViewBag.VaakVoorkomendeVerhalen = dMgr.TopStoryCountByOrganisatie(dMgr.GetOrganisatie(onderwerpId));
-            ViewBag.VaakVoorkomendeTermen = dMgr.TopHashtagCountByOrganisation(dMgr.GetOrganisatie(onderwerpId));
+            ViewBag.VaakVoorkomendeWoorden = dMgr.TopWordsCountByOrganisatie(organisatie);
+            ViewBag.VaakVoorkomendeVerhalen = dMgr.TopStoryCountByOrganisatie(organisatie);
+            ViewBag.VaakVoorkomendeTermen = dMgr.TopHashtagCountByOrganisation(organisatie);
+            ViewBag.Trend = dMgr.GetTrendByOnderwerp(organisatie);
+
+            //Sorteren van politici op vermeldingen
+            Dictionary<Persoon, int> keyValuePairs = new Dictionary<Persoon, int>();
+
+            foreach (Tewerkstelling t in organisatie.Tewerkstellingen)
+            {
+                keyValuePairs.Add(t.Persoon,dMgr.GetMentionCountByName(t.Persoon.Twitter));
+            }
 
 
-            return View(dMgr.GetOrganisatie(onderwerpId));
+
+            ViewBag.Tewerkstellingen = keyValuePairs.OrderByDescending(kv => kv.Value).Select(kv => kv.Key).ToList();
+
+            return View(organisatie);
         }
 
 
@@ -237,7 +252,7 @@ namespace MVC_S.Controllers
 
 
             IEnumerable<Alert> alerts = gMgr.GetAlertsByUser(user);
-            alerts = alerts.ToList();
+            alerts = alerts.OrderBy(a => a.CreatedOn).ToList();
             return View(alerts);
         }
 

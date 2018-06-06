@@ -54,7 +54,7 @@ namespace IP3_8IEN.DAL
 
         public IEnumerable<Onderwerp> ReadSubjects() => ctx.Onderwerpen;
 
-        public IEnumerable<Organisatie> ReadOrganisaties() => ctx.Organisaties.ToList();
+        public IEnumerable<Organisatie> ReadOrganisaties() => ctx.Organisaties.Include("Leider").ToList();
 
         public void AddingTewerkstelling(Tewerkstelling tewerkstelling)
         {
