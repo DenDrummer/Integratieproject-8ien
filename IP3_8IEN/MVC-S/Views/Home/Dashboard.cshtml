@@ -64,21 +64,30 @@
             var politici = document.getElementsByClassName("automplete-1");
             var type = $(".active").val();
             var aantal = parseInt($("#aantal option:selected").val());
-            for (var p = 1; p < politici.length; i++) {
-                personen[i] = politici[i];
+            for (var p = 0; p < politici.length; p++) {
+                personen[p] = politici[p].value;
             }
         
             if (ingelogd) {
-                if (aantal == 1) {
+                if (aantal === 1) {
                     stuurFormulier();
-                } else {
-                    createChartAantalTweetsPerDag(personen, type);
-                }
-               
+                } else if (aantal === 5) {
+                    if (type === 'Line') {
+                        createChartAantalTweetsPerDag2(personen);
+                    } else if (type === 'Bar'){
+                        createChartAantalTweetsPerDag3(personen, 'Bar');
+                    }
+                   
+                }   
 
             } else {
                 inloggenMsg();
             }
+//            if (ingelogd) {
+//                stuurFormulier();
+//            } else {
+//                inloggenMsg();
+//            }
         }
     });
 </script>

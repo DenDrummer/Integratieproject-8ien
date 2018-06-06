@@ -112,13 +112,22 @@ function showHideAantalPersonen(aantal = 1) {
 //}
 
 
-function createChartAantalTweetsPerDag(politici, selectedType) {
+function createChartAantalTweetsPerDag2(politici) {
         
         $.ajax({
-            url: "/Home/CreateComparisonPerson",
-            data: { 'pers1': politici[0], 'pers2': politici[1], 'pers3': politici[2], 'pers4': politici[3], 'pers5': politici[4], 'type': selectedType},
+            url: "/Home/CreateComparisonPersonLine",
+            data: { 'pers1': politici[0], 'pers2': politici[1], 'pers3': politici[2], 'pers4': politici[3], 'pers5': politici[4]},
             type: "POST"
         });
+}
+
+function createChartAantalTweetsPerDag3(politici,type) {
+
+    $.ajax({
+        url: "/Home/CreateComparisonPerson",
+        data: { 'pers1': politici[0], 'pers2': politici[1], 'pers3': politici[2], 'pers4': politici[3], 'pers5': politici[4],type },
+        type: "POST"
+    });
 }
 
 function createChartAantalTweetsPerDag(politicus, selectedType, dagen) {
@@ -132,8 +141,9 @@ function createChartAantalTweetsPerDag(politicus, selectedType, dagen) {
 
 function stuurFormulier() {
     var selectedType = $(".active").val();
-    var politicus = $(".automplete-1").eq(1).val();
+    var politicus = $(".automplete-1").eq(0).val();
     var dagen = parseInt($("#aantalDagenTerug option:selected").val());
+    console.log(selectedType, politicus, dagen);
     if (politicus === null || politicus === "") {
         $(".error").show();
     } else {
