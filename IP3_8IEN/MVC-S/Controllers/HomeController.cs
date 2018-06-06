@@ -660,5 +660,49 @@ namespace MVC_S.Controllers
             return PartialView("~/Views/Home/_partialOne.cshtml", one);
             //return PartialView();
         }
+
+        [HttpGet]
+        public ActionResult GetP()
+        {
+            ViewDataValue vdvP = dMgr.GetViewDataValue("Personen");
+            if (vdvP != null)
+            {
+                string vdv = vdvP.StringValue;
+                return Json(vdv, JsonRequestBehavior.AllowGet);
+            } else
+            {
+                return Json("Personen", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetO()
+        {
+            ViewDataValue vdvP = dMgr.GetViewDataValue("Organisaties");
+            if (vdvP != null)
+            {
+                string vdv = vdvP.StringValue;
+                return Json(vdv, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("Organisaties", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetT()
+        {
+            ViewDataValue vdvP = dMgr.GetViewDataValue("Themas");
+            if (vdvP != null)
+            {
+                string vdv = vdvP.StringValue;
+                return Json(vdv, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("Themas", JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
