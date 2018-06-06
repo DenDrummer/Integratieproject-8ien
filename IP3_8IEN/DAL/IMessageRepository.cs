@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-
 using IP3_8IEN.BL.Domain.Data;
 
 namespace IP3_8IEN.DAL
@@ -54,5 +53,11 @@ namespace IP3_8IEN.DAL
         Thema ReadThemas(int id);
         IEnumerable<Hashtag> ReadHashtagsWithSubjMsgs();
         IEnumerable<SubjectMessage> ReadSubjectMessagesWithHashtags();
+        IEnumerable<Tewerkstelling> ReadTewerkstellingenWithPrsnAndOrg();
+
+        void AddViewDataValue(ViewDataValue vdv);
+        ViewDataValue ReadViewDataValue(string name);
+        void EditViewDataValue(ViewDataValue vdv);
+        IEnumerable<ViewDataValue> ReadViewDataValues();
     }
 }

@@ -51,6 +51,7 @@ namespace IP3_8IEN.DAL.EF
         public DbSet<Follow> Follows { get; set; }
         public DbSet<GraphData> Graphs { get; set; }
         public DbSet<GraphData2> Graphs2 { get; set; }
+        public DbSet<ViewDataValue> ViewDataValues { get; set; }
 
         public DbSet<Thema> Themas { get; set; }
 
