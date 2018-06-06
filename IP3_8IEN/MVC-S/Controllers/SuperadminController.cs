@@ -142,18 +142,127 @@ namespace MVC_S.Controllers
         [HttpGet]
         public ActionResult HomePage()
         {
-            try
-            {
                 ViewDataValue vdv = _dataManager.GetViewDataValue("HomePage");
-            } catch
+            if (vdv != null)
             {
-                ViewDataValue vdv = new ViewDataValue()
+                return View(vdv);
+            } else
+            {
+                vdv = new ViewDataValue()
                 {
                     Name = "HomePage",
-                    StringValue = ""
+                    StringValue = @"8IEN. helpt u bij het up-to-date blijven over alles wat er gaande is binnen het Vlaamse politieke milieu.
+                Op het dashboard kan je een reeks reeds ingestelde grafieken bekijken, maar ook persoonlijke grafieken aanmaken"
                 };
+
+                return View(vdv);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult HomePage(ViewDataValue vdv)
+        {
+            ViewDataValue vdvDb = _dataManager.GetViewDataValue("HomePage");
+            if (vdvDb != null)
+            {
+                vdvDb.Name = vdv.Name;
+                vdvDb.StringValue = vdv.StringValue;
+                _dataManager.UpdateViewDataValue(vdvDb);
+            } else
+            {
+                _dataManager.AddViewDataValue(vdv);
             }
             
+            return RedirectToAction("Globals", "SuperAdmin");
+        }
+
+        [HttpGet]
+        public ActionResult Benamingen()
+        {
+            ViewDataModel vdm = new ViewDataModel();
+            //List<ViewDataValue> VdvList = new List<ViewDataValue>();
+
+            ViewDataValue vdvP = _dataManager.GetViewDataValue("Personen");
+            if (vdvP != null)
+            {
+                vdm.Personen = vdvP.Name;
+            }
+            else
+            {
+                vdvP = new ViewDataValue()
+                {
+                    Name = "Personen",
+                    StringValue = @"Personen"
+                };
+                _dataManager.AddViewDataValue(vdvP);
+                vdm.Personen = vdvP.Name;
+            }
+
+            ViewDataValue vdvO = _dataManager.GetViewDataValue("Organisaties");
+            if (vdvO != null)
+            {
+                vdm.Organisaties = vdvO.Name;
+            }
+            else
+            {
+                vdvO = new ViewDataValue()
+                {
+                    Name = "Organisaties",
+                    StringValue = @"Organisaties"
+                };
+                _dataManager.AddViewDataValue(vdvO);
+                vdm.Organisaties = vdvO.Name;
+            }
+
+            ViewDataValue vdvT = _dataManager.GetViewDataValue("Themas");
+            if (vdvT != null)
+            {
+                vdm.Themas = vdvT.Name;
+            }
+            else
+            {
+                vdvT = new ViewDataValue()
+                {
+                    Name = "Themas",
+                    StringValue = @"Themas"
+                };
+                _dataManager.AddViewDataValue(vdvT);
+                vdm.Themas = vdvT.Name;
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Benamingen(ViewDataModel vdm)
+        {
+            ViewDataValue vdvP = _dataManager.GetViewDataValue("Personen");
+            ViewDataValue vdvO = _dataManager.GetViewDataValue("Organisaties");
+            ViewDataValue vdvT = _dataManager.GetViewDataValue("Themas");
+
+            vdvP.StringValue = vdm.Personen;
+            _dataManager.UpdateViewDataValue(vdvP);
+
+            vdvO.StringValue = vdm.Organisaties;
+            _dataManager.UpdateViewDataValue(vdvO);
+
+            vdvT.StringValue = vdm.Themas;
+            _dataManager.UpdateViewDataValue(vdvT);
+
+            //ViewDataValue vdv;
+            //foreach(ViewDataValue vdval in vdm.VdvList)
+            //{
+            //    vdv = _dataManager.GetViewDataValue(vdval.Name);
+            //    if (vdv != null)
+            //    {
+            //        vdv.Name = vdval.Name;
+            //        vdv.StringValue = vdval.StringValue;
+            //        _dataManager.UpdateViewDataValue(vdv);
+            //    }
+            //    else
+            //    {
+            //        _dataManager.AddViewDataValue(vdv);
+            //    }
+            //}
             return View();
         }
 

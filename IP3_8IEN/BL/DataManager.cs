@@ -1996,20 +1996,24 @@ namespace IP3_8IEN.BL
             return GraphDataList;
         }
 
-        IEnumerable<ViewDataValue> GetViewDataValues()
+        public IEnumerable<ViewDataValue> GetViewDataValues()
         {
+            InitNonExistingRepo();
             return repo.ReadViewDataValues();
         }
-        ViewDataValue GetViewDataValue(string name)
+        public ViewDataValue GetViewDataValue(string name)
         {
+            InitNonExistingRepo();
             return repo.ReadViewDataValue(name);
         }
-        void UpdateViewDataValue(ViewDataValue vdv)
+        public void UpdateViewDataValue(ViewDataValue vdv)
         {
+            InitNonExistingRepo();
             repo.EditViewDataValue(vdv);
         }
-        void AddViewDataValue(ViewDataValue vdv)
+        public void AddViewDataValue(ViewDataValue vdv)
         {
+            InitNonExistingRepo();
             repo.AddViewDataValue(vdv);
         }
 

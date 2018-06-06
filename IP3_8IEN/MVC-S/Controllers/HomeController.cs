@@ -68,7 +68,20 @@ namespace MVC_S.Controllers
             }
         }
 
-        public ActionResult Index() => View();
+        public ActionResult Index()
+        {
+            ViewDataValue vdv = dMgr.GetViewDataValue("HomePage");
+
+            if (vdv != null)
+            {
+                ViewBag.Welcome = vdv.StringValue;
+            } else
+            {
+                ViewBag.Welcome = @"8IEN. helpt u bij het up-to-date blijven over alles wat er gaande is binnen het Vlaamse politieke milieu.
+                Op het dashboard kan je een reeks reeds ingestelde grafieken bekijken, maar ook persoonlijke grafieken aanmaken";
+            }
+            return View();
+        }
 
 
         public ActionResult About()
@@ -571,5 +584,30 @@ namespace MVC_S.Controllers
         //    Persoon persoon = dMgr.GetPersoon(id);
         //    return Json(persoon, JsonRequestBehavior.AllowGet);
         //}
+
+
+        public PartialViewResult _partialOne(ViewDataModel one)
+        {
+            ViewDataValue vdvP = dMgr.GetViewDataValue("Personen");
+            ViewDataValue vdvO = dMgr.GetViewDataValue("Organisaties");
+            ViewDataValue vdvT = dMgr.GetViewDataValue("Themas");
+
+            if(vdvP != null)
+            {
+                one.Personen = vdvP.StringValue;
+
+                //ViewBag.Personen = vdvP.StringValue;
+                ViewBag.Organisaties = vdvO.StringValue;
+                ViewBag.Themas = vdvT.StringValue;
+            } else
+            {
+                ViewBag.Personen = "Personen";
+                ViewBag.Organisaties = "Organisaties";
+                ViewBag.Themas = "Themas";
+            }
+
+            return PartialView("~/Views/Home/_partialOne.cshtml", one);
+            //return PartialView();
+        }
     }
 }
