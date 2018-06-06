@@ -49,10 +49,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td valign="top" style="color: #00295C">
-                                            <b>Trend:</b>
-                                        </td>
-                                        <td>@Html.DisplayFor(model => model.Naam)</td>
+                                        <td valign="top" style="color:#00295C"><b>Trend:</b> </td>
+                                        <td>@ViewBag.Trend</td>
                                     </tr>
                                     <tr>
                                         <td valign="top" style="color:#00295C"><b>Aantal Vermeldingen:</b> </td>
@@ -66,7 +64,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <ul style="overflow: scroll; height: 50px; overflow-x: hidden; width: 350px">
+                                            <ul style="overflow: scroll; height: 50px; overflow-x: hidden;">
 
                                                 @for (int i = 0; i < ViewBag.VaakVoorkomendeTermen?.Count; i++)
                                                 {
