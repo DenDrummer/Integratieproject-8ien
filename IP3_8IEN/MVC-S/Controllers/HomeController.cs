@@ -36,6 +36,7 @@ namespace MVC_S.Controllers
             // Let op: telkens de 'HomeController() aangesproken wordt worden er methodes uitgevoerd
             dMgr = new DataManager();
             gMgr = new GebruikerManager();
+            
 
             ////Probably not best practice to periodically execute methods but it works
             //HostingEnvironment.QueueBackgroundWorkItem(ct => WeeklyReview(gMgr));
@@ -587,5 +588,15 @@ namespace MVC_S.Controllers
         //    Persoon persoon = dMgr.GetPersoon(id);
         //    return Json(persoon, JsonRequestBehavior.AllowGet);
         //}
+        public ActionResult GetAlertsDropDown()
+        {
+            return Content("Some data"); // Of whatever you need to return.
+        }
+
+        public ActionResult Notification()
+        {
+            List<Alert> alerts = gMgr.GetAlerts().ToList().OrderByDescending(a => a.CreatedOn).Take(5).ToList();
+            return PartialView(alerts);
+        }
     }
 }

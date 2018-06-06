@@ -764,9 +764,21 @@ namespace IP3_8IEN.BL
         {
             InitNonExistingRepo();
 
-            List<Alert> alerts = repo.ReadAlertsWithAlertInstellingen().ToList();
+            IEnumerable<AlertInstelling> fluctuations = repo.ReadValueFluctuations();
+            List<AlertInstelling> ais = fluctuations.ToList();
+            ais.AddRange(repo.ReadHogerLagers().ToList());
+            ais.AddRange(repo.ReadPositiefNegatiefs().ToList());
+            List<Alert> alerts = new List<Alert>();
 
-            return alerts.Where(a => a.AlertInstelling.Gebruiker == gebruiker).ToList();
+            foreach (AlertInstelling ai in ais)
+            {
+                if (ai.Gebruiker == gebruiker && ai.Alerts != null)
+                {
+                    alerts.AddRange(ai.Alerts);
+                }
+            }
+
+            return alerts;
         }
 
         bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
@@ -805,6 +817,7 @@ namespace IP3_8IEN.BL
         //SendMail(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
         public void SendMail(string userId, string subject, string body)
         {
+            InitNonExistingRepo();
             try
             {
                 string userEmail = repo.ReadGebruiker(userId).Email;

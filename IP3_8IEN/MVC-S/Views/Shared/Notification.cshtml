@@ -1,0 +1,18 @@
+﻿@model List<IP3_8IEN.BL.Domain.Gebruikers.Alert>
+
+@foreach (IP3_8IEN.BL.Domain.Gebruikers.Alert a in Model)
+{
+    DateTime startTime = a.CreatedOn;
+    DateTime endTime = DateTime.Now;
+    TimeSpan span = endTime.Subtract(startTime);
+    String s = Math.Round(span.TotalMinutes) + " minuten geleden";
+        <li>
+            <a href="">
+                <div>
+                    <i class="fas fa-bell fa-fw"></i> @a.AlertContent
+                    <span class="pull-right text-muted small">@s</span>
+                </div>
+            </a>
+        </li>
+        <li class="divider"/>
+}
