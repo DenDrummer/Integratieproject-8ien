@@ -576,5 +576,28 @@ namespace MVC_S.Controllers
         //    Persoon persoon = dMgr.GetPersoon(id);
         //    return Json(persoon, JsonRequestBehavior.AllowGet);
         //}
+
+        [HttpPost]
+        public ActionResult CreateComparisonPerson(string pers1, string pers2, string pers3, string pers4, string pers5,string type)
+        {
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = gMgr.FindUser(userName);
+            Persoon p1 = dMgr.GetPersoon(pers1);
+            Persoon p2 = dMgr.GetPersoon(pers2);
+            Persoon p3 = dMgr.GetPersoon(pers3);
+            Persoon p4 = dMgr.GetPersoon(pers4);
+            Persoon p5 = dMgr.GetPersoon(pers5);
+            // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+           // List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = dashMgr.GetComparisonPersonNumberOfTweets(p1, p2, p3, p4, p5);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = dashMgr.CreateDashitem(false, type, "Vergelijk 5 onderwerpen");
+            IP3_8IEN.BL.Domain.Dashboard.Follow follow = dashMgr.CreateFollow(newDashItem.DashItemId, p1.OnderwerpId);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = dashMgr.SetupDashItem(user, follow);
+          //  dashMgr.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+            // ================================================================================ //
+            dashMgr.SyncWithAdmins(user.GebruikerId, dashItem.DashItemId);
+            return RedirectToAction("Dashboard");
+        }
+
     }
 }

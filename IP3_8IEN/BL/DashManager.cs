@@ -527,8 +527,8 @@ namespace IP3_8IEN.BL
                 listData.Add(new DataChart
                 {
                     //controleren duplicaten DB
-                    Label = graph.Label,
-                    Value = graph.Value
+                    label = graph.Label,
+                    value = graph.Value
                 });
             }
 

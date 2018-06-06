@@ -17,8 +17,8 @@ var aantal = 0;
                     morris[aantal++] = Morris.Line({
                                 element: elementId,
                                 data: result,
-                                xkey: 'Label',
-                                ykeys: ['Value'],
+                                xkey: 'label',
+                                ykeys: ['value'],
                                 labels: [titel],
                                 pointSize: 2,
                                 hideHover: 'auto',
@@ -40,8 +40,8 @@ function custAreaChart(dashItemid, elementId, titel) {
             morris[aantal++] = Morris.Area({
                 element: elementId,
                 data: result,
-                xkey: 'Label',
-                ykeys: ['Value'],
+                xkey: 'label',
+                ykeys: ['value'],
                 labels: [titel],
                 pointSize: 2,
                 hideHover: 'auto',
@@ -63,8 +63,8 @@ function custBarChart(dashItemid, elementId, titel) {
             morris[aantal++] = Morris.Bar({
                 element: elementId,
                 data: result,
-                xkey: 'Label',
-                ykeys: ['Value'],
+                xkey: 'label',
+                ykeys: ['value'],
                 labels: [titel],
                 pointSize: 2,
                 hideHover: 'auto',
@@ -105,7 +105,7 @@ function custCijfer(dashItemid, elementId, titel) {
         type: 'GET',
         success: function (result) {
             result.forEach(function (data) {
-                $(`#${id}`).html(`<h6 style="font-size: 25px"> ${titel} heeft <span style="font-size: 50px; color: #00295C;">${data.Value}</span>  tweets</h6>`);
+                $(`#${id}`).html(`<h6 style="font-size: 25px"> ${titel} heeft <span style="font-size: 50px; color: #00295C;">${data.value}</span>  tweets</h6>`);
             });
         },
         error: function (result) {

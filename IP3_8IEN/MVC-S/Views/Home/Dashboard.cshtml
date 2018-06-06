@@ -59,9 +59,21 @@
             $(".modal-backdrop").remove();
             myModal.hide();
             myModal.modal('toggle');
-
+            var personen = [];
+            var politici = document.getElementsByClassName("automplete-1");
+            var type = $(".active").val();
+            var aantal = parseInt($("#aantal option:selected").val());
+            for (var p = 1; p < politici.length; i++) {
+                personen[i] = politici[i];
+            }
+        
             if (ingelogd) {
-                createChartAantalTweetsPerDag();
+                if (aantal == 1) {
+                    stuurFormulier();
+                } else {
+                    createChartAantalTweetsPerDag(personen, type);
+                }
+               
 
             } else {
                 inloggenMsg();
@@ -286,9 +298,9 @@
                                     <select id="aantal" name="aantal">
                                         <option name="aantal" value="0">(kies aantal)</option>
                                         <option name="aantal" value="1">1</option>
-                                        <option name="aantal" value="2">2</option>
-                                        <option name="aantal" value="3">3</option>
-                                        <option name="aantal" value="4">4</option>
+@*                                        <option name="aantal" value="2">2</option>*@
+@*                                        <option name="aantal" value="3">3</option>*@
+@*                                        <option name="aantal" value="4">4</option>*@
                                         <option name="aantal" value="5">5</option>
                                     </select>
                                 </div>

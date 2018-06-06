@@ -641,8 +641,12 @@ namespace IP3_8IEN.BL
         {
             InitNonExistingRepo();
             Persoon persoon = repo.ReadPersoon(naam);
+            if (persoon != null)
+            {
+                return persoon;
+            }
+            return null;
 
-            return persoon;
         }
 
         public Persoon GetPersoonWithTewerkstelling(string naam)
