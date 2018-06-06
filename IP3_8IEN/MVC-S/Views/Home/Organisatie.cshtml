@@ -38,7 +38,7 @@
                                     </tr>
                                     <tr>
                                         <td valign="top" style="color:#00295C"><b>Trend:</b> </td>
-                                        <td>@Html.DisplayFor(model => model.Naam)</td>
+                                        <td>@ViewBag.Trend</td>
                                     </tr>
                                     <tr>
                                         <td valign="top" style="color:#00295C"><b>Aantal Vermeldingen:</b> </td>
@@ -63,7 +63,7 @@
                                     <tr>
                                         <td valign="top" style="color:#00295C"><b>Vaak voorkomende Woorden:</b> </td>
                                     </tr>
-                                    <tr>
+                                    <tr >
                                         <td colspan="2">
                                             <ul style="overflow: scroll; height: 43px; overflow-x: hidden; width:100%">
 
@@ -79,7 +79,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <ul style="overflow: scroll; height: 43px; overflow-x: hidden; width:100%">
+                                            <ul style="overflow: scroll; height: 43px; overflow-x: hidden; width:350px">
 
                                                 @for (int i = 0; i < ViewBag.VaakVoorkomendeVerhalen?.Count; i++)
                                                 {
@@ -122,11 +122,12 @@
                                                 <tr>
                                                     <td>
                                                         <ul style="overflow: scroll; height: 238px; overflow-x: hidden; width:300px">
-
-                                                            @for (int i = 0; i < Model.Tewerkstellingen?.Count; i++)
+                                                            @for (int i = 0; i < ViewBag.Tewerkstellingen?.Count; i++)
                                                             {
-                                                                var persoon = Model.Tewerkstellingen.ElementAt(i).Persoon;
-                                                                <li>@Html.ActionLink(persoon.Naam, $"Personen/{persoon.OnderwerpId}", "Home")</li>
+                                                                var persoon = ViewBag.Tewerkstellingen[i];
+                                                            <li>
+                                                                @Html.ActionLink((String)persoon.Naam, "Personen", "Home", new { onderwerpId = persoon.OnderwerpId}, null)
+                                                            </li>
                                                             }
                                                         </ul>
                                                     </td>

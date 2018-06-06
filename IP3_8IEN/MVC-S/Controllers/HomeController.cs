@@ -193,10 +193,12 @@ namespace MVC_S.Controllers
 
             ViewBag.TWITIMAGE = dMgr.GetImageString(persoon.Twitter);
             ViewBag.TWITBANNER = dMgr.GetBannerString(persoon.Twitter);
+
             ViewBag.Vermeldingen = dMgr.GetMentionCountByName(persoon.Twitter);
             ViewBag.VaakVoorkomendeWoorden = dMgr.TopWordsCountByPerson(persoon);
             ViewBag.VaakVoorkomendeVerhalen = dMgr.TopStoryCountByPerson(persoon);
             ViewBag.VaakVoorkomendeTermen = dMgr.TopHashtagCountByPerson(persoon);
+            ViewBag.Trend = dMgr.GetTrendByOnderwerp(persoon);
 
             return View(persoon);
         }
@@ -231,17 +233,30 @@ namespace MVC_S.Controllers
         public ActionResult Organisatie(int onderwerpId = 22)
         {
             string screenname = dMgr.GetOrganisatie(onderwerpId).Twitter;
+            Organisatie organisatie = dMgr.GetOrganisatie(onderwerpId);
             System.Diagnostics.Debug.WriteLine("Screenname: " + screenname);
             ViewBag.TWITIMAGE = dMgr.GetImageString(screenname);
             ViewBag.TWITBANNER = dMgr.GetBannerString(screenname);
 
             ViewBag.Vermeldingen = dMgr.GetMentionCountByName(screenname);
-            ViewBag.VaakVoorkomendeWoorden = dMgr.TopWordsCountByOrganisatie(dMgr.GetOrganisatie(onderwerpId));
-            ViewBag.VaakVoorkomendeVerhalen = dMgr.TopStoryCountByOrganisatie(dMgr.GetOrganisatie(onderwerpId));
-            ViewBag.VaakVoorkomendeTermen = dMgr.TopHashtagCountByOrganisation(dMgr.GetOrganisatie(onderwerpId));
+            ViewBag.VaakVoorkomendeWoorden = dMgr.TopWordsCountByOrganisatie(organisatie);
+            ViewBag.VaakVoorkomendeVerhalen = dMgr.TopStoryCountByOrganisatie(organisatie);
+            ViewBag.VaakVoorkomendeTermen = dMgr.TopHashtagCountByOrganisation(organisatie);
+            ViewBag.Trend = dMgr.GetTrendByOnderwerp(organisatie);
+
+            //Sorteren van politici op vermeldingen
+            Dictionary<Persoon, int> keyValuePairs = new Dictionary<Persoon, int>();
+
+            foreach (Tewerkstelling t in organisatie.Tewerkstellingen)
+            {
+                keyValuePairs.Add(t.Persoon,dMgr.GetMentionCountByName(t.Persoon.Twitter));
+            }
 
 
-            return View(dMgr.GetOrganisatie(onderwerpId));
+
+            ViewBag.Tewerkstellingen = keyValuePairs.OrderByDescending(kv => kv.Value).Select(kv => kv.Key).ToList();
+
+            return View(organisatie);
         }
 
 
@@ -253,7 +268,7 @@ namespace MVC_S.Controllers
 
 
             IEnumerable<Alert> alerts = gMgr.GetAlertsByUser(user);
-            alerts = alerts.ToList();
+            alerts = alerts.OrderBy(a => a.CreatedOn).ToList();
             return View(alerts);
         }
 
@@ -635,6 +650,51 @@ namespace MVC_S.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult CreateComparisonPerson(string pers1, string pers2, string pers3, string pers4, string pers5,string type)
+        {
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = gMgr.FindUser(userName);
+            Persoon p1 = dMgr.GetPersoon(pers1);
+            Persoon p2 = dMgr.GetPersoon(pers2);
+            Persoon p3 = dMgr.GetPersoon(pers3);
+            Persoon p4 = dMgr.GetPersoon(pers4);
+            Persoon p5 = dMgr.GetPersoon(pers5);
+            // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+            List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = dMgr.GetComparisonPersonNumberOfTweets(p1, p2, p3, p4, p5);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = dashMgr.CreateDashitem(false, type, "Vergelijk 5 onderwerpen");
+            IP3_8IEN.BL.Domain.Dashboard.Follow follow = dashMgr.CreateFollow(newDashItem.DashItemId, p1.OnderwerpId);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = dashMgr.SetupDashItem(user, follow);
+            dashMgr.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+            // ================================================================================ //
+        
+            return RedirectToAction("Dashboard");
+        }
+
+        [HttpPost]
+        public ActionResult CreateComparisonPersonLine(string pers1, string pers2, string pers3, string pers4, string pers5)
+        {
+            ApplicationUser currUser = aMgr.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            string userName = currUser.UserName;
+            Gebruiker user = gMgr.FindUser(userName);
+            Persoon p1 = dMgr.GetPersoon(pers1);
+            Persoon p2 = dMgr.GetPersoon(pers2);
+            Persoon p3 = dMgr.GetPersoon(pers3);
+            Persoon p4 = dMgr.GetPersoon(pers4);
+            Persoon p5 = dMgr.GetPersoon(pers5);
+            // =============== Opslaan grafiek : opgesplitst om te debuggen =================== //
+            List<IP3_8IEN.BL.Domain.Dashboard.GraphData> graphDataList = dMgr.GetTweetsPerDagComparisonOverTime(p1, p2, p3, p4, p5);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem newDashItem = dashMgr.CreateDashitem(false, "Verg", "Vergelijk 5 onderwerpen", "Vlaanderen", pers1, pers2, pers3, pers4, pers5);
+            IP3_8IEN.BL.Domain.Dashboard.Follow follow = dashMgr.CreateFollow(newDashItem.DashItemId, p1.OnderwerpId);
+            IP3_8IEN.BL.Domain.Dashboard.DashItem dashItem = dashMgr.SetupDashItem(user, follow);
+            dashMgr.LinkGraphsToUser(graphDataList, dashItem.DashItemId);
+            // ================================================================================ //
+  
+            return RedirectToAction("Dashboard");
+        }
+
 
 
         public PartialViewResult _partialOne(ViewDataModel one)

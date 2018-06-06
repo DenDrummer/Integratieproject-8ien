@@ -60,13 +60,34 @@
             $(".modal-backdrop").remove();
             myModal.hide();
             myModal.modal('toggle');
-
+            var personen = [];
+            var politici = document.getElementsByClassName("automplete-1");
+            var type = $(".active").val();
+            var aantal = parseInt($("#aantal option:selected").val());
+            for (var p = 0; p < politici.length; p++) {
+                personen[p] = politici[p].value;
+            }
+        
             if (ingelogd) {
-                createChartAantalTweetsPerDag();
+                if (aantal === 1) {
+                    stuurFormulier();
+                } else if (aantal === 5) {
+                    if (type === 'Line') {
+                        createChartAantalTweetsPerDag2(personen);
+                    } else if (type === 'Bar'){
+                        createChartAantalTweetsPerDag3(personen, 'Bar');
+                    }
+                   
+                }   
 
             } else {
                 inloggenMsg();
             }
+//            if (ingelogd) {
+//                stuurFormulier();
+//            } else {
+//                inloggenMsg();
+//            }
         }
     });
 </script>
@@ -125,23 +146,23 @@
                                         </div>
                                     </div>
 
-                                    <div class="row personenVergelijken" style="display: none">
-                                        <div class="row vertical-align">
-                                            <div class="col-md-4">
-                                                <h4>Aantal te vergelijken personen</h4>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <select id="aantal" name="aantal">
-                                                    <option name="aantal" value="0">(kies aantal)</option>
-                                                    <option name="aantal" value="1">1</option>
-                                                    <option name="aantal" value="2">2</option>
-                                                    <option name="aantal" value="3">3</option>
-                                                    <option name="aantal" value="4">4</option>
-                                                    <option name="aantal" value="5">5</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="row personenVergelijken" style="display: none">
+                            <div class="row vertical-align">
+                                <div class="col-md-4">
+                                    <h4>Aantal te vergelijken personen</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="aantal" name="aantal">
+                                        <option name="aantal" value="0">(kies aantal)</option>
+                                        <option name="aantal" value="1">1</option>
+@*                                        <option name="aantal" value="2">2</option>*@
+@*                                        <option name="aantal" value="3">3</option>*@
+@*                                        <option name="aantal" value="4">4</option>*@
+                                        <option name="aantal" value="5">5</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
                                     <div class="row naamVeld" style="display: none">
                                         <div class="row vertical-align">
@@ -438,73 +459,41 @@
 </div>
 
 
-<div class="modal fade" id="inloggenForm" role="dialog">
-    <div class="modal-dialog">
+@*<div class="modal fade" id="inloggenForm" role="dialog">*@
+@*    <div class="modal-dialog">*@
+@**@
+@*        <div class="modal-content">*@
+@*            <div class="modal-header">*@
+@*                <button type="button" class="close" data-dismiss="modal">&times;</button>*@
+@*                <h4 class="modal-title">Register or Log in</h4>*@
+@*            </div>*@
+@*            <div class="modal-body">*@
+@*                <div class="row">*@
+@*                    <div class="col-md-12">*@
+@*                        <div class="container" style="margin: 50px">*@
+@*                            <h3>Je moet eerst inloggen of registreren</h3>*@
+@*                        </div>*@
+@**@
+@*                    </div>*@
+@*                </div>*@
+@*                <div class="row">*@
+@*                    <div class="col-md-2"></div>*@
+@*                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</button>*@
+@*                    <div class="col-md-2"></div>*@
+@*                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</button>*@
+@*                    <div class="col-md-2"></div>*@
+@**@
+@*                </div>*@
+@*            </div>*@
+@*            <div class="modal-footer">*@
+@*                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>*@
+@*            </div>*@
+@*        </div>*@
+@**@
+@*    </div>*@
+@*</div>*@
 
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Register or Log in</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="container" style="margin: 50px">
-                            <h3>Je moet eerst inloggen of registreren</h3>
-                        </div>
 
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</button>
-                    <div class="col-md-2"></div>
-                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</button>
-                    <div class="col-md-2"></div>
-
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-@*<div class="modal fade" id="inloggenForm" role="dialog">
-    <div class="modal-dialog">
-
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Register or Log in</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="container" style="margin: 50px">
-                            <h3>Je moet eerst inloggen of registreren</h3>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</button>
-                    <div class="col-md-2"></div>
-                    <button class="btn btn-primary btn-md col-md-3">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</button>
-                    <div class="col-md-2"></div>
-
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
-    </div>
-</div>*@
 
 <!-- A link to the NodeBox JavaScript API  -->
 <script type="text/javascript">

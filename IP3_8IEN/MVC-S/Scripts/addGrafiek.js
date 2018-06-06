@@ -112,22 +112,59 @@ function showHideAantalPersonen(aantal = 1) {
 //}
 
 
-function createChartAantalTweetsPerDag() {
+function createChartAantalTweetsPerDag2(politici) {
+        
+        $.ajax({
+            url: "/Home/CreateComparisonPersonLine",
+            data: { 'pers1': politici[0], 'pers2': politici[1], 'pers3': politici[2], 'pers4': politici[3], 'pers5': politici[4]},
+            type: "POST"
+        });
+}
+
+function createChartAantalTweetsPerDag3(politici,type) {
+
+    $.ajax({
+        url: "/Home/CreateComparisonPerson",
+        data: { 'pers1': politici[0], 'pers2': politici[1], 'pers3': politici[2], 'pers4': politici[3], 'pers5': politici[4],type },
+        type: "POST"
+    });
+}
+
+function createChartAantalTweetsPerDag(politicus, selectedType, dagen) {
+    $.ajax({
+        url: "/Home/CreateChartAantalTweetsPerDag",
+        data: { 'politicus': politicus, 'type': selectedType, 'aantalDagenTerug': dagen },
+        type: "POST"
+    });
+}
+
+
+function stuurFormulier() {
     var selectedType = $(".active").val();
-    console.log(selectedType);
-    var politicus = $(".automplete-1").eq(1).val();
+    var politicus = $(".automplete-1").eq(0).val();
     var dagen = parseInt($("#aantalDagenTerug option:selected").val());
+    console.log(selectedType, politicus, dagen);
     if (politicus === null || politicus === "") {
         $(".error").show();
     } else {
         $(".error").hide();
-        $.ajax({
-            url: "/Home/CreateChartAantalTweetsPerDag",
-            data: { 'politicus': politicus, 'type': selectedType, 'aantalDagenTerug': dagen },
-            type: "POST"
-        });
+        createChartAantalTweetsPerDag(politicus,selectedType,dagen);
     }
 }
+//function stuurFormulier2() {
+//    var selectedType = $(".active").val();
+//    var politici = document.getElementsByClassName("autoplete-1");
+//    console.log(politici);
+//    var dagen = parseInt($("#aantalDagenTerug option:selected").val());
+//    for (var i = 0; i < politici.length; i++) {
+//        if (politici[i] === null || politici[i] === "") {
+//            $(".error").eq(i).show();
+//        } else {
+//            $(".error").eq(i).hide();
+//            createChartAantalTweetsPerDag(politici[i], selectedType, dagen);
+//        }
+//    }
+//}
 
 function inloggenMsg() {
     $("#inloggenForm").modal('show');
