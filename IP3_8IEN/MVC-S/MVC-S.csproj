@@ -264,7 +264,6 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
-    <Content Include="Content\zoekenStylesheet.css" />
     <Content Include="DataTables\Buttons-1.5.1\css\buttons.bootstrap.css" />
     <Content Include="DataTables\Buttons-1.5.1\css\buttons.bootstrap.min.css" />
     <Content Include="DataTables\Buttons-1.5.1\css\buttons.bootstrap4.css" />
@@ -564,7 +563,6 @@
     <Content Include="Views\Home\LijstPersonen.cshtml" />
     <Content Include="Views\Home\Faq.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
-    <Content Include="Views\Home\DashItem.cshtml" />
     <Content Include="Views\Superadmin\Inloggen.cshtml" />
     <Content Include="Views\Superadmin\Adminlijst.cshtml" />
     <Content Include="Views\Superadmin\SMBeheren.cshtml" />
