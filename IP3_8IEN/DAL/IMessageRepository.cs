@@ -59,5 +59,7 @@ namespace IP3_8IEN.DAL
         ViewDataValue ReadViewDataValue(string name);
         void EditViewDataValue(ViewDataValue vdv);
         IEnumerable<ViewDataValue> ReadViewDataValues();
+
+        void AddMessages(IEnumerable<Message> tweets);
     }
 }

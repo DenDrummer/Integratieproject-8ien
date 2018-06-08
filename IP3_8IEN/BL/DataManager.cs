@@ -69,7 +69,7 @@ namespace IP3_8IEN.BL
                         json = new JavaScriptSerializer().Serialize(new
                         {
                             //name = "Annick De Ridder",
-                            since = "31 May 2018 23:00",
+                            since = "1 May 2018 0:00",
                             //until weglaten --> last scraping
                             //until = "24 June 2018 12:00",
                         });
@@ -114,6 +114,8 @@ namespace IP3_8IEN.BL
             string[] mentions = { mention1, mention2, mention3, mention4, mention5 };
             string[] urls = { url1, url2 };
             int a = 0;
+
+            List<Message> tweetList = new List<Message>();
 
             foreach (var item in tweets) //.records
             {
@@ -180,7 +182,8 @@ namespace IP3_8IEN.BL
                 }
                 catch { }
 
-                repo.AddingMessage(tweet);
+                //repo.AddingMessage(tweet);
+
 
                 foreach (string person in item.persons)
                 {
@@ -194,9 +197,11 @@ namespace IP3_8IEN.BL
                     Hashtag hasht = AddHashtag(hashtag);
                     tweet.SubjectMessages.Add(AddSubjectMessage(tweet, hasht));
                 }
+                tweetList.Add(tweet);
 
-                repo.UpdateMessage();
+                //repo.UpdateMessage();
             }
+            repo.AddMessages(tweetList);
         }
 
         // We gaan kijken of de 'Persoon' al in de databank bestaat.

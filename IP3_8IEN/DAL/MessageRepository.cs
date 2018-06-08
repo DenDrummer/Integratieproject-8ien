@@ -64,42 +64,50 @@ namespace IP3_8IEN.DAL
         public IEnumerable<SubjectMessage> ReadSubjectMessages() => ctx.SubjectMessages.ToList();
 
         public IEnumerable<SubjectMessage> ReadSubjectMessagesWithHashtags()
-        {
-            return ctx.SubjectMessages.Include("Hashtag").ToList();
-        }
+            => ctx.SubjectMessages
+            .Include("Hashtag")
+            .ToList();
 
-        public IEnumerable<Message> ReadMessages() => ctx.Messages.ToList();
+        public IEnumerable<Message> ReadMessages()
+            => ctx.Messages;
 
-        public void UdateOnderwerp(Onderwerp onderwerp) => ctx.SaveChanges();
+        public void UdateOnderwerp(Onderwerp onderwerp)
+            => ctx.SaveChanges();
 
-        public void UpdateMessage() => ctx.SaveChanges();
+        public void UpdateMessage()
+            => ctx.SaveChanges();
 
         public Persoon ReadPersoon(int persoonId)
-        {
-            IEnumerable<Persoon> personen = ctx.Personen.Include("Tewerkstellingen")
-                .Include("Tewerkstellingen.Organisatie");//.Find(persoonId);
-            return personen.FirstOrDefault(p => p.OnderwerpId == persoonId);
-        }
+            => ctx.Personen.Include("Tewerkstellingen")
+                .Include("Tewerkstellingen.Organisatie")
+                .FirstOrDefault(p => p.OnderwerpId == persoonId);
+                //.Find(persoonId);
+
         public Persoon ReadPersoonWithSbjctMsg(int persoonId)
-        {
-            IEnumerable<Persoon> personen = ctx.Personen.Include("Tewerkstellingen")
+            => ctx.Personen.Include("Tewerkstellingen")
                 .Include("Tewerkstellingen.Organisatie")
                 .Include("SubjectMessages")
-                .Include("SubjectMessages.Msg");//.Find(persoonId);
-            return personen.FirstOrDefault(p => p.OnderwerpId == persoonId);
-        }
-        public IEnumerable<Tewerkstelling> ReadTewerkstellingen() => ctx.Tewerkstellingen.ToList();
+                .Include("SubjectMessages.Msg")
+                .FirstOrDefault(p => p.OnderwerpId == persoonId);
+                //.Find(persoonId);
+
+        public IEnumerable<Tewerkstelling> ReadTewerkstellingen()
+            => ctx.Tewerkstellingen.ToList();
+
         public IEnumerable<Tewerkstelling> ReadTewerkstellingenWithPrsnAndOrg()
-        {
-            return ctx.Tewerkstellingen.Include("Persoon").Include("Organisatie").Include("Persoon.SubjectMessages");
-        }
+            => ctx.Tewerkstellingen
+            .Include("Persoon")
+            .Include("Organisatie")
+            .Include("Persoon.SubjectMessages");
 
         public IEnumerable<Message> ReadMessages(bool subjM)
         {
             if (subjM)
             {
-                IEnumerable<Message> messages = ctx.Messages.Include("SubjectMessages").Include("SubjectMessages.Persoon").Include("SubjectMessages.Persoon.Tewerkstellingen");
-                return messages;
+                return ctx.Messages
+                    .Include("SubjectMessages")
+                    .Include("SubjectMessages.Persoon")
+                    .Include("SubjectMessages.Persoon.Tewerkstellingen");
             }
             else
             {
@@ -191,6 +199,15 @@ namespace IP3_8IEN.DAL
         public IEnumerable<ViewDataValue> ReadViewDataValues()
         {
             return ctx.ViewDataValues;
+        }
+
+        public void AddMessages(IEnumerable<Message> messages)
+        {
+            foreach (Message message in messages)
+            {
+                ctx.Messages.Add(message);
+            }
+            ctx.SaveChanges();
         }
     }
 }
